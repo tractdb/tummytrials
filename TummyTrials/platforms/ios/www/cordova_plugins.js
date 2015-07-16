@@ -34,6 +34,13 @@ module.exports = [
         "clobbers": [
             "navigator.splashscreen"
         ]
+    },
+    {
+        "file": "plugins/com.couchbase.lite.phonegap/www/cblite.js",
+        "id": "com.couchbase.lite.phonegap.CouchbaseLite",
+        "clobbers": [
+            "window.cblite"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -43,7 +50,8 @@ module.exports.metadata =
     "cordova-plugin-console": "1.0.1",
     "cordova-plugin-device": "1.0.1",
     "cordova-plugin-splashscreen": "2.1.0",
-    "cordova-plugin-whitelist": "1.0.0"
+    "cordova-plugin-whitelist": "1.0.0",
+    "com.couchbase.lite.phonegap": "1.1.0"
 }
 // BOTTOM OF METADATA
 });
