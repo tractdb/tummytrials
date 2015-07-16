@@ -1,10 +1,8 @@
 # tummy-trials
 
-- install npm
+Install NPM
 
->$ npm install -g cordova ionic
->$ ionic start myApp blank
->$ cd myApp
->$ ionic platform add ios
->$ ionic build ios
->$ ionic emulate ios
+Follow Ionic's getting started guide to setup a blank application
+
+For testing project on iPhone, open the xcode project file in xcode, check the parameters and deploy.
+https://github.com/tractdb/tummy-trials/tree/master/TummyTrials/platforms/ios/TummyTrials.xcodeproj
