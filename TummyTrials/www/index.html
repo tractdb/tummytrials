@@ -3,33 +3,57 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title></title>
+    <title>Tummy Trial</title>
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-
+    <link href="lib/ionicons/css/ionicons.css" rel="stylesheet">
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
 
+  </head>
+
+
+  <body ng-app="TummyTrials">
+
+    <ion-nav-bar class="bar-energized nav-title-slide-ios7">
+      <ion-nav-back-button class="button-clear">
+        <i class="ion-arrow-left-c"></i> Back
+      </ion-nav-back-button>
+    </ion-nav-bar>
+
+    <ion-tabs class="tabs-positive tabs-icon-only">
+
+      <ion-tab title="Current" icon-on="ion-ios-calendar" icon-off="ion-ios-calendar-outline" ui-sref="current">
+        <!-- Tab 1 content -->
+        <ion-nav-view name="current"></ion-nav-view>
+      </ion-tab>
+
+      <ion-tab title="My Trials" icon-on="ion-ios-heart" icon-off="ion-ios-heart-outline" ui-sref="mytrials">
+        <!-- Tab 2 content -->
+        <ion-nav-view name="mytrials"></ion-nav-view>
+      </ion-tab>
+
+      <ion-tab title="FAQs" icon-on="ion-ios-information" icon-off="ion-ios-information-outline" ui-sref="faqs">
+        <!-- Tab 3 content -->
+        <ion-nav-view name="faqs"></ion-nav-view>
+      </ion-tab>
+
+      <ion-tab title="Settings" icon-on="ion-ios-cog" icon-off="ion-ios-cog-outline" ui-sref="settings">
+        <!-- Tab 4 content -->
+       <ion-nav-view name="settings"></ion-nav-view>
+      </ion-tab>
+
+    </ion-tabs>
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
-
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
-
     <!-- your app's js -->
     <script src="js/app.js"></script>
     <script src="js/experiments.js"></script>
-  </head>
-  <body ng-app="starter">
-
-    <ion-pane>
-      <ion-header-bar class="bar-stable">
-        <h1 class="title">Ionic Blank Starter</h1>
-      </ion-header-bar>
-      <ion-content>
-      </ion-content>
-    </ion-pane>
+  
   </body>
+
 </html>
