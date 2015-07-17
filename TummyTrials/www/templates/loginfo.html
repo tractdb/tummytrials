@@ -1,0 +1,25 @@
+<ion-modal-view class="modal">
+    <ion-header-bar class="bar-stable">
+        <h1 class="title">{{loginfo_header_text}}</h1>
+    </ion-header-bar>
+    <ion-content class="has-header" style="background-color: #ffffff;">
+        <div class="row"><div class="col">
+        <label class="item item-input">
+            <input type="text" placeholder="Username" ng-model="loginfo_info.username" autocapitalize="none">
+        </label>
+        </div></div>
+        <div class="row"><div class="col">
+        <label class="item item-input">
+            <input type="text" placeholder="Password" ng-model="loginfo_info.password" autocapitalize="none">
+        </label>
+        </div></div>
+        <div class="row">
+        <div class="col col-50">
+        <button class="button button-block button-positive" ng-click="loginfo_login()">Login</button>
+        </div>
+        <div class="col col-50">
+        <button class="button button-block button-assertive" ng-click="loginfo_cancel()">Cancel</button>
+        </div>
+        </div>
+    </ion-content>
+</ion-modal-view>
