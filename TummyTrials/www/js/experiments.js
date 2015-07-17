@@ -2,7 +2,7 @@
 //
 // Note: this is just an initial sketch
 //
-angular.module('starter.experiments', [])
+angular.module('TummyTrials.experiments', [])
 
 /* The following fields have a known meaning right now:
  *
