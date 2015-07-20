@@ -1,7 +1,11 @@
 <ion-view title="Settings">
 	<ion-pane>
-		<ion-content>
-			settings
+		<ion-content class="ten-padding">
+			<p>{{text.settings.title}}</p>
+
+		  <button class="button button-large button-block button-assertive" ng-click="loginfo_clear()">
+			  Clear Credentials
+	      </button>
 		</ion-content>  
 	</ion-pane>
 </ion-view>

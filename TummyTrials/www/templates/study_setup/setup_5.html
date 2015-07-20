@@ -2,25 +2,30 @@
           <ion-pane>
           <ion-content>   
             <div class="ten-padding">      
-              <h3 class="title">4. Review Study Details</h3>
-              <h4 class="title">Self-Study Topic</h4>
-              <p>Does eating lactose / dairy affect my symptoms?</p>
+              <h4 class="title">{{text.setup5.title}}</h4>
+              <h5 class="title">{{text.setup5.topic_title}}</h5>
+              <p>{{text.setup5.topic}}</p>
+              <br/>
 
-              <h4 class="title">Symptoms Being Tracked</h4>
-              <p>- Abdominal Pain</p>
-              <p>- Bloating or Gas</p>
+              <h5 class="title">{{text.setup5.sypmtoms_title}}</h5>
+              <p>{{text.setup5.symptom1}}</p>
+              <p>{{text.setup5.symptom2}}</p>
+              <br/>
 
-              <h4 class="title">Study Length</h4>
-              <p>Tue Mar 27th - Tue Apr 4th</p>              
+              <h5 class="title">{{text.setup5.study_length}}</h5>
+              <p>{{text.setup5.start_date}} - {{text.setup5.end_date}}</p>              
+              <br/>
 
-              <h4 class="title">Morning Reminder Time</h4>
-              <p>9:00 am</p>
+              <h5 class="title">{{text.setup5.morning_reminder_title}}</h5>
+              <p>{{text.setup5.morning_reminder}}</p>
+              <br/>
 
-              <h4 class="title">Symptom Entry Reminder Time</h4>
-              <p>1:00 pm</p>              
-
+              <h5 class="title">{{text.setup5.symptom_reminder_title}}</h5>
+              <p>{{text.setup5.symptom_reminder}}</p>              
+              <br/>
+              
               <a class="button button-block button-energized" ui-sref="#">
-                Begin Study!
+                {{text.setup5.button}}
               </a>
           </div>
 

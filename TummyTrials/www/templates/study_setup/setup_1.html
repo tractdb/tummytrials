@@ -1,17 +1,17 @@
       <ion-view title="Study Setup">
           <ion-pane>
-          <ion-content ng-controller="SetupController as SetupCont">
-
+          <ion-content>
+          <div class="ten-padding">     
             <div class="row">
                 <div class="col"><i class="ion-calendar font-big"></i></div>
-                <div class="col col-80" ng-bind-html="title"></div>
+                <h3 class="col col-80" class="title">{{text.setup.title}}</h3>
             </div>      
-            <div class="ten-padding" ng-bind-html="content">      
-             </div> 
-           </div>
-          <a class="button button-block button-energized" ui-sref="setup_2">
-            Let's Begin! <!-- icon ion-plus-round -->
-          </a>
+            <p class="ten-padding">{{text.setup.content}}</p></br>
+           <div>
+              <a class="button button-block button-energized" ui-sref="setup_2">
+                {{text.setup.button}} <!-- icon ion-plus-round -->
+              </a>
+            </div>
           </div>
           </ion-content>  
           </ion-pane>

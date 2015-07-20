@@ -1,1 +1,8 @@
 /* Empty. Add your own CSS if you like */
+.ten-padding {
+    padding: 10px !important;
+}
+
+.zero-padding {
+	padding: 0px !important;
+}
