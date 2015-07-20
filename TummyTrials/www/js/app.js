@@ -63,7 +63,7 @@ app.run(function($ionicPlatform, $rootScope, Login) {
 app.config(function($stateProvider, $urlRouterProvider) {
   
   //enter login for landing tab here
-  $urlRouterProvider.otherwise('/loginfo')
+  $urlRouterProvider.otherwise('/')
 
   $stateProvider
     .state('current', {
@@ -98,12 +98,95 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
-    /*.state('loginfo', {
-      url: '/loginfo',
+    .state('setup_1', {
+      url: '/setup_1',
       views: {
-        loginfo : {
-          templateUrl: 'templates/loginfo.html'
+        settings : {
+          templateUrl: 'templates/study_setup/setup_1.html'
         }
       }
-    })*/
+    })    
+    .state('setup_2', {
+      url: '/setup_2',
+      views: {
+        settings : {
+          templateUrl: 'templates/study_setup/setup_2.html'
+        }
+      }
+    })
+    .state('setup_3', {
+      url: '/setup_3',
+      views: {
+        settings : {
+          templateUrl: 'templates/study_setup/setup_3.html'
+        }
+      }
+    })    
+    .state('setup_3_1', {
+      url: '/setup_3_1',
+      views: {
+        settings : {
+          templateUrl: 'templates/study_setup/setup_3_1.html'
+        }
+      }
+    })
+    .state('setup_3_2', {
+      url: '/setup_3_2',
+      views: {
+        settings : {
+          templateUrl: 'templates/study_setup/setup_3_2.html'
+        }
+      }
+    })
+    .state('setup_3_3', {
+      url: '/setup_3_3',
+      views: {
+        settings : {
+          templateUrl: 'templates/study_setup/setup_3_3.html'
+        }
+      }
+    })
+    .state('setup_3_4', {
+      url: '/setup_3_4',
+      views: {
+        settings : {
+          templateUrl: 'templates/study_setup/setup_3_4.html'
+        }
+      }
+    })
+    .state('setup_4', {
+      url: '/setup_4',
+      views: {
+        settings : {
+          templateUrl: 'templates/study_setup/setup_4.html'
+        }
+      }
+    })
+    .state('setup_5', {
+      url: '/setup_5',
+      views: {
+        settings : {
+          templateUrl: 'templates/study_setup/setup_5.html'
+        }
+      }
+    })  
 });
+
+
+app.controller( "SetupController", function( $scope, $http, $sce) {
+    $http({
+        url: 'json/setup.json',
+        dataType: 'json',
+        method: 'GET',
+        data: '',
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+    }).success(function(response){
+        $scope.title = $sce.trustAsHtml(response.title);
+        $scope.content = $sce.trustAsHtml(response.content);
+    }).error(function(error){
+        $scope.text = 'error';
+    });        
+}); 
