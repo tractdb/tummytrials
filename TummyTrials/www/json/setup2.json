@@ -1,0 +1,15 @@
+{
+	"category": "Setup",
+	"title": "<h3 class=\"title\">1. Choose Symptoms</h3>
+              <p>What symptoms do you want to test? <i class=\"ion-information-circled\"></i></p>",
+	"content": "<ul class=\"list\">
+                <li class=\"item item-checkbox\"><label class=\"checkbox\"><input type=\"checkbox\"></label>Abdominal Pain</li>
+                <li class=\"item item-checkbox\"><label class=\"checkbox\"><input type=\"checkbox\"></label>Bloating or Gas</li>
+                <li class=\"item item-checkbox\"><label class=\"checkbox\"><input type=\"checkbox\"></label>Hard Passage of Stool</li>
+                <li class=\"item item-checkbox\"><label class=\"checkbox\"><input type=\"checkbox\"></label>Loose Passage of Stool</li>
+                <li class=\"item item-checkbox\"><label class=\"checkbox\"><input type=\"checkbox\"></label>Infrequent Bowel Movements</li>
+                <li class=\"item item-checkbox\"><label class=\"checkbox\"><input type=\"checkbox\"></label>Frequent Bowel Movements</li>
+                <li class=\"item item-checkbox\"><label class=\"checkbox\"><input type=\"checkbox\"></label>Urgency</li>
+                <li class=\"item\"><a ui-sref=\"#\">&nbsp&nbsp<i class=\"icon ion-plus-round\"></i> &nbsp&nbsp&nbsp Add symptom</a></li>
+              </ul>"
+}
