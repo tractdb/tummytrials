@@ -1,5 +1,83 @@
 {
-	"category": "Setup",
-	"title": "<h3 class=\"title\">Setup a new study</h3>",
-	"content": "<p>This app will guide you through self-studies to see whether eating certain food affects your symptoms.</p><p>During this study, you will be asked to eat certain foo on some days and not eat that food on other days. We will aslo help you track your symptoms by sending you daily remiinders to log them.</p><br>"
+	"mytrials": {
+		"title": "List of my trials",
+		"subtitle": "No ongoing study. Setup a new study."
+	},
+	"setup": {
+		"title": "Setup a new study",
+		"content": "This app will guide you through self-studies to see whether eating certain food affects your symptoms. During this study, you will be asked to eat certain foo on some days and not eat that food on other days. We will aslo help you track your symptoms by sending you daily remiinders to log them."
+	},
+	"setup2": {
+		"title": "1. Choose the symptoms you are experiencing",
+		"symptom1": "Abdominal Pain",
+		"symptom2": "Bloating or Gas",
+		"symptom3": "Hard Passage of Stool",
+		"symptom4": "Loose Passage of Stool",
+		"symptom5": "Infrequent Bowel Movements",
+		"symptom6": "Frequent Bowel Movements",
+		"symptom7": "Urgency"
+	},
+	"setup3": {
+		"title": "2. Choose a Possible Cause",
+		"subtitle": "Which possible trigger do you want to test? ",
+		"trigger1": "Eating Large Meals ",
+		"trigger2": "Eating Lactose / Dairy ",
+		"trigger3": "Drinking Caffeine ",
+		"trigger4": "Eating Gluten "
+	},
+	"setup3_1": {
+		"title": "2.1 Testing effect of Large Meals",
+		"para1": "On randomly pre-assinged days you will be asked to eat at least 8 grams of lactose during your first meal, ideally breakfast. It is ok to eat more than 8 grams on these days.",
+		"para2": "On other pre-assigned days you will be asked not to eat lactose during your first meal. You can eat lactose after logging your symptoms 4 hours after the meal.",
+		"para3": "Some examples of 8 grams of lactose are:",
+		"list1": "A cup of cottage cheese (225 grams)",
+		"list2": "A glass of cow's milk (8 oz)",
+		"list3": "A bowl of yogurt (5 oz)"
+	},
+	"setup3_2": {
+		"title": "2.2 Testing Lactose / Dairy Consumption",
+		"para1": "On randomly pre-assinged days you will be asked to eat at least 8 grams of lactose during your first meal, ideally breakfast. It is ok to eat more than 8 grams on these days.",
+		"para2": "On other pre-assigned days you will be asked not to eat lactose during your first meal. You can eat lactose after logging your symptoms 4 hours after the meal.",
+		"para3": "Some examples of 8 grams of lactose are:",
+		"list1": "A cup of cottage cheese (225 grams)",
+		"list2": "A glass of cow's milk (8 oz)",
+		"list3": "A bowl of yogurt (5 oz)"
+	},
+	"setup3_3": {
+		"title": "2.3 Testing impact of drinking Caffeine",
+		"para1": "On randomly pre-assinged days you will be asked to eat at least 8 grams of lactose during your first meal, ideally breakfast. It is ok to eat more than 8 grams on these days.",
+		"para2": "On other pre-assigned days you will be asked not to eat lactose during your first meal. You can eat lactose after logging your symptoms 4 hours after the meal.",
+		"para3": "Some examples of 8 grams of lactose are:",
+		"list1": "A cup of cottage cheese (225 grams)",
+		"list2": "A glass of cow's milk (8 oz)",
+		"list3": "A bowl of yogurt (5 oz)"
+	},
+	"setup3_4": {
+		"title": "2.4 Testing impact of eating Gluten",
+		"para1": "On randomly pre-assinged days you will be asked to eat at least 8 grams of lactose during your first meal, ideally breakfast. It is ok to eat more than 8 grams on these days.",
+		"para2": "On other pre-assigned days you will be asked not to eat lactose during your first meal. You can eat lactose after logging your symptoms 4 hours after the meal.",
+		"para3": "Some examples of 8 grams of lactose are:",
+		"list1": "A cup of cottage cheese (225 grams)",
+		"list2": "A glass of cow's milk (8 oz)",
+		"list3": "A bowl of yogurt (5 oz)"
+	},
+	"setup4": {
+		"title": "3. Set Reminders",
+		"subtitle": "When do you want to begin the study and when do you want to receive reminder notifications?"
+	},
+	"setup5": {
+		"title": "4. Review Study Details",
+		"topic_title": "Self-Study Topic",
+		"topic": "Does eating lactose / dairy affect my symptoms?",
+		"sypmtoms_title": "Symptoms Being Tracked",
+		"symptom1": "- Abdominal Pain",
+		"symptom2": "- Bloating or Gas",
+		"study_length": "Study Length",
+		"start_date": "Tue Mar 27th",
+		"end_date": "Tue Apr 4th",
+		"morning_reminder_title": "Morning Reminder Time",
+		"morning_reminder": "9:00 am",
+		"symptom_reminder_title": "Symptom Entry Reminder Time",
+		"symptom_reminder": "1:00 pm"
+	}
 }

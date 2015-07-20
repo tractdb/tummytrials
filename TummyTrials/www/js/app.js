@@ -59,11 +59,12 @@ app.run(function($ionicPlatform, $rootScope, Login) {
   });
 });
 
+
 //UI-router for handling navigation 
 app.config(function($stateProvider, $urlRouterProvider) {
   
   //enter login for landing tab here
-  $urlRouterProvider.otherwise('/')
+  $urlRouterProvider.otherwise('/mytrials')
 
   $stateProvider
     .state('current', {
@@ -78,7 +79,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
       url: '/mytrials',
       views: {
         mytrials : {
-          templateUrl: 'templates/mytrials.html'
+          templateUrl: 'templates/mytrials.html',
+          controller: 'SetupController'
         }
       }
     })
@@ -102,7 +104,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
       url: '/setup_1',
       views: {
         settings : {
-          templateUrl: 'templates/study_setup/setup_1.html'
+          templateUrl: 'templates/study_setup/setup_1.html',
+          controller: 'SetupController'
         }
       }
     })    
@@ -110,7 +113,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
       url: '/setup_2',
       views: {
         settings : {
-          templateUrl: 'templates/study_setup/setup_2.html'
+          templateUrl: 'templates/study_setup/setup_2.html',
+          controller: 'SetupController'
         }
       }
     })
@@ -118,7 +122,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
       url: '/setup_3',
       views: {
         settings : {
-          templateUrl: 'templates/study_setup/setup_3.html'
+          templateUrl: 'templates/study_setup/setup_3.html',
+          controller: 'SetupController'
         }
       }
     })    
@@ -126,7 +131,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
       url: '/setup_3_1',
       views: {
         settings : {
-          templateUrl: 'templates/study_setup/setup_3_1.html'
+          templateUrl: 'templates/study_setup/setup_3_1.html',
+          controller: 'SetupController'
         }
       }
     })
@@ -134,7 +140,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
       url: '/setup_3_2',
       views: {
         settings : {
-          templateUrl: 'templates/study_setup/setup_3_2.html'
+          templateUrl: 'templates/study_setup/setup_3_2.html',
+          controller: 'SetupController'
         }
       }
     })
@@ -142,7 +149,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
       url: '/setup_3_3',
       views: {
         settings : {
-          templateUrl: 'templates/study_setup/setup_3_3.html'
+          templateUrl: 'templates/study_setup/setup_3_3.html',
+          controller: 'SetupController'
         }
       }
     })
@@ -150,7 +158,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
       url: '/setup_3_4',
       views: {
         settings : {
-          templateUrl: 'templates/study_setup/setup_3_4.html'
+          templateUrl: 'templates/study_setup/setup_3_4.html',
+          controller: 'SetupController'
         }
       }
     })
@@ -158,7 +167,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
       url: '/setup_4',
       views: {
         settings : {
-          templateUrl: 'templates/study_setup/setup_4.html'
+          templateUrl: 'templates/study_setup/setup_4.html',
+          controller: 'SetupController'
         }
       }
     })
@@ -166,7 +176,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
       url: '/setup_5',
       views: {
         settings : {
-          templateUrl: 'templates/study_setup/setup_5.html'
+          templateUrl: 'templates/study_setup/setup_5.html',
+          controller: 'SetupController'
         }
       }
     })  
@@ -184,8 +195,7 @@ app.controller( "SetupController", function( $scope, $http, $sce) {
         },
 
     }).success(function(response){
-        $scope.title = $sce.trustAsHtml(response.title);
-        $scope.content = $sce.trustAsHtml(response.content);
+        $scope.text = response;
     }).error(function(error){
         $scope.text = 'error';
     });        
