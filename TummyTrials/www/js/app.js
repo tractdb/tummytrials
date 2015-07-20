@@ -61,7 +61,9 @@ app.run(function($ionicPlatform, $rootScope, Login) {
 
 //UI-router for handling navigation 
 app.config(function($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise('/')
+  
+  //enter login for landing tab here
+  $urlRouterProvider.otherwise('/loginfo')
 
   $stateProvider
     .state('current', {
@@ -96,12 +98,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
-    .state("otherwise", {
+    /*.state('loginfo', {
       url: '/loginfo',
       views: {
         loginfo : {
           templateUrl: 'templates/loginfo.html'
         }
       }
-    })
+    })*/
 });
