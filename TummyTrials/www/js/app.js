@@ -96,4 +96,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
+    .state("otherwise", {
+      url: '/loginfo',
+      views: {
+        loginfo : {
+          templateUrl: 'templates/loginfo.html'
+        }
+      }
+    })
 });
