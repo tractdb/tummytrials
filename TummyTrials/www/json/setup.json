@@ -1,11 +1,25 @@
 {
+	"current": {
+		"title": "Current Study",
+		"subtitle": "No ongoing study. Setup a new study.",
+		"button": "Let's Begin!"
+	},
 	"mytrials": {
 		"title": "List of my trials",
-		"subtitle": "No ongoing study. Setup a new study."
+		"subtitle": "No ongoing study. Setup a new study.",
+		"button": "Let's Begin!"
+	},	
+	"faqs": {
+		"title": "Frequently Asked Questions",
+		"subtitle": "Find answers to the most common questions."
+	},
+	"settings": {
+		"title": "Settings"
 	},
 	"setup": {
 		"title": "Setup a new study",
-		"content": "This app will guide you through self-studies to see whether eating certain food affects your symptoms. During this study, you will be asked to eat certain foo on some days and not eat that food on other days. We will aslo help you track your symptoms by sending you daily remiinders to log them."
+		"content": "This app will guide you through self-studies to see whether eating certain food affects your symptoms. During this study, you will be asked to eat certain foo on some days and not eat that food on other days. We will aslo help you track your symptoms by sending you daily remiinders to log them.",
+		"button": "Let's Begin!"
 	},
 	"setup2": {
 		"title": "1. Choose the symptoms you are experiencing",
@@ -15,7 +29,8 @@
 		"symptom4": "Loose Passage of Stool",
 		"symptom5": "Infrequent Bowel Movements",
 		"symptom6": "Frequent Bowel Movements",
-		"symptom7": "Urgency"
+		"symptom7": "Urgency",
+		"button": "Continue "
 	},
 	"setup3": {
 		"title": "2. Choose a Possible Cause",
@@ -23,7 +38,8 @@
 		"trigger1": "Eating Large Meals ",
 		"trigger2": "Eating Lactose / Dairy ",
 		"trigger3": "Drinking Caffeine ",
-		"trigger4": "Eating Gluten "
+		"trigger4": "Eating Gluten ",
+		"button": "Continue "
 	},
 	"setup3_1": {
 		"title": "2.1 Testing effect of Large Meals",
@@ -63,7 +79,8 @@
 	},
 	"setup4": {
 		"title": "3. Set Reminders",
-		"subtitle": "When do you want to begin the study and when do you want to receive reminder notifications?"
+		"subtitle": "When do you want to begin the study and when do you want to receive reminder notifications?",
+		"button": "Continue "
 	},
 	"setup5": {
 		"title": "4. Review Study Details",
@@ -78,6 +95,7 @@
 		"morning_reminder_title": "Morning Reminder Time",
 		"morning_reminder": "9:00 am",
 		"symptom_reminder_title": "Symptom Entry Reminder Time",
-		"symptom_reminder": "1:00 pm"
+		"symptom_reminder": "1:00 pm",
+		"button": "Begin Study!"
 	}
 }

@@ -64,14 +64,15 @@ app.run(function($ionicPlatform, $rootScope, Login) {
 app.config(function($stateProvider, $urlRouterProvider) {
   
   //enter login for landing tab here
-  $urlRouterProvider.otherwise('/mytrials')
+  $urlRouterProvider.otherwise('/')
 
   $stateProvider
     .state('current', {
       url: '/current',
       views: {
         current : {
-          templateUrl: 'templates/current.html'
+          templateUrl: 'templates/current.html',
+          controller: 'SetupController'
         }
       }
     })
@@ -88,7 +89,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
       url: '/faqs',
       views: {
         faqs : {
-          templateUrl: 'templates/faqs.html'
+          templateUrl: 'templates/faqs.html',
+          controller: 'SetupController'
         }
       }
     })
@@ -96,7 +98,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
       url: '/settings',
       views: {
         settings : {
-          templateUrl: 'templates/settings.html'
+          templateUrl: 'templates/settings.html',
+          controller: 'SetupController'
         }
       }
     })
