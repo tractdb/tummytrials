@@ -6,13 +6,7 @@
               
             <div>
               <ul class="list">
-                <li class="item item-checkbox"><label class="checkbox"><input type="checkbox"></label>{{text.setup2.symptom1}}</li>
-                <li class="item item-checkbox"><label class="checkbox"><input type="checkbox"></label>{{text.setup2.symptom2}}</li>
-                <li class="item item-checkbox"><label class="checkbox"><input type="checkbox"></label>{{text.setup2.symptom3}}</li>
-                <li class="item item-checkbox"><label class="checkbox"><input type="checkbox"></label>{{text.setup2.symptom4}}</li>
-                <li class="item item-checkbox"><label class="checkbox"><input type="checkbox"></label>{{text.setup2.symptom5}}</li>
-                <li class="item item-checkbox"><label class="checkbox"><input type="checkbox"></label>{{text.setup2.symptom6}}</li>
-                <li class="item item-checkbox"><label class="checkbox"><input type="checkbox"></label>{{text.setup2.symptom7}}</li>
+                <li class="item item-checkbox" ng-repeat="symptom in text.setup2.symptoms"><label class="checkbox"><input type="checkbox"></label>{{symptom.symptom}}</li>
                 <!-- <li class="item"><a ui-sref="#">&nbsp&nbsp<i class="icon ion-plus-round"></i> &nbsp&nbsp&nbsp Add symptom</a></li> -->
               </ul>
 

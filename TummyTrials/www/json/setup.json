@@ -23,22 +23,26 @@
 	},
 	"setup2": {
 		"title": "1. Choose the symptoms you are experiencing",
-		"symptom1": "Abdominal Pain",
-		"symptom2": "Bloating or Gas",
-		"symptom3": "Hard Passage of Stool",
-		"symptom4": "Loose Passage of Stool",
-		"symptom5": "Infrequent Bowel Movements",
-		"symptom6": "Frequent Bowel Movements",
-		"symptom7": "Urgency",
+		"symptoms" : [
+		{"symptom": "Abdominal Pain"},
+		{"symptom": "Bloating or Gas"},
+		{"symptom": "Hard Passage of Stool"},
+		{"symptom": "Loose Passage of Stool"},
+		{"symptom": "Infrequent Bowel Movements"},
+		{"symptom": "Frequent Bowel Movements"},
+		{"symptom": "Urgency"}
+		],
 		"button": "Continue "
 	},
 	"setup3": {
 		"title": "2. Choose a Possible Cause",
 		"subtitle": "Which possible trigger do you want to test? ",
-		"trigger1": "Eating Large Meals ",
-		"trigger2": "Eating Lactose / Dairy ",
-		"trigger3": "Drinking Caffeine ",
-		"trigger4": "Eating Gluten ",
+		"triggers" : [
+			{"trigger": "Eating Large Meals ", "uisref": "setup_3_1"},
+			{"trigger": "Eating Lactose / Dairy ", "uisref": "setup_3_2"},
+			{"trigger": "Drinking Caffeine ", "uisref": "setup_3_3"},
+			{"trigger": "Eating Gluten ", "uisref": "setup_3_4"}		
+		],
 		"button": "Continue "
 	},
 	"setup3_1": {
