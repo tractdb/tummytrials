@@ -1,8 +1,8 @@
 {
 	"current": {
-		"title": "Current Study",
-		"subtitle": "No ongoing study. Setup a new study.",
-		"button": "Let's Begin!"
+		"title": "No ongoing study",
+		"subtitle": "Would you like to setup your study?",
+		"button": "Setup A New Study"
 	},
 	"mytrials": {
 		"title": "List of my trials",
@@ -11,7 +11,7 @@
 	},	
 	"faqs": {
 		"title": "Frequently Asked Questions",
-		"subtitle": "Find answers to the most common questions."
+		"subtitle": "If you did not find what you are looking for please reach out to us."
 	},
 	"settings": {
 		"title": "Settings"

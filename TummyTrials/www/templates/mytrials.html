@@ -1,8 +1,8 @@
 <ion-view title="My Trials">
 	<ion-pane>
-		<ion-content class="ten-padding">
+		<ion-content >
 		<br/>
-		<h4 class="title">{{text.mytrials.title}}</h4>
+		<!-- <h4 class="title">{{text.mytrials.title}}</h4>
 		<br/>
 		<p>{{text.mytrials.subtitle}}</p>
 		<br/>
@@ -10,7 +10,37 @@
 
 		<a class="button button-block button-energized" ui-sref="setup_1">
             {{text.mytrials.button}}
-        </a>
+        </a> -->
+        <div class="ten-padding">
+	        <h4 class="title">No ongoing trial.</h4>
+			<br/>
+			<p>Would you like to setup a new trial?</p>
+			<br/>
+
+			<a class="button button-block button-energized" ui-sref="setup_1">
+	            Setup a New Trial
+	        </a>
+    	</div>
+
+    	
+        <div class="list">
+
+		  <div class="item item-divider">
+		    Current Trial
+		  </div>
+		  <a class="item" href="#">
+		    There is no ongoing trial.
+		  </a>
+
+		  <div class="item item-divider">
+		    Past Trials
+		  </div>
+		  <a class="item" href="#">
+		    There are no past trials to display.
+		  </a>
+
+		</div>
+
 		</ion-content>  
 	</ion-pane>
 </ion-view>
