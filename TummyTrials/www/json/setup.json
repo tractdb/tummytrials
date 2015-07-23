@@ -25,9 +25,14 @@
 			{"title": "Trial / Study",
 				"list": [
 					{"faq": "What is a self-experiment?", "uisref": "#"},
-					{"faq": "How to pick a trigger to test?", "uisref": "#"},
+					{"faq": "How to choose a trigger to test?", "uisref": "triggerchoice"},
 					{"faq": "What is the symptom severity scale?", "uisref": "#"},
-					{"faq": "How is the result calculated?", "uisref": "#"}
+					{"faq": "How is the result calculated?", "uisref": "#"},
+					{"faq": "How do we define Abdominal Pain?", "uisref": "abdominalpain"},
+					{"faq": "How do we define Bloating/Gas?", "uisref": "bloating"},
+					{"faq": "How do we define Bowel Urgency?", "uisref": "urgency"},
+					{"faq": "How do we define Diarrhea?", "uisref": "diarrhea"},
+					{"faq": "How do we define Constipation?", "uisref": "constipation"}
 				]
 			},
 			{"title": "Food Guide",
@@ -37,11 +42,65 @@
 			},
 			{"title": "Miscellaneous",
 				"list": [
-					{"faq": "What is the meaning of life?", "uisref": "#"}
+					{"faq": "What is the meaning of life?", "uisref": "#"},
+					{"faq": "What is a p-value?", "uisref": "pvalue"}
 				]
 			}
 		]
 	},
+	"pvalue": {
+		"title": "What is a p-value?",
+		"para1" : "The p-value of your study represents the probability of the result being true.",
+		"para2" : "How to interpret the p-value:",
+		"para3" : "Strong evidence",
+		"para4" : "p < 0.05",
+		"para5" : "Possible evidence",
+		"para6" : "0.05 < p < 0.10",
+		"para7" : "No evidence",
+		"para8" : "p > 0.10",
+		"para9" : "example:",
+		"para10" : "A p-value of 0.06 means there is possible evidence that the trigger you are testing in the trial can be causing your symptoms."
+	},	
+	"abdominalpain": {
+		"title": "How do we define Abdominal Pain?",
+		"para1" : "The amount of pain or discomfort (uncomfortable sensation) you feel anywhere between your chest and groin.",
+		"para2" : "On the symptom severity scale:",
+		"para3" : "A 0 would be no pain or discomfort",
+		"para4" : "A 5 would be pain so severe it prevents you from doing your daily tasks."
+ 	},	
+ 	"bloating": {
+		"title": "How do we define Bloating / Gas?",
+		"para1" : "How full and tight your belly feels and/or how much gas (burping/farting) you are experiencing.",
+		"para2" : "On the symptom severity scale:",
+		"para3" : "A 0 would be no pain or discomfort",
+		"para4" : "A 5 would be pain so severe it prevents you from doing your daily tasks."
+ 	},	
+ 	"urgency": {
+		"title": "How do we define Bowel Urgency?",
+		"para1" : "How sudden or pressing it feels like you need to have a bowel movement.",
+		"para2" : "On the symptom severity scale:",
+		"para3" : "A 0 would be no pain or discomfort",
+		"para4" : "A 5 would be pain so severe it prevents you from doing your daily tasks."
+ 	},	
+ 	"diarrhea": {
+		"title": "How do we define Diarrhea?",
+		"para1" : "How frequent and/or loose your stools are.",
+		"para2" : "On the symptom severity scale:",
+		"para3" : "A 0 would be no pain or discomfort",
+		"para4" : "A 5 would be pain so severe it prevents you from doing your daily tasks."
+ 	},	
+ 	"constipation": {
+		"title": "How do we define Constipation?",
+		"para1" : "How backed up you feel and/or how hard the passage of stool is.",
+		"para2" : "On the symptom severity scale:",
+		"para3" : "A 0 would be no pain or discomfort",
+		"para4" : "A 5 would be pain so severe it prevents you from doing your daily tasks."
+ 	},
+ 	"triggerchoice": {
+		"title": "How to choose a trigger to test?",
+		"para1" : "It's best to choose something that you eat or do often, but aren't sure whether it affects you.",
+		"para2" : "Avoid testing triggers that you are confident will make your symptoms worse. You may choose only one factor to test at a time."
+ 	},	
 	"settings": {
 		"title": "Settings"
 	},

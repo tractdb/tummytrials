@@ -85,15 +85,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
-    .state('faqs', {
-      url: '/faqs',
-      views: {
-        faqs : {
-          templateUrl: 'templates/faqs.html',
-          controller: 'SetupController'
-        }
-      }
-    })
     .state('settings', {
       url: '/settings',
       views: {
@@ -184,6 +175,78 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })  
+    .state('faqs', {
+      url: '/faqs',
+      views: {
+        faqs : {
+          templateUrl: 'templates/faqs.html',
+          controller: 'SetupController'
+        }
+      }
+    })
+    .state('pvalue', {
+      url: '/pvalue',
+      views: {
+        faqs : {
+          templateUrl: 'templates/faqs/pvalue.html',
+          controller: 'SetupController'
+        }
+      }
+    })
+    .state('abdominalpain', {
+      url: '/abdominalpain',
+      views: {
+        faqs : {
+          templateUrl: 'templates/faqs/abdominalpain.html',
+          controller: 'SetupController'
+        }
+      }
+    })
+    .state('bloating', {
+      url: '/bloating',
+      views: {
+        faqs : {
+          templateUrl: 'templates/faqs/bloating.html',
+          controller: 'SetupController'
+        }
+      }
+    })
+    .state('urgency', {
+      url: '/urgency',
+      views: {
+        faqs : {
+          templateUrl: 'templates/faqs/urgency.html',
+          controller: 'SetupController'
+        }
+      }
+    })
+    .state('diarrhea', {
+      url: '/diarrhea',
+      views: {
+        faqs : {
+          templateUrl: 'templates/faqs/diarrhea.html',
+          controller: 'SetupController'
+        }
+      }
+    })
+    .state('constipation', {
+      url: '/constipation',
+      views: {
+        faqs : {
+          templateUrl: 'templates/faqs/constipation.html',
+          controller: 'SetupController'
+        }
+      }
+    })
+    .state('triggerchoice', {
+      url: '/triggerchoice',
+      views: {
+        faqs : {
+          templateUrl: 'templates/faqs/triggerchoice.html',
+          controller: 'SetupController'
+        }
+      }
+    })
 });
 
 
