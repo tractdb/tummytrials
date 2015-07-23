@@ -11,48 +11,16 @@
 		
 		<div class="list">
 
+		<div ng-repeat="title in text.faqs.topics">
 		  <div class="item item-divider">
-		    Irritable Bowel Syndrome
+		    {{title.title}}
 		  </div>
-		  <a class="item" href="#">
-		    What is Irritable Bowel Syndrome (IBS)?
-		  </a>
-		  <a class="item" href="#">
-		    What are triggers for IBS?
-		  </a>
-		  <a class="item" href="#">
-		    What are various symptoms for IBS?
-		  </a>
-
-		  <div class="item item-divider">
-		    Trial / Study
+		  <div ng-repeat="faq in title.list">
+			  <a class="item" href="{{faq.uisref}}" >
+			    {{faq.faq}}
+			  </a>
 		  </div>
-		  <a class="item" href="#">
-		    What is a self-experiment?
-		  </a>
-		  <a class="item" href="#"> 
-		    How to pick a trigger to test?
-		  </a>
-		  <a class="item" href="#">
-		    What is the symptom severity scale?
-		  </a>
-		  <a class="item" href="#">
-		    How is the result calculated?
-		  </a>
-
-		  <div class="item item-divider">
-		    Food Guide
-		  </div>
-		  <a class="item" href="#">
-		    Need help deciding what to eat?
-		  </a>
-
-		  <div class="item item-divider">
-		    Miscellaneous
-		  </div>
-		  <a class="item" href="#">
-		    What is the meaning of life?
-		  </a>
+		</div>
 
 		</div>
 

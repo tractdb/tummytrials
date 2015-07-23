@@ -7,11 +7,40 @@
 	"mytrials": {
 		"title": "List of my trials",
 		"subtitle": "No ongoing study. Setup a new study.",
-		"button": "Let's Begin!"
+		"button": "Let's Begin!",
+		"currenttrialtitle" : "Current Trial",
+		"pasttrialtitle": "Past Trials"
 	},	
 	"faqs": {
 		"title": "Frequently Asked Questions",
-		"subtitle": "If you did not find what you are looking for please reach out to us."
+		"subtitle": "If you did not find what you are looking for please reach out to us.",
+		"topics": [
+			{"title": "Irritable Bowel Syndrome",
+				"list": [
+					{"faq": "What is Irritable Bowel Syndrome (IBS)?", "uisref": "#"},
+					{"faq": "What are triggers for IBS?", "uisref": "#"},
+					{"faq": "What are various symptoms for IBS?", "uisref": "#"}
+				]
+			},
+			{"title": "Trial / Study",
+				"list": [
+					{"faq": "What is a self-experiment?", "uisref": "#"},
+					{"faq": "How to pick a trigger to test?", "uisref": "#"},
+					{"faq": "What is the symptom severity scale?", "uisref": "#"},
+					{"faq": "How is the result calculated?", "uisref": "#"}
+				]
+			},
+			{"title": "Food Guide",
+				"list": [
+					{"faq": "Need help deciding what to eat?", "uisref": "#"}
+				]
+			},
+			{"title": "Miscellaneous",
+				"list": [
+					{"faq": "What is the meaning of life?", "uisref": "#"}
+				]
+			}
+		]
 	},
 	"settings": {
 		"title": "Settings"
