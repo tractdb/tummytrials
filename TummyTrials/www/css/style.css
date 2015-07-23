@@ -6,3 +6,7 @@
 .zero-padding {
 	padding: 0px !important;
 }
+
+.item-divider{
+	background-color: #11c1f3;
+}

@@ -1,11 +1,26 @@
 <ion-view title="FAQs">
 	<ion-pane>
-    <ion-content class="ten-padding">
-      	<br/>
-		<h4 class="title">{{text.faqs.title}}</h4>
-		<br/>
-		<p>{{text.faqs.subtitle}}</p>
-		<br/>
+    <ion-content>
+    	<div class="ten-padding">
+			<h4 class="title">{{text.faqs.title}}</h4>
+			<p>{{text.faqs.subtitle}}</p>
+			<br/>
+		</div>
+		
+		<div class="list">
+
+		<div ng-repeat="title in text.faqs.topics">
+		  <div class="item item-divider">
+		    {{title.title}}
+		  </div>
+		  <div ng-repeat="faq in title.list">
+			  <a class="item" ui-sref="{{faq.uisref}}" >
+			    {{faq.faq}}
+			  </a>
+		  </div>
+		</div>
+
+		</div>
 
 		</ion-content>  
 	</ion-pane>
