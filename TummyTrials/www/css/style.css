@@ -8,5 +8,15 @@
 }
 
 .item-divider{
-	background-color: #11c1f3;
+	background-color: #886aea;
+	/* background-color: #11c1f3; */
+}
+
+.bar-royal{
+	background-color: #4b2e83;
+}
+
+/* changing the text color of list headings to white */
+.item-divider{
+	color: #fff;
 }
