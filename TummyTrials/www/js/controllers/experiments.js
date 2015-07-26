@@ -2,7 +2,7 @@
 //
 // Note: this is just an initial sketch
 //
-angular.module('TummyTrials.experiments', [])
+(angular.module('tummytrials.experiments', [])
 
 /* The following fields have a known meaning right now:
  *
@@ -303,3 +303,4 @@ angular.module('TummyTrials.experiments', [])
         }
     };
 })
+);

@@ -1,6 +1,6 @@
 // login.js     Get username/password
 //
-angular.module('TummyTrials.login', [ 'ionic' ])
+(angular.module('tummytrials.login', [ 'ionic' ])
 
 .factory('Login', function($q, $ionicModal) {
     return {
@@ -75,3 +75,4 @@ angular.module('TummyTrials.login', [ 'ionic' ])
         }
     };
 })
+);
