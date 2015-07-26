@@ -23,8 +23,8 @@ angular.module('starter', ['ionic'])
 
 'use strict';
 
-var app = angular.module('TummyTrials',
-            ['ionic', 'ngSanitize', 'TummyTrials.login']);
+var app = angular.module('tummytrials',
+            ['ionic', 'ngSanitize', 'tummytrials.login','tummytrials.studysetup', 'tummytrials.faqcontroller']);
 
 //Ionic device ready check
 app.run(function($ionicPlatform, $rootScope, Login) {
@@ -72,7 +72,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
       views: {
         current : {
           templateUrl: 'templates/current.html',
-          controller: 'SetupController'
+          controller: 'setupcontroller'
         }
       }
     })
@@ -81,7 +81,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
       views: {
         mytrials : {
           templateUrl: 'templates/mytrials.html',
-          controller: 'SetupController'
+          controller: 'setupcontroller'
         }
       }
     })
@@ -90,167 +90,25 @@ app.config(function($stateProvider, $urlRouterProvider) {
       views: {
         settings : {
           templateUrl: 'templates/settings.html',
-          controller: 'SetupController'
+          controller: 'setupcontroller'
         }
       }
     })
-    .state('setup_1', {
-      url: '/setup_1',
-      views: {
-        settings : {
-          templateUrl: 'templates/study_setup/setup_1.html',
-          controller: 'SetupController'
-        }
-      }
-    })    
-    .state('setup_2', {
-      url: '/setup_2',
-      views: {
-        settings : {
-          templateUrl: 'templates/study_setup/setup_2.html',
-          controller: 'SetupController'
-        }
-      }
-    })
-    .state('setup_3', {
-      url: '/setup_3',
-      views: {
-        settings : {
-          templateUrl: 'templates/study_setup/setup_3.html',
-          controller: 'SetupController'
-        }
-      }
-    })    
-    .state('setup_3_1', {
-      url: '/setup_3_1',
-      views: {
-        settings : {
-          templateUrl: 'templates/study_setup/setup_3_1.html',
-          controller: 'SetupController'
-        }
-      }
-    })
-    .state('setup_3_2', {
-      url: '/setup_3_2',
-      views: {
-        settings : {
-          templateUrl: 'templates/study_setup/setup_3_2.html',
-          controller: 'SetupController'
-        }
-      }
-    })
-    .state('setup_3_3', {
-      url: '/setup_3_3',
-      views: {
-        settings : {
-          templateUrl: 'templates/study_setup/setup_3_3.html',
-          controller: 'SetupController'
-        }
-      }
-    })
-    .state('setup_3_4', {
-      url: '/setup_3_4',
-      views: {
-        settings : {
-          templateUrl: 'templates/study_setup/setup_3_4.html',
-          controller: 'SetupController'
-        }
-      }
-    })
-    .state('setup_4', {
-      url: '/setup_4',
-      views: {
-        settings : {
-          templateUrl: 'templates/study_setup/setup_4.html',
-          controller: 'SetupController'
-        }
-      }
-    })
-    .state('setup_5', {
-      url: '/setup_5',
-      views: {
-        settings : {
-          templateUrl: 'templates/study_setup/setup_5.html',
-          controller: 'SetupController'
-        }
-      }
-    })  
+    
     .state('faqs', {
       url: '/faqs',
       views: {
         faqs : {
           templateUrl: 'templates/faqs.html',
-          controller: 'SetupController'
+          controller: 'setupcontroller'
         }
       }
     })
-    .state('pvalue', {
-      url: '/pvalue',
-      views: {
-        faqs : {
-          templateUrl: 'templates/faqs/pvalue.html',
-          controller: 'SetupController'
-        }
-      }
-    })
-    .state('abdominalpain', {
-      url: '/abdominalpain',
-      views: {
-        faqs : {
-          templateUrl: 'templates/faqs/abdominalpain.html',
-          controller: 'SetupController'
-        }
-      }
-    })
-    .state('bloating', {
-      url: '/bloating',
-      views: {
-        faqs : {
-          templateUrl: 'templates/faqs/bloating.html',
-          controller: 'SetupController'
-        }
-      }
-    })
-    .state('urgency', {
-      url: '/urgency',
-      views: {
-        faqs : {
-          templateUrl: 'templates/faqs/urgency.html',
-          controller: 'SetupController'
-        }
-      }
-    })
-    .state('diarrhea', {
-      url: '/diarrhea',
-      views: {
-        faqs : {
-          templateUrl: 'templates/faqs/diarrhea.html',
-          controller: 'SetupController'
-        }
-      }
-    })
-    .state('constipation', {
-      url: '/constipation',
-      views: {
-        faqs : {
-          templateUrl: 'templates/faqs/constipation.html',
-          controller: 'SetupController'
-        }
-      }
-    })
-    .state('triggerchoice', {
-      url: '/triggerchoice',
-      views: {
-        faqs : {
-          templateUrl: 'templates/faqs/triggerchoice.html',
-          controller: 'SetupController'
-        }
-      }
-    })
+
 });
 
 
-app.controller( "SetupController", function( $scope, $http, $sce) {
+app.controller( "setupcontroller", function( $scope, $http, $sce) {
     $http({
         url: 'json/setup.json',
         dataType: 'json',
