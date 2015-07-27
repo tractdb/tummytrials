@@ -8,6 +8,7 @@
       views: {
         settings : {
           templateUrl: 'templates/study_setup/setup_1.html',
+          activetab: 'mytirals',
           controller: 'setupcontroller'
         }
       }
@@ -17,6 +18,7 @@
       views: {
         settings : {
           templateUrl: 'templates/study_setup/setup_2.html',
+          activetab: 'mytirals',
           controller: 'setupcontroller'
         }
       }
@@ -26,6 +28,7 @@
       views: {
         settings : {
           templateUrl: 'templates/study_setup/setup_3.html',
+          activetab: 'mytirals',
           controller: 'setupcontroller'
         }
       }

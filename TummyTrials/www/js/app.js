@@ -57,7 +57,7 @@ app.run(function($ionicPlatform, $rootScope, Login) {
         );
     })();
   });
-});
+})
 
 
 //UI-router for handling navigation 
@@ -105,8 +105,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     })
 
-});
-
+})
 
 app.controller( "setupcontroller", function( $scope, $http, $sce) {
     $http({
@@ -123,4 +122,4 @@ app.controller( "setupcontroller", function( $scope, $http, $sce) {
     }).error(function(error){
         $scope.text = 'error';
     });        
-}); 
+})
