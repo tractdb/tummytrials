@@ -5,47 +5,14 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title>Tummy Trial</title>
 
-    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="lib/ionicons/css/ionicons.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <!-- compiled css output -->
     <link href="css/ionic.app.css" rel="stylesheet">
-    -->
-
+    <link href="css/style.css" rel="stylesheet">
   </head>
 
 
   <body ng-app="tummytrials">
-
-    <ion-nav-bar class="bar-royal nav-title-slide-ios7">
-      <ion-nav-back-button class="button-clear">
-        <i class="ion-arrow-left-c"></i> Back
-      </ion-nav-back-button>
-    </ion-nav-bar>
-
-    <ion-tabs class="tabs-stable tabs-icon-only">
-
-      <ion-tab title="Current" icon-on="ion-ios-calendar" icon-off="ion-ios-calendar-outline" ui-sref="current">
-        <!-- Tab 1 content -->
-        <ion-nav-view name="current"></ion-nav-view>
-      </ion-tab>
-
-      <ion-tab title="My Trials" icon-on="ion-ios-heart" icon-off="ion-ios-heart-outline" ui-sref="mytrials">
-        <!-- Tab 2 content -->
-        <ion-nav-view name="mytrials"></ion-nav-view>
-      </ion-tab>
-
-      <ion-tab title="FAQs" icon-on="ion-ios-information" icon-off="ion-ios-information-outline" ui-sref="faqs">
-        <!-- Tab 3 content -->
-        <ion-nav-view name="faqs"></ion-nav-view>
-      </ion-tab>
-
-      <ion-tab title="Settings" icon-on="ion-ios-cog" icon-off="ion-ios-cog-outline" ui-sref="settings">
-        <!-- Tab 4 content -->
-       <ion-nav-view name="settings"></ion-nav-view>
-      </ion-tab>
-
-    </ion-tabs>
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
     <!-- cordova script (this will be a 404 during development) -->
@@ -56,6 +23,33 @@
     <script src="js/controllers/login.js"></script>
     <script src="js/controllers/studysetup.js"></script>
     <script src="js/controllers/faqs.js"></script>
+
+
+    <ion-nav-bar class="bar-royal nav-title-slide-ios7">
+      <ion-nav-back-button class="button-clear">
+        <i class="ion-arrow-left-c"></i> Back
+      </ion-nav-back-button>
+    </ion-nav-bar>
+
+    <ion-tabs class="tabs-stable tabs-icon-top">
+
+      <ion-tab title="Current Trial" icon-on="ion-ios-calendar" icon-off="ion-ios-calendar-outline" ui-sref="current">
+        <ion-nav-view name="current"><!-- Tab 1 content --></ion-nav-view>
+      </ion-tab>
+
+      <ion-tab title="My Trials" icon-on="ion-ios-heart" icon-off="ion-ios-heart-outline" ui-sref="mytrials">
+        <ion-nav-view name="mytrials"><!-- Tab 2 content --></ion-nav-view>
+      </ion-tab>
+
+      <ion-tab title="FAQs" icon-on="ion-ios-information" icon-off="ion-ios-information-outline" ui-sref="faqs">
+        <ion-nav-view name="faqs"><!-- Tab 3 content --></ion-nav-view>
+      </ion-tab>
+
+      <ion-tab title="Settings" icon-on="ion-ios-cog" icon-off="ion-ios-cog-outline" ui-sref="settings">
+       <ion-nav-view name="settings"><!-- Tab 4 content --></ion-nav-view>
+      </ion-tab>
+
+    </ion-tabs>
   </body>
 
 </html>
