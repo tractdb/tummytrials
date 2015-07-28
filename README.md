@@ -25,5 +25,6 @@ For building the app:
 For testing project on iPhone, open the xcode project file in xcode, check the parameters and deploy.
 Project file location: TummyTrails > platforms > ios > TummyTrials.xcodeproj
 
+Try using Ionic components for all UI elements: http://ionicframework.com/docs/
 
 Would be nice to follow the recommended style guide here: https://github.com/mgechev/angularjs-style-guide
