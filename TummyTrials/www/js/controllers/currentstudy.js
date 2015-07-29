@@ -30,6 +30,15 @@
         }
       }
     }) 
-  })
+  .state('notes', {
+      url: '/notes',
+      views: {
+        settings : {
+          templateUrl: 'templates/currenttrial/notes.html',
+          controller: 'setupcontroller'
+        }
+      }
+    }) 
 
+  })
 );

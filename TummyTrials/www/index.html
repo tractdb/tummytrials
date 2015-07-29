@@ -15,6 +15,9 @@
   <body ng-app="tummytrials">
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <!-- ngCordova -->
+    <!-- IMPORTANT : SHOULD be after ionic bundle and before cordova.js -->
+    <script src="lib/ngCordova/dist/ng-cordova.min.js"></script>
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
     <!-- your app's js -->
@@ -24,6 +27,7 @@
     <script src="js/controllers/currentstudy.js"></script>
     <script src="js/controllers/studysetup.js"></script>
     <script src="js/controllers/faqs.js"></script>
+    <script src="js/controllers/ngcordovacontrollers.js"></script>
 
 
     <ion-nav-bar class="bar-royal nav-title-slide-ios7">
