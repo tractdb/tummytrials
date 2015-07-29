@@ -20,10 +20,11 @@
 		"button1": "Yes",
 		"button2": "No"
 	},
-	"past": {
+	"post": {
 		"title": "No ongoing study",
-		"subtitle": "Would you like to setup your study?",
-		"button": "Setup A New Study"
+		"subtitle": "Did you eat at least 8 grams of lactose during your breakfast?",
+		"button1": "Yes",
+		"button2": "No"
 	},
 	"mytrials": {
 		"title": "List of my trials",
