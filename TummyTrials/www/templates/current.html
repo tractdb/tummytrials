@@ -1,0 +1,64 @@
+<ion-view title="Current Trial">
+  <ion-pane>
+    <ion-content>
+    <div class="calendar">
+      
+
+      <br/><h5 class="padding">Day 9 of 14</h5>
+      <div class="button-bar">
+        <a class="button button-balanced">27</a>
+        <a class="button button-balanced">28</a>
+        <a class="button button-balanced">29</a>
+        <a class="button button-balanced">30</a>
+        <a class="button button-balanced">31</a>
+        <a class="button button-balanced">1</a>
+        <a class="button button-balanced">2</a>        
+      </div>
+
+      <div class="button-bar">
+        <a class="button button-balanced">3</a>
+        <a class="button button-royal">4</a>
+        <a class="button">5</a>
+        <a class="button">6</a>
+        <a class="button">7</a>
+        <a class="button">8</a>
+        <a class="button">9</a>        
+      </div>
+      <br/><br/>
+
+    </div>
+        <br/>
+
+    <div class="padding">    
+    <h4 class="title">{{text.current.title}}</h4>
+    <p>{{text.current.subtitle}}</p>
+    <p><a ui-sref="setup_3_2">{{text.current.para1}}</a></p>
+    <br/>    
+
+    <!-- <ul>
+      <li ng-repeat="rem in text.current.reminders"><p><i class="ion-ios-circle-outline"></i> {{rem.rem}}</p></li>
+    </ul> -->
+    <h4>Your reminders for today:</h4>
+      <p><i class="ion-ios-checkmark"></i> {{text.current.rem1}}</p>
+      <p>
+        <i class="ion-ios-circle-outline"></i><b> {{text.current.rem2}}</b>
+        <div class="divcenter">
+          <a class="button button-royal" ui-sref="during">
+            {{text.current.button1}}
+          </a>
+        </div>
+      </p>
+      <p>
+        <i class="ion-ios-circle-outline"></i> {{text.current.rem3}}
+        <div class="divcenter">
+          <a class="button button-royal" ui-sref="post">
+            {{text.current.button2}}
+          </a>
+        </div>
+      </p>
+
+
+    </div>
+    </ion-content>  
+  </ion-pane>
+</ion-view>
