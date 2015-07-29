@@ -3,6 +3,11 @@
 		"title": "No ongoing study",
 		"subtitle": "Would you like to setup your study?",
 		"button": "Setup A New Study"
+	},	
+	"no_study": {
+		"title": "No ongoing study",
+		"subtitle": "Would you like to setup your study?",
+		"button": "Setup A New Study"
 	},
 	"mytrials": {
 		"title": "List of my trials",
