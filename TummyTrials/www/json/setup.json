@@ -1,8 +1,36 @@
 {
 	"current": {
+		"title": "Today, August 2nd - Eat Lactose",
+		"subtitle": "You are supposed to eat at least 8 grams of lactose during your breakfast.",
+		"para1" : "Need help deciding what to eat?",
+		"rem1" : "Your first reminder is set for 7 am.",
+		"rem2" : "Your breakfast reminder is set for 9 am.",
+		"rem3" : "Your symptom entry reminder is set for 12 pm.",
+		"note" : "Would you like to add an optional note?",
+		"button1": "Log Breakfast Compliance",
+		"button2": "Log Symptom Level",
+		"button3": "Add Notes"
+	},	
+	"no_study": {
 		"title": "No ongoing study",
 		"subtitle": "Would you like to setup your study?",
 		"button": "Setup A New Study"
+	},
+	"during": {
+		"title": "No ongoing study",
+		"subtitle": "Did you eat at least 8 grams of lactose during your breakfast?",
+		"button1": "Yes",
+		"button2": "No"
+	},
+	"post": {
+		"title": "No ongoing study",
+		"subtitle": "Did you eat at least 8 grams of lactose during your breakfast?",
+		"button1": "Yes",
+		"button2": "No"
+	},
+	"notes": {
+		"title": "Add a note:",
+		"button": "Submit"
 	},
 	"mytrials": {
 		"title": "List of my trials",

@@ -1,8 +1,4 @@
 /* Empty. Add your own CSS if you like */
-.ten-padding {
-    padding: 10px !important;
-}
-
 .zero-padding {
 	padding: 0px !important;
 }
@@ -16,4 +12,16 @@
 .item-divider{
 	background-color: #4b2e83;
 	color: #fff;
+}
+
+.calendar{
+	background-color: #999999;
+}
+
+.calfont{
+	font-size: 10px;
+}
+
+.divcenter{
+	text-align:center;
 }

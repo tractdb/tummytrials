@@ -24,7 +24,7 @@ angular.module('starter', ['ionic'])
 'use strict';
 
 var app = angular.module('tummytrials',
-            ['ionic', 'ngSanitize', 'tummytrials.login','tummytrials.studysetup', 'tummytrials.faqcontroller']);
+            ['ionic','ngSanitize','tummytrials.login','tummytrials.currentstudy','tummytrials.studysetup','tummytrials.faqcontroller','ngCordova','tummytrials.ngcordovacontrollers']);
 
 //Ionic device ready check
 app.run(function($ionicPlatform, $rootScope, Login) {
