@@ -27,6 +27,6 @@ Project file location: TummyTrails > platforms > ios > TummyTrials.xcodeproj
 
 Try using Ionic components for all UI elements: http://ionicframework.com/docs/
 
-Would be nice to follow the recommended style guide here: https://github.com/mgechev/angularjs-style-guide
-
 For making changes to the Ionic theme use SASS: http://learn.ionicframework.com/formulas/working-with-sass/
+
+Would be nice to follow the recommended style guide here: https://github.com/mgechev/angularjs-style-guide
