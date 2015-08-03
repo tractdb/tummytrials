@@ -1,24 +1,28 @@
 <ion-modal-view class="modal">
     <ion-header-bar class="bar-stable">
-        <h1 class="title">{{loginfo_header_text}}</h1>
+        <h1 class="title">{{loginfo_text.header}}</h1>
     </ion-header-bar>
     <ion-content class="has-header" style="background-color: #ffffff;">
+        <h4 ng-show="loginfo_prevct>0" style="color: orangered; text-align: center;">{{loginfo_text.badinfo}}</h4>
         <div class="row"><div class="col">
         <label class="item item-input">
-            <input type="text" placeholder="Username" ng-model="loginfo_info.username" autocapitalize="none">
+            <input type="text" placeholder="{{loginfo_text.usertag}}" ng-model="loginfo_info.username" autocapitalize="none">
         </label>
         </div></div>
         <div class="row"><div class="col">
         <label class="item item-input">
-            <input type="text" placeholder="Password" ng-model="loginfo_info.password" autocapitalize="none">
+            <input type="text" placeholder="{{loginfo_text.passtag}}" ng-model="loginfo_info.password" autocapitalize="none">
         </label>
         </div></div>
         <div class="row">
-        <div class="col col-50">
-        <button class="button button-block button-positive" ng-click="loginfo_login()">Login</button>
+        <div ng-hide="loginfo_prevct>0" class="col">
+        <button class="button button-block button-positive" ng-click="loginfo_login()">{{loginfo_text.loginb}}</button>
         </div>
-        <div class="col col-50">
-        <button class="button button-block button-assertive" ng-click="loginfo_cancel()">Cancel</button>
+        <div ng-show="loginfo_prevct>0" class="col col-50">
+        <button class="button button-block button-positive" ng-click="loginfo_login()">{{loginfo_text.loginb}}</button>
+        </div>
+        <div ng-show="loginfo_prevct>0" class="col col-50">
+        <button class="button button-block button-assertive" ng-click="loginfo_cancel()">{{loginfo_text.cancelb}}</button>
         </div>
         </div>
     </ion-content>

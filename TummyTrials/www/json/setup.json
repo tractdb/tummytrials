@@ -217,5 +217,13 @@
 		"symptom_reminder_title": "Symptom Entry Reminder Time",
 		"symptom_reminder": "1:00 pm",
 		"button": "Begin Study!"
-	}
+	},
+        "loginfo": {
+                "header": "Tummy Trials Login",
+                "badinfo": "The username or password was invalid.",
+                "usertag": "Username",
+                "passtag": "Password",
+                "loginb": "Login",
+                "cancelb": "Cancel"
+        }
 }
