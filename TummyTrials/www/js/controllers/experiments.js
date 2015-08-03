@@ -18,12 +18,20 @@
  * Any other fields supplied by caller are preserved.
  */
 .factory('Experiments', function($q, $http) {
-    var LDBNAME = 'experiments';
-    var RDBNAME = 'http://{USER}:{PASS}@tractdb.org/couch/{USER}_tractdb';
+    var LDB_NAME = 'experiments';
+    var RDB_BASE = 'tractdb.org/couch/{USER}_tractdb';
+    var RDB_URL = 'https://' + RDB_BASE;
+    var RDB_UNPW_URL = 'https://{USER}:{PASS}@' + RDB_BASE;
+    // var RDBNAME = 'http://{USER}:{PASS}@tractdb.org/couch/{USER}_tractdb';
     var cblurl = null;
     var db_is_initialized = false;
     var ddocs_are_initialized = false;
     var replication_prom = null;   // promise for replication
+
+    function auth_hdr(unpw)
+    {
+        return 'Basic ' + btoa(unpw.username + ':' + unpw.password);
+    }
 
     function cblurl_p()
     {
@@ -56,7 +64,7 @@
         // Return a promise to initialize the experiments DB. The
         // promise resolves to the URL of the DB.
         // 
-        var dburl = cblurl + LDBNAME;
+        var dburl = cblurl + LDB_NAME;
 
         if (db_is_initialized) {
             var def = $q.defer();
@@ -247,7 +255,31 @@
             );
         },
 
-        replicate: function(loginfo) {
+        valid_p: function(unpw) {
+            // Return a promise to validate the given username and
+            // password against the remote (central) DB. The promise
+            // resolves to true if the credentials are valid, false if
+            // not. The promise fails if validation can't be completed,
+            // which is reasonably likely for a mobile app.
+            //
+            var req = { method: 'GET' };
+            req.url = RDB_URL.replace(/{USER}/g, unpw.username);
+            req.headers = { Authorization: auth_hdr(unpw) };
+            return $http(req)
+            .then(
+                function good(resp) {
+                    return true;
+                },
+                function bad(resp) {
+                    if (resp.status == 0)
+                        throw new Error('valid_p: no network');
+                    else
+                        return false;
+                }
+            );
+        },
+
+        replicate: function(unpw) {
             // Return a promise to start a bidirectional replication
             // process. If replication is already in progress, just
             // return the existing promise. The promise resolves to
@@ -259,19 +291,20 @@
             //
             if (replication_prom)
                 return replication_prom;
-            if (!loginfo) {
+            if (!unpw) {
                 var def = $q.defer();
                 def.resolve(null);
                 return def.promise;
             }
-            var rdbname = RDBNAME.replace(/{USER}/g, loginfo.username);
-            rdbname = rdbname.replace(/{PASS}/g, loginfo.password);
+            var rdbname = RDB_UNPW_URL.replace(/{USER}/g, unpw.username);
+            rdbname = rdbname.replace(/{PASS}/g, unpw.password);
 
-            // Note: the push filter is just illustrative.
+            // XXX This push filter is just illustrative. Remove before
+            // production.
             //
-            var pushspec = { source: LDBNAME, target: rdbname,
+            var pushspec = { source: LDB_NAME, target: rdbname,
                              filter: 'ddocs/keepsecrets' };
-            var pullspec = { source: rdbname, target: LDBNAME };
+            var pullspec = { source: rdbname, target: LDB_NAME };
             replication_prom =
                 init_p()
                 .then(function(dburl) {

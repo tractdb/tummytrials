@@ -24,10 +24,10 @@ angular.module('starter', ['ionic'])
 'use strict';
 
 var app = angular.module('tummytrials',
-            ['ionic','ngSanitize','tummytrials.login','tummytrials.currentstudy','tummytrials.studysetup','tummytrials.faqcontroller','ngCordova','tummytrials.ngcordovacontrollers']);
+            ['ionic','ngSanitize','tummytrials.login','tummytrials.currentstudy','tummytrials.studysetup','tummytrials.faqcontroller','ngCordova','tummytrials.ngcordovacontrollers', 'tummytrials.text', 'tummytrials.experiments']);
 
 //Ionic device ready check
-app.run(function($ionicPlatform, $rootScope, Login) {
+app.run(function($ionicPlatform, $rootScope, $q, Text, Experiments, Login) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -38,24 +38,14 @@ app.run(function($ionicPlatform, $rootScope, Login) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+
     // Ask for username/password at startup.
     //
-    // XXX It would probably be better to eliminate the ability to
-    // cancel the login. For now, just keep asking until they give a
-    // password (promise resolves to non-null).
-    //
-    (function getuserpass() {
-        Login.loginfo_p('couchuser', $rootScope, 'Tummy Trials Login')
-        .then(
-            function good(up) {
-                if (!up) getuserpass();
-                // Not using the username/password here
-            },
-            function bad() {
-                console.log('error in login');
-            }
-        );
-    })();
+    Text.all_p()
+    .then(function(text) {
+        return Login.loginfo_p('couchuser', $rootScope, text.loginfo,
+                                Experiments.valid_p);
+    });
   });
 })
 
