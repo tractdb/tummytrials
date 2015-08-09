@@ -1,28 +1,33 @@
 // experiments.js     Experiments as Couchbase Lite documents
 //
-// Note: this is just an initial sketch
-//
 (angular.module('tummytrials.experiments', [])
 
 /* The following fields have a known meaning right now:
  *
- *   title:        Name of experiment (string)
+ *   name:         Name of experiment (string)
+ *   start_time:   Start time (sec since 1970)
+ *   end_time:     Scheduled end time (sec since 1970)
+ *   status:       'active', 'ended', 'abandoned'
  *   comment:      Free form comment (string)
  *   symptoms:     Symptoms (array of string)
- *   reminders:    Reiminder times (array of number, epoch-relative sec)
+ *   reminders:    Reiminder times (array of number, sec since 1970)
  *   id:           Unique identifier of the experiment
+ *   type:         'tummytrials_experiment' (DBDOC_TYPE)
  *
  * The id is created by this service, not supplied by callers. In fact
  * it's the CouchDB id of the document.
  *
+ * The type is also created by this service; caller need not supply it.
+ * (In fact any type field supplied by caller is overwritten.)
+ *
  * Any other fields supplied by caller are preserved.
  */
 .factory('Experiments', function($q, $http) {
+    var DBDOC_TYPE = 'tummytrials_experiment';
     var LDB_NAME = 'experiments';
     var RDB_BASE = 'tractdb.org/couch/{USER}_tractdb';
     var RDB_URL = 'https://' + RDB_BASE;
     var RDB_UNPW_URL = 'https://{USER}:{PASS}@' + RDB_BASE;
-    // var RDBNAME = 'http://{USER}:{PASS}@tractdb.org/couch/{USER}_tractdb';
     var cblurl = null;
     var db_is_initialized = false;
     var ddocs_are_initialized = false;
@@ -91,11 +96,8 @@
 
     function initddocs_p(dburl)
     {
-        // Return a promise to create some design documents in the DB. The
-        // promise resolves to the URL of the DB.
-        //
-        // Note: these design docs are just for illustration, especially
-        // the 'keepsecrets' filter.
+        // Return a promise to create some design documents in the DB.
+        // The promise resolves to the URL of the DB.
         // 
         if (ddocs_are_initialized) {
             var def = $q.defer();
@@ -105,24 +107,14 @@
 
         var ddocs = {
             language: 'javascript',
-            views: {
-                experiments: {
-                    map:
-                        "function(doc) { " +
-                            "if (doc.type == 'experiment') " +
-                                "emit(doc.title, doc); " +
-                        "}"
-                }
-            },
-            filters: {
-                keepsecrets:
-                    "function(doc) { " +
-                        "if (doc._id.search(/^_design\\//) >= 0) " +
-                            "return false; " +
-                        "return !doc.comment || " +
-                                "doc.comment.search(/secret/i) < 0; " +
-                    "}"
-            }
+            views: { }
+        };
+        ddocs.views[DBDOC_TYPE] = {
+            map:
+                "function(doc) { " +
+                    "if (doc.type == '" + DBDOC_TYPE + "') " +
+                        "emit(doc.start_time, doc); " +
+                "}"
         };
 
         // Delete any existing design documents and create new ones.
@@ -166,7 +158,7 @@
         //
         var experiment = {};
         for (var p in resp)
-            if (p != '_id' && p != '_attachments')
+            if (p.slice(0, 1) != '_')
                 experiment[p] = resp[p];
         experiment.id = resp._id; // Expose internal _id as id
         return experiment;
@@ -194,9 +186,10 @@
             return init_p()
             .then(function(d) {
                 dburl = d;
-                var enturl = dburl + '/_design/ddocs/_view/experiments';
-                // For now, ordered by title
-                // enturl += '?descending=true';
+                var enturl = dburl + '/_design/ddocs/_view/' + DBDOC_TYPE;
+                // Reverse chronological by start time.
+                //
+                enturl += '?descending=true';
                 return $http.get(enturl);
             })
             .then(
@@ -227,15 +220,48 @@
             });
         },
 
+        getCurrent: function() {
+            // Return a promise for the current experiment, the active
+            // experiment with the most recent start time. If there is
+            // no active experiment, resolve to null.
+            //
+            var dburl;
+
+            return init_p()
+            .then(function(d) {
+                dburl = d;
+                var enturl = dburl + '/_design/ddocs/_view/' + DBDOC_TYPE;
+                // Reverse chronological by start time
+                //
+                enturl += '?descending=true';
+                return $http.get(enturl);
+            })
+            .then(
+                function good(response) {
+                    var exps = experiments_of_responserows(dburl,
+                                    response.data.rows);
+                    for (var i = 0; i < exps.length; i++)
+                        if (exps[i].status == 'active')
+                            return exps[i];
+                    return null;
+                },
+                function bad(response) {
+                    var msg = 'Error retrieving experiments: ' +
+                                response.statusText;
+                    throw new Error(msg);
+                }
+            );
+        },
+
         add: function(experiment) {
             // Return a promise to add the specified experiment. The
-            // promise resolves to null.
+            // promise resolves to the id of the experiment.
             //
             var myexperiment = {};
             Object.getOwnPropertyNames(experiment).forEach(function(p) {
                 myexperiment[p] = experiment[p];
             });
-            myexperiment.type = 'experiment';
+            myexperiment.type = DBDOC_TYPE;
 
             var dburl;
 
@@ -245,14 +271,60 @@
                 return $http.post(dburl, myexperiment);
             })
             .then(
-                function good(resp) {
-                    return null;
+                function good(response) {
+                    return response.data.id;
                 },
-                function bad(resp) {
+                function bad(response) {
                   throw new Error('Experiment add failure: status ' +
-                                      resp.status);
+                                      response.status);
                 }
             );
+        },
+
+        setStatus: function(experimentId, newStatus) {
+            // Return a promise to set the status of the experiment with
+            // the given id. newStatus should be 'active', 'ended', or
+            // 'abandoned'.
+            //
+            // The promise resolves to the new status.
+            //
+            var dburl;
+
+            return init_p()
+            .then(function(d) {
+                dburl = d;
+                return $http.get(dburl + '/' + experimentId);
+            })
+            .then(function(response) {
+                response.data.status = newStatus;
+                // (This works because response.data has _rev property.)
+                //
+                return $http.put(dburl + '/' + experimentId, response.data);
+            })
+            .then(function(response) {
+                return newStatus;
+            });
+        },
+
+        delete: function(experimentId) {
+            // Return a promise to delete the experiment with the given
+            // id. The promise resolves to null.
+            //
+            var dburl;
+
+            return init_p()
+            .then(function(d) {
+                dburl = d;
+                return $http.get(dburl + '/' + experimentId);
+            })
+            .then(function(response) {
+                var url = dburl + '/' + experimentId +
+                            '?rev=' + response.data._rev;
+                return $http.delete(url);
+            })
+            .then(function(response) {
+                return null;
+            });
         },
 
         valid_p: function(unpw) {
@@ -299,11 +371,7 @@
             var rdbname = RDB_UNPW_URL.replace(/{USER}/g, unpw.username);
             rdbname = rdbname.replace(/{PASS}/g, unpw.password);
 
-            // XXX This push filter is just illustrative. Remove before
-            // production.
-            //
-            var pushspec = { source: LDB_NAME, target: rdbname,
-                             filter: 'ddocs/keepsecrets' };
+            var pushspec = { source: LDB_NAME, target: rdbname };
             var pullspec = { source: rdbname, target: LDB_NAME };
             replication_prom =
                 init_p()
