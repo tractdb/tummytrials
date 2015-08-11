@@ -6,7 +6,7 @@
               <p>{{text.setup4.subtitle}}</p>
             </div>
 
-            <div class="list">
+            <div class="list" ng-controller = "setupcontroller as setup">
               <div class="item">
                 Morning Reminder
                 <p>You will be sent a reminder to follow the study<br/>schedule for each day.</p>
@@ -29,13 +29,30 @@
                 Start date:
                 <label class="item item-input">
                   <span class="input-label">Date</span>
-                  <input type="date">
+                  <input type="date" ng-model = "date">
                 </label>
               </div>  
 
               <div class="item">
-                Calendar
-                INSERT CALENDAR THING HERE!
+                Calendar</br>
+                <div class = "button button-positive"></div>
+                No Trigger
+                </br>
+                <div class = "button button-stable"></div>
+                Trigger
+                <div class="row">
+                  <div class="col">Mon</div>
+                  <div class="col">Tue</div>
+                  <div class="col">Wed</div>
+                  <div class="col">Thur</div>
+                  <div class="col">Fri</div>
+                  <div class="col">Sat</div>
+                  <div class="col">Sun</div>        
+                </div>
+                <div class="button button-bar">
+                  {{showDate()}}
+                </div>
+
               </div> 
 
             <div class="ten-padding">
