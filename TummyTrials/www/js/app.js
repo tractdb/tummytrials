@@ -130,5 +130,15 @@ app.controller( "setupcontroller", function( $scope, $http, $sce) {
         $scope.text = response;
     }).error(function(error){
         $scope.text = 'error';
-    });        
+    });
+ 
+
+    $scope.showDate = function(){
+      if ($scope.date){
+        return $scope.date.getUTCDay();
+      } else {
+        return "Pick a Start Date!";
+      }
+      
+    };    
 })
