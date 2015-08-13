@@ -22,7 +22,10 @@
               <div class="item">
                 Study Length
                 <p>A longer study will produce results that are<br/>more likely to be accurate (8-30 days).</p>
-                8 days <i class="ion-chevron-right"></i>
+                <label class="item item-input">
+                  <span class="input-label">Days</span>
+                  <input type="number" ng-model = "duration">
+                </label>
               </div>  
               
               <div class="item">
@@ -31,7 +34,13 @@
                   <span class="input-label">Date</span>
                   <input type="date" ng-model = "date">
                 </label>
-              </div>  
+              </div> 
+
+              <div class="item">
+                <div class="button button-bar button-balanced" ng-click="setup.getDates()">
+                  {{setup.getExerciseMessage()}}
+                </div>
+              </div> 
 
               <div class="item">
                 Calendar</br>
@@ -49,11 +58,11 @@
                   <div class="col">Sat</div>
                   <div class="col">Sun</div>        
                 </div>
-                <div class="button button-bar">
-                  {{showDate()}}
+                <div class="button button-bar" ng-show = "setup.paramsSet" ng-repeat="week in setup.calander">
+                  <a class="button button-stable" ng-repeat= "day in week">{{day}}</a>
                 </div>
-
-              </div> 
+              </div>
+            </div> 
 
             <div class="ten-padding">
               <a class="button button-block button-royal" ui-sref="setup_5">
