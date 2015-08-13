@@ -45,10 +45,10 @@
               <div class="item">
                 Calendar</br>
                 <div class = "button button-positive"></div>
-                No Trigger
+                Trigger
                 </br>
                 <div class = "button button-stable"></div>
-                Trigger
+                No Trigger
                 <div class="row">
                   <div class="col">Mon</div>
                   <div class="col">Tue</div>
@@ -58,8 +58,12 @@
                   <div class="col">Sat</div>
                   <div class="col">Sun</div>        
                 </div>
-                <div class="button button-bar" ng-show = "setup.paramsSet" ng-repeat="week in setup.calander">
-                  <a class="button button-stable" ng-repeat= "day in week">{{day}}</a>
+                <div class="row" ng-show = "setup.paramsSet" ng-repeat="week in setup.calander">
+                  <div class="col" ng-repeat= "day in week">
+                    <a class = "button button-positive" ng-show = "day.dayType === 'trigger'"> {{day.date}}</a>
+                    <a class = "button button-stable" ng-show = "day.dayType === 'nonTrigger'"> {{day.date}}</a>
+                    <a class = "button button-light" ng-show = "day.dayType === 'none'"> {{day.date}}</a>
+                  </div>
                 </div>
               </div>
             </div> 
