@@ -147,21 +147,22 @@ app.controller( "setupcontroller", function( $scope, $http, $sce) {
         var currentDate = new Date();
         currentDate.setTime($scope.date.getTime());
         for (var count = 0; count < $scope.duration; count++){
-          week.push(currentDate.getDate());
+          var experimentDate = {"date" : currentDate.getDate(), "dayType" : "nonTrigger"}
+          week.push(experimentDate);
 
           if (currentDate.getDay() == 6 || count == $scope.duration - 1){
             if(week.length < 7){
               if (count == $scope.duration - 1) {
                 while (week.length < 7){
                   currentDate.setDate(currentDate.getDate() + 1);
-                  week.push(currentDate.getDate());
+                  week.push({"date" : currentDate.getDate(), "dayType" : "none"});
                 }
               } else {
                 var previous = new Date();
                 previous.setTime($scope.date.getTime());
                 while (week.length < 7){
                   previous.setDate(previous.getDate() - 1);
-                  week.unshift(previous.getDate());
+                  week.unshift({"date" : previous.getDate(), "dayType" : "none"});
                 }
               }
             }
@@ -172,14 +173,31 @@ app.controller( "setupcontroller", function( $scope, $http, $sce) {
 
           currentDate.setDate(currentDate.getDate() + 1);
         }
+
+        var numAssigned = 0;
+        while (numAssigned < Math.ceil($scope.duration / 2)){
+          var randomIndex = Math.floor($scope.duration * Math.random());
+          var frontPaddingDays = $scope.date.getDate() - this.calander[0][0].date;
+          var changingIndex = frontPaddingDays + randomIndex;
+          var row = Math.floor(changingIndex / 7);
+          var col = changingIndex % 7;
+
+          if (this.calander[row][col].dayType == "nonTrigger"){
+            this.calander[row][col].dayType = "trigger";
+            numAssigned ++;
+          }
+        }
+
         this.paramsSet = true;
         this.timesPressed++;
+        console.log(this.calander);
       }
     };
 
+
     this.getExerciseMessage = function(){
       if (this.timesPressed == 0) {
-        return "Get Your Experiment Schedule! (select  your start time and study length first)";
+        return "Get Your Experiment Schedule!";
       } else {
         return "Get a Different Schedule!"
       }
