@@ -24,10 +24,11 @@ angular.module('starter', ['ionic'])
 'use strict';
 
 var app = angular.module('tummytrials',
-            ['ionic','ngSanitize','tummytrials.login','tummytrials.currentstudy','tummytrials.studysetup','tummytrials.faqcontroller','ngCordova','tummytrials.ngcordovacontrollers', 'tummytrials.text', 'tummytrials.experiments']);
+            ['ionic','ngSanitize','tummytrials.login','tummytrials.currentstudy','tummytrials.studysetup','tummytrials.faqcontroller','ngCordova','tummytrials.ngcordovacontrollers', 'tummytrials.text', 'tummytrials.experiments', 'tummytrials.exper-test']);
 
 //Ionic device ready check
-app.run(function($ionicPlatform, $rootScope, $q, Text, Experiments, Login) {
+app.run(function($ionicPlatform, $rootScope, $q, Text, Experiments, Login,
+                    ExperTest) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -46,6 +47,20 @@ app.run(function($ionicPlatform, $rootScope, $q, Text, Experiments, Login) {
         return Login.loginfo_p('couchuser', $rootScope, text.loginfo,
                                 Experiments.valid_p);
     });
+
+    // Try some tests. Move these into some kind of framework later on,
+    // probably.
+    //
+    //ExperTest.testAll()
+    //.then(ExperTest.testGet)
+    //.then(ExperTest.testGetCurrent)
+    //.then(ExperTest.testAdd)
+    //.then(ExperTest.testSetStatus)
+    //.then(ExperTest.testDelete)
+    //.then(
+    //    function good() {},
+    //    function bad(err) { console.log('error ' + err.message); }
+    //);
   });
 })
 
