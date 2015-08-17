@@ -192,10 +192,9 @@ app.controller( "setupcontroller", function( $scope, $http, $sce) {
             numAssigned ++;
           }
         }
-        
+
         this.paramsSet = true;
         this.timesPressed++;
-        console.log(this.calander);
       }
     };
 
