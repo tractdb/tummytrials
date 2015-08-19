@@ -107,9 +107,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
 })
 
-app.controller( "setupcontroller", function( $scope, $http, $sce) {
-    this.calander = [];
-    this.timesPressed = 0;
+app.controller( "setupcontroller", function(Calander, $scope, $http, $sce) {
     $http({
         url: 'json/setup.json',
         dataType: 'json',
@@ -125,41 +123,59 @@ app.controller( "setupcontroller", function( $scope, $http, $sce) {
         $scope.text = 'error';
     });
 
+    this.calander = [];
+    this.timesPressed = 0;
     this.parametersSet = function(){
-      if ($scope.date && $scope.duration){
+      return Calander.parametersSet($scope.date, $scope.duration);
+    };   
+
+    this.getDates = function(){
+      this.paramsSet = true;
+      this.timesPressed ++;
+      this.calander = Calander.getDates($scope.date, $scope.duration);
+    };
+
+    this.getExerciseMessage = function(){
+      return Calander.getExerciseMessage(this.timesPressed);
+    };
+})
+
+app.factory('Calander', function () {
+    var parametersSet = function(date, duration){
+      if (date && duration){
         return true;
       }
       return false;
     };   
 
-    this.showDate = function(){
-      if ($scope.date){
-        return $scope.date.getUTCDay();
+    var getExerciseMessage = function(timesPressed){
+      if (timesPressed == 0) {
+        return "Get Your Experiment Schedule!";
       } else {
-        return "Pick a Start Date!";
+        return "Get a Different Schedule!"
       }
-    };
+    }
 
-    this.getDates = function(){
-      this.calander = [];
-      if ($scope.date && $scope.duration){
+    var getDates = function(date, duration){
+      var calander = [];
+      if (date && duration){
         var week = [];
         var currentDate = new Date();
-        currentDate.setTime($scope.date.getTime());
-        for (var count = 0; count < $scope.duration; count++){
+        currentDate.setTime(date.getTime());
+        for (var count = 0; count < duration; count++){
           var experimentDate = {"date" : currentDate.getDate(), "dayType" : "nonTrigger"}
           week.push(experimentDate);
 
-          if (currentDate.getDay() == 6 || count == $scope.duration - 1){
+          if (currentDate.getDay() == 6 || count == duration - 1){
             if(week.length < 7){
-              if (count == $scope.duration - 1) {
+              if (count == duration - 1) {
                 while (week.length < 7){
                   currentDate.setDate(currentDate.getDate() + 1);
                   week.push({"date" : currentDate.getDate(), "dayType" : "none"});
                 }
               } else {
                 var previous = new Date();
-                previous.setTime($scope.date.getTime());
+                previous.setTime(date.getTime());
                 while (week.length < 7){
                   previous.setDate(previous.getDate() - 1);
                   week.unshift({"date" : previous.getDate(), "dayType" : "none"});
@@ -167,7 +183,7 @@ app.controller( "setupcontroller", function( $scope, $http, $sce) {
               }
             }
 
-            this.calander.push(week);
+            calander.push(week);
             week = [];
           }
 
@@ -175,38 +191,26 @@ app.controller( "setupcontroller", function( $scope, $http, $sce) {
         }
 
         var numAssigned = 0;
-        while (numAssigned < Math.ceil($scope.duration / 2)){
-          var randomIndex = Math.floor($scope.duration * Math.random());
-          var frontPaddingDays = $scope.date.getDate() - this.calander[0][0].date;
+        while (numAssigned < Math.ceil(duration / 2)){
+          var randomIndex = Math.floor(duration * Math.random());
+          var frontPaddingDays = date.getDate() - calander[0][0].date;
           var changingIndex = frontPaddingDays + randomIndex;
           var row = Math.floor(changingIndex / 7);
           var col = changingIndex % 7;
 
-          if (this.calander[row][col].dayType == "nonTrigger"){
-            this.calander[row][col].dayType = "trigger";
+          if (calander[row][col].dayType == "nonTrigger"){
+            calander[row][col].dayType = "trigger";
             numAssigned ++;
           }
         }
-
-        this.paramsSet = true;
-        this.timesPressed++;
       }
+      return calander;
     };
 
+    return {
+      parametersSet: parametersSet,
+      getExerciseMessage: getExerciseMessage,
+      getDates: getDates
+    };
 
-    this.getExerciseMessage = function(){
-      if (this.timesPressed == 0) {
-        return "Get Your Experiment Schedule!";
-      } else {
-        return "Get a Different Schedule!"
-      }
-    }
-
-    this.showDuration = function(){
-      if ($scope.duration){
-        return $scope.duration;
-      } else {
-        return 0;
-      }
-    }; 
 })
