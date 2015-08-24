@@ -51,16 +51,20 @@ app.run(function($ionicPlatform, $rootScope, $q, Text, Experiments, Login,
     // Try some tests. Move these into some kind of framework later on,
     // probably.
     //
-    //ExperTest.testAll()
-    //.then(ExperTest.testGet)
-    //.then(ExperTest.testGetCurrent)
-    //.then(ExperTest.testAdd)
-    //.then(ExperTest.testSetStatus)
-    //.then(ExperTest.testDelete)
-    //.then(
-    //    function good() {},
-    //    function bad(err) { console.log('error ' + err.message); }
-    //);
+    var want_to_run_these_tests = false;
+    if (want_to_run_these_tests) {
+        ExperTest.testAll()
+        .then(ExperTest.testGet)
+        .then(ExperTest.testGetCurrent)
+        .then(ExperTest.testAdd)
+        .then(ExperTest.testSetStatus)
+        .then(ExperTest.testAddReport)
+        .then(ExperTest.testDelete)
+        .then(
+            function good() {},
+            function bad(err) { console.log('error ' + err.message); }
+        );
+    }
   });
 })
 

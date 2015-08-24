@@ -1,29 +1,73 @@
 // experiments.js     Experiments as Couchbase Lite documents
 //
+
+'use strict';
+
+var DB_DOCVERSION = 1;
+var DB_DOCTYPE = { name: 'activity', version: 1};
+var DB_DATATYPE = {name: 'tummytrials_experiment', version: 1};
+
 (angular.module('tummytrials.experiments', [])
+
+/* The current type and version markings look like this:
+ *
+ *   docversion:  DB_DOCVERSION (above)
+ *   doctype:     DB_DOCTYPE (above)
+ *   datatype:    DB_DATATYPE (above)
+ *
+ * For now, assume that we don't know what to do with later versions, so
+ * ignore such documents.
+ *
+ * These fields are managed by this service, not by callers.
+ */
 
 /* The following fields have a known meaning right now:
  *
- *   name:         Name of experiment (string)
+ *   Activity properties
+ *   name:         Name of activity (string)
  *   start_time:   Start time (sec since 1970)
  *   end_time:     Scheduled end time (sec since 1970)
- *   status:       'active', 'ended', 'abandoned'
+ *   status:       One of 'active', 'ended', 'abandoned'
+ *
+ *   Tummytrials experiment properties
  *   comment:      Free form comment (string)
  *   symptoms:     Symptoms (array of string)
- *   reminders:    Reiminder times (array of number, sec since 1970)
- *   id:           Unique identifier of the experiment
- *   type:         'tummytrials_experiment' (DBDOC_TYPE)
+ *   trigger:      Trigger (string)
+ *   reminders:    Reminder times (array of object, below)
+ *   reports:      User reports (array of object, below)
+ *   id:           Unique identifier 
  *
  * The id is created by this service, not supplied by callers. In fact
  * it's the CouchDB id of the document.
  *
- * The type is also created by this service; caller need not supply it.
- * (In fact any type field supplied by caller is overwritten.)
- *
  * Any other fields supplied by caller are preserved.
  */
+
+/* A reminder probably would look something like this:
+ * {
+ * time:           Time of reminder (sec since 1970)
+ * text:           Text of reminder
+ * }
+ * But for now any fields supplied by caller are preserved.
+ *
+
+/* A report might look something like this:
+ * {
+ * time:           Time of report (sec since 1970)
+ * adherence:      Adhered to the experiment today (bool)
+ * symptom_scores: (array of { name: string, score: number })
+ * notes:          string
+ * }
+ * But for now any fields supplied by caller are preserved.
+ */
+
+// TODO
+// X switch to new format
+// X update the tests
+// method to add report
+// update the tests
+
 .factory('Experiments', function($q, $http) {
-    var DBDOC_TYPE = 'tummytrials_experiment';
     var LDB_NAME = 'experiments';
     var RDB_BASE = 'tractdb.org/couch/{USER}_tractdb';
     var RDB_URL = 'https://' + RDB_BASE;
@@ -109,10 +153,14 @@
             language: 'javascript',
             views: { }
         };
-        ddocs.views[DBDOC_TYPE] = {
+        ddocs.views[DB_DATATYPE.name] = {
             map:
                 "function(doc) { " +
-                    "if (doc.type == '" + DBDOC_TYPE + "') " +
+                  "if (doc.docversion == " + DB_DOCVERSION + " && " +
+                      "doc.doctype.name == '" + DB_DOCTYPE.name + "' && " +
+                      "doc.doctype.version == " + DB_DOCTYPE.version + " && " +
+                      "doc.datatype.name == '" + DB_DATATYPE.name + "' && " +
+                      "doc.datatype.version == " + DB_DATATYPE.version + ")" +
                         "emit(doc.start_time, doc); " +
                 "}"
         };
@@ -186,7 +234,7 @@
             return init_p()
             .then(function(d) {
                 dburl = d;
-                var enturl = dburl + '/_design/ddocs/_view/' + DBDOC_TYPE;
+                var enturl = dburl + '/_design/ddocs/_view/' + DB_DATATYPE.name;
                 // Reverse chronological by start time.
                 //
                 enturl += '?descending=true';
@@ -230,7 +278,7 @@
             return init_p()
             .then(function(d) {
                 dburl = d;
-                var enturl = dburl + '/_design/ddocs/_view/' + DBDOC_TYPE;
+                var enturl = dburl + '/_design/ddocs/_view/' + DB_DATATYPE.name;
                 // Reverse chronological by start time
                 //
                 enturl += '?descending=true';
@@ -261,7 +309,9 @@
             Object.getOwnPropertyNames(experiment).forEach(function(p) {
                 myexperiment[p] = experiment[p];
             });
-            myexperiment.type = DBDOC_TYPE;
+            myexperiment.docversion = DB_DOCVERSION;
+            myexperiment.doctype = DB_DOCTYPE;
+            myexperiment.datatype = DB_DATATYPE;
 
             var dburl;
 
@@ -303,6 +353,34 @@
             })
             .then(function(response) {
                 return newStatus;
+            });
+        },
+
+        addReport: function(experimentId, report) {
+            // Return a promise to add a report to the experiment with
+            // the given id.
+            //
+            // The promise resolves to the updated number of reports.
+            //
+            var dburl;
+            var newct;
+
+            return init_p()
+            .then(function(d) {
+                dburl = d;
+                return $http.get(dburl + '/' + experimentId);
+            })
+            .then(function(response) {
+                if (!Array.isArray(response.data.reports))
+                    // Ill formed experiment, not completely impossible.
+                    response.data.reports = [];
+                newct = response.data.reports.push(report);
+                // (This works because response.data has _rev property.)
+                //
+                return $http.put(dburl + '/' + experimentId, response.data);
+            })
+            .then(function(response) {
+                return newct;;
             });
         },
 
@@ -401,7 +479,13 @@
             // otherwise.
             //
             return !!replication_prom;
-        }
+        },
+
+        // Secret values used in testing.
+        //
+        _test_docversion: DB_DOCVERSION,
+        _test_doctype: DB_DOCTYPE,
+        _test_datatype: DB_DATATYPE
     };
 })
 );
