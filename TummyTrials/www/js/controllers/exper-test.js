@@ -47,8 +47,14 @@
     {
         // Return an experiment object corresponding to the small
         // integer n. This is a pure function; the value depends only on
-        // n. Values are different for different ns. Values cannot be
-        // confused with genuine experiments.
+        // n. Values are different for different ns. In particular,
+        // higher values of n produce chronologically later experiments.
+        //
+        // The return value looks like what a user would supply for
+        // adding to the DB.
+        //
+        // Times are in the far future so values can't be confused with
+        // genuine experiments.
         //
         // Note: we depend on this mapping from n % 3 to status:
         // 0 => ended
@@ -64,17 +70,28 @@
         exper.comment = 'This is test experiment ' + n;
         exper.symptoms = ['nausea'];
         exper.reminders = [exper.start_time + 2 * 60 * 60];
+        exper.reports = [];
         return exper;
     }
 
-    function test_exper_it(n, id, type)
+    function test_exper_full(n, id)
     {
-        // Return a test experiment object with an id and type. This
-        // looks like a full experiment as returned by Experiments.
+        // Return a test experiment object with a docversion, doctype,
+        // datatype, and the given id.
+        //
+        // The return value looks like a full experiment as returned by
+        // Experiments.
         //
         var res = test_exper(n);
+
+        // (These values exported from Experiments are secret, just for
+        // testing.)
+        //
+        res.docversion = Experiments._test_docversion;
+        res.doctype = Experiments._test_doctype;
+        res.datatype = Experiments._test_datatype;
+
         res.id = id;
-        res.type = type;
         return res;
     }
 
@@ -118,7 +135,7 @@
                 console.log('validate_expers_order<' + tag + '>: failure');
                 throw new Error('validate_expers_order<' + tag + '>');
             }
-        console.log('validate_expers_order(' + tag + '): success');
+        console.log('validate_expers_order<' + tag + '>: success');
     }
 
     function validate_exper_equal(a, b, tag)
@@ -158,7 +175,7 @@
             .then(function(expers) {
                 xafter = expers;
                 for (var i = 0; i < ns.length; i++) {
-                    var nx = test_exper_it(ns[i], xids[i], xafter[0].type);
+                    var nx = test_exper_full(ns[i], xids[i]);
                     xbefore.push(nx);
                 }
                 xbefore.sort(by_revchrono);
@@ -186,7 +203,7 @@
                     return null;
                 return Experiments.get(xids[i])
                 .then(function(exper) {
-                    var a = test_exper_it(ns[i], xids[i], exper.type);
+                    var a = test_exper_full(ns[i], xids[i]);
                     validate_exper_equal(a, exper, 'testGet ' + i);
                     return tg1_p(i + 1);
                 });
@@ -237,7 +254,7 @@
             })
             .then(function(exper) {
                 // Should have resolved to test exper 5
-                var a = test_exper_it(5, xids[3], exper.type);
+                var a = test_exper_full(5, xids[3]);
                 validate_exper_equal(a, exper, 'testGetCurrent 0');
                 return Experiments.setStatus(xids[3], 'ended');
             })
@@ -246,7 +263,7 @@
             })
             .then(function(exper) {
                 // Should have resolved to test exper 2
-                var a = test_exper_it(2, xids[1], exper.type);
+                var a = test_exper_full(2, xids[1]);
                 validate_exper_equal(a, exper, 'testGetCurrent 1');
                 return Experiments.setStatus(xids[1], 'abandoned');
             })
@@ -282,7 +299,7 @@
                 return Experiments.all();
             })
             .then(function(expers) {
-                xbefore.push(test_exper_it(17, xids[0], expers[0].type));
+                xbefore.push(test_exper_full(17, xids[0]));
                 xbefore.sort(by_revchrono);
                 validate_expers_equal(xbefore, expers, 'testAdd 0');
                 return add_test_expers_p([31]);
@@ -292,7 +309,7 @@
                 return Experiments.all();
             })
             .then(function(expers) {
-                xbefore.push(test_exper_it(31, xids[1], expers[0].type));
+                xbefore.push(test_exper_full(31, xids[1]));
                 xbefore.sort(by_revchrono);
                 validate_expers_equal(xbefore, expers, 'testAdd 1');
                 return null;
@@ -317,7 +334,7 @@
                 return Experiments.get(xids[0]);
             })
             .then(function(exper) {
-                var a = test_exper_it(2, xids[0], exper.type);
+                var a = test_exper_full(2, xids[0]);
                 a.status = 'active'; // Just to be sure
                 validate_exper_equal(a, exper, 'testSetStatus 0');
                 return Experiments.setStatus(xids[0], 'ended');
@@ -326,7 +343,7 @@
                 return Experiments.get(xids[0]);
             })
             .then(function(exper) {
-                var a = test_exper_it(2, xids[0], exper.type);
+                var a = test_exper_full(2, xids[0]);
                 a.status = 'ended'; // New status
                 validate_exper_equal(a, exper, 'testSetStatus 1');
                 return null;
@@ -342,12 +359,48 @@
             );
         },
 
+        testAddReport: function() {
+            var n = 182; // Any n should be OK
+            var report = { time: 0 };
+            var xids;
+
+            return add_test_expers_p([n])
+            .then(function(ids) {
+                xids = ids;
+                return Experiments.get(xids[0]);
+            })
+            .then(function(exper) {
+                var a = test_exper_full(n, xids[0]);
+                validate_exper_equal(a, exper, 'testAddReport 0');
+                report.time = a.start_time + 24 * 3600;
+                return Experiments.addReport(xids[0], report);
+            })
+            .then(function(ct) {
+                if (ct == 1) {
+                    console.log('testAddReport 1 (count) success');
+                } else {
+                    console.log('testAddReport 1 (count) failure');
+                }
+                return Experiments.get(xids[0]);
+            })
+            .then(function(exper) {
+                var a = test_exper_full(n, xids[0]);
+                a.reports.push(report);
+                validate_exper_equal(a, exper, 'testAddReport 2');
+                return null;
+            })
+            .then(
+                function good(_) {
+                    return cleanup_expers_p(xids, 0);
+                },
+                function bad(err) {
+                    return cleanup_expers_p(xids, 0)
+                    .then(function(_) { throw err; });
+               }
+            );
+        },
+
         testDelete: function() {
-            // add experiment => id
-            // get(id) => verify
-            // delete(id)
-            // get(id) => verify it's not there
-            // clean up
             var xids;
 
             return add_test_expers_p([2])
@@ -356,7 +409,7 @@
                 return Experiments.get(xids[0]);
             })
             .then(function(exper) {
-                var a = test_exper_it(2, xids[0], exper.type);
+                var a = test_exper_full(2, xids[0]);
                 validate_exper_equal(a, exper, 'testDelete 0');
                 return Experiments.delete(xids[0]);
             })
