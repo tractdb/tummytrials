@@ -172,7 +172,7 @@ app.factory('Calander', function () {
         var currentDate = new Date();
         currentDate.setTime(date.getTime());
         for (var count = 0; count < duration; count++){
-          var experimentDate = {"date" : currentDate.getDate(), "dayType" : "nonTrigger"}
+          var experimentDate = {"day_num" : count, "date" : currentDate.getDate(), "dayType" : "nonTrigger"}
           week.push(experimentDate);
 
           if (currentDate.getDay() == 6 || count == duration - 1){
