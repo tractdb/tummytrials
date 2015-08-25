@@ -22,11 +22,18 @@
               <div class="item">
                 Study Length
                 <p>A longer study will produce results that are<br/>more likely to be accurate (8-30 days).</p>
-                <label class="item item-input">
-                  <span class="input-label">Days</span>
-                  <input type="number" ng-model = "duration">
+                <label class="item item-input item-select">
+                  <div class="input-label">
+                    Days
+                  </div>
+                  <select ng-model = "duration">
+                    <option value="8">8</option>
+                    <option value="10">10</option>
+                    <option value="12">12</option>
+                    <option value="14">14</option>
+                  </select>
                 </label>
-              </div>  
+              </div>   
               
               <div class="item">
                 Start date:
@@ -36,7 +43,7 @@
                 </label>
               </div> 
 
-              <div class="item">
+              <div class="item" ng-hide = "setup.paramsSet">
                 <div class="button button-bar button-balanced" ng-click="setup.getDates()">
                   {{setup.getExerciseMessage()}}
                 </div>
