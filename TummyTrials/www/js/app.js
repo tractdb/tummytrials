@@ -29,6 +29,7 @@ var app = angular.module('tummytrials',
 //Ionic device ready check
 app.run(function($ionicPlatform, $rootScope, $q, Text, Experiments, Login,
                     ExperTest) {
+
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -39,7 +40,6 @@ app.run(function($ionicPlatform, $rootScope, $q, Text, Experiments, Login,
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-
     // Ask for username/password at startup.
     //
     Text.all_p()
@@ -116,7 +116,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
 })
 
-app.controller( "setupcontroller", function( $scope, $http, $sce) {
+app.controller( "setupcontroller", function(Calander, $scope, $http, $sce) {
     $http({
         url: 'json/setup.json',
         dataType: 'json',
@@ -130,5 +130,96 @@ app.controller( "setupcontroller", function( $scope, $http, $sce) {
         $scope.text = response;
     }).error(function(error){
         $scope.text = 'error';
-    });        
+    });
+
+    this.calander = [];
+    this.timesPressed = 0;
+    this.parametersSet = function(){
+      return Calander.parametersSet($scope.date, $scope.duration);
+    };   
+
+    this.getDates = function(){
+      this.paramsSet = true;
+      this.timesPressed ++;
+      this.calander = Calander.getDates($scope.date, $scope.duration);
+    };
+
+    this.getExerciseMessage = function(){
+      return Calander.getExerciseMessage(this.timesPressed);
+    };
+})
+
+app.factory('Calander', function () {
+    var parametersSet = function(date, duration){
+      if (date && duration){
+        return true;
+      }
+      return false;
+    };   
+
+    var getExerciseMessage = function(timesPressed){
+      if (timesPressed == 0) {
+        return "Get Your Experiment Schedule!";
+      } else {
+        return "Get a Different Schedule!"
+      }
+    }
+
+    var getDates = function(date, duration){
+      var calander = [];
+      if (date && duration){
+        var week = [];
+        var currentDate = new Date();
+        currentDate.setTime(date.getTime());
+        for (var count = 0; count < duration; count++){
+          var experimentDate = {"day_num" : count, "date" : currentDate.getDate(), "dayType" : "nonTrigger"}
+          week.push(experimentDate);
+
+          if (currentDate.getDay() == 6 || count == duration - 1){
+            if(week.length < 7){
+              if (count == duration - 1) {
+                while (week.length < 7){
+                  currentDate.setDate(currentDate.getDate() + 1);
+                  week.push({"date" : currentDate.getDate(), "dayType" : "none"});
+                }
+              } else {
+                var previous = new Date();
+                previous.setTime(date.getTime());
+                while (week.length < 7){
+                  previous.setDate(previous.getDate() - 1);
+                  week.unshift({"date" : previous.getDate(), "dayType" : "none"});
+                }
+              }
+            }
+
+            calander.push(week);
+            week = [];
+          }
+
+          currentDate.setDate(currentDate.getDate() + 1);
+        }
+
+        var numAssigned = 0;
+        while (numAssigned < Math.ceil(duration / 2)){
+          var randomIndex = Math.floor(duration * Math.random());
+          var frontPaddingDays = date.getDate() - calander[0][0].date;
+          var changingIndex = frontPaddingDays + randomIndex;
+          var row = Math.floor(changingIndex / 7);
+          var col = changingIndex % 7;
+
+          if (calander[row][col].dayType == "nonTrigger"){
+            calander[row][col].dayType = "trigger";
+            numAssigned ++;
+          }
+        }
+      }
+      return calander;
+    };
+
+    return {
+      parametersSet: parametersSet,
+      getExerciseMessage: getExerciseMessage,
+      getDates: getDates
+    };
+
 })

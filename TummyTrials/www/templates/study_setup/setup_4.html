@@ -6,7 +6,7 @@
               <p>{{text.setup4.subtitle}}</p>
             </div>
 
-            <div class="list">
+            <div class="list" ng-controller = "setupcontroller as setup">
               <div class="item">
                 Morning Reminder
                 <p>You will be sent a reminder to follow the study<br/>schedule for each day.</p>
@@ -22,21 +22,58 @@
               <div class="item">
                 Study Length
                 <p>A longer study will produce results that are<br/>more likely to be accurate (8-30 days).</p>
-                8 days <i class="ion-chevron-right"></i>
-              </div>  
+                <label class="item item-input item-select">
+                  <div class="input-label">
+                    Days
+                  </div>
+                  <select ng-model = "duration">
+                    <option value="8">8</option>
+                    <option value="10">10</option>
+                    <option value="12">12</option>
+                    <option value="14">14</option>
+                  </select>
+                </label>
+              </div>   
               
               <div class="item">
                 Start date:
                 <label class="item item-input">
                   <span class="input-label">Date</span>
-                  <input type="date">
+                  <input type="date" ng-model = "date">
                 </label>
-              </div>  
-
-              <div class="item">
-                Calendar
-                INSERT CALENDAR THING HERE!
               </div> 
+
+              <div class="item" ng-hide = "setup.paramsSet">
+                <div class="button button-bar button-balanced" ng-click="setup.getDates()">
+                  {{setup.getExerciseMessage()}}
+                </div>
+              </div> 
+
+              <div class="item" ng-show = "setup.paramsSet">
+                Calendar</br>
+                <div class = "button button-positive"></div>
+                Trigger
+                </br>
+                <div class = "button button-stable"></div>
+                No Trigger
+                <div class="row">
+                  <div class="col">Sun</div>  
+                  <div class="col">Mon</div>
+                  <div class="col">Tue</div>
+                  <div class="col">Wed</div>
+                  <div class="col">Thur</div>
+                  <div class="col">Fri</div>
+                  <div class="col">Sat</div>      
+                </div>
+                <div class="row" ng-repeat="week in setup.calander">
+                  <div class="col" ng-repeat= "day in week">
+                    <a class = "button button-positive" ng-show = "day.dayType === 'trigger'"> {{day.date}}</a>
+                    <a class = "button button-stable" ng-show = "day.dayType === 'nonTrigger'"> {{day.date}}</a>
+                    <a class = "button button-light" ng-show = "day.dayType === 'none'"> {{day.date}}</a>
+                  </div>
+                </div>
+              </div>
+            </div> 
 
             <div class="ten-padding">
               <a class="button button-block button-royal" ui-sref="setup_5">
