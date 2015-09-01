@@ -24,7 +24,7 @@ angular.module('starter', ['ionic'])
 'use strict';
 
 var app = angular.module('tummytrials',
-            ['ionic','ngSanitize','tummytrials.login','tummytrials.currentstudy','tummytrials.studysetup','tummytrials.faqcontroller','ngCordova','tummytrials.ngcordovacontrollers', 'tummytrials.text', 'tummytrials.experiments', 'tummytrials.exper-test']);
+            ['ionic', 'ngSanitize', 'tummytrials.login', 'tummytrials.currentstudy', 'tummytrials.studysetup', 'tummytrials.faqcontroller', 'ngCordova', 'tummytrials.mytrialsctrl', 'tummytrials.ngcordovacontrollers', 'tummytrials.text', 'tummytrials.experiments', 'tummytrials.exper-test']);
 
 //Ionic device ready check
 app.run(function($ionicPlatform, $rootScope, $q, Text, Experiments, Login,
@@ -90,7 +90,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
       views: {
         mytrials : {
           templateUrl: 'templates/mytrials.html',
-          controller: 'setupcontroller'
+          controller: 'MyTrialsCtrl'
         }
       }
     })

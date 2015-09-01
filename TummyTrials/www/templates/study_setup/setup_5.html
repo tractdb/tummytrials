@@ -4,16 +4,15 @@
             <div class="padding">      
               <h4 class="title">{{text.setup5.title}}</h4>
               <h5 class="title">{{text.setup5.topic_title}}</h5>
-              <p>{{text.setup5.topic}}</p>
+              <p>{{chosen_topic}}</p>
               <br/>
 
               <h5 class="title">{{text.setup5.sypmtoms_title}}</h5>
-              <p>{{text.setup5.symptom1}}</p>
-              <p>{{text.setup5.symptom2}}</p>
+              <p ng-repeat="symptom in chosen_symptoms">{{symptom}}</p>
               <br/>
 
               <h5 class="title">{{text.setup5.study_length}}</h5>
-              <p>{{text.setup5.start_date}} - {{text.setup5.end_date}}</p>              
+              <p>{{chosen_date_range}}</p>              
               <br/>
 
               <h5 class="title">{{text.setup5.morning_reminder_title}}</h5>
@@ -24,7 +23,7 @@
               <p>{{text.setup5.symptom_reminder}}</p>              
               <br/>
               
-              <a class="button button-block button-royal" ui-sref="#">
+              <a class="button button-block button-royal" ng-disabled="!study_data_complete" ng-click="begin_study()">
                 {{text.setup5.button}}
               </a>
           </div>

@@ -1,4 +1,10 @@
-<ion-view title="My Trials">
+<ion-view title="My Trials" cache-view="false">
+<!-- cache-view="false" is required here to get the controller to
+     reinstantiate on every transition to this page. I.e., to get the
+     page to display current info.
+
+     http://ionicframework.com/docs/api/directive/ionNavView/
+-->
 	<ion-pane>
 		<ion-content >
 		<br/>
@@ -11,7 +17,7 @@
 		<a class="button button-block button-energized" ui-sref="setup_1">
             {{text.mytrials.button}}
         </a> -->
-        <div class="padding">
+        <div class="padding" ng-hide="!!current_experiment">
 	        <h4 class="title">No ongoing trial</h4>
 			<br/>
 			<p>Would you like to setup a new trial?</p>
@@ -28,8 +34,11 @@
 		  <div class="item item-divider">
 		    {{text.mytrials.currenttrialtitle}}
 		  </div>
-		  <a class="item" href="#">
+		  <a class="item" href="#" ng-hide="current_experiment">
 		    There is no ongoing trial.
+		  </a>
+		  <a class="item" href="#" ng-show="current_experiment">
+		    {{current_experiment.name}}
 		  </a>
 
 		  <div class="item item-divider">

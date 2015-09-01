@@ -26,7 +26,7 @@
                   <div class="input-label">
                     Days
                   </div>
-                  <select ng-model = "duration">
+                  <select ng-model="setupdata.duration">
                     <option value="8">8</option>
                     <option value="10">10</option>
                     <option value="12">12</option>
@@ -39,17 +39,17 @@
                 Start date:
                 <label class="item item-input">
                   <span class="input-label">Date</span>
-                  <input type="date" ng-model = "date">
+                  <input type="date" ng-model="setupdata.startdate">
                 </label>
               </div> 
 
-              <div class="item" ng-hide = "setup.paramsSet">
+              <div class="item" ng-hide="setup.paramsSet">
                 <div class="button button-bar button-balanced" ng-click="setup.getDates()">
                   {{setup.getExerciseMessage()}}
                 </div>
               </div> 
 
-              <div class="item" ng-show = "setup.paramsSet">
+              <div class="item" ng-show="setup.paramsSet">
                 Calendar</br>
                 <div class = "button button-positive"></div>
                 Trigger
