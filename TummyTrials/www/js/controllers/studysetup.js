@@ -1,9 +1,9 @@
-(angular.module('tummytrials.studysetup',['ionic'])
+(angular.module('tummytrials.studysetup', ['ionic', 'tummytrials.setupctrl'])
 
 .config(function($stateProvider, $urlRouterProvider) {
 
   $stateProvider
-	.state('setup_1', {
+    .state('setup_1', {
       url: '/setup_1',
       views: {
         settings : {
@@ -17,7 +17,7 @@
       views: {
         settings : {
           templateUrl: 'templates/study_setup/setup_2.html',
-          controller: 'setupcontroller'
+          controller: 'Setup2Ctrl'
         }
       }
     })
@@ -26,7 +26,7 @@
       views: {
         settings : {
           templateUrl: 'templates/study_setup/setup_3.html',
-          controller: 'setupcontroller'
+          controller: 'Setup3Ctrl'
         }
       }
     })    
@@ -71,7 +71,7 @@
       views: {
         settings : {
           templateUrl: 'templates/study_setup/setup_4.html',
-          controller: 'setupcontroller'
+          controller: 'Setup4Ctrl'
         }
       }
     })
@@ -80,7 +80,7 @@
       views: {
         settings : {
           templateUrl: 'templates/study_setup/setup_5.html',
-          controller: 'setupcontroller'
+          controller: 'Setup5Ctrl'
         }
       }
     })  
