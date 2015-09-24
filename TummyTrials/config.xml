@@ -18,6 +18,8 @@
   <preference name="SplashScreenDelay" value="3000"/>
 
   <plugin name="com.couchbase.lite.phonegap" />
+  <plugin name="de.appplant.cordova.plugin.local-notification" />
+  <plugin name="de.appplant.cordova.plugin.badge" />
 
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
