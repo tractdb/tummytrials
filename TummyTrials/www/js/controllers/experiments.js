@@ -24,18 +24,18 @@ var DB_DATATYPE = {name: 'tummytrials_experiment', version: 1};
 /* The following fields have a known meaning right now:
  *
  *   Activity properties
- *   name:         Name of activity (string)
- *   start_time:   Start time (sec since 1970)
- *   end_time:     Scheduled end time (sec since 1970)
- *   status:       One of 'active', 'ended', 'abandoned'
+ *   name:        Name of activity (string)
+ *   start_time:  Start time (sec since 1970, start of first day)
+ *   end_time:    Scheduled end time (sec since 1970, end of last day)
+ *   status:      One of 'active', 'ended', 'abandoned'
  *
  *   Tummytrials experiment properties
- *   comment:      Free form comment (string)
- *   symptoms:     Symptoms (array of string)
- *   trigger:      Trigger (string)
- *   reminders:    Reminder times (array of object, below)
- *   reports:      User reports (array of object, below)
- *   id:           Unique identifier 
+ *   comment:     Free form comment (string)
+ *   symptoms:    Symptoms (array of string)
+ *   trigger:     Trigger (string)
+ *   remstate:    Reminder state (see reminders.js)
+ *   reports:     User reports (array of object, below)
+ *   id:          Unique identifier 
  *
  * The id is created by this service, not supplied by callers. In fact
  * it's the CouchDB id of the document.
@@ -43,16 +43,9 @@ var DB_DATATYPE = {name: 'tummytrials_experiment', version: 1};
  * Any other fields supplied by caller are preserved.
  */
 
-/* A reminder probably would look something like this:
- * {
- * time:           Time of reminder (sec since 1970)
- * text:           Text of reminder
- * }
- * But for now any fields supplied by caller are preserved.
- *
-
 /* A report might look something like this:
  * {
+ * type:           Report type
  * time:           Time of report (sec since 1970)
  * adherence:      Adhered to the experiment today (bool)
  * symptom_scores: (array of { name: string, score: number })
@@ -60,12 +53,6 @@ var DB_DATATYPE = {name: 'tummytrials_experiment', version: 1};
  * }
  * But for now any fields supplied by caller are preserved.
  */
-
-// TODO
-// X switch to new format
-// X update the tests
-// method to add report
-// update the tests
 
 .factory('Experiments', function($q, $http) {
     var LDB_NAME = 'experiments';
@@ -353,6 +340,48 @@ var DB_DATATYPE = {name: 'tummytrials_experiment', version: 1};
             })
             .then(function(response) {
                 return newStatus;
+            });
+        },
+
+        getRemstate: function(experimentId) {
+            // Return a promise for the current reminder state of the
+            // experiment. See reminder.js for a definition of the
+            // reminder state.
+            //
+            var dburl;
+
+            return init_p()
+            .then(function(d) {
+                dburl = d;
+                return $http.get(dburl + '/' + experimentId);
+            })
+            .then(function(response) {
+                return response.data.remstate || {};
+            })
+        },
+
+        setRemstate: function(experimentId, newRemstate) {
+            // Return a promise to set the reminder state of the
+            // experiment with the given id. See reminder.js for a
+            // definition of the reminder state.
+            //
+            // The promise resolves to the new reminder state.
+            //
+            var dburl;
+
+            return init_p()
+            .then(function(d) {
+                dburl = d;
+                return $http.get(dburl + '/' + experimentId);
+            })
+            .then(function(response) {
+                response.data.remstate = newRemstate;
+                // (This works because response.data has _rev property.)
+                //
+                return $http.put(dburl + '/' + experimentId, response.data);
+            })
+            .then(function(response) {
+                return newRemstate;
             });
         },
 

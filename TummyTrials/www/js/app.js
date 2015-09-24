@@ -24,11 +24,11 @@ angular.module('starter', ['ionic'])
 'use strict';
 
 var app = angular.module('tummytrials',
-            ['ionic', 'ngSanitize', 'tummytrials.login', 'tummytrials.currentstudy', 'tummytrials.studysetup', 'tummytrials.faqcontroller', 'ngCordova', 'tummytrials.mytrialsctrl', 'tummytrials.ngcordovacontrollers', 'tummytrials.text', 'tummytrials.experiments', 'tummytrials.exper-test']);
+            ['ionic','ngSanitize','tummytrials.login','tummytrials.currentstudy','tummytrials.studysetup','tummytrials.faqcontroller', 'ngCordova','tummytrials.mytrialsctrl', 'tummytrials.ngcordovacontrollers', 'tummytrials.text', 'tummytrials.experiments', 'tummytrials.exper-test', 'tractdb.reminders', 'tummytrials.remind-test']);
 
 //Ionic device ready check
-app.run(function($ionicPlatform, $rootScope, $q, Text, Experiments, Login,
-                    ExperTest) {
+app.run(function($ionicPlatform, $rootScope, $q, Login, Text, Experiments,
+                    Reminders, ExperTest, RemindTest) {
 
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -48,11 +48,11 @@ app.run(function($ionicPlatform, $rootScope, $q, Text, Experiments, Login,
                                 Experiments.valid_p);
     });
 
-    // Try some tests. Move these into some kind of framework later on,
-    // probably.
+    // Some tests of Experiments. Move these into some kind of framework
+    // later on, probably.
     //
-    var want_to_run_these_tests = false;
-    if (want_to_run_these_tests) {
+    var want_to_run_exper_tests = false;
+    if (want_to_run_exper_tests) {
         ExperTest.testAll()
         .then(ExperTest.testGet)
         .then(ExperTest.testGetCurrent)
@@ -62,10 +62,28 @@ app.run(function($ionicPlatform, $rootScope, $q, Text, Experiments, Login,
         .then(ExperTest.testDelete)
         .then(
             function good() {},
-            function bad(err) { console.log('error ' + err.message); }
+            function bad(err) {
+                console.log('ExperTest error ' + err.message);
+            }
         );
     }
+
+    // Some tests of Reminders. Right now these require human
+    // intervention and observation.
+    //
+    var want_to_run_remind_tests = false;
+    if (want_to_run_remind_tests) {
+        RemindTest.testSync()
+        .then(
+            function good() {},
+            function bad(err) {
+                console.log('RemindTest error ' + err.message);
+            }
+        );
+    }
+
   });
+
 })
 
 
