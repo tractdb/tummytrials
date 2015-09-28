@@ -24,7 +24,7 @@ angular.module('starter', ['ionic'])
 'use strict';
 
 var app = angular.module('tummytrials',
-            ['ionic','ngSanitize','tummytrials.login','tummytrials.currentstudy','tummytrials.studysetup','tummytrials.faqcontroller', 'ngCordova','tummytrials.mytrialsctrl', 'tummytrials.ngcordovacontrollers', 'tummytrials.text', 'tummytrials.experiments', 'tummytrials.exper-test', 'tractdb.reminders', 'tummytrials.remind-test']);
+            ['ionic','ngSanitize','tractdb.lifecycle','tummytrials.login','tummytrials.currentstudy','tummytrials.studysetup','tummytrials.faqcontroller', 'ngCordova','tummytrials.mytrialsctrl', 'tummytrials.ngcordovacontrollers', 'tummytrials.text', 'tummytrials.experiments', 'tummytrials.exper-test', 'tractdb.reminders', 'tummytrials.remind-test']);
 
 //Ionic device ready check
 app.run(function($ionicPlatform, $rootScope, $q, Login, Text, Experiments,
@@ -83,8 +83,7 @@ app.run(function($ionicPlatform, $rootScope, $q, Login, Text, Experiments,
     }
 
   });
-
-})
+});
 
 
 //UI-router for handling navigation 
