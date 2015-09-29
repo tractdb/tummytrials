@@ -23,19 +23,19 @@ var DB_DATATYPE = {name: 'tummytrials_experiment', version: 1};
 
 /* The following fields have a known meaning right now:
  *
- *   Activity properties
- *   name:        Name of activity (string)
- *   start_time:  Start time (sec since 1970, start of first day)
- *   end_time:    Scheduled end time (sec since 1970, end of last day)
- *   status:      One of 'active', 'ended', 'abandoned'
+ *   Activity properties:
+ *     name:        Name of activity (string)
+ *     start_time:  Start time (sec since 1970, start of first day)
+ *     end_time:    Scheduled end time (sec since 1970, end of last day)
+ *     status:      One of 'active', 'ended', 'abandoned'
  *
- *   Tummytrials experiment properties
- *   comment:     Free form comment (string)
- *   symptoms:    Symptoms (array of string)
- *   trigger:     Trigger (string)
- *   remstate:    Reminder state (see reminders.js)
- *   reports:     User reports (array of object, below)
- *   id:          Unique identifier 
+ *   Tummytrials experiment properties:
+ *     comment:     Free form comment (string)
+ *     symptoms:    Symptoms (array of string)
+ *     trigger:     Trigger (string)
+ *     remdescrs:   Reminder descriptors (array of object, see reminders.js)
+ *     reports:     User reports (array of object, below)
+ *     id:          Unique identifier 
  *
  * The id is created by this service, not supplied by callers. In fact
  * it's the CouchDB id of the document.
@@ -44,6 +44,7 @@ var DB_DATATYPE = {name: 'tummytrials_experiment', version: 1};
  */
 
 /* A report might look something like this:
+ *
  * {
  * type:           Report type
  * time:           Time of report (sec since 1970)
@@ -51,7 +52,9 @@ var DB_DATATYPE = {name: 'tummytrials_experiment', version: 1};
  * symptom_scores: (array of { name: string, score: number })
  * notes:          string
  * }
- * But for now any fields supplied by caller are preserved.
+ *
+ * But any fields supplied by caller are preserved. The 'type' field is
+ * also used to coordinate reports with reminders (see reminders.js).
  */
 
 .factory('Experiments', function($q, $http) {
@@ -138,7 +141,15 @@ var DB_DATATYPE = {name: 'tummytrials_experiment', version: 1};
 
         var ddocs = {
             language: 'javascript',
-            views: { }
+            views: { }, // Fill in below
+            filters: {
+                localddocs:
+                    // Don't replicate local design documents.
+                    //
+                    "function(doc) {" +
+                        "return doc._id.search(/^_design\\//) < 0;" +
+                    "}"
+            }
         };
         ddocs.views[DB_DATATYPE.name] = {
             map:
@@ -343,10 +354,10 @@ var DB_DATATYPE = {name: 'tummytrials_experiment', version: 1};
             });
         },
 
-        getRemstate: function(experimentId) {
-            // Return a promise for the current reminder state of the
-            // experiment. See reminder.js for a definition of the
-            // reminder state.
+        getRemdescrs: function(experimentId) {
+            // Return a promise for the current reminder descriptors of
+            // the experiment. See reminder.js for a definition of a
+            // reminder descriptor.
             //
             var dburl;
 
@@ -356,16 +367,16 @@ var DB_DATATYPE = {name: 'tummytrials_experiment', version: 1};
                 return $http.get(dburl + '/' + experimentId);
             })
             .then(function(response) {
-                return response.data.remstate || {};
+                return response.data.remdescrs || [];
             })
         },
 
-        setRemstate: function(experimentId, newRemstate) {
-            // Return a promise to set the reminder state of the
+        setRemdescrs: function(experimentId, newRemdescrs) {
+            // Return a promise to set the reminder descriptors of the
             // experiment with the given id. See reminder.js for a
-            // definition of the reminder state.
+            // definition of reminder descriptors.
             //
-            // The promise resolves to the new reminder state.
+            // The promise resolves to the new reminder descriptors.
             //
             var dburl;
 
@@ -375,13 +386,13 @@ var DB_DATATYPE = {name: 'tummytrials_experiment', version: 1};
                 return $http.get(dburl + '/' + experimentId);
             })
             .then(function(response) {
-                response.data.remstate = newRemstate;
+                response.data.remdescrs = newRemdescrs;
                 // (This works because response.data has _rev property.)
                 //
                 return $http.put(dburl + '/' + experimentId, response.data);
             })
             .then(function(response) {
-                return newRemstate;
+                return newRemdescrs;
             });
         },
 
@@ -478,7 +489,8 @@ var DB_DATATYPE = {name: 'tummytrials_experiment', version: 1};
             var rdbname = RDB_UNPW_URL.replace(/{USER}/g, unpw.username);
             rdbname = rdbname.replace(/{PASS}/g, unpw.password);
 
-            var pushspec = { source: LDB_NAME, target: rdbname };
+            var pushspec = { source: LDB_NAME, target: rdbname,
+                             filter: 'ddocs/localddocs' };
             var pullspec = { source: rdbname, target: LDB_NAME };
             replication_prom =
                 init_p()
