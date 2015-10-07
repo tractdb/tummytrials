@@ -62,6 +62,7 @@ var DB_DATATYPE = {name: 'tummytrials_experiment', version: 1};
     var RDB_BASE = 'tractdb.org/couch/{USER}_tractdb';
     var RDB_URL = 'https://' + RDB_BASE;
     var RDB_UNPW_URL = 'https://{USER}:{PASS}@' + RDB_BASE;
+    var initialization_prom = null; // promise for initialization
     var cblurl = null;
     var db_is_initialized = false;
     var ddocs_are_initialized = false;
@@ -133,6 +134,7 @@ var DB_DATATYPE = {name: 'tummytrials_experiment', version: 1};
         // Return a promise to create some design documents in the DB.
         // The promise resolves to the URL of the DB.
         // 
+console.log('initddocs_p here'); // TEMP
         if (ddocs_are_initialized) {
             var def = $q.defer();
             def.resolve(dburl);
@@ -195,7 +197,12 @@ var DB_DATATYPE = {name: 'tummytrials_experiment', version: 1};
         // Create and initialize the DB if necessary, resolving to its
         // URL.
         //
-        return cblurl_p().then(initdb_p).then(initddocs_p);
+        if (initialization_prom)
+            return initialization_prom;
+        initialization_prom =
+            cblurl_p().then(initdb_p).then(initddocs_p)
+            .then(function(url) { initialization_prom = null; return url; });
+        return initialization_prom;
     }
 
     function experiment_of_response(dburl, resp)

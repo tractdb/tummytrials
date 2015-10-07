@@ -41,8 +41,41 @@ app.run(function($ionicPlatform, $rootScope, $q, Login, Text, Experiments,
       StatusBar.styleDefault();
     }
 
-// Ask for username/password at startup. Note: this is no longer
-// necessary because we attempt to do replication at startup.
+    // TEMP TEMP BOGUS testing code
+    //Reminders.list()
+    //.then(function(notifs) {
+    //    console.log('Current Notifications', JSON.stringify(notifs, null, 4));
+    //})
+    // .then(function(_) { return Reminders.clear(); })
+    // .then(function(_) { return Reminders.testo(); });
+    // TEMP TEMP BOGUS
+
+  // If there is a current experiment, sync its reminders.
+  //
+  Experiments.getCurrent()
+  .then(function(curex) {
+    if (!curex)
+        return null; // No current experiment
+    if (!curex.remdescrs || !curex.start_time || !curex.end_time ||
+        !curex.reports)
+        return null; // Ill formed experiment: not supposed to happen
+  
+    return Reminders.sync(curex.remdescrs, curex.start_time, curex.end_time,
+                            curex.reports)
+    .then(function(_) {
+        // Might want to validate that proper reminders have been
+        // scheduled.
+        //
+        var want_to_validate = true; // Maybe false in production
+        if (want_to_validate)
+            return RemindTest.validateSync(curex.remdescrs, curex.start_time,
+                                            curex.end_time, curex.reports);
+        else
+            return null;
+    });
+  });
+
+// Ask for username/password at startup. Note: this is no longer // necessary because we attempt to do replication at startup.
 //
 //  Text.all_p()
 //  .then(function(text) {

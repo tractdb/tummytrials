@@ -91,7 +91,8 @@
         remind.id = 0; // Caller should fix up later
         remind.title = nthstr(descr.heads);
         remind.text = nthstr(descr.bodies);
-        if (!descr.reminderonly) remind.every = 'day';
+        if (state == 'scheduled' && !descr.reminderonly)
+            remind.every = 'day';
         remind.at = at_time(start_time, n, descr.time);
         remind.sound = 'res://platform_default';
         remind.state = state;
@@ -106,6 +107,80 @@
         }
         console.log('validate_reminds_equal<' + tag + '>: success');
     }
+
+    function expected_reminders(descs, startt, endt, reports, baseid, moment)
+    {
+        // Return the expected reminders at the given moment, given the
+        // supplied reminder state. Times are sec since Unix epoch.
+        //
+        var daysec = 24 * 60 * 60; // Seconds in a day
+        var dayct = Math.round((endt - startt) / daysec);
+
+        // Count reports of each type.
+        //
+        var reports_for_type = {};
+        descs.forEach(function(d) { reports_for_type[d.type] = 0; });
+        reports.forEach(function(r) { reports_for_type[r.type]++; });
+
+        // Which day of the study is it?
+        //
+        var dos;
+        if (moment < startt)
+            dos = 0;
+        else
+            dos = 1 + Math.trunc((moment - startt) / daysec);
+        if (dos <= 0 || dos > dayct)
+            return []; // Study hasn't started yet or is over
+
+        // How many seconds past midnight is the moment?
+        //
+        var md = new Date(moment * 1000);
+        var mtime = md.getHours() * 3600 + md.getMinutes() * 60 +
+                    md.getSeconds();
+
+        // Cumulated badge count.
+        //
+        var badgect = 0;
+
+        var expected = [];
+        descs.forEach(function(desc) {
+            var n0 = dos + (mtime < desc.time ? 0 : 1);
+            // Previously issued reminders with no reports.
+            //
+            if (!desc.reminderonly)
+                for (var n = reports_for_type[desc.type] + 1; n < n0; n++) {
+                    expected.push(test_remind(desc, startt, n, 'triggered'));
+                    badgect++;
+                }
+
+            // Reminders to be issued in the future.
+            //
+            if (desc.reminderonly) {
+                for (var n = n0; n <= dayct; n++)
+                    expected.push(test_remind(desc, startt, n, 'scheduled'));
+            } else {
+                // (Reports might conceivably come in early.)
+                //
+                n0 = Math.max(n0, reports_for_type[desc.type] + 1);
+                if (n0 <= dayct)
+                    expected.push(test_remind(desc, startt, n0, 'scheduled'));
+            }
+        });
+
+        expected.sort(by_at);
+
+        // Set ids and badge counts.
+        //
+        expected.forEach(function(n) {
+            n.id = baseid++;
+            if (n.state == 'scheduled' && n.every)
+                badgect++;
+            n.badge = badgect;
+        });
+
+        return expected;
+    }
+
 
     function expected_round_1()
     {
@@ -268,6 +343,45 @@
                         return test_sync_2(notifs);
                     return test_sync_cleanup(notifs);
             })
+        },
+
+        validateSync: function(descs, startt, endt, reports) {
+            // Return a promise to validate that the currently scheduled
+            // reminders are correct for the given descriptors, start
+            // time, end time, and reports.
+            //
+            // The promise resolves to null; results are written to the
+            // console.
+            //
+
+            function rembytype(ty)
+            {
+                for (var i = 0; i < descs.length; i++)
+                    if (descs[i].type == ty)
+                        return descs[i];
+                return null;
+            }
+
+            return Reminders.list()
+            .then(function(notifs) {
+                // We are not concerned with pure reminders that have
+                // been triggered. In theory users will deal with them
+                // at their leisure.
+                //
+                for (var j = notifs.length - 1; j >= 0; j--) {
+                    var desc = rembytype(notifs[j].data);
+                    if (notifs[j].state == 'triggered' &&
+                        desc && desc.reminderonly)
+                        notifs.splice(j, 1);
+                }
+
+                var baseid = notifs.length > 0 ? notifs[0].id : 0;
+                var m = Math.trunc(Date.now() / 1000);
+                var exp = expected_reminders(descs, startt, endt, reports,
+                                             baseid, m);
+                validate_reminds_equal(notifs, exp, 'validateSync');
+                return null;
+            });
         }
     };
 })
