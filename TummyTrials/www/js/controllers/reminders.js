@@ -106,7 +106,7 @@
                 res.push(notif);
             });
             return res;
-        })
+        });
     }
 
     function notifications_new(remstate, reports_for_type, app_badge, base_id)
@@ -129,6 +129,9 @@
 
         var notifs = [];
         remstate.descs.forEach(function(desc) {
+            // Day of next reminder of this type
+            var nnext = sday + (daysec > desc.time ? 1 : 0);
+
             // Head for day n
             function headn(n) {
                 return desc.heads[Math.min(n, desc.heads.length) - 1];
@@ -144,13 +147,10 @@
                 notif.text = bodyn(n);
                 notif.at = reminder_time(remstate.start_date, n, desc.time);
                 notif.data = desc.type;
-                if (!desc.reminderonly)
+                if (n >= nnext && !desc.reminderonly)
                     notif.every = 'day';
                 return notif;
             }
-
-            // Day of next reminder of this type
-            var nnext = sday + (daysec > desc.time ? 1 : 0);
 
             if (desc.reminderonly) {
                 // Separate notification for each. (Rationale: user has
@@ -161,8 +161,17 @@
                 for (var n = nnext; n <= duration; n++)
                     notifs.push(notifn(n));
             } else {
-                // Automatically rescheduled notification.
+                // Separate one-shot notifications for past reminders
+                // with no reports yet. One repeating notification for
+                // all future reminders.
                 //
+                var repct = reports_for_type[desc.type];
+                for (var n = repct + 1; n < nnext; n++)
+                    notifs.push(notifn(n));
+
+                // (No reminders for early reports.)
+                nnext = Math.max(nnext, repct + 1);
+
                 if (nnext <= duration)
                     notifs.push(notifn(nnext));
             }
@@ -182,25 +191,32 @@
         return notifs;
     }
 
-    function notifications_cull_p(remstate, notifs, reports_for_type)
+    function notifications_cull_p(remstate, notifs)
     {
         // Return a promise to remove notifications in preparation for
-        // installing new ones. Remove all scheduled notifications.
-        // Also remove any triggered notifications whose associated
-        // reports have been made. The promise resolves to the biggest
-        // id seen.
+        // installing new ones. The only notifications to keep are
+        // triggered one-shot notifications. The promise resolves to the
+        // biggest id seen.
         //
         var ids = [];
         var maxid = 0;
+
+        function rembytype(ty)
+        {
+            for (var i = 0; i < remstate.descs.length; i++)
+                if (remstate.descs[i].type == ty)
+                    return remstate.descs[i];
+            return null;
+        }
+
         notifs.forEach(function(notif) {
             if (notif.id > maxid)
                 maxid = notif.id;
             if (notif.state == 'scheduled') {
                 ids.push(notif.id);
             } else {
-                var d = new Date(notif.at * 1000); // Epoch time (?)
-                var sd = study_day(remstate, d);
-                if (reports_for_type[notif.data] >= sd)
+                var desc = rembytype(notif.data);
+                if (!desc || !desc.reminderonly)
                     ids.push(notif.id);
             }
         });
@@ -249,7 +265,7 @@
         //
         return notifications_now_p()
         .then(function(notifs) {
-            return notifications_cull_p(remstate, notifs, reports_for_type);
+            return notifications_cull_p(remstate, notifs);
         })
         .then(function(maxid) {
             var notifsn =
@@ -327,7 +343,7 @@
             // Return a promise to list all the local notifications. The
             // promise resolves to an array of notifications in the form
             // returned by $cordovaLocalNotification, with an added
-            // 'status' field that is either 'triggered' (notification
+            // 'state' field that is either 'triggered' (notification
             // has been delivered at least once) or 'scheduled'
             // (notification has never been delivered).
             //
@@ -338,6 +354,34 @@
                 notifs.sort(by_at);
                 return notifs;
             });
+        },
+        test: function() {
+            // Return a promise to schedule a reminder for 30 seconds
+            // from now that repeats every minute.
+            //
+            var notif = {};
+            notif.id = 12345678;
+            notif.title = 'Title B';
+            notif.text = 'Text B';
+            notif.at = new Date(Date.now() + 30000);
+            notif.data = 'testingb';
+            notif.every = 'minute';
+            return $cordovaLocalNotification.schedule([notif]);
+        },
+        testo: function() {
+            // Return a promise to schedule a one-shot reminder for 30
+            // seconds before now.
+            //
+            var notif = {};
+            notif.id = 1234;
+            notif.title = 'Title O';
+            notif.text = 'Text O';
+            notif.at = new Date(Date.now() - 30000);
+            notif.data = 'testingo';
+            return $cordovaLocalNotification.schedule([notif]);
+        },
+        deltest: function() {
+            return $cordovaLocalNotification.cancel([12345678]);
         }
     };
 })

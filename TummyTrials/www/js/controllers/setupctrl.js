@@ -45,12 +45,24 @@
     {
         // Return a promise to create the study; i.e., add document to
         // database. Data comes from SetupData. Caller warrants that all
-        // the data is there.
+        // the data has been saved there:
+        //
+        // SetupData.startdate  ISO 8601-like
+        // SetupData.duration   days
+        // Setupdata.symptom    array of bool
+        // Setupdata.trigger    number (triggers[] array index)
+        // <<TODO: reminder times>>
+        //
+        // (We rely on the fact that startdate represents midnight at
+        // the beginning of the day.)
         //
         var exper = {};
         var sd = new Date(SetupData.startdate);
-        var durms = SetupData.duration * 24 * 60 * 60 * 1000;
-        var ed = new Date(sd.getTime() + durms);
+
+        // (Use the Date machinery to work around daylight savings etc.)
+        //
+        var ed = new Date(sd.getFullYear(), sd.getMonth(),
+                          sd.getDate() + SetupData.duration);
 
         exper.name = 'Trial beginning ' + datestr(sd);
         exper.start_time = Math.floor(sd.getTime() / 1000);
@@ -63,7 +75,28 @@
                 exper.symptoms.push(text.setup2.symptoms[i].symptom);
         var tix = Number(SetupData.trigger);
         exper.trigger = text.setup3.triggers[tix].trigger;
-        exper.reminders = []; // XXX need to add these
+
+        // XXX Fix this when reminder times and A/B day types are
+        // available.
+        //
+        exper.remdescrs = [
+            { type: 'first',
+              reminderonly: true,
+              time: 7 * 60 * 60, // Sec after midnight
+              heads: ['TummyTrials Daily Reminder'],
+              bodies: ['Today is a day with/without trigger']
+            },
+            { type: 'breakfast',
+              time: 9 * 60 * 60,
+              heads: ['TummyTrials Breakfast Reminder'],
+              bodies: ['Please log your breakfast compliance']
+            },
+            { type: 'symptomEntry',
+              time: 12 * 60 * 60,
+              heads: ['TummyTrials Symptom Entry Reminder'],
+              bodies: ['Please log your symptom level']
+            }
+        ];
         exper.reports = [];
         return Experiments.add(exper);
     }
@@ -114,12 +147,12 @@
 
         if ($scope.setupdata.startdate && $scope.setupdata.duration) {
             // Start date looks something like this, here in Seattle:
-            // "2015-08-31T07:00:00.000Z"
+            // "2015-08-31T07:00:00.000Z" (ISO 8601-like)
             //
             var sd = new Date($scope.setupdata.startdate);
             // Last day of study (not first day after study).
-            var durms = ($scope.setupdata.duration - 1) * 24 * 60 * 60 * 1000;
-            var ed = new Date(sd.getTime() + durms);
+            var ed = new Date(sd.getFullYear(), sd.getMonth(),
+                              sd.getDate() + duration - 1);
             $scope.chosen_date_range = datestr(sd) + ' — ' + datestr(ed);
         } else {
             $scope.chosen_date_range = text.setup5.nolength;
