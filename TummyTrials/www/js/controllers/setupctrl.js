@@ -48,9 +48,9 @@
         // the data has been saved there:
         //
         // SetupData.startdate  ISO 8601-like
-        // SetupData.duration   days
+        // SetupData.duration   days, numeric string
         // Setupdata.symptom    array of bool
-        // Setupdata.trigger    number (triggers[] array index)
+        // Setupdata.trigger    numeric string (triggers[] array index)
         // <<TODO: reminder times>>
         //
         // (We rely on the fact that startdate represents midnight at
@@ -62,7 +62,7 @@
         // (Use the Date machinery to work around daylight savings etc.)
         //
         var ed = new Date(sd.getFullYear(), sd.getMonth(),
-                          sd.getDate() + SetupData.duration);
+                          sd.getDate() + Number(SetupData.duration));
 
         exper.name = 'Trial beginning ' + datestr(sd);
         exper.start_time = Math.floor(sd.getTime() / 1000);
@@ -149,6 +149,7 @@
             // Start date looks something like this, here in Seattle:
             // "2015-08-31T07:00:00.000Z" (ISO 8601-like)
             //
+            var duration = Number($scope.setupdata.duration);
             var sd = new Date($scope.setupdata.startdate);
             // Last day of study (not first day after study).
             var ed = new Date(sd.getFullYear(), sd.getMonth(),

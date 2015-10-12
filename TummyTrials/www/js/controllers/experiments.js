@@ -134,7 +134,6 @@ var DB_DATATYPE = {name: 'tummytrials_experiment', version: 1};
         // Return a promise to create some design documents in the DB.
         // The promise resolves to the URL of the DB.
         // 
-console.log('initddocs_p here'); // TEMP
         if (ddocs_are_initialized) {
             var def = $q.defer();
             def.resolve(dburl);

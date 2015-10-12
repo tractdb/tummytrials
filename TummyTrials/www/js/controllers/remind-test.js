@@ -129,8 +129,8 @@
             dos = 0;
         else
             dos = 1 + Math.trunc((moment - startt) / daysec);
-        if (dos <= 0 || dos > dayct)
-            return []; // Study hasn't started yet or is over
+        if (dos > dayct)
+            return []; // Study is over
 
         // How many seconds past midnight is the moment?
         //
@@ -144,7 +144,11 @@
 
         var expected = [];
         descs.forEach(function(desc) {
-            var n0 = dos + (mtime < desc.time ? 0 : 1);
+            var n0; // Day of next reminder of the type
+            if (dos <= 0)
+                n0 = 1; // Study hasn't started yet
+            else
+                n0 = dos + (mtime < desc.time ? 0 : 1);
             // Previously issued reminders with no reports.
             //
             if (!desc.reminderonly)
@@ -173,6 +177,8 @@
         //
         expected.forEach(function(n) {
             n.id = baseid++;
+            if (n.state == 'triggered')
+                n.id = -n.id;
             if (n.state == 'scheduled' && n.every)
                 badgect++;
             n.badge = badgect;
@@ -375,7 +381,7 @@
                         notifs.splice(j, 1);
                 }
 
-                var baseid = notifs.length > 0 ? notifs[0].id : 0;
+                var baseid = notifs.length > 0 ? Math.abs(notifs[0].id) : 0;
                 var m = Math.trunc(Date.now() / 1000);
                 var exp = expected_reminders(descs, startt, endt, reports,
                                              baseid, m);
