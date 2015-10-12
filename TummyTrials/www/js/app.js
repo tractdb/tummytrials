@@ -41,47 +41,42 @@ app.run(function($ionicPlatform, $rootScope, $q, Login, Text, Experiments,
       StatusBar.styleDefault();
     }
 
-    // TEMP TEMP BOGUS testing code
-    //Reminders.list()
-    //.then(function(notifs) {
-    //    console.log('Current Notifications', JSON.stringify(notifs, null, 4));
-    //})
-    // .then(function(_) { return Reminders.clear(); })
-    // .then(function(_) { return Reminders.testo(); });
-    // TEMP TEMP BOGUS
-
-  // If there is a current experiment, sync its reminders.
+  // Sync reminders for current study. (If no study, make sure reminders
+  // are absent.)
   //
   Experiments.getCurrent()
   .then(function(curex) {
-    if (!curex)
-        return null; // No current experiment
-    if (!curex.remdescrs || !curex.start_time || !curex.end_time ||
-        !curex.reports)
-        return null; // Ill formed experiment: not supposed to happen
-  
-    return Reminders.sync(curex.remdescrs, curex.start_time, curex.end_time,
-                            curex.reports)
-    .then(function(_) {
-        // Might want to validate that proper reminders have been
-        // scheduled.
+    var rd, st, et, re;
+
+    if (curex && curex.remdescrs && curex.start_time && curex.end_time &&
+        curex.reports) {
+        // Current experiment looks good.
         //
-        var want_to_validate = true; // Maybe false in production
+        rd = curex.remdescrs;
+        st = curex.start_time;
+        et = curex.end_time;
+        re = curex.reports;
+    } else {
+        // No current experiment.
+        //
+        rd = [];
+        st = 0;
+        et = 0;
+        re = [];
+    }
+  
+    return Reminders.sync(rd, st, et, re)
+    .then(function(_) {
+        // Validate that proper reminders have been scheduled (if
+        // desired).
+        //
+        var want_to_validate = true; // Maybe false in production?
         if (want_to_validate)
-            return RemindTest.validateSync(curex.remdescrs, curex.start_time,
-                                            curex.end_time, curex.reports);
+            return RemindTest.validateSync(rd, st, et, re);
         else
             return null;
     });
   });
-
-// Ask for username/password at startup. Note: this is no longer // necessary because we attempt to do replication at startup.
-//
-//  Text.all_p()
-//  .then(function(text) {
-//      return Login.loginfo_p('couchuser', $rootScope, text.loginfo,
-//                              Experiments.valid_p);
-//  });
 
     // Some tests of Experiments. Move these into some kind of framework
     // later on, probably.

@@ -25,14 +25,16 @@
 // is intended mostly for testing.
 //
 
-// TODO: handle the case where events are delivered while app is active
-
 'use strict';
 
 (angular.module('tractdb.reminders', [ 'ngCordova' ])
 
-.factory('Reminders', function($q, $cordovaLocalNotification, $cordovaBadge) {
-    var c_remstate; // Cached reminder state for internal use
+.factory('Reminders', function($ionicPlatform, $rootScope, $q,
+                                $cordovaLocalNotification, $cordovaBadge) {
+    var g_nextid = 1;       // Next notification id to use
+    var c_remstate;         // Cached reminder state for internal use
+    var c_reports;          // Cached reports for internal use
+    var g_notifs_seen = {}; // (See reminder_triggered.)
 
     function by_at(a, b)
     {
@@ -109,7 +111,7 @@
         });
     }
 
-    function notifications_new(remstate, reports_for_type, app_badge, base_id)
+    function notifications_new(remstate, reports_for_type, app_badge)
     {
         // Return an array of notifications that follow from the given
         // new status:
@@ -117,7 +119,6 @@
         // remstate:          Reminder state
         // reports_for_type:  Number of reports for each type
         // app_badge:         App's correct badge count now
-        // base_id:           Base number for new notification ids
         //
         var sday = study_day_today(remstate);
         var daysec = sec_after_midnight();
@@ -129,8 +130,12 @@
 
         var notifs = [];
         remstate.descs.forEach(function(desc) {
-            // Day of next reminder of this type
-            var nnext = sday + (daysec > desc.time ? 1 : 0);
+            // Study day of next reminder of this type
+            var nnext;
+            if (sday <= 0)
+                nnext = 1; // Study hasn't started yet
+            else
+                nnext = sday + (daysec >= desc.time ? 1 : 0);
 
             // Head for day n
             function headn(n) {
@@ -149,6 +154,9 @@
                 notif.data = desc.type;
                 if (n >= nnext && !desc.reminderonly)
                     notif.every = 'day';
+                // Mark past times with negative ids.
+                //
+                notif.id = n < nnext ? -1 : 1;
                 return notif;
             }
 
@@ -169,7 +177,7 @@
                 for (var n = repct + 1; n < nnext; n++)
                     notifs.push(notifn(n));
 
-                // (No reminders for early reports.)
+                // (No reminders for reports submitted early.)
                 nnext = Math.max(nnext, repct + 1);
 
                 if (nnext <= duration)
@@ -179,10 +187,14 @@
 
         // Assign ids and badge counts to notifications.
         //
+        // Note that we use negative ids to mark notifications that are
+        // in the past when scheduled. They will trigger immediately,
+        // but their trigger event isn't interesting.
+        //
         var notibadge = app_badge;
         notifs.sort(by_at);
-        notifs.forEach(function(notif, ix) {
-            notif.id = base_id + ix + 1;
+        notifs.forEach(function(notif) {
+            notif.id *= g_nextid++;
             if (notif.every)
                 notibadge++;
             notif.badge = notibadge;
@@ -195,11 +207,10 @@
     {
         // Return a promise to remove notifications in preparation for
         // installing new ones. The only notifications to keep are
-        // triggered one-shot notifications. The promise resolves to the
-        // biggest id seen.
+        // triggered one-shot notifications. The promise resolves to
+        // null.
         //
         var ids = [];
-        var maxid = 0;
 
         function rembytype(ty)
         {
@@ -210,8 +221,6 @@
         }
 
         notifs.forEach(function(notif) {
-            if (notif.id > maxid)
-                maxid = notif.id;
             if (notif.state == 'scheduled') {
                 ids.push(notif.id);
             } else {
@@ -226,7 +235,35 @@
             return def.promise;
         }
         return $cordovaLocalNotification.cancel(ids)
-        .then(function(_) { return maxid; });
+        .then(function(_) { return null; });
+    }
+
+    function reminder_triggered(event, notif, state)
+    {
+        // Handle $cordovaLocalNotification:trigger event: i.e., an
+        // event was triggered while the app is active. May need to
+        // recalculate badge numbers and text.
+        //
+
+        // A reminder triggered inside schedule() carries no new info,
+        // so nothing to do.
+        //
+        if (notif.id < 0)
+            return;
+
+        // Reminders sometimes seem to be triggred more than once. For
+        // extra safety, keep a record and handle them only one time.
+        //
+        if (notif.id in g_notifs_seen) {
+            g_notifs_seen[notif.id]++; // For grins, count repeats
+            return;
+        }
+        g_notifs_seen[notif.id] = 1;
+
+        // Otherwise recalculate based on our latest info.
+        //
+        if (c_remstate && c_reports)
+            sync_p(c_remstate, c_reports);
     }
 
     function sync_p(remstate, reports)
@@ -267,14 +304,18 @@
         .then(function(notifs) {
             return notifications_cull_p(remstate, notifs);
         })
-        .then(function(maxid) {
+        .then(function(_) {
             var notifsn =
-                notifications_new(remstate, reports_for_type, app_badge, maxid);
+                notifications_new(remstate, reports_for_type, app_badge);
             return $cordovaLocalNotification.schedule(notifsn);
         })
         .then(function(_) { return $cordovaBadge.set(app_badge); })
         .then(function(_) { return null; });
     }
+
+    // Subscribe to 'trigger' events.
+    //
+    $rootScope.$on('$cordovaLocalNotification:trigger', reminder_triggered);
 
     return {
         sync: function(descs, start_date, end_date, reports) {
@@ -327,8 +368,9 @@
             c_remstate.descs = angular.copy(descs);
             c_remstate.start_date = start_date;
             c_remstate.end_date = end_date;
+            c_reports = reports;
 
-            return sync_p(c_remstate, reports);
+            return sync_p(c_remstate, c_reports);
         },
 
         clear: function() {
@@ -354,34 +396,6 @@
                 notifs.sort(by_at);
                 return notifs;
             });
-        },
-        test: function() {
-            // Return a promise to schedule a reminder for 30 seconds
-            // from now that repeats every minute.
-            //
-            var notif = {};
-            notif.id = 12345678;
-            notif.title = 'Title B';
-            notif.text = 'Text B';
-            notif.at = new Date(Date.now() + 30000);
-            notif.data = 'testingb';
-            notif.every = 'minute';
-            return $cordovaLocalNotification.schedule([notif]);
-        },
-        testo: function() {
-            // Return a promise to schedule a one-shot reminder for 30
-            // seconds before now.
-            //
-            var notif = {};
-            notif.id = 1234;
-            notif.title = 'Title O';
-            notif.text = 'Text O';
-            notif.at = new Date(Date.now() - 30000);
-            notif.data = 'testingo';
-            return $cordovaLocalNotification.schedule([notif]);
-        },
-        deltest: function() {
-            return $cordovaLocalNotification.cancel([12345678]);
         }
     };
 })
