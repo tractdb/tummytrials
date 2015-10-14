@@ -14,17 +14,20 @@ To install the CouchDB plugin:
 Add additional plugins as required, ngCordova is the recommended lib for using cordova plugins. http://ngcordova.com/docs/plugins/ 
 
 Current plugins directory: 
-com.couchbase.lite.phonegap
-com.ionic.keyboard
-cordova-plugin-console
-cordova-plugin-datepicker
-cordova-plugin-badge
-cordova-plugin-device
-cordova-plugin-local-notifications
-cordova-plugin-statusbar
-de.appplant.cordova.common.registerusernotificationsettings
-de.appplant.cordova.plugin.badge
-de.appplant.cordova.plugin.local-notification
+
+    $ bower install ngCordova
+    $ couchbase lite for phonegap:
+    $ phonegap local plugin add https://github.com/couchbaselabs/Couchbase-Lite-PhoneGap-Plugin.git
+    $ cordova plugin add cordova-plugin-badge
+    $ cordova plugin add cordova-plugin-console
+    $ cordova plugin add cordova-plugin-datepicker
+    $ cordova plugin add cordova-plugin-device
+    $ cordova plugin add cordova-plugin-local-notificaions
+    $ cordova plugin add cordova-plugin-statusbar
+    $ cordova plugin add ionic-plugin-keyboard
+    $ cordova plugin add https://github.com/couchbaselabs/Couchbase-Lite-Phonegap-Plugin.git
+    $ cordova plugin add https://github.com/katzer/cordova-plugin-badge.git
+    $ cordova plugin add https://github.com/katzer/cordova-plugin-local-notifications.git
 
 For emulating the app in a browser, from inside the project directory.
 
