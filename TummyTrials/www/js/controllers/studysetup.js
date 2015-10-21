@@ -3,6 +3,7 @@
 .config(function($stateProvider, $urlRouterProvider) {
 
   $stateProvider
+
     .state('setup_1', {
       url: '/setup_1',
       views: {

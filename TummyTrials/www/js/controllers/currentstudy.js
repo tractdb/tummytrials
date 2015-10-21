@@ -39,6 +39,24 @@
         }
       }
     }) 
+    .state('neg_compliance', {
+      url: '/neg_compliance',
+      views: {
+        settings : {
+          templateUrl: 'templates/currenttrial/neg_compliance.html',
+          controller: 'setupcontroller'
+        }
+      }
+    }) 
+    .state('pos_compliance', {
+      url: '/pos_compliance',
+      views: {
+        settings : {
+          templateUrl: 'templates/currenttrial/pos_compliance.html',
+          controller: 'setupcontroller'
+        }
+      }
+    }) 
 
   })
 );
