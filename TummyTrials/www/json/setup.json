@@ -22,6 +22,14 @@
 		"button1": "Yes",
 		"button2": "No"
 	},
+	"neg_compliance": {
+		"title": "Oh no!",
+		"text": "You can still finish your study - just be careful to follow the schedule for the remaining days. If you miss an additional day, you will have to restart the study."
+	},
+	"pos_compliance": {
+		"title": "Great job!",
+		"text": "Remember, do not consume any food or beverage (other than water) for the next 3 hours. You will reminded to log your symptom severity level after 3 hours."
+	},
 	"post": {
 		"title": "No ongoing study",
 		"subtitle": "Did you eat at least 8 grams of lactose during your breakfast?",
