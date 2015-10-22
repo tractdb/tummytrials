@@ -24,7 +24,11 @@ angular.module('starter', ['ionic'])
 'use strict';
 
 var app = angular.module('tummytrials',
-            ['ionic','ngSanitize','tractdb.lifecycle', 'tummytrials.replicator', 'tummytrials.login','tummytrials.currentstudy','tummytrials.studysetup','tummytrials.faqcontroller', 'ngCordova','tummytrials.mytrialsctrl', 'tummytrials.ngcordovacontrollers', 'tummytrials.text', 'tummytrials.experiments', 'tummytrials.exper-test', 'tractdb.reminders', 'tummytrials.remind-test']);
+            ['ionic','ngSanitize','ngCordova',
+            'tractdb.lifecycle', 'tummytrials.replicator', 'tummytrials.login','tummytrials.currentstudy',
+            'tummytrials.studysetup','tummytrials.faqcontroller', 'tummytrials.mytrialsctrl', 
+            'tummytrials.ngcordovacontrollers', 'tummytrials.text', 'tummytrials.experiments',
+            'tummytrials.exper-test', 'tractdb.reminders', 'tummytrials.remind-test']);
 
 //Ionic device ready check
 app.run(function($ionicPlatform, $rootScope, $q, Login, Text, Experiments,
@@ -142,8 +146,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     })
     .state('past_trial_1', {
-      url: '/past_trial_1',
-      //parent: 'mytrials',
+      //url: '/past_trial_1',
+      parent: 'mytrials',
       views: {
         settings : {
           templateUrl: 'templates/mytrials/past_trial_1.html',

@@ -32,9 +32,18 @@
 	},
 	"post": {
 		"title": "No ongoing study",
-		"subtitle": "Did you eat at least 8 grams of lactose during your breakfast?",
-		"button1": "Yes",
-		"button2": "No"
+		"subtitle": "At its worse, how much has your symptom impacted your day since you last ate?",
+		"button1": "Submit",
+		"button2": "Cancel",
+		"likertlabels":[
+			{"label": "Not at all", "detail": "no symptom"},
+			{"label": "Slightly", "detail": "only noticed my symptom when I focused on it"},
+			{"label": "Mildly", "detail": "I could ignore my symptom most of the time"},
+			{"label": "Moderately", "detail": "could continue what I was doing"},
+			{"label": "Severely", "detail": "had difficulty concentrating on some tasks"},
+			{"label": "Very severely", "detail": "had difficulty concentrating on any task"},
+			{"label": "Extremely", "detail": "I couldn't do anything"}			
+		]
 	},
 	"notes": {
 		"title": "Add a note:",

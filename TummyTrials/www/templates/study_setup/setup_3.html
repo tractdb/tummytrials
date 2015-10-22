@@ -7,7 +7,18 @@
 
               
               <ul class="list">
-                <div class="row" ng-repeat="trigger in text.setup3.triggers"><div class="col col-90 zero-padding"><li class="item item-checkbox" ><label class="checkbox"><input type="radio" name="trigger" value="{{$index}}" ng-model="setupdata.trigger"></label>{{trigger.trigger}} </li></div><div class="col col-center zero-padding" class="button button-clear button-dark" ui-sref="{{trigger.uisref}}">&nbsp&nbsp&nbsp<i class="ion-information-circled"></i></div></div>
+                <div class="row" ng-repeat="trigger in text.setup3.triggers">
+                  <div class="col col-90 zero-padding">
+                    <li class="item item-checkbox" >
+                      <label class="checkbox">
+                        <input type="radio" name="trigger" value="{{$index}}" ng-model="setupdata.trigger">
+                      </label>{{trigger.trigger}} 
+                    </li>
+                  </div>
+                  <div class="col col-center zero-padding" class="button button-clear button-dark" ui-sref="{{trigger.uisref}}">&nbsp&nbsp&nbsp
+                    <i class="ion-information-circled"></i>
+                  </div>
+                </div>
               </ul>
 
           <a class="button button-block button-royal" ui-sref="setup_4">
