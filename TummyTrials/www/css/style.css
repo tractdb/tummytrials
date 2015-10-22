@@ -25,3 +25,12 @@
 .divcenter{
 	text-align:center;
 }
+
+.likert li{
+	padding: 0.8em 0 0.8em 3.5em;
+}
+
+.likertdetail{
+	font-size: 0.9em;
+	color:grey;
+}

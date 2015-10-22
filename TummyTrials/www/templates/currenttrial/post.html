@@ -6,15 +6,31 @@
     <br/>
     <p>{{text.post.subtitle}}</p>
     <br/>
-
-    <div class="button-bar">
-      <a class="button button-block button-royal" ui-sref="#">
-              {{text.post.button2}}
-      </a> &nbsp;
-      <a class="button button-block button-royal" ui-sref="#">
-              {{text.post.button1}}
+    <div class="likert">
+      
+        <ul class="list">
+          <li ng-repeat="label in text.post.likertlabels" class="item item-checkbox">
+            <label class="checkbox">
+              <input type="radio" name="likert">
+            </label>
+              {{label.label}}<br>
+              
+            <span class="likertdetail">{{label.detail}}</span>
+          </li>
+        </ul>
+      
+    </div>
+    <br>
+    <div class="divcenter">
+      <a class="button button-royal" ui-sref="">
+        {{text.post.button2}}
+      </a>      
+      <a class="button button-royal" ui-sref="">
+        {{text.post.button1}}
       </a>
     </div>
+
+
     </ion-content>  
   </ion-pane>
 </ion-view>
