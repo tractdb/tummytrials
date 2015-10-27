@@ -146,10 +146,9 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     })
     .state('past_trial_1', {
-      //url: '/past_trial_1',
-      parent: 'mytrials',
+      url: '/past_trial_1',
       views: {
-        settings : {
+        mytrials : {
           templateUrl: 'templates/mytrials/past_trial_1.html',
           controller: 'setupcontroller'
         }
