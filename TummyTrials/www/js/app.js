@@ -45,8 +45,8 @@ app.run(function($ionicPlatform, $rootScope, $q, Login, Text, Experiments,
       StatusBar.styleDefault();
     }
 
-  // Sync reminders for current study. (If no study, make sure reminders
-  // are absent.)
+  // Sync reminders for current study. (If no current study, make sure
+  // there are no reminders.)
   //
   Experiments.getCurrent()
   .then(function(curex) {
@@ -83,7 +83,7 @@ app.run(function($ionicPlatform, $rootScope, $q, Login, Text, Experiments,
   });
 
     // Some tests of Experiments. Move these into some kind of framework
-    // later on, probably.
+    // later on, possibly.
     //
     var want_to_run_exper_tests = false;
     if (want_to_run_exper_tests) {
@@ -103,7 +103,7 @@ app.run(function($ionicPlatform, $rootScope, $q, Login, Text, Experiments,
     }
 
     // Some tests of Reminders. Right now these require human
-    // intervention and observation.
+    // intervention and observation. Hard to move to a framework.
     //
     var want_to_run_remind_tests = false;
     if (want_to_run_remind_tests) {
