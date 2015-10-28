@@ -4,7 +4,7 @@
 
   $stateProvider
     .state('pvalue', {
-      url: '/pvalue',
+      url: 'faqs/pvalue',
       views: {
         faqs : {
           templateUrl: 'templates/faqs/pvalue.html',
@@ -13,7 +13,7 @@
       }
     })
     .state('abdominalpain', {
-      url: '/abdominalpain',
+      url: 'faqs/abdominalpain',
       views: {
         faqs : {
           templateUrl: 'templates/faqs/abdominalpain.html',
@@ -22,7 +22,7 @@
       }
     })
     .state('bloating', {
-      url: '/bloating',
+      url: 'faqs/bloating',
       views: {
         faqs : {
           templateUrl: 'templates/faqs/bloating.html',
@@ -31,7 +31,7 @@
       }
     })
     .state('urgency', {
-      url: '/urgency',
+      url: 'faqs/urgency',
       views: {
         faqs : {
           templateUrl: 'templates/faqs/urgency.html',
@@ -40,7 +40,7 @@
       }
     })
     .state('diarrhea', {
-      url: '/diarrhea',
+      url: 'faqs/diarrhea',
       views: {
         faqs : {
           templateUrl: 'templates/faqs/diarrhea.html',
@@ -49,7 +49,7 @@
       }
     })
     .state('constipation', {
-      url: '/constipation',
+      url: 'faqs/constipation',
       views: {
         faqs : {
           templateUrl: 'templates/faqs/constipation.html',
@@ -58,7 +58,7 @@
       }
     })
     .state('triggerchoice', {
-      url: '/triggerchoice',
+      url: 'faqs/triggerchoice',
       views: {
         faqs : {
           templateUrl: 'templates/faqs/triggerchoice.html',
