@@ -1,12 +1,26 @@
 <ion-view title="Past Trial">
   <ion-pane>
     <ion-content class="padding">
-        <br/>
-    <h4 class="title"></h4>
+        <br>
+    <h4 class="title">{{text.pasttrial.title}}</h4>
+    <p>{{text.pasttrial.subtitle}}</p>
     <br/>
-    <p>{{text.post.subtitle}}</p>
-    <br/>
-    Something to see.
+
+    <div > <!-- ng-repeat for symptoms -->
+        {{text.pasttrial.label}}
+        <br>
+        <hr>
+        <p>{{text.pasttrial.result}}</p>
+
+        <!-- vis goes here -->
+        <br>
+        {{text.pasttrial.summarylabel}}
+        <br>
+        {{text.pasttrial.summaryconda}} <b>2.75</b>
+        <br>
+        {{text.pasttrial.summarycondb}} <b>1.5</b>
+
+    </div>
     </ion-content>  
   </ion-pane>
 </ion-view>
