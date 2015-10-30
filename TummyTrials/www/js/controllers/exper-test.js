@@ -2,7 +2,7 @@
 //
 (angular.module('tummytrials.exper-test', [ 'tummytrials.experiments' ])
 
-.factory('ExperTest', function(Experiments) {
+.factory('ExperTest', function($q, Experiments) {
 
     function deep_equals(a, b)
     {
@@ -117,10 +117,22 @@
         return add_i_p(0);
     }
 
+    function const_p(k)
+    {
+        // Return a promise that resolves to k.
+        //
+        var def = $q.defer();
+        def.resolve(k);
+        return def.promise;
+    }
+
     function cleanup_expers_p(ids, i)
     {
+        if (!ids)
+            return const_p(null); // Nothing to clean up
         if (i >= ids.length)
-            return null;
+            return const_p(null); // Done cleaning up
+
         return Experiments.delete(ids[i])
         .then(
             function(_) { return cleanup_expers_p(ids, i + 1); },
@@ -159,7 +171,7 @@
     return {
         testAll: function() {
             var ns = [3, 1, 2];
-            var xbefore, xids, xafter;
+            var xbefore, xids = null, xafter;
 
             return Experiments.all()
             .then(function(expers) {

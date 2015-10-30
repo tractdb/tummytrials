@@ -83,7 +83,8 @@ app.run(function($ionicPlatform, $rootScope, $q, Login, Text, Experiments,
   });
 
     // Some tests of Experiments. Move these into some kind of framework
-    // later on, possibly.
+    // later on, probably. (Note: right now some of the tests fail if
+    // there is a current study.)
     //
     var want_to_run_exper_tests = false;
     if (want_to_run_exper_tests) {
@@ -103,7 +104,8 @@ app.run(function($ionicPlatform, $rootScope, $q, Login, Text, Experiments,
     }
 
     // Some tests of Reminders. Right now these require human
-    // intervention and observation. Hard to move to a framework.
+    // intervention and observation. (Need to disable Reminders.sync
+    // above for these tests to work.)
     //
     var want_to_run_remind_tests = false;
     if (want_to_run_remind_tests) {
