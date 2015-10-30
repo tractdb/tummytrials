@@ -45,8 +45,8 @@ app.run(function($ionicPlatform, $rootScope, $q, Login, Text, Experiments,
       StatusBar.styleDefault();
     }
 
-  // Sync reminders for current study. (If no study, make sure reminders
-  // are absent.)
+  // Sync reminders for current study. (If no current study, make sure
+  // there are no reminders.)
   //
   Experiments.getCurrent()
   .then(function(curex) {

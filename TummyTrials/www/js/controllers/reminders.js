@@ -8,21 +8,33 @@
 // but at the same time every day.
 //
 // This code manages local notifications and the badge on the app icon.
-// As long as the user stays fairly current (no more than a day behind),
-// the badge shows the number of reports that are due, even when the app
-// isn't running. If the user falls far behind, the badge is still a
-// reliable indicator that at least one report is due.
+// The badge shows the number of reports that are due, even when the app
+// isn't running.
 //
-// For things to work, you just have to call sync() any time there is
-// new information about reminders or reports. Examples of such times:
+// For things to work, you have to call sync() any time there is new
+// information about reminders or reports. Examples of such times:
 //
-//     App startup (if there is a current study)
+//     App startup
 //     User creates a study
 //     User submits a report
 //     User sets new reminder times
 //
+// For testing you can call accelerate() to establish a fictional
+// timeline that elapses faster than real time.
+//
 // You can call list() to get a list of current reminders, though this
-// is intended mostly for testing.
+// is also intended for testing.
+//
+// Note 1: $cordovaLocalNotification supports two types of
+// notifications, one-shot and repeating. We use only one-shot
+// notifications. Repeating notifications are too inflexible for what we
+// want to do--only a few predefined repeat intervals are allowed.
+//
+// Note 2: If reports are due that haven't been filed, we schedule
+// reminders for the past. The idea is to get them posted in the
+// Notification Center. Unfortunately the behavior is inconsistent;
+// sometimes they all show up there and sometimes just the most recent
+// one. This is something to look into at some point.
 //
 
 'use strict';
@@ -111,7 +123,8 @@
         });
     }
 
-    function notifications_new(remstate, reports_for_type, app_badge)
+    function notifications_new(remstate, descr_by_type, reports_for_type,
+                                app_badge)
     {
         // Return an array of notifications that follow from the given
         // new status:
@@ -152,8 +165,6 @@
                 notif.text = bodyn(n);
                 notif.at = reminder_time(remstate.start_date, n, desc.time);
                 notif.data = desc.type;
-                if (n >= nnext && !desc.reminderonly)
-                    notif.every = 'day';
                 // Mark past times with negative ids.
                 //
                 notif.id = n < nnext ? -1 : 1;
@@ -161,82 +172,60 @@
             }
 
             if (desc.reminderonly) {
-                // Separate notification for each. (Rationale: user has
-                // no reason to execute code in the app for these
-                // reminders, so we don't get chance to keep them
-                // current.)
-                //
                 for (var n = nnext; n <= duration; n++)
                     notifs.push(notifn(n));
             } else {
-                // Separate one-shot notifications for past reminders
-                // with no reports yet. One repeating notification for
-                // all future reminders.
+                // Notifications for past reminders with no reports yet.
                 //
                 var repct = reports_for_type[desc.type];
-                for (var n = repct + 1; n < nnext; n++)
+                var n;
+                for (n = repct + 1; n < nnext; n++)
                     notifs.push(notifn(n));
 
                 // (No reminders for reports submitted early.)
-                nnext = Math.max(nnext, repct + 1);
+                //
+                n = Math.max(nnext, repct + 1);
 
-                if (nnext <= duration)
-                    notifs.push(notifn(nnext));
+                for (; n <= duration; n++)
+                    notifs.push(notifn(n));
             }
         });
+
+        notifs.sort(by_at);
 
         // Assign ids and badge counts to notifications.
         //
         // Note that we use negative ids to mark notifications that are
-        // in the past when scheduled. They will trigger immediately,
-        // but their trigger event isn't interesting.
+        // for overdue reports. They will trigger immediately, but their
+        // trigger event isn't interesting.
         //
         var notibadge = app_badge;
-        notifs.sort(by_at);
         notifs.forEach(function(notif) {
             notif.id *= g_nextid++;
-            if (notif.every)
+            var descr = descr_by_type[notif.data];
+            if (notif.id >= 0 && descr && !descr.reminderonly)
                 notibadge++;
             notif.badge = notibadge;
         });
 
+        // Seemingly $cordovaLocalNotification has a bug whereby
+        // triggered reminders are rescheduled every time any new
+        // reminder is scheduled. This causes notifications for N
+        // overdue reports to pile up as (2^N-1) into a giant mess in
+        // the Notification Center. But since (2^1-1) = 1, we can at
+        // least keep the most recent one as long as we schedule it
+        // last.
+        //
+        while (notifs.length > 1 && notifs[1].id < 0)
+            notifs.splice(0, 1);
+        if (notifs.length > 0 && notifs[0].id < 0) {
+            var t = notifs.splice(0, 1);
+            notifs.push(t[0]);
+        }
+
         return notifs;
     }
 
-    function notifications_cull_p(remstate, notifs)
-    {
-        // Return a promise to remove notifications in preparation for
-        // installing new ones. The only notifications to keep are
-        // triggered one-shot notifications. The promise resolves to
-        // null.
-        //
-        var ids = [];
-
-        function rembytype(ty)
-        {
-            for (var i = 0; i < remstate.descs.length; i++)
-                if (remstate.descs[i].type == ty)
-                    return remstate.descs[i];
-            return null;
-        }
-
-        notifs.forEach(function(notif) {
-            if (notif.state == 'scheduled') {
-                ids.push(notif.id);
-            } else {
-                var desc = rembytype(notif.data);
-                if (!desc || !desc.reminderonly)
-                    ids.push(notif.id);
-            }
-        });
-        if (ids.length < 1) {
-            var def = $q.defer();
-            def.resolve(null);
-            return def.promise;
-        }
-        return $cordovaLocalNotification.cancel(ids)
-        .then(function(_) { return null; });
-    }
 
     function reminder_triggered(event, notif, state)
     {
@@ -266,6 +255,22 @@
             sync_p(c_remstate, c_reports);
     }
 
+    function schedule_p(notifs, i)
+    {
+        // Schedule given notifications one at a time.
+        // Note: currently unused.
+        //
+        if (i >= notifs.length) {
+            var def = $q.defer();
+            def.resolve(null);
+            return def.promise;
+        }
+        return $cordovaLocalNotification.schedule(notifs[i])
+        .then(function(_) {
+            return schedule_p(notifs, i + 1);
+        });
+    }
+
     function sync_p(remstate, reports)
     {
         // Return a promise to update notifications and badge count
@@ -274,6 +279,13 @@
         //
         var sday = study_day_today(remstate);
         var daysec = sec_after_midnight();
+
+        // Access reminder descriptors by type.
+        //
+        var descr_by_type = {};
+        remstate.descs.forEach(function(desc) {
+            descr_by_type[desc.type] = desc;
+        });
 
         // How many reports are there of each type?
         //
@@ -298,15 +310,14 @@
             app_badge += Math.max(0, due - reports_for_type[desc.type]);
         });
 
-        // Remove old notifications, schedule new ones, set app badge.
+        // Remove all old notifications, schedule new ones, set app
+        // badge.
         //
-        return notifications_now_p()
-        .then(function(notifs) {
-            return notifications_cull_p(remstate, notifs);
-        })
+        return $cordovaLocalNotification.cancelAll()
         .then(function(_) {
             var notifsn =
-                notifications_new(remstate, reports_for_type, app_badge);
+                notifications_new(remstate, descr_by_type, reports_for_type,
+                                    app_badge);
             return $cordovaLocalNotification.schedule(notifsn);
         })
         .then(function(_) { return $cordovaBadge.set(app_badge); })
@@ -343,7 +354,7 @@
             //
             // The 'reminderonly' field, if present, is a boolean saying
             // whether this is a "pure" reminder with no associated
-            // report.  The default is a "reportable" reminder (false
+            // report. The default is a "reportable" reminder (false
             // value for the field).
             //
             // For a pure reminder the associated notifications are
