@@ -16,9 +16,9 @@
 (angular.module('tummytrials.remind-test', [ 'tractdb.reminders' ])
 
 .factory('RemindTest', function(Reminders) {
-    var sync_duration = 3; // Days in fake study
+    var test_duration = 3; // Days in fake study
 
-    var descs = [
+    var test_descs = [
         { type: 'testSyncA',
           time: 0, // Fix up in test_sync_0
           heads: ['First Reminder'],
@@ -75,6 +75,13 @@
         return Math.trunc(a.getTime() / 1000);
     }
 
+    function descr_by_type(descs, ty)
+    {
+        for (var i = 0; i < descs.length; i++)
+            if (descs[i].type == ty)
+                return descs[i];
+        return null;
+    }
 
     function test_remind(descr, start_time, n, state)
     {
@@ -91,8 +98,6 @@
         remind.id = 0; // Caller should fix up later
         remind.title = nthstr(descr.heads);
         remind.text = nthstr(descr.bodies);
-        if (state == 'scheduled' && !descr.reminderonly)
-            remind.every = 'day';
         remind.at = at_time(start_time, n, descr.time);
         remind.sound = 'res://platform_default';
         remind.state = state;
@@ -110,8 +115,9 @@
 
     function expected_reminders(descs, startt, endt, reports, baseid, moment)
     {
-        // Return the expected reminders at the given moment, given the
-        // supplied reminder state. Times are sec since Unix epoch.
+        // Return the expected reminders after syncing at the given
+        // moment, given the supplied reminder state. Times are sec
+        // since Unix epoch.
         //
         var daysec = 24 * 60 * 60; // Seconds in a day
         var dayct = Math.round((endt - startt) / daysec);
@@ -159,19 +165,24 @@
 
             // Reminders to be issued in the future.
             //
-            if (desc.reminderonly) {
-                for (var n = n0; n <= dayct; n++)
-                    expected.push(test_remind(desc, startt, n, 'scheduled'));
-            } else {
+            var n;
+            if (desc.reminderonly)
+                n = n0;
+            else
                 // (Reports might conceivably come in early.)
                 //
-                n0 = Math.max(n0, reports_for_type[desc.type] + 1);
-                if (n0 <= dayct)
-                    expected.push(test_remind(desc, startt, n0, 'scheduled'));
-            }
+                n = Math.max(n0, reports_for_type[desc.type] + 1);
+            for (; n <= dayct; n++)
+                expected.push(test_remind(desc, startt, n, 'scheduled'));
         });
 
         expected.sort(by_at);
+
+        // We keep only the latest overdue reminder, due to
+        // $cordovaLocalNotification bug (see reminders.js).
+        //
+        while (expected.length > 1 && expected[1].state == 'triggered')
+            expected.splice(0, 1);
 
         // Set ids and badge counts.
         //
@@ -179,31 +190,12 @@
             n.id = baseid++;
             if (n.state == 'triggered')
                 n.id = -n.id;
-            if (n.state == 'scheduled' && n.every)
+            var descr = descr_by_type(descs, n.data);
+            if (n.state == 'scheduled' && descr && !descr.reminderonly)
                 badgect++;
             n.badge = badgect;
         });
 
-        return expected;
-    }
-
-
-    function expected_round_1()
-    {
-        var start = study_start_time();
-        var expected = [];
-        for (var i = 0; i < descs.length; i++) {
-            var reps = descs[i].reminderonly ? sync_duration : 1;
-            for (var j = 1; j <= reps; j++)
-                expected.push(test_remind(descs[i], start, j, 'scheduled'));
-        }
-        expected.sort(by_at);
-        var badge = 0;
-        expected.forEach(function(notif, ix) {
-            notif.id = ix + 1;
-            if (notif.every) badge++;
-            notif.badge = badge;
-        });
         return expected;
     }
 
@@ -212,20 +204,20 @@
         var d = new Date(); // Now
         var nowsec =
             d.getHours() * 3600 + d.getMinutes() * 60 + d.getSeconds();
-        descs[0].time = nowsec + 30; // 30 seconds from now
-        descs[1].time = nowsec + 50; // 20 seconds after that
-        descs[2].time = nowsec + 70; // 20 seconds after that
+
+        test_descs[0].time = nowsec + 30; // 30 seconds from now
+        test_descs[1].time = nowsec + 50; // 20 seconds after that
+        test_descs[2].time = nowsec + 70; // 20 seconds after that
+
+        var st = study_start_time();
+        var et = study_end_time(test_duration);
+        var mom = Math.floor(Date.now() / 1000);
 
         return Reminders.clear()
-        .then(function(_) {
-            return Reminders.sync(descs, study_start_time(),
-                                    study_end_time(sync_duration), []);
-        })
-        .then(function(_) {
-            return Reminders.list();
-        })
+        .then(function(_) { return Reminders.sync(test_descs, st, et, []); })
+        .then(function(_) { return Reminders.list(); })
         .then(function(notifs) {
-            var expected = expected_round_1();
+            var expected = expected_reminders(test_descs, st, et, [], 1, mom);
             validate_reminds_equal(notifs, expected, 'testSync 1');
             console.log('Please exit to home screen (touch home button)');
             console.log('You should see three notifications');
@@ -236,8 +228,8 @@
 
     function test_sync_2(notifs0)
     {
-        var start = study_start_time();
-        var end = study_end_time(sync_duration);
+        var st = study_start_time();
+        var et = study_end_time(test_duration);
         var nowepoch = Math.trunc(Date.now() / 1000);
 
         // Use time of first notification as a base for the expected
@@ -247,65 +239,48 @@
             throw new Error("testSync 2 A (no notifications)");
         if (notifs0[0].at < nowepoch - 600)
             console.log('testSync 2 notifications suspiciously old');
-        var time0 = notifs0[0].at - start;
+        var time0 = (notifs0[0].at - st) - 30;
+        var id0 = Math.abs(notifs0[0].id);
 
         // Reestablish the times used in test_sync_1;
         //
-        descs[0].time = time0;
-        descs[1].time = time0 + 20;
-        descs[2].time = time0 + 40;
+        test_descs[0].time = time0 + 30;
+        test_descs[1].time = time0 + 50;
+        test_descs[2].time = time0 + 70;
 
-        // Verify that we see what we expect. The only difference is
-        // that the first three have now been triggered.
+        // Current moment (trust that it's after all three reminder
+        // times).
         //
-        var expected = expected_round_1();
-        for (var i = 0; i < 3; i++)
-            expected[i].state = 'triggered';
+        var mom = Math.floor(Date.now() / 1000);
+
+        // Verify that we see what we expect (before syncing). Basically
+        // any reminders scheduled for before the current moment should
+        // be in the 'triggered' state.
+        //
+        var expected = expected_reminders(test_descs, st, et, [], id0, time0);
+        expected.forEach(function(notif) {
+            if (notif.at <= mom)
+                notif.state = 'triggered';
+        });
         validate_reminds_equal(notifs0, expected, 'testSync 2 before');
 
         // Make all reports that are due, then check again.
         //
         var reps = [];
-
-        descs.forEach(function(desc) {
+        test_descs.forEach(function(desc) {
             if (!desc.reminderonly)
                 reps.push({ type: desc.type });
         });
 
-        return Reminders.sync(descs, start, end, reps)
+        return Reminders.sync(test_descs, st, et, reps)
         .then(function(_) { return Reminders.list(); })
         .then(function(notifs) {
-            var expected = [];
-            notifs0.forEach(function(notif) {
-                if (notif.state == 'triggered' && !notif.every) {
-                    // This notification will be left in the
-                    // Notification Center. So we expect to see it in
-                    // the list.
-                    //
-                    expected.push(notif);
-                }
-            });
-            for (var i = 0; i < descs.length; i++) {
-                var reps = descs[i].reminderonly ? sync_duration : 2;
-                for (var j = 2; j <= reps; j++)
-                    expected.push(test_remind(descs[i], start, j,
-                                    'scheduled'));
-            }
-            expected.sort(by_at);
-            var badge = 0;
-            var nextid = notifs.length + 1;
-            expected.forEach(function(notif) {
-                if(notif.id == 0) {
-                    notif.id = nextid++;
-                    if (notif.every) badge++;
-                    notif.badge = badge;
-                }
-            });
+            var expected = expected_reminders(test_descs, st, et, reps,
+                                                id0, mom);
             validate_reminds_equal(notifs, expected, 'testSync 2 after');
             console.log('Please exit to home screen (touch home button)');
             console.log('Badge should have disappeared');
-            console.log('Notification center should have Second Reminder');
-            console.log('(But it doesn\'t)');
+            console.log('Notification center should have no reminders');
         });
     }
 
@@ -319,35 +294,38 @@
 
     return {
         testSync: function() {
-            // Return a promise to perform one of three tests. If there
-            // are no test notifications, set up some notifications and
-            // ask user to see if they get delivered as expected. If
-            // there is a test notification for a report that's due,
-            // simulate the report. Then ask user to see whether the
-            // badge has changed. If there are notifications, but none
-            // for an undelivered report, clean up by removing all the
-            // notifications.
+            // Return a promise to perform one of three tests. (A) If
+            // there are no test notifications, set up some
+            // notifications and ask user to see if they get delivered
+            // as expected. (B) If there is a test notification for an
+            // overdue report, simulate the report. Then ask user to see
+            // whether the badge has changed. (C) If there are
+            // notifications, but none for an overdue report, clean up
+            // by removing all the notifications.
             //
             return Reminders.list()
             .then(function(notifs) {
                 var testnotif = -1, testnotiftrig = -1;
 
-                for (var i = 0; i < notifs.length; i++)
+                for (var i = 0; i < notifs.length; i++) {
+                    var desc = descr_by_type(test_descs, notifs[i].data);
                     if (notifs[i].data.search(/^testSync/) >= 0) {
                         if (testnotif < 0)
                             testnotif = i;
                         if (notifs[i].state == 'triggered' &&
-                            notifs[i].every &&
+                            desc &&
+                            !desc.reminderonly &&
                             testnotiftrig < 0) {
                             testnotiftrig = i;
                             break;
                         }
                     }
-                    if (testnotif < 0)
-                        return test_sync_1(notifs);
-                    if (testnotiftrig >= 0)
-                        return test_sync_2(notifs);
-                    return test_sync_cleanup(notifs);
+                }
+                if (testnotif < 0)
+                    return test_sync_1(notifs);
+                if (testnotiftrig >= 0)
+                    return test_sync_2(notifs);
+                return test_sync_cleanup(notifs);
             })
         },
 
@@ -360,14 +338,6 @@
             // console.
             //
 
-            function rembytype(ty)
-            {
-                for (var i = 0; i < descs.length; i++)
-                    if (descs[i].type == ty)
-                        return descs[i];
-                return null;
-            }
-
             return Reminders.list()
             .then(function(notifs) {
                 // We are not concerned with pure reminders that have
@@ -375,7 +345,7 @@
                 // at their leisure.
                 //
                 for (var j = notifs.length - 1; j >= 0; j--) {
-                    var desc = rembytype(notifs[j].data);
+                    var desc = descr_by_type(descs, notifs[j].data);
                     if (notifs[j].state == 'triggered' &&
                         desc && desc.reminderonly)
                         notifs.splice(j, 1);
