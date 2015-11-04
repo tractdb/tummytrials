@@ -9,7 +9,13 @@
 		"note" : "Would you like to add an optional note?",
 		"button1": "Log Breakfast Compliance",
 		"button2": "Log Symptom Level",
-		"button3": "Add Notes"
+		"button3": "Add Note",
+                "reminder_schedule_template": "Your {NAME} reminder is set to {WHEN}.",
+                "morning_reminder_name": "morning",
+                "breakfast_reminder_name": "breakfast",
+                "symptomEntry_reminder_name": "symptom entry",
+                "breakfast_reminder_logmsg": "Log Breakfast Compliance",
+                "symptomEntry_reminder_logmsg": "Log Symptom Level"
 	},	
 	"no_study": {
 		"title": "No ongoing study",
@@ -224,7 +230,7 @@
 		"topic_title": "Self-Study Topic",
                 "notopic": "(Please select trigger on screen 2.)",
 		"topic": "Does {TRIGGER} affect my symptoms?",
-		"sypmtoms_title": "Symptoms Being Tracked",
+		"symptoms_title": "Symptoms Being Tracked",
 		"symptom1": "- Abdominal Pain",
 		"symptom2": "- Bloating or Gas",
                 "nosymptom": "(Please select symptoms on screen 1.)",
@@ -232,9 +238,11 @@
                 "nolength": "(Please select a length and start date on screen 3.)",
 		"start_date": "Tue Mar 27th",
 		"end_date": "Tue Apr 4th",
-		"morning_reminder_title": "Morning Reminder Time",
+                "reminder_times_title": "Reminder Times",
+		"morning_reminder_title": "Morning Reminder",
 		"morning_reminder": "9:00 am",
-		"symptom_reminder_title": "Symptom Entry Reminder Time",
+                "breakfast_reminder_title": "Breakfast Reminder",
+		"symptomEntry_reminder_title": "Symptom Entry Reminder",
 		"symptom_reminder": "1:00 pm",
 		"button": "Begin Study!"
 	},
@@ -245,5 +253,9 @@
                 "passtag": "Password",
                 "loginb": "Login",
                 "cancelb": "Cancel"
+        },
+        "pasttrial1": {
+                "status_title": "Status",
+                "notes_title": "Notes"
         }
 }

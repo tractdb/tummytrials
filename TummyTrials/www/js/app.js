@@ -24,11 +24,15 @@ angular.module('starter', ['ionic'])
 'use strict';
 
 var app = angular.module('tummytrials',
-            ['ionic','ngSanitize','ngCordova',
-            'tractdb.lifecycle', 'tummytrials.replicator', 'tummytrials.login','tummytrials.currentstudy',
-            'tummytrials.studysetup','tummytrials.faqcontroller', 'tummytrials.mytrialsctrl', 
-            'tummytrials.ngcordovacontrollers', 'tummytrials.text', 'tummytrials.experiments',
-            'tummytrials.exper-test', 'tractdb.reminders', 'tummytrials.remind-test']);
+            ['ionic', 'ngSanitize', 'ngCordova',
+            'tractdb.lifecycle', 'tummytrials.replicator',
+            'tummytrials.login', 'tummytrials.currentstudy',
+            'tummytrials.studysetup', 'tummytrials.faqcontroller',
+            'tummytrials.currentctrl',
+            'tummytrials.mytrialsctrl', 'tummytrials.pasttrial1ctrl',
+            'tummytrials.ngcordovacontrollers', 'tummytrials.text',
+            'tummytrials.experiments', 'tummytrials.exper-test',
+            'tractdb.reminders', 'tummytrials.remind-test']);
 
 //Ionic device ready check
 app.run(function($ionicPlatform, $rootScope, $q, Login, Text, Experiments,
@@ -134,7 +138,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
       views: {
         current : {
           templateUrl: 'templates/current.html',
-          controller: 'setupcontroller'
+          controller: 'CurrentCtrl'
         }
       }
     })
@@ -148,11 +152,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     })
     .state('past_trial_1', {
-      url: '/past_trial_1',
+      url: '/past_trial_1/:studyIndex',
       views: {
         mytrials : {
           templateUrl: 'templates/mytrials/past_trial_1.html',
-          controller: 'setupcontroller'
+          controller: 'PastTrial1Ctrl'
         }
       }
     })
@@ -177,20 +181,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
 })
 
-app.controller( "setupcontroller", function(Calander, $scope, $http, $sce) {
-    $http({
-        url: 'json/setup.json',
-        dataType: 'json',
-        method: 'GET',
-        data: '',
-        headers: {
-            "Content-Type": "application/json"
-        },
-
-    }).success(function(response){
-        $scope.text = response;
-    }).error(function(error){
-        $scope.text = 'error';
+app.controller("setupcontroller", function($scope, $http, $sce, Text, Experiments, Calander) {
+    Text.all_p()
+    .then(function(text){
+        $scope.text = text;
+        return Experiments.publish_p($scope);
     });
 
     this.calander = [];

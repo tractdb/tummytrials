@@ -1,4 +1,4 @@
-// experiments.js     Experiments as Couchbase Lite documents
+// experiments.js     TummyTrials experiments
 //
 
 'use strict';
@@ -10,6 +10,16 @@ var TYPEDESC = {
     viewkeys: [ VIEWKEY ]
 };
 
+function by_time(a, b)
+{
+    var na = Number(a.time);
+    var nb = Number(b.time);
+
+    if (na < nb) return -1;
+    if (na > nb) return 1;
+    return 0;
+}
+
 (angular.module('tummytrials.experiments', ['tractdb.couchdb'])
 
 /* The following fields have a known meaning right now:
@@ -19,7 +29,7 @@ var TYPEDESC = {
  *     start_time:  Start time (sec since 1970, start of first day)
  *     end_time:    Scheduled end time (sec since 1970, end of last day)
  *     status:      One of 'active', 'ended', 'abandoned'
- *     id:          Unique identifier 
+ *     id:          Unique identifier [managed by CouchDB class]
  *
  *   Tummytrials experiment properties:
  *     comment:     Free form comment (string)
@@ -36,16 +46,24 @@ var TYPEDESC = {
 
 /* A report might look something like this:
  *
- * {
- * type:           Report type
- * time:           Time of report (sec since 1970)
- * adherence:      Adhered to the experiment today (bool)
- * symptom_scores: (array of { name: string, score: number })
- * notes:          string
+ * { type:           Report type [coordinates with reminders]
+ *   time:           Time of report (sec since 1970)
+ *   adherence:      Adhered to the experiment today (bool)
+ *   symptom_scores: (array of { name: string, score: number })
+ *   notes:          string
  * }
  *
  * But any fields supplied by caller are preserved. The 'type' field is
  * also used to coordinate reports with reminders (see reminders.js).
+ */
+
+/* The publish_p() function returns a promise to set variables in a
+ * scope to publish the current state of the user's studies. It's called
+ * from controllers to establish a standardized environment to be used
+ * in page templates.
+ *
+ *     study_current      Current study (object, as above; null if none)
+ *     study_previous     Previous studies (array of object)
  */
 
 .factory('Experiments', function($q, CouchDB) {
@@ -56,7 +74,56 @@ var TYPEDESC = {
         return db.get_all_p(TYPEDESC, VIEWKEY, { descending: true });
     }
 
+    function current_ix(expers)
+    {
+        // Return index of current experiment, -1 if there isn't one.
+        // Current experiment is defined as the most recent active
+        // experiment. Caller warrants that expers[] is in reverse
+        // chronological order of start_time.
+        //
+        for (var i = 0; i < expers.length; i++)
+            if (expers[i].status == 'active')
+                return i;
+        return -1;
+    }
+
     return {
+        publish_p: function(scope) {
+            // Return a promise to publish current experiment
+            // information into the given scope. This provides a
+            // standard set of variable names for use in page templates.
+            // The promise resolves to null.
+            //
+            // study_current       Current study (object)
+            // study_previous      Previous studies (array of object)
+            //
+            return get_all_p()
+            .then(function(expers) {
+                // (We want reminders to be listed in chronological
+                // order in the UI.)
+                //
+                expers.forEach(function(exper) {
+                    if (!exper.remdescrs)
+                        return;
+                    exper.remdescrs.sort(by_time);
+                });
+
+                // Separate out current study (if any) from previous
+                // studies.
+                //
+                var cix = current_ix(expers);
+                if (cix < 0) {
+                    scope.study_current = null;
+                } else {
+                    scope.study_current = expers[cix];
+                    expers.splice(cix, 1);
+                }
+                scope.study_previous = expers;
+
+                return null;
+            });
+        },
+
         all: function() {
             // Return a promise for all the experiments.
             //
@@ -76,9 +143,9 @@ var TYPEDESC = {
             //
             return get_all_p()
             .then(function(expers) {
-                for (var i = 0; i < expers.length; i++)
-                    if (expers[i].status == 'active')
-                        return expers[i];
+                var ix = current_ix(expers);
+                if (ix >= 0)
+                    return expers[ix];
                 return null;
             });
         },

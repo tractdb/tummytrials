@@ -1,6 +1,6 @@
 (angular.module('tummytrials.setupctrl',
-                ['tummytrials.text', 'tummytrials.setupdata',
-                 'tummytrials.experiments'])
+                ['tummytrials.lc', 'tummytrials.text', 'tummytrials.setupdata',
+                 'tummytrials.studyfmt', 'tummytrials.experiments'])
 
 .controller('Setup2Ctrl', function($scope, Text, SetupData) {
     Text.all_p()
@@ -31,21 +31,12 @@
     });
 })
 
-.controller('Setup5Ctrl', function($scope, $state, Text, SetupData,
-                                    Experiments) {
-    function datestr(d)
-    {
-        var days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-        var mons = ["Jan","Feb","Mar","Apr","May","Jun",
-                    "Jul","Aug","Sep","Oct","Nov","Dec"];
-        return days[d.getDay()] + ", " + mons[d.getMonth()] + " " + d.getDate();
-    }
+.controller('Setup5Ctrl', function($scope, $state, LC, Text, SetupData,
+                                    StudyFmt, Experiments) {
 
-    function create_study_p(text)
+    function create_study_ob(text)
     {
-        // Return a promise to create the study; i.e., add document to
-        // database. Data comes from SetupData. Caller warrants that all
-        // the data has been saved there:
+        // Return a study object created from SetupData.
         //
         // SetupData.startdate  ISO 8601-like
         // SetupData.duration   days, numeric string
@@ -53,37 +44,41 @@
         // Setupdata.trigger    numeric string (triggers[] array index)
         // <<TODO: reminder times>>
         //
+        // If SetupData is complete, the returned object will be fully
+        // valid. Otherwise there will be vacant spots.
+        //
         // (We rely on the fact that startdate represents midnight at
         // the beginning of the day.)
         //
         var exper = {};
-        var sd = new Date(SetupData.startdate);
+        var sd = new Date(SetupData.startdate || 0);
 
         // (Use the Date machinery to work around daylight savings etc.)
         //
         var ed = new Date(sd.getFullYear(), sd.getMonth(),
-                          sd.getDate() + Number(SetupData.duration));
+                          sd.getDate() + Number(SetupData.duration || 0));
 
-        exper.name = 'Trial beginning ' + datestr(sd);
+        exper.name = 'Trial beginning ' + LC.datestr(sd);
         exper.start_time = Math.floor(sd.getTime() / 1000);
         exper.end_time = Math.floor(ed.getTime() / 1000);
         exper.status = 'active';
         exper.comment = '';
         exper.symptoms = [];
-        for (var i = 0; i < text.setup2.symptoms.length; i++)
-            if (SetupData.symptom[i])
-                exper.symptoms.push(text.setup2.symptoms[i].symptom);
-        var tix = Number(SetupData.trigger);
+        if(SetupData.symptom)
+            for (var i = 0; i < text.setup2.symptoms.length; i++)
+                if (SetupData.symptom[i])
+                    exper.symptoms.push(text.setup2.symptoms[i].symptom);
+        var tix = Number(SetupData.trigger || '');
         exper.trigger = text.setup3.triggers[tix].trigger;
 
         // XXX Fix this when reminder times and A/B day types are
         // available.
         //
         exper.remdescrs = [
-            { type: 'first',
+            { type: 'morning',
               reminderonly: true,
               time: 7 * 60 * 60, // Sec after midnight
-              heads: ['TummyTrials Daily Reminder'],
+              heads: ['TummyTrials Morning Reminder'],
               bodies: ['Today is a day with/without trigger']
             },
             { type: 'breakfast',
@@ -98,12 +93,32 @@
             }
         ];
         exper.reports = [];
+
+        return exper;
+    }
+
+    function create_study_p(text)
+    {
+        // Return a promise to create the study; i.e., add document to
+        // database. Data comes from SetupData. Caller warrants that all
+        // the data has been saved there.
+        //
+        var exper = create_study_ob(text);
         return Experiments.add(exper);
     }
 
+    var text;
+    var study;
+
     Text.all_p()
-    .then(function(text) {
-        $scope.text = text;
+    .then(function(alltext) {
+        text = alltext;
+        $scope.text = alltext;
+        study = create_study_ob(text);
+        $scope.study = study;
+        return StudyFmt.new_p(study);
+    })
+    .then(function(studyfmt) {
         $scope.setupdata = SetupData;
 
         // Function to create study when all data is available.
@@ -119,18 +134,17 @@
 
         // Set some values in the scope for the template to use:
         //
-        // study_data_complete:  (bool) All study data has been specified
-        // chosen_topic:         (string) Description of the study
-        // chosen_symptoms:      (string array) Symptoms to follow
-        // chosen_date_range:    (string) Start and end dates
+        // study_data_complete:   (bool) All study data has been specified
+        // study                  (object) Study (possibly incomplete)
+        // chosen_topic:          (string) Description of the study
+        // chosen_symptoms:       (string array) Symptoms to follow
+        // chosen_date_range:     (string) Start and end dates
+        // chosen_reminder_times: (hash) Reminder times
 
         $scope.study_data_complete = true;
 
         if ($scope.setupdata.trigger) {
-            var tix = Number($scope.setupdata.trigger);
-            var lowtrigger = text.setup3.triggers[tix].trigger.toLowerCase();
-            $scope.chosen_topic =
-                text.setup5.topic.replace('{TRIGGER}', lowtrigger);
+            $scope.chosen_topic = studyfmt.topicQuestion();
         } else {
             $scope.chosen_topic = text.setup5.notopic;
             $scope.study_data_complete = false;
@@ -146,19 +160,14 @@
         }
 
         if ($scope.setupdata.startdate && $scope.setupdata.duration) {
-            // Start date looks something like this, here in Seattle:
-            // "2015-08-31T07:00:00.000Z" (ISO 8601-like)
-            //
-            var duration = Number($scope.setupdata.duration);
-            var sd = new Date($scope.setupdata.startdate);
-            // Last day of study (not first day after study).
-            var ed = new Date(sd.getFullYear(), sd.getMonth(),
-                              sd.getDate() + duration - 1);
-            $scope.chosen_date_range = datestr(sd) + ' — ' + datestr(ed);
+            $scope.chosen_date_range = studyfmt.dateRange();
         } else {
             $scope.chosen_date_range = text.setup5.nolength;
             $scope.study_data_complete = false;
         }
+
+        // XXX test for valid reminder times
+        $scope.chosen_reminder_times = studyfmt.reminderTimes();
     });
 })
 

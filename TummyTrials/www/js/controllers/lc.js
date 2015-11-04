@@ -1,0 +1,43 @@
+// lc.js     Formatting functions that should probably be localized someday
+//
+
+'use strict';
+
+(angular.module('tummytrials.lc', [])
+    .factory('LC', function() {
+        return {
+            datestr: function(d) {
+                // Return a string for the date. It looks like
+                // "Tue, Nov 3".
+                //
+                var days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+                var mons = ["Jan","Feb","Mar","Apr","May","Jun",
+                            "Jul","Aug","Sep","Oct","Nov","Dec"];
+                return days[d.getDay()] + ", " + mons[d.getMonth()] + " " +
+                        d.getDate();
+            },
+
+            timestr: function(sec) {
+                // Return string for the given number of seconds after
+                // midnight. It looks like '9:15 am'.
+                //
+                var hrs = Math.floor(sec / 3600);
+                var min = Math.floor((sec % 3600) / 60);
+                var ampm = 'am';
+
+                if (hrs == 0) {
+                    hrs = 12;
+                    if (min == 0)
+                        ampm = 'midnight';
+                } else if (hrs == 12 && min == 0) {
+                    ampm = 'noon';
+                } else if (hrs >= 12) {
+                    if (hrs > 12) hrs -= 12;
+                    ampm = 'pm';
+                }
+
+                return hrs + ':' + ('0' + String(min)).substr(-2) + ' ' + ampm;
+            }
+        };
+    })
+);

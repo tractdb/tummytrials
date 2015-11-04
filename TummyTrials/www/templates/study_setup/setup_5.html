@@ -7,7 +7,7 @@
               <p>{{chosen_topic}}</p>
               <br/>
 
-              <h5 class="title">{{text.setup5.sypmtoms_title}}</h5>
+              <h5 class="title">{{text.setup5.symptoms_title}}</h5>
               <p ng-repeat="symptom in chosen_symptoms">{{symptom}}</p>
               <br/>
 
@@ -15,13 +15,11 @@
               <p>{{chosen_date_range}}</p>              
               <br/>
 
-              <h5 class="title">{{text.setup5.morning_reminder_title}}</h5>
-              <p>{{text.setup5.morning_reminder}}</p>
-              <br/>
-
-              <h5 class="title">{{text.setup5.symptom_reminder_title}}</h5>
-              <p>{{text.setup5.symptom_reminder}}</p>              
-              <br/>
+              <h5 class="title">{{text.setup5.reminder_times_title}}</h5>
+              <div class="row" ng-repeat="remdesc in study.remdescrs">
+                <div class="col">{{text.setup5[remdesc.type + '_reminder_title'] || remdesc.type}}</div>
+                <div class="col">{{chosen_reminder_times[remdesc.type]}}</div>
+              </div>
               
               <a class="button button-block button-royal" ng-disabled="!study_data_complete" ng-click="begin_study()">
                 {{text.setup5.button}}
