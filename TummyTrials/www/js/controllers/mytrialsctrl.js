@@ -5,10 +5,7 @@
     Text.all_p()
     .then(function(text) {
         $scope.text = text;
-        return Experiments.getCurrent();
-    })
-    .then(function(curexper) {
-        $scope.current_experiment = curexper;
+        return Experiments.publish_p($scope);
     });
 })
 

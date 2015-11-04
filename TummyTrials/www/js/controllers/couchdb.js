@@ -43,7 +43,7 @@ var DB_DOCVERSION = 1;
 
 (angular.module('tractdb.couchdb', [])
 
-.factory('CouchDB', function($window, $q, $http) {
+.factory('CouchDB', function($ionicPlatform, $window, $q, $http) {
     var RDB_BASE = 'tractdb.org/couch/{USER}_{DBNAME}';
     var RDB_URL = 'https://' + RDB_BASE;
     var RDB_UNPW_URL = 'https://{USER}:{PASS}@' + RDB_BASE;
@@ -51,6 +51,16 @@ var DB_DOCVERSION = 1;
 
     // Useful functions.
     //
+
+    function platform_ready_p()
+    {
+        // Return a promise that the platform is ready. The promise
+        // resolves to null.
+        //
+        var def = $q.defer();
+        $ionicPlatform.ready(function() { def.resolve(null) });
+        return def.promise;
+    }
 
     function auth_hdr(unpw)
     {
@@ -63,26 +73,26 @@ var DB_DOCVERSION = 1;
     {
         // Return a promise that resolves to the url for Couchbase Lite.
         //
-        var def = $q.defer();
-        if (cblurl) {
-            def.resolve(cblurl);
-        } else {
+        return platform_ready_p()
+        .then(function(_) {
+            if (cblurl)
+                return cblurl;
             if (!$window.cblite) {
-                var msg = 'Couchbase Lite init error: no window.cblite';
+                var msg = 'Couchbase Lite init error: no $window.cblite';
                 console.log(msg);
-                def.reject(new Error(msg));
-            } else {
-                $window.cblite.getURL(function(err, url) {
-                    if (err) {
-                        def.reject(err);
-                    } else {
-                        cblurl = url;
-                        def.resolve(url);
-                    }
-                });
+                throw (new Error(msg));
             }
-        }
-        return def.promise;
+            var def = $q.defer();
+            $window.cblite.getURL(function(err, url) {
+                if (err) {
+                    def.reject(err);
+                } else {
+                    cblurl = url;
+                    def.resolve(url);
+                }
+            });
+            return def.promise;
+        });
     }
 
     function viewname_of_typedesc(typedesc, viewkey)
@@ -489,7 +499,8 @@ var DB_DOCVERSION = 1;
                     return null;
                 },
                 function(resp) {
-                    console.log('replication error, status ', resp.status);
+                    console.log('replication error, response ',
+                        JSON.stringify(resp, null, 4));
                     _this.replication_prom = null;
                     return null;
                 }

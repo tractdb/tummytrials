@@ -310,6 +310,7 @@
             app_badge += Math.max(0, due - reports_for_type[desc.type]);
         });
 
+
         // Remove all old notifications, schedule new ones, set app
         // badge.
         //

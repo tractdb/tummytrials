@@ -17,7 +17,7 @@
 		<a class="button button-block button-energized" ui-sref="setup_1">
             {{text.mytrials.button}}
         </a> -->
-        <div class="padding" ng-hide="!!current_experiment">
+        <div class="padding" ng-hide="!!study_current">
 	        <h4 class="title">No ongoing trial</h4>
 			<br/>
 			<p>Would you like to setup a new trial?</p>
@@ -34,19 +34,22 @@
 		  <div class="item item-divider">
 		    {{text.mytrials.currenttrialtitle}}
 		  </div>
-		  <a class="item" href="#" ng-hide="current_experiment">
+		  <a class="item" href="#" ng-hide="!!study_current">
 		    There is no ongoing trial.
 		  </a>
-		  <a class="item" href="#" ng-show="current_experiment">
-		    {{current_experiment.name}}
+		  <a class="item" href="#" ng-show="!!study_current">
+		    {{study_current.name}}
 		  </a>
 
 		  <div class="item item-divider">
 		    {{text.mytrials.pasttrialtitle}}
 		  </div>
-		  <a class="item" ui-sref="past_trial_1">
-		    Results page.
+                  <a class="item" ng-repeat="study in study_previous" ui-sref="past_trial_1({studyIndex: $index})" ng-hide="study_previous.length<1">
+		    <h2>{{study.name}}</h2>
 		  </a>
+                  <div class="item" ng-show="study_previous.length<1">
+                    There are no past trials.
+                  </div>
 
 		</div>
 
