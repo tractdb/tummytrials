@@ -62,6 +62,18 @@
 		"currenttrialtitle" : "Current Trial",
 		"pasttrialtitle": "Past Trials"
 	},	
+	"pasttrial": {
+		"title": "Eating Lactose Study Finding",
+		"subtitle": "Oct 2nd to Oct 16th",
+		"label": "Abdominal Pain",
+		"result" : "Based on the study, there is no evidence that your abdominal pain decreases when you don't eat lactose (p=0.762).",
+		"sublabel": "Abdominal Pain Severity",
+		"button1": "",
+		"button2": "",
+		"summarylabel": "Average abdominal pain severity on:",
+		"summaryconda": "Days with Lactose was ",
+		"summarycondb": "Days without Lactose was "
+	},	
 	"faqs": {
 		"title": "Frequently Asked Questions",
 		"subtitle": "If you did not find what you are looking for please reach out to us.",

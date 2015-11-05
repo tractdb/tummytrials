@@ -4,7 +4,7 @@
 
   $stateProvider
 	.state('no_study', {
-      url: '/no_study',
+      url: 'current/no_study',
       views: {
         current : {
           templateUrl: 'templates/currenttrial/no_study.html',
@@ -13,7 +13,7 @@
       }
     })    
   .state('during', {
-      url: '/during',
+      url: 'current/during',
       views: {
         current : {
           templateUrl: 'templates/currenttrial/during.html',
@@ -22,7 +22,7 @@
       }
     })     
   .state('post', {
-      url: '/post',
+      url: 'current/post',
       views: {
         current : {
           templateUrl: 'templates/currenttrial/post.html',
@@ -31,7 +31,7 @@
       }
     }) 
   .state('notes', {
-      url: '/notes',
+      url: 'current/notes',
       views: {
         current : {
           templateUrl: 'templates/currenttrial/notes.html',
@@ -40,7 +40,7 @@
       }
     }) 
     .state('neg_compliance', {
-      url: '/neg_compliance',
+      url: 'current/during/neg_compliance',
       views: {
         current : {
           templateUrl: 'templates/currenttrial/neg_compliance.html',
@@ -49,7 +49,7 @@
       }
     }) 
     .state('pos_compliance', {
-      url: '/pos_compliance',
+      url: 'current/during/pos_compliance',
       views: {
         current : {
           templateUrl: 'templates/currenttrial/pos_compliance.html',
