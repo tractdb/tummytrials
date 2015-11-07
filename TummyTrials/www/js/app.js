@@ -54,7 +54,7 @@ app.run(function($ionicPlatform, $rootScope, $q, Login, Text, Experiments,
   //
   Experiments.getCurrent()
   .then(function(curex) {
-    var rd, st, et, re;
+    var rd, st, et, rc;
 
     if (curex && curex.remdescrs && curex.start_time && curex.end_time &&
         curex.reports) {
@@ -63,24 +63,32 @@ app.run(function($ionicPlatform, $rootScope, $q, Login, Text, Experiments,
         rd = curex.remdescrs;
         st = curex.start_time;
         et = curex.end_time;
-        re = curex.reports;
+        rc = {};
+        // XXX Adapt to new report definition.
+        //
+        curex.reports.forEach(function(r) {
+            if (!(r.type in rc))
+                rc[r.type] = 1;
+            else
+                rc[r.type]++;
+        });
     } else {
         // No current experiment.
         //
         rd = [];
         st = 0;
         et = 0;
-        re = [];
+        rc = {};
     }
   
-    return Reminders.sync(rd, st, et, re)
+    return Reminders.sync(rd, st, et, rc)
     .then(function(_) {
         // Validate that proper reminders have been scheduled (if
         // desired).
         //
         var want_to_validate = true; // Maybe false in production?
         if (want_to_validate)
-            return RemindTest.validateSync(rd, st, et, re);
+            return RemindTest.validateSync(rd, st, et, rc);
         else
             return null;
     });

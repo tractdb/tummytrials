@@ -18,9 +18,10 @@
 //     User creates a study
 //     User submits a report
 //     User sets new reminder times
+//     After a replication
 //
 // For testing you can call accelerate() to establish a fictional
-// timeline that elapses faster than real time.
+// timeline that elapses faster than real time. (Not yet implemented.)
 //
 // You can call list() to get a list of current reminders, though this
 // is also intended for testing.
@@ -30,11 +31,12 @@
 // notifications. Repeating notifications are too inflexible for what we
 // want to do--only a few predefined repeat intervals are allowed.
 //
-// Note 2: If reports are due that haven't been filed, we schedule
-// reminders for the past. The idea is to get them posted in the
-// Notification Center. Unfortunately the behavior is inconsistent;
-// sometimes they all show up there and sometimes just the most recent
-// one. This is something to look into at some point.
+// Note 2: If reports are due that haven't been filed, we want to
+// schedule reminders for the past. The idea is to get them posted in
+// the iOS Notification Center. Unfortunately, there are bugs and
+// inconsistencies in the way they're handled (probably the bug is in
+// $cordovaLocalNotification). So currently we schedule at most one such
+// reminder (the most recently triggered one).
 //
 
 'use strict';
@@ -45,7 +47,7 @@
                                 $cordovaLocalNotification, $cordovaBadge) {
     var g_nextid = 1;       // Next notification id to use
     var c_remstate;         // Cached reminder state for internal use
-    var c_reports;          // Cached reports for internal use
+    var c_report_cts;       // Cached report counts for internal use
     var g_notifs_seen = {}; // (See reminder_triggered.)
 
     function by_at(a, b)
@@ -123,15 +125,14 @@
         });
     }
 
-    function notifications_new(remstate, descr_by_type, reports_for_type,
-                                app_badge)
+    function notifications_new(remstate, descr_by_type, report_cts, app_badge)
     {
         // Return an array of notifications that follow from the given
         // new status:
         //
-        // remstate:          Reminder state
-        // reports_for_type:  Number of reports for each type
-        // app_badge:         App's correct badge count now
+        // remstate:    Reminder state
+        // report_cts:  Number of reports for each type
+        // app_badge:   App's correct badge count now
         //
         var sday = study_day_today(remstate);
         var daysec = sec_after_midnight();
@@ -177,7 +178,7 @@
             } else {
                 // Notifications for past reminders with no reports yet.
                 //
-                var repct = reports_for_type[desc.type];
+                var repct = report_cts[desc.type];
                 var n;
                 for (n = repct + 1; n < nnext; n++)
                     notifs.push(notifn(n));
@@ -251,8 +252,8 @@
 
         // Otherwise recalculate based on our latest info.
         //
-        if (c_remstate && c_reports)
-            sync_p(c_remstate, c_reports);
+        if (c_remstate && c_report_cts)
+            sync_p(c_remstate, c_report_cts);
     }
 
     function schedule_p(notifs, i)
@@ -271,7 +272,7 @@
         });
     }
 
-    function sync_p(remstate, reports)
+    function sync_p(remstate, report_cts)
     {
         // Return a promise to update notifications and badge count
         // according to the reminder state and the reports user has
@@ -287,17 +288,11 @@
             descr_by_type[desc.type] = desc;
         });
 
-        // How many reports are there of each type?
+        // Make sure report_cts has an entry for every reminder type.
         //
-        var reports_for_type = {};
         remstate.descs.forEach(function(desc) {
-            reports_for_type[desc.type] = 0;
-        });
-        reports.forEach(function(r) {
-            if (!(r.type in reports_for_type))
-                reports_for_type[r.type] = 1;
-            else
-                reports_for_type[r.type]++;
+            if (! (desc.type in report_cts))
+                report_cts[desc.type] = 0;
         });
 
         // Figure out what the badge count should be for the app.
@@ -307,7 +302,7 @@
             if (desc.reminderonly)
                 return;
             var due = sday - (daysec >= desc.time ? 0 : 1);
-            app_badge += Math.max(0, due - reports_for_type[desc.type]);
+            app_badge += Math.max(0, due - report_cts[desc.type]);
         });
 
 
@@ -317,7 +312,7 @@
         return $cordovaLocalNotification.cancelAll()
         .then(function(_) {
             var notifsn =
-                notifications_new(remstate, descr_by_type, reports_for_type,
+                notifications_new(remstate, descr_by_type, report_cts,
                                     app_badge);
             return $cordovaLocalNotification.schedule(notifsn);
         })
@@ -330,19 +325,19 @@
     $rootScope.$on('$cordovaLocalNotification:trigger', reminder_triggered);
 
     return {
-        sync: function(descs, start_date, end_date, reports) {
+        sync: function(descs, start_date, end_date, report_cts) {
             // Return a promise to schedule the reminders for a study.
             // The promise resolves to null.
             //
             // descs       Descriptor of the reminders (below)
             // start_date  Start date (Epoch time, midnight 00:00:00 first day)
             // end_date    End date (Epoch time, midnight 23:59:59+1 last day)
-            // reports     Current set of reports made by user (if any)
+            // report_cts  Counts of reports made by user
             //
             // descs is an array of descriptors that look like this:
             //
             // {
-            //     type: type of reminder (= type of report if any)
+            //     type: type of reminder
             //     reminderonly: no report, just reminder (default false)
             //     time: time of reminder (number; seconds after midnight)
             //     heads: heading of reminder (array)
@@ -350,8 +345,7 @@
             // }
             //
             // The 'type' field of a descriptor gives the type of the
-            // reminder, which (if there is an associated report), is
-            // also the type of the report.
+            // reminder, in essence a unique name. Example: 'morning'.
             //
             // The 'reminderonly' field, if present, is a boolean saying
             // whether this is a "pure" reminder with no associated
@@ -371,18 +365,18 @@
             // same as the study duration, giving a value for each day
             // of the study.
             //
-            // 'reports' is an array of objects. We require only that
-            // each report have a 'type' field showing the type of the
-            // report. It should be one of the reportable 'type' values
-            // given in the descriptor array.
+            // 'report_cts' is a hash giving the number of reports of
+            // each type that have been made. I.e., the keys are
+            // reportable reminder types and the values are report
+            // counts.
             //
             c_remstate = {};
             c_remstate.descs = angular.copy(descs);
             c_remstate.start_date = start_date;
             c_remstate.end_date = end_date;
-            c_reports = reports;
+            c_report_cts = angular.copy(report_cts);
 
-            return sync_p(c_remstate, c_reports);
+            return sync_p(c_remstate, c_report_cts);
         },
 
         clear: function() {

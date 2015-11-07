@@ -113,7 +113,7 @@
         console.log('validate_reminds_equal<' + tag + '>: success');
     }
 
-    function expected_reminders(descs, startt, endt, reports, baseid, moment)
+    function expected_reminders(descs, startt, endt, report_cts, baseid, moment)
     {
         // Return the expected reminders after syncing at the given
         // moment, given the supplied reminder state. Times are sec
@@ -122,11 +122,12 @@
         var daysec = 24 * 60 * 60; // Seconds in a day
         var dayct = Math.round((endt - startt) / daysec);
 
-        // Count reports of each type.
+        // Make sure all types are represented in report_cts.
         //
-        var reports_for_type = {};
-        descs.forEach(function(d) { reports_for_type[d.type] = 0; });
-        reports.forEach(function(r) { reports_for_type[r.type]++; });
+        descs.forEach(function(d) {
+            if (!(d.type in report_cts))
+                report_cts[d.type] = 0;
+        });
 
         // Which day of the study is it?
         //
@@ -158,7 +159,7 @@
             // Previously issued reminders with no reports.
             //
             if (!desc.reminderonly)
-                for (var n = reports_for_type[desc.type] + 1; n < n0; n++) {
+                for (var n = report_cts[desc.type] + 1; n < n0; n++) {
                     expected.push(test_remind(desc, startt, n, 'triggered'));
                     badgect++;
                 }
@@ -171,7 +172,7 @@
             else
                 // (Reports might conceivably come in early.)
                 //
-                n = Math.max(n0, reports_for_type[desc.type] + 1);
+                n = Math.max(n0, report_cts[desc.type] + 1);
             for (; n <= dayct; n++)
                 expected.push(test_remind(desc, startt, n, 'scheduled'));
         });
@@ -217,7 +218,7 @@
         .then(function(_) { return Reminders.sync(test_descs, st, et, []); })
         .then(function(_) { return Reminders.list(); })
         .then(function(notifs) {
-            var expected = expected_reminders(test_descs, st, et, [], 1, mom);
+            var expected = expected_reminders(test_descs, st, et, {}, 1, mom);
             validate_reminds_equal(notifs, expected, 'testSync 1');
             console.log('Please exit to home screen (touch home button)');
             console.log('You should see three notifications');
@@ -257,7 +258,7 @@
         // any reminders scheduled for before the current moment should
         // be in the 'triggered' state.
         //
-        var expected = expected_reminders(test_descs, st, et, [], id0, time0);
+        var expected = expected_reminders(test_descs, st, et, {}, id0, time0);
         expected.forEach(function(notif) {
             if (notif.at <= mom)
                 notif.state = 'triggered';
@@ -266,16 +267,16 @@
 
         // Make all reports that are due, then check again.
         //
-        var reps = [];
+        var repcts = {};
         test_descs.forEach(function(desc) {
             if (!desc.reminderonly)
-                reps.push({ type: desc.type });
+                repcts[desc.type] = 1;
         });
 
-        return Reminders.sync(test_descs, st, et, reps)
+        return Reminders.sync(test_descs, st, et, repcts)
         .then(function(_) { return Reminders.list(); })
         .then(function(notifs) {
-            var expected = expected_reminders(test_descs, st, et, reps,
+            var expected = expected_reminders(test_descs, st, et, repcts,
                                                 id0, mom);
             validate_reminds_equal(notifs, expected, 'testSync 2 after');
             console.log('Please exit to home screen (touch home button)');
@@ -329,7 +330,7 @@
             })
         },
 
-        validateSync: function(descs, startt, endt, reports) {
+        validateSync: function(descs, startt, endt, report_cts) {
             // Return a promise to validate that the currently scheduled
             // reminders are correct for the given descriptors, start
             // time, end time, and reports.
@@ -353,7 +354,7 @@
 
                 var baseid = notifs.length > 0 ? Math.abs(notifs[0].id) : 0;
                 var m = Math.trunc(Date.now() / 1000);
-                var exp = expected_reminders(descs, startt, endt, reports,
+                var exp = expected_reminders(descs, startt, endt, report_cts,
                                              baseid, m);
                 validate_reminds_equal(notifs, exp, 'validateSync');
                 return null;
