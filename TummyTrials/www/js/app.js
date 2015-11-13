@@ -54,41 +54,32 @@ app.run(function($ionicPlatform, $rootScope, $q, Login, Text, Experiments,
   //
   Experiments.getCurrent()
   .then(function(curex) {
-    var rd, st, et, rc;
+    var rd, st, et, rt;
 
-    if (curex && curex.remdescrs && curex.start_time && curex.end_time &&
-        curex.reports) {
+    if (curex && curex.remdescrs && curex.start_time && curex.end_time) {
         // Current experiment looks good.
         //
         rd = curex.remdescrs;
         st = curex.start_time;
         et = curex.end_time;
-        rc = {};
-        // XXX Adapt to new report definition.
-        //
-        curex.reports.forEach(function(r) {
-            if (!(r.type in rc))
-                rc[r.type] = 1;
-            else
-                rc[r.type]++;
-        });
+        rt = Experiments.report_tally(curex);
     } else {
         // No current experiment.
         //
         rd = [];
         st = 0;
         et = 0;
-        rc = {};
+        rt = {};
     }
   
-    return Reminders.sync(rd, st, et, rc)
+    return Reminders.sync(rd, st, et, rt)
     .then(function(_) {
         // Validate that proper reminders have been scheduled (if
         // desired).
         //
         var want_to_validate = true; // Maybe false in production?
         if (want_to_validate)
-            return RemindTest.validateSync(rd, st, et, rc);
+            return RemindTest.validateSync(rd, st, et, rt);
         else
             return null;
     });
@@ -105,7 +96,9 @@ app.run(function($ionicPlatform, $rootScope, $q, Login, Text, Experiments,
         .then(ExperTest.testGetCurrent)
         .then(ExperTest.testAdd)
         .then(ExperTest.testSetStatus)
-        .then(ExperTest.testAddReport)
+        .then(ExperTest.testGetReports)
+        .then(ExperTest.testGetReport)
+        .then(ExperTest.testPutReport)
         .then(ExperTest.testDelete)
         .then(
             function good() {},

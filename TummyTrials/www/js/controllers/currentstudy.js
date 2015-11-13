@@ -1,4 +1,5 @@
-(angular.module('tummytrials.currentstudy',['ionic'])
+(angular.module('tummytrials.currentstudy',
+                [ 'ionic', 'tummytrials.loggingctrl' ])
 
 .config(function($stateProvider, $urlRouterProvider) {
 
@@ -17,7 +18,7 @@
       views: {
         current : {
           templateUrl: 'templates/currenttrial/during.html',
-          controller: 'setupcontroller'
+          controller: 'LogDuringCtrl'
         }
       }
     })     
@@ -26,7 +27,7 @@
       views: {
         current : {
           templateUrl: 'templates/currenttrial/post.html',
-          controller: 'setupcontroller'
+          controller: 'LogPostCtrl'
         }
       }
     }) 

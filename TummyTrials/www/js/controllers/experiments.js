@@ -1,5 +1,8 @@
 // experiments.js     TummyTrials experiments
 //
+// (Want to pick a consistent name. The GUI uses "trial" and "study".
+// Only this module uses "experiment".)
+//
 
 'use strict';
 
@@ -46,15 +49,24 @@ function by_time(a, b)
 
 /* A report might look something like this:
  *
- * { type:           Report type [coordinates with reminders]
- *   time:           Time of report (sec since 1970)
- *   adherence:      Adhered to the experiment today (bool)
- *   symptom_scores: (array of { name: string, score: number })
- *   notes:          string
+ * { study_day:             day to which the report applies (number, 1 .. N)
+ *   breakfast_compliance:  (bool)
+ *   breakfast_report_time: time of breakfast report (number, sec since 1970)
+ *   symptom_scores:        (array of { name: string, score: number })
+ *   symptom_report_time:   time of symptom report (number, sec since 1970)
+ *   comment:               (string)
  * }
  *
- * But any fields supplied by caller are preserved. The 'type' field is
- * also used to coordinate reports with reminders (see reminders.js).
+ * If breakfast_compliance is absent or null, no breakfast report has
+ * been made. (More likely the report object simply won't exist,
+ * however.)
+ *
+ * If symptom_scores is absent, null, or empty, no symptom report has
+ * been made. (This will be the usual case between the two report
+ * times.)
+ *
+ * For flexibility, any additional fields supplied by caller are
+ * preserved.
  */
 
 /* The publish_p() function returns a promise to set variables in a
@@ -62,12 +74,35 @@ function by_time(a, b)
  * from controllers to establish a standardized environment to be used
  * in page templates.
  *
- *     study_current      Current study (object, as above; null if none)
- *     study_previous     Previous studies (array of object)
+ *     study_current     Current study (object, as above; null if none)
+ *     study_previous    Previous studies (array of object)
  */
 
 .factory('Experiments', function($q, CouchDB) {
     var db = new CouchDB("tractdb", [ TYPEDESC ]);
+
+    function const_p(k)
+    {
+        // Return a promise that resolves to k.
+        //
+        var def = $q.defer();
+        def.resolve(k);
+        return def.promise;
+    }
+
+    function study_day(exper, date) {
+        // Return the day of the study on the given date: 1, 2, 3,
+        // ... N. The result can be 0 or negative if the date falls
+        // before the beginning of the study.
+        //
+        // Recall that exper.start_time is an epoch time, 00:00:00 on
+        // the first day of the study.
+        //
+        var date0 =
+            new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        var d0ep = Math.trunc(date0.getTime() / 1000);
+        return 1 + Math.round((d0ep - exper.start_time) / 86400);
+    }
 
     function get_all_p()
     {
@@ -87,14 +122,73 @@ function by_time(a, b)
         return -1;
     }
 
+    function report_tally(exper)
+    {
+        // Count the number of reports of each type. Note that if there
+        // was no compliance at breakfast there's no need for symptom
+        // entry. We handle this by treating the symptomEntry report as
+        // present for such a day.
+        //
+        var tally = { breakfast: 0, symptomEntry: 0};
+
+        if (!exper.reports)
+            return tally;
+
+        exper.reports.forEach(function(r) {
+            if (    r.breakfast_compliance === true ||
+                    r.breakfast_compliance === false)
+                tally.breakfast++;
+            if (    r.breakfast_compliance === false ||
+                    (Array.isArray(r.symptom_scores) &&
+                     r.symptom_scores.length > 0))
+                tally.symptomEntry++;
+        });
+
+        return tally;
+    }
+
     return {
+        // Useful computations relating to experiments.
+        //
+        study_day: study_day,
+
+        study_day_today: function(exper) {
+            return study_day(exper, new Date());
+        },
+
+        study_duration: function(exper) {
+            // Return duration of study in days.
+            //
+            return Math.round((exper.end_time - exper.start_time) / 86400);
+        },
+
+        report_made: function(rep, repty) {
+            // Return true if a report of the given type was made in the
+            // given report.
+            //
+            if (!rep)
+                return false;
+            switch(repty) {
+                case 'breakfast':
+                    return rep.breakfast_compliance === false ||
+                           rep.breakfast_compliance === true;
+                case 'symptomEntry':
+                    return rep.breakfast_compliance === false ||
+                           (Array.isArray(rep.symptom_scores) &&
+                            rep.symptom_scores.length > 0);
+            }
+            return false;
+        },
+
+        // Useful services for controllers.
+        //
         publish_p: function(scope) {
             // Return a promise to publish current experiment
             // information into the given scope. This provides a
             // standard set of variable names for use in page templates.
             // The promise resolves to null.
             //
-            // study_current       Current study (object)
+            // study_current       Current study (object or null)
             // study_previous      Previous studies (array of object)
             //
             return get_all_p()
@@ -124,6 +218,8 @@ function by_time(a, b)
             });
         },
 
+        // Operations on experiments in DB.
+        //
         all: function() {
             // Return a promise for all the experiments.
             //
@@ -148,6 +244,14 @@ function by_time(a, b)
                     return expers[ix];
                 return null;
             });
+        },
+
+        report_tally: function(experiment) {
+            // Tally the reports of the given experiment. Return a hash
+            // with keys 'breakfast' and 'symptomEntry'. Values are the
+            // number of reports of the type.
+            //
+            return report_tally(experiment);
         },
 
         add: function(experiment) {
@@ -204,24 +308,68 @@ function by_time(a, b)
             });
         },
 
-        addReport: function(experimentId, report) {
-            // Return a promise to add a report to the experiment with
-            // the given id.
+        get_reports_p: function(experimentId) {
+            // Return a promise for an array of all the reports of the
+            // given experiment. If there are no reports, the promise
+            // resolves to a 0-length array.
             //
-            // The promise resolves to the updated number of reports.
+            // Reports are identified by day numbers, starting at 1.
+            // The report for day n is at index (n - 1) in the returned
+            // array. Note that the returned array will contain null
+            // elements if reports have been skipped.
             //
-            var newct;
+            return db.get_p(experimentId)
+            .then(function(exper) {
+                if (!Array.isArray(exper.reports))
+                    return [];
+                return exper.reports;
+            });
+        },
+
+        get_report_p: function(experimentId, studyDay) {
+            // Return a promise for the given report of the given
+            // experiment. There is one report for each day of the
+            // study. An individual report is identified by its day
+            // number (beginning with 1).
+            //
+            // If there is no such report, the promise resolves to null.
+            //
+            if (    typeof studyDay != 'number' ||
+                    studyDay % 1 != 0 ||
+                    studyDay < 1)
+                return const_p(null); // Invalid study day
+            return db.get_p(experimentId)
+            .then(function(exper) {
+                if (!Array.isArray(exper.reports))
+                    return null;
+                return exper.reports[studyDay - 1] || null;
+            });
+        },
+
+        put_report_p: function(experimentId, report) {
+            // Return a promise to store the given report in the given
+            // experiment. It replaces any existing report for the same
+            // study day. The promise resolves to null.
+            //
+
+            // We insist on a valid study day, a positive integer.
+            //
+            if (    typeof report.study_day != 'number' ||
+                    report.study_day % 1 != 0 ||
+                    report.study_day < 1) {
+                var def = $q.defer();
+                var err =
+                    new Error("Experiments.put_report_p: invalid study_day");
+                def.reject(err);
+                return def.promise;
+            }
 
             return db.get_p(experimentId)
             .then(function(exper) {
                 if (!Array.isArray(exper.reports))
-                    // Ill formed experiment, not completely impossible.
                     exper.reports = [];
-                newct = exper.reports.push(report);
+                exper.reports[report.study_day - 1] = report;
                 return db.put_p(experimentId, exper);
-            })
-            .then(function(_) {
-                return newct;;
             });
         },
 
