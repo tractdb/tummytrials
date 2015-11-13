@@ -23,8 +23,9 @@
 		"button": "Setup A New Study"
 	},
 	"during": {
-		"title": "No ongoing study",
-		"subtitle": "Did you eat at least 8 grams of lactose during your breakfast?",
+		"title": "Breakfast Compliance for {DAY}",
+		"subtitle": "Did you {PHRASE} during your breakfast?",
+                "today": "Today",
 		"button1": "Yes",
 		"button2": "No"
 	},
@@ -37,8 +38,9 @@
 		"text": "Remember, do not consume any food or beverage (other than water) for the next 3 hours. You will reminded to log your symptom severity level after 3 hours."
 	},
 	"post": {
-		"title": "No ongoing study",
-		"subtitle": "At its worse, how much has your symptom impacted your day since you last ate?",
+		"title": "Symptom Level for {DAY}",
+		"subtitle": "At its worst, how much has your symptom impacted your day since you last ate?",
+                "today": "Today",
 		"button1": "Submit",
 		"button2": "Cancel",
 		"likertlabels":[
@@ -189,10 +191,26 @@
 		"title": "2. Choose a Possible Cause",
 		"subtitle": "Which possible trigger do you want to test? ",
 		"triggers" : [
-			{"trigger": "Eating Large Meals ", "uisref": "setup_3_1"},
-			{"trigger": "Eating Lactose / Dairy ", "uisref": "setup_3_2"},
-			{"trigger": "Drinking Caffeine ", "uisref": "setup_3_3"},
-			{"trigger": "Eating Gluten ", "uisref": "setup_3_4"}		
+			{"trigger": "Eating Large Meals",
+                         "uisref": "setup_3_1",
+                         "phrase_plus": "eat a large meal",
+                         "phrase_minus": "avoid eating a large meal"
+                        },
+			{"trigger": "Eating Lactose / Dairy",
+                         "uisref": "setup_3_2",
+                         "phrase_plus": "eat at least 8 grams of lactose",
+                         "phrase_minus": "avoid eating any lactose"
+                        },
+			{"trigger": "Drinking Caffeine",
+                         "uisref": "setup_3_3",
+                         "phrase_plus": "drink caffeine",
+                         "phrase_minus": "avoid consuming any caffeine"
+                        },
+			{"trigger": "Eating Gluten",
+                         "uisref": "setup_3_4",
+                         "phrase_plus": "eat gluten",
+                         "phrase_minus": "avoid eating any gluten"
+                        }
 		],
 		"button": "Continue "
 	},

@@ -495,6 +495,7 @@ var DB_DOCVERSION = 1;
             })
             .then(
                 function(ra) {
+                    console.log('replication complete');
                     _this.replication_prom = null;
                     return null;
                 },
@@ -505,7 +506,7 @@ var DB_DOCVERSION = 1;
                     return null;
                 }
             );
-        return replication_prom;
+        return this.replication_prom;
     }
 
     CouchDB.prototype.replicating = function() {
