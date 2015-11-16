@@ -204,7 +204,7 @@
         SymptomData.severity[cur.symptoms[symix]] =
             Number($scope.log_model.severity);
         for (var i = 0; i < cur.symptoms.length; i++)
-            if (!SymptomData.severity[cur.symptoms[i]]) {
+            if (!(cur.symptoms[i] in SymptomData.severity)) {
                 // (Missing a symptom severity level. Caller appears to
                 // be misguided.)
                 //
