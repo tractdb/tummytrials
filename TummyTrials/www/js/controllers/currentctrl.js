@@ -82,9 +82,15 @@
                     info.logmsg = text.current[rd.type + '_reminder_logmsg'];
                     info.logmsg = info.logmsg || ('Log ' + rd.type);
                     switch(rd.type) {
-                        case 'breakfast': info.logstate = 'during'; break;
-                        case 'symptomEntry': info.logstate = 'post'; break;
-                        default: info.logstate = 'none'; break;
+                        case 'breakfast':
+                            info.logstate = 'during';
+                            break;
+                        case 'symptomEntry':
+                            info.logstate = 'post({symptomIndex:0})';
+                            break;
+                        default:
+                            info.logstate = 'none';
+                            break;
                     }
                 }
                 rinfo.push(info);
