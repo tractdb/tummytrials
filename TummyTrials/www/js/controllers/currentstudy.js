@@ -23,7 +23,7 @@
       }
     })     
   .state('post', {
-      url: 'current/post',
+      url: 'current/post/:symptomIndex',
       views: {
         current : {
           templateUrl: 'templates/currenttrial/post.html',

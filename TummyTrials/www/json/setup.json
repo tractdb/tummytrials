@@ -39,10 +39,11 @@
 	},
 	"post": {
 		"title": "Symptom Level for {DAY}",
-		"subtitle": "At its worst, how much has your symptom impacted your day since you last ate?",
+		"subtitle": "At its worst, how much has your {SYMPTOM} impacted your day since you last ate?",
                 "today": "Today",
-		"button1": "Submit",
-		"button2": "Cancel",
+		"cancel": "Cancel",
+                "next": "Next",
+                "submit": "Submit",
 		"likertlabels":[
 			{"label": "Not at all", "detail": "no symptom"},
 			{"label": "Slightly", "detail": "only noticed my symptom when I focused on it"},

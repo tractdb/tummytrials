@@ -3,6 +3,7 @@
     <ion-content class="padding">
         <br/>
     <h4 class="title">{{log_title}}</h4>
+    <h5 class="title">{{log_symptom}}</h5>
     <br/>
     <p>{{log_subtitle}}</p>
     <br/>
@@ -23,10 +24,10 @@
     <br>
     <div class="divcenter">
       <a class="button button-royal" ng-click="log_cancel()">
-        {{text.post.button2}}
+        {{text.post.cancel}}
       </a>      
-      <a class="button button-royal" ng-disabled="log_model.severity == null" ng-click="log_submit()">
-        {{text.post.button1}}
+      <a class="button button-royal" ng-disabled="log_model.severity == null" ng-click="log_submitnext()">
+        {{log_submitnext_label}}
       </a>
     </div>
 

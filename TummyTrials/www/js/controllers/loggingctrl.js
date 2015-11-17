@@ -5,10 +5,10 @@
 
 (angular.module('tummytrials.loggingctrl',
                 [ 'tractdb.reminders', 'tummytrials.text', 'tummytrials.lc',
-                  'tummytrials.experiments' ])
+                  'tummytrials.experiments', 'tummytrials.symptomdata' ])
 
 .controller('LogDuringCtrl', function($scope, $state, $ionicHistory,
-                                    Reminders, Text, LC, Experiments) {
+                                        Reminders, Text, LC, Experiments) {
     var text;
     var logday; // What study day is being logged
 
@@ -123,30 +123,34 @@
 
         $scope.log_subtitle = text.during.subtitle.replace(/{PHRASE}/g, phrase);
     
-        // Functions for Yes / No buttons.
+        // Functions for Yes and No buttons.
         //
         $scope.compliant_yes = compliant_yes;
         $scope.compliant_no = compliant_no;
     });
 })
 
-.controller('LogPostCtrl', function($scope, $state,
-                                    Reminders, Text, LC, Experiments) {
+.controller('LogPostCtrl', function($scope, $state, $stateParams,
+                            Reminders, Text, LC, Experiments, SymptomData) {
     var text;
     var logday; // What study day is being logged
 
-    function make_report(severity)
+    function make_report_p(severity)
     {
-        // XXX TEMP fix up later to handle multiple symptoms
         var cur = $scope.study_current;
 
-        Experiments.get_report_p(cur.id, logday)
+        return Experiments.get_report_p(cur.id, logday)
         .then(function(report) {
             if (!report) report = {}; // (Shouldn't happen, breakfast is first.)
             report.study_day = logday;
-            report.symptom_scores = [
-                { name: cur.symptoms[0], score: Number(severity) }
-            ];
+            var scores = [];
+            for (var i = 0; i < cur.symptoms.length; i++) {
+                var s = {};
+                s.name = cur.symptoms[i];
+                s.score = Number(severity[s.name] || 0);
+                scores.push(s);
+            }
+            report.symptom_scores = scores;
             report.symptom_report_time = Math.floor(Date.now() / 1000);
             return Experiments.put_report_p(cur.id, report);
         })
@@ -164,23 +168,52 @@
             var rt = Experiments.report_tally(curex);
             return Reminders.sync(rd, st, et, rt);
         })
-        .then(function(_) { $state.go('current'); });
+        .then(function(_) {
+            // Clear severity levels for next time.
+            //
+            $scope.log_model.severity = null;
+            for (s in SymptomData.severity)
+                delete SymptomData.severity[s];
+
+            $state.go('current');
+        });
     }
 
     function do_cancel()
     {
         $scope.log_model.severity = null;
+        for (s in SymptomData.severity)
+            delete SymptomData.severity[s];
         $state.go('current');
+    }
+
+    function do_next()
+    {
+        // (Caller warrants that there is another symptom to log.)
+        //
+        var symix = Number($stateParams.symptomIndex);
+        $state.go('post', { symptomIndex: symix + 1 });
     }
 
     function do_submit()
     {
-        if ($scope.log_model.severity == null)
-            // (Not supposed to be possible.)
-            //
-            return;
-        make_report($scope.log_model.severity);
+        // (Caller warrants that all symptoms are logged.)
+        //
+        var cur = $scope.study_current;
+        var symix = Number($stateParams.symptomIndex);
+        SymptomData.severity[cur.symptoms[symix]] =
+            Number($scope.log_model.severity);
+        for (var i = 0; i < cur.symptoms.length; i++)
+            if (!(cur.symptoms[i] in SymptomData.severity)) {
+                // (Missing a symptom severity level. Caller appears to
+                // be misguided.)
+                //
+                return;
+            }
+        make_report_p(SymptomData.severity);
     }
+
+    var symix = $stateParams.symptomIndex;
 
     Text.all_p()
     .then(function(alltext) {
@@ -190,7 +223,6 @@
     })
     .then(function(_) {
         var cur = $scope.study_current;
-
         if (!cur) {
             // This should not be possible. If caller screwed up, the
             // best we can do is probably go back to current trial
@@ -199,8 +231,21 @@
             $state.go('current');
         }
 
+        // Move severity level from $scope.log_model.severity to
+        // SymptomData.severity when leaving the view. This catches
+        // cases (like the Back button) where we can't easily get
+        // control.
+        //
+        $scope.$on('$ionicView.leave', function() {
+            if ($scope.log_model.severity !== null)
+                SymptomData.severity[cur.symptoms[symix]] =
+                    $scope.log_model.severity;
+            else
+                delete SymptomData.severity[cur.symptoms[symix]];
+        });
+
         // Caller assures us that we need to log symptom severity. Find
-        // Find the first study day without a symptom report.
+        // the first study day without a symptom report.
         //
         logday = 1;
         if (!Array.isArray(cur.reports))
@@ -223,16 +268,38 @@
         }
         $scope.log_title = text.post.title.replace(/{DAY}/g, logday_name);
 
-        $scope.log_subtitle = text.post.subtitle;
+        // Name of symptom.
+        //
+        $scope.log_symptom = cur.symptoms[symix];
+
+        // Compute the question to ask.
+        //
+        $scope.log_subtitle =
+            text.post.subtitle.replace(/{SYMPTOM}/g, cur.symptoms[symix]);
 
         // Model for the severity; null => not selected yet.
         //
-        $scope.log_model = { severity: null };
+        var slev;
+        if (cur.symptoms[symix] in SymptomData.severity)
+            slev = SymptomData.severity[cur.symptoms[symix]];
+        else
+            slev = null;
+        $scope.log_model = { severity: slev };
 
-        // Functions for Cancel / Submit buttons.
+        // Settings for Cancel and Next/Submit buttons.
         //
         $scope.log_cancel = do_cancel;
-        $scope.log_submit = do_submit;
+        if (symix >= cur.symptoms.length - 1) {
+            // No more symptoms; we want Submit button.
+            //
+            $scope.log_submitnext_label = text.post.submit;
+            $scope.log_submitnext = do_submit;
+        } else {
+            // More symptoms to log; we want Next button.
+            //
+            $scope.log_submitnext_label = text.post.next;
+            $scope.log_submitnext = do_next;
+        }
     })
 })
 
