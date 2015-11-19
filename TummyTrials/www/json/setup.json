@@ -74,7 +74,7 @@
 		"button1": "",
 		"button2": "",
 		"summarylabel": "Average abdominal pain severity on:",
-		"summaryconda": "Days with Lactose was ",
+		"summaryconda": "Days with Lactose was",
 		"summarycondb": "Days without Lactose was "
 	},	
 	"faqs": {
@@ -190,7 +190,7 @@
 	},
 	"setup3": {
 		"title": "2. Choose a Possible Cause",
-		"subtitle": "Which possible trigger do you want to test? ",
+		"subtitle": "Which possible trigger do you want to test?",
 		"triggers" : [
 			{"trigger": "Eating Large Meals",
                          "uisref": "setup_3_1",
@@ -254,7 +254,19 @@
 	"setup4": {
 		"title": "3. Set Reminders",
 		"subtitle": "When do you want to begin the study and when do you want to receive reminder notifications?",
-		"button": "Continue "
+                "morning_title": "Morning Reminder",
+                "morning_text": "You will be sent a reminder to follow the study schedule for each day. Choose a time, perhaps a little before breakfast.",
+                "breakfast_title": "Breakfast Entry",
+                "breakfast_text": "You will be sent a reminder to log whether you followed the study schedule correctly during your breakfast meal. Choose a time a little after breakfast.",
+                "symptom_title": "Symptom Entry",
+                "symptom_text": "Later, you will be sent a reminder to log the severity of your symptoms. Choose a time at least 4 hours after breakfast.",
+                "time": "Time",
+                "date": "Date",
+                "study_length_title": "Study Length",
+                "study_length_text": "A longer study will produce results that are more likely to be accurate (8-30 days).",
+                "days": "Days",
+                "start_date_title": "Start Date",
+		"button": "Continue"
 	},
 	"setup5": {
 		"title": "4. Review Study Details",

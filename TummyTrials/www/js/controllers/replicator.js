@@ -6,11 +6,38 @@
 //
 // For starters, the policy is just to replicate at every opportunity.
 //
+// It also offers a service named Replicator to do replication at
+// specific times.
+//
 
 'use strict';
 
+var username_tag = 'couchuser'; // Tag for HTML 5 username/password storage
+
+function replicate_p(scope, text_s, login_s, experiments_s)
+{
+    // Return a promise to do replication. The promise resolves to null.
+    //
+    return text_s.all_p()
+    .then(function(text) {
+        return login_s.loginfo_p(username_tag, scope, text.loginfo,
+                                experiments_s.valid_p)
+    })
+    .then(function(unpw) {
+        if (unpw)
+            return experiments_s.replicate(unpw);
+        return null;
+    })
+    .then(
+        function good() { return null; },
+        function bad() { return null; }    // Ignore any failure
+    );
+}
+
+
 (angular.module('tummytrials.replicator',
-    [ 'tummytrials.text', 'tummytrials.login', 'tummytrials.experiments' ])
+                [ 'tummytrials.text', 'tummytrials.login',
+                  'tummytrials.experiments' ])
 .run(function($ionicPlatform, $rootScope, Text, Login, Experiments) {
 
     function do_replication()
@@ -18,20 +45,7 @@
         // We just start replication, don't need to do anything with the
         // returned promise.
         //
-        Text.all_p()
-        .then(function(text) {
-            return Login.loginfo_p('couchuser', $rootScope, text.loginfo,
-                                    Experiments.valid_p)
-        })
-        .then(function(unpw) {
-            if (unpw)
-                return Experiments.replicate(unpw);
-            return null;
-        })
-        .then(
-            function good() { return null; },
-            function bad() { return null; }    // Ignore any failure
-        );
+        replicate_p($rootScope, Text, Login, Experiments);
     }
 
     $ionicPlatform.ready(function() {
@@ -44,4 +58,18 @@
         do_replication();
     });
 })
+
+.factory('Replicator', function($rootScope, Text, Login, Experiments) {
+    // A service that does replication on demand.
+    //
+    return {
+        replicate_p: function() {
+            // Return a promise to replicate. The promise resolves to
+            // null.
+            //
+            return replicate_p($rootScope, Text, Login, Experiments);
+        }
+    };
+})
+
 );
