@@ -36,6 +36,12 @@
 //
 // The third parameter specifies query options.
 //
+// This module broadcasts an event (on the root scope) when replication
+// is about to start, and another one after replication finishes:
+//
+//     couchdbBeforeReplicate
+//     couchdbAfterReplicate
+//
 
 'use strict';
 
@@ -43,7 +49,7 @@ var DB_DOCVERSION = 1;
 
 (angular.module('tractdb.couchdb', [])
 
-.factory('CouchDB', function($ionicPlatform, $window, $q, $http) {
+.factory('CouchDB', function($ionicPlatform, $window, $rootScope, $q, $http) {
     var RDB_BASE = 'tractdb.org/couch/{USER}_{DBNAME}';
     var RDB_URL = 'https://' + RDB_BASE;
     var RDB_UNPW_URL = 'https://{USER}:{PASS}@' + RDB_BASE;
@@ -484,6 +490,9 @@ var DB_DOCVERSION = 1;
         var pushspec = { source: this.dbname, target: rdbname,
                          filter: 'ddocs/localddocs' };
         var pullspec = { source: rdbname, target: this.dbname };
+
+        $rootScope.$broadcast('couchdbBeforeReplicate');
+
         this.replication_prom =
             this.init_p()
             .then(function(dburl) {
@@ -495,11 +504,13 @@ var DB_DOCVERSION = 1;
             })
             .then(
                 function(ra) {
+                    $rootScope.$broadcast('couchdbAfterReplicate');
                     console.log('replication complete');
                     _this.replication_prom = null;
                     return null;
                 },
                 function(resp) {
+                    $rootScope.$broadcast('couchdbAfterReplicate');
                     console.log('replication error, response ',
                         JSON.stringify(resp, null, 4));
                     _this.replication_prom = null;

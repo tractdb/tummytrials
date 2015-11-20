@@ -1,6 +1,29 @@
+// setupctrl.js     Controllers for Study Setup screens
+//
+// The controllers communicate through shared state named SetupData, a
+// JavaScript object. Current properties:
+//
+//     startdate       ISO 8601-like
+//     duration        days, numeric string
+//     symptom         array of bool
+//     trigger         numeric string (triggers[] array index)
+//     morning_time    Date (only H:M:S is significant)
+//     breakfast_time  Date   "
+//     symptom_time    Date   "
+//
+
+function timesec_of_date(date)
+{
+    // Translate a Date object representing a time of day into the
+    // number of seconds after midnight.
+    //
+    return date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds();
+}
+
 (angular.module('tummytrials.setupctrl',
-                ['tummytrials.lc', 'tummytrials.text', 'tummytrials.setupdata',
-                 'tummytrials.studyfmt', 'tummytrials.experiments'])
+                [ 'tractdb.reminders', 'tummytrials.lc', 'tummytrials.text',
+                  'tummytrials.setupdata', 'tummytrials.studyfmt',
+                  'tummytrials.experiments', 'tummytrials.replicator' ])
 
 .controller('Setup2Ctrl', function($scope, Text, SetupData) {
     Text.all_p()
@@ -28,30 +51,51 @@
     .then(function(text) {
         $scope.text = text;
         $scope.setupdata = SetupData;
+
+        // Default reminder times. Note that the input[time] element
+        // requires a JavaScript Date as its Angular model. (Something I
+        // just learned recently.)
+        //
+        if (!$scope.setupdata.morning_time)
+            $scope.setupdata.morning_time = new Date(1970, 0, 1, 7, 0, 0);
+        if (!$scope.setupdata.breakfast_time)
+            $scope.setupdata.breakfast_time = new Date(1970, 0, 1, 9, 0, 0);
+        if (!$scope.setupdata.symptom_time)
+            $scope.setupdata.symptom_time = new Date(1970, 0, 1, 12, 0, 0);
+
+        // Default experiment start time. Again, a JavaScript Date
+        // object is required as the Angular model for the input[date]
+        // element. This is good to know.
+        //
+        if (!$scope.setupdata.startdate) {
+            var d = new Date();
+            d.setDate(d.getDate() + 1); // Trial starts tomorrow by default
+            $scope.setupdata.startdate = d;
+        }
+
+        // Default duration.
+        //
+        if (!$scope.setupdata.duration)
+            $scope.setupdata.duration = '18';
     });
 })
 
-.controller('Setup5Ctrl', function($scope, $state, LC, Text, SetupData,
-                                    StudyFmt, Experiments) {
+.controller('Setup5Ctrl', function($scope, $state, Reminders, LC, Text,
+                                    SetupData, StudyFmt, Experiments,
+                                    Replicator) {
 
     function create_study_ob(text)
     {
         // Return a study object created from SetupData.
         //
-        // SetupData.startdate  ISO 8601-like
-        // SetupData.duration   days, numeric string
-        // Setupdata.symptom    array of bool
-        // Setupdata.trigger    numeric string (triggers[] array index)
-        // <<TODO: reminder times>>
-        //
         // If SetupData is complete, the returned object will be fully
         // valid. Otherwise there will be vacant spots.
         //
-        // (We rely on the fact that startdate represents midnight at
-        // the beginning of the day.)
-        //
         var exper = {};
-        var sd = new Date(SetupData.startdate || 0);
+        var sd = new Date(SetupData.startdate);
+        sd.setHours(0);
+        sd.setMinutes(0);
+        sd.setSeconds(0);
 
         // (Use the Date machinery to work around daylight savings etc.)
         //
@@ -71,23 +115,22 @@
         var tix = Number(SetupData.trigger || '');
         exper.trigger = text.setup3.triggers[tix].trigger;
 
-        // XXX Fix this when reminder times and A/B day types are
-        // available.
+        // XXX Fix this when A/B day types are available.
         //
         exper.remdescrs = [
             { type: 'morning',
               reminderonly: true,
-              time: 7 * 60 * 60, // Sec after midnight
+              time: timesec_of_date(SetupData.morning_time),
               heads: ['TummyTrials Morning Reminder'],
               bodies: ['Today is a day with/without trigger']
             },
             { type: 'breakfast',
-              time: 9 * 60 * 60,
+              time: timesec_of_date(SetupData.breakfast_time),
               heads: ['TummyTrials Breakfast Reminder'],
               bodies: ['Please log your breakfast compliance']
             },
             { type: 'symptomEntry',
-              time: 12 * 60 * 60,
+              time: timesec_of_date(SetupData.symptom_time),
               heads: ['TummyTrials Symptom Entry Reminder'],
               bodies: ['Please log your symptom level']
             }
@@ -101,7 +144,8 @@
     {
         // Return a promise to create the study; i.e., add document to
         // database. Data comes from SetupData. Caller warrants that all
-        // the data has been saved there.
+        // the data has been saved there. The promise resolves to the id
+        // of the study.
         //
         var exper = create_study_ob(text);
         return Experiments.add(exper);
@@ -127,6 +171,22 @@
         {
             create_study_p(text)
             .then(function(experid) {
+                return Experiments.get(experid);
+            })
+            .then(function(exper) {
+                // Start up a replication. Not waiting for it to finish.
+                //
+                Replicator.replicate_p();
+
+                // Set up reminders. (FWIW, this work will be repeated
+                // when the replication is finished. But replication is
+                // not guaranteed to work any particular time; it
+                // requires a working network connection.)
+                //
+                return Reminders.sync(exper.remdescrs, exper.start_time,
+                                        exper.end_time, {});
+            })
+            .then(function(_) {
                 $state.go('mytrials');
             });
         }

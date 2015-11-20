@@ -69,13 +69,13 @@
     {
         // Return the day of the study on the given date: 1, 2, 3, ... N
         //
-        // Note that remstate.start_date is an Epoch time, 00:00:00 on
+        // Note that remstate.start_time is an Epoch time, 00:00:00 on
         // the first day of the study.
         //
         var date0 =
             new Date(date.getFullYear(), date.getMonth(), date.getDate());
         var d0ep = Math.trunc(date0.getTime() / 1000);
-        return 1 + Math.round((d0ep - remstate.start_date) / 86400);
+        return 1 + Math.round((d0ep - remstate.start_time) / 86400);
     }
 
     function study_day_today(remstate)
@@ -91,12 +91,12 @@
         // n:     day of study (1, ...)
         // time:  time of reminder (seconds after midnight)
         //
-        var startDate = new Date(start * 1000);
+        var startTime = new Date(start * 1000);
         var h = Math.trunc(time / 3600);
         var m = Math.trunc((time % 3600) / 60);
         var s = Math.trunc(time % 60);
-        return new Date(startDate.getFullYear(), startDate.getMonth(),
-                        startDate.getDate() + n - 1, // Date will normalize
+        return new Date(startTime.getFullYear(), startTime.getMonth(),
+                        startTime.getDate() + n - 1, // Date will normalize
                         h, m, s);
     }
 
@@ -139,7 +139,7 @@
 
         // Duration of study in days.
         //
-        var duration = remstate.end_date - remstate.start_date;
+        var duration = remstate.end_time - remstate.start_time;
         duration = Math.round(duration / (60 * 60 * 24));
 
         var notifs = [];
@@ -164,7 +164,7 @@
                 var notif = {};
                 notif.title = headn(n);
                 notif.text = bodyn(n);
-                notif.at = reminder_time(remstate.start_date, n, desc.time);
+                notif.at = reminder_time(remstate.start_time, n, desc.time);
                 notif.data = desc.type;
                 // Mark past times with negative ids.
                 //
@@ -325,13 +325,13 @@
     $rootScope.$on('$cordovaLocalNotification:trigger', reminder_triggered);
 
     return {
-        sync: function(descs, start_date, end_date, report_cts) {
+        sync: function(descs, start_time, end_time, report_cts) {
             // Return a promise to schedule the reminders for a study.
             // The promise resolves to null.
             //
             // descs       Descriptor of the reminders (below)
-            // start_date  Start date (Epoch time, midnight 00:00:00 first day)
-            // end_date    End date (Epoch time, midnight 23:59:59+1 last day)
+            // start_time  Start time (Epoch time, midnight 00:00:00 first day)
+            // end_time    End time (Epoch time, midnight 23:59:59+1 last day)
             // report_cts  Counts of reports made by user
             //
             // descs is an array of descriptors that look like this:
@@ -372,8 +372,8 @@
             //
             c_remstate = {};
             c_remstate.descs = angular.copy(descs);
-            c_remstate.start_date = start_date;
-            c_remstate.end_date = end_date;
+            c_remstate.start_time = start_time;
+            c_remstate.end_time = end_time;
             c_report_cts = angular.copy(report_cts);
 
             return sync_p(c_remstate, c_report_cts);

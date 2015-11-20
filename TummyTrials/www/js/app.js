@@ -49,41 +49,56 @@ app.run(function($ionicPlatform, $rootScope, $q, Login, Text, Experiments,
       StatusBar.styleDefault();
     }
 
-  // Sync reminders for current study. (If no current study, make sure
-  // there are no reminders.)
-  //
-  Experiments.getCurrent()
-  .then(function(curex) {
-    var rd, st, et, rt;
+    function reminder_sync_p()
+    {
+        // Return a promise to sync reminders. If there's a current study,
+        // reminders are set for it. Otherwise, any existing reminders need
+        // to be canceled. The promise resolves to null.
+        //
+        return Experiments.getCurrent()
+        .then(function(curex) {
+            var rd, st, et, rt;
 
-    if (curex && curex.remdescrs && curex.start_time && curex.end_time) {
-        // Current experiment looks good.
-        //
-        rd = curex.remdescrs;
-        st = curex.start_time;
-        et = curex.end_time;
-        rt = Experiments.report_tally(curex);
-    } else {
-        // No current experiment.
-        //
-        rd = [];
-        st = 0;
-        et = 0;
-        rt = {};
+            if (    curex && curex.remdescrs &&
+                    curex.start_time && curex.end_time) {
+                // Current experiment looks good.
+                //
+                rd = curex.remdescrs;
+                st = curex.start_time;
+                et = curex.end_time;
+                rt = Experiments.report_tally(curex);
+            } else {
+                // No current experiment.
+                //
+                rd = [];
+                st = 0;
+                et = 0;
+                rt = {};
+            }
+          
+            return Reminders.sync(rd, st, et, rt)
+            .then(function(_) {
+                // Validate that proper reminders have been scheduled (if
+                // desired).
+                //
+                var want_to_validate = true; // Maybe false in production?
+                if (want_to_validate)
+                    return RemindTest.validateSync(rd, st, et, rt);
+                else
+                    return null;
+            });
+        });
     }
-  
-    return Reminders.sync(rd, st, et, rt)
+
+    // Sync reminders now (app startup), and then after every
+    // replication.
+    //
+    reminder_sync_p()
     .then(function(_) {
-        // Validate that proper reminders have been scheduled (if
-        // desired).
-        //
-        var want_to_validate = true; // Maybe false in production?
-        if (want_to_validate)
-            return RemindTest.validateSync(rd, st, et, rt);
-        else
-            return null;
+        $rootScope.$on('couchdbAfterReplicate', function() {
+            reminder_sync_p();
+        });
     });
-  });
 
     // Some tests of Experiments. Move these into some kind of framework
     // later on, probably. (Note: right now some of the tests fail if
@@ -109,8 +124,8 @@ app.run(function($ionicPlatform, $rootScope, $q, Login, Text, Experiments,
     }
 
     // Some tests of Reminders. Right now these require human
-    // intervention and observation. (Need to disable Reminders.sync
-    // above for these tests to work.)
+    // intervention and observation. (Need to disable call to
+    // sync_reminders_p() above for these tests to work.)
     //
     var want_to_run_remind_tests = false;
     if (want_to_run_remind_tests) {

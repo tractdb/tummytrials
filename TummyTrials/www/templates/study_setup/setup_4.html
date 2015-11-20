@@ -4,48 +4,64 @@
             <div class="padding">      
               <h4 class="title">{{text.setup4.title}}</h4>
               <p>{{text.setup4.subtitle}}</p>
-            </div>
 
-            <div class="list" ng-controller = "setupcontroller as setup">
-              <div class="item">
-                Morning Reminder
-                <p>You will be sent a reminder to follow the study<br/>schedule for each day.</p>
+            <div class="list">
+              <div class="item item-text-wrap">
+                {{text.setup4.morning_title}}
+                <p>{{text.setup4.morning_text}}</p>
                 <label class="item item-input">
-                  <span class="input-label">Time</span>
-                  <input type="time" ng-model="">
+                  <span class="input-label">{{text.setup4.time}}</span>
+                  <input type="time" ng-model="setupdata.morning_time">
                 </label>
               </div>      
 
-              <div class="item">
-                Symptom Entry
-                <p>Set this time to be at least 4 hours after <br/>your first meal.</p>
+              <div class="item item-text-wrap">
+                {{text.setup4.breakfast_title}}
+                <p>{{text.setup4.breakfast_text}}</p>
+                <label class="item item-input">
+                  <span class="input-label">{{text.setup4.time}}</span>
+                  <input type="time" ng-model="setupdata.breakfast_time">
+                </label>
+              </div>      
+
+              <div class="item item-text-wrap">
+                {{text.setup4.symptom_title}}
+                <p>{{text.setup4.symptom_text}}</p>
                 
                 <label class="item item-input"> 
-                  <span class="input-label">Time</span> 
-                  <input type="time" ng-model="">
+                  <span class="input-label">{{text.setup4.time}}</span> 
+                  <input type="time" ng-model="setupdata.symptom_time">
                 </label>
               </div>  
             
-              <div class="item">
-                Study Length
-                <p>A longer study will produce results that are<br/>more likely to be accurate (8-30 days).</p>
+              <div class="item item-text-wrap">
+                {{text.setup4.study_length_title}}
+                <p>{{text.setup4.study_length_text}}</p>
                 <label class="item item-input item-select">
                   <div class="input-label">
-                    Days
+                    {{text.setup4.days}}
                   </div>
                   <select ng-model="setupdata.duration">
                     <option value="8">8</option>
                     <option value="10">10</option>
                     <option value="12">12</option>
                     <option value="14">14</option>
+                    <option value="16">16</option>
+                    <option value="18">18</option>
+                    <option value="20">20</option>
+                    <option value="22">22</option>
+                    <option value="24">24</option>
+                    <option value="26">26</option>
+                    <option value="28">28</option>
+                    <option value="30">30</option>
                   </select>
                 </label>
               </div>   
               
               <div class="item">
-                Start date:
+                {{text.setup4.start_date_title}}
                 <label class="item item-input">
-                  <span class="input-label">Date</span>
+                  <span class="input-label">{{text.setup4.date}}</span>
                   <input type="date" ng-model="setupdata.startdate">
                 </label>
               </div> 
@@ -82,9 +98,8 @@
               </div>
             </div> 
 
-            <div class="ten-padding">
               <a class="button button-block button-royal" ui-sref="setup_5">
-                {{text.setup4.button}} &nbsp;<i class="ion-chevron-right"></i> <!-- fa fa-chevron-right x3 -->
+                {{text.setup4.button}} &nbsp; <i class="ion-chevron-right"></i>
               </a>
             </div>
 
