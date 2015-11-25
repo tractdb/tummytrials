@@ -16,7 +16,6 @@ Add additional plugins as required, ngCordova is the recommended lib for using c
 Current plugins directory: 
 
     $ bower install ngCordova
-    $ cordova plugin add https://github.com/katzer/cordova-plugin-badge.git
     $ cordova plugin add cordova-plugin-console
     $ cordova plugin add cordova-plugin-datepicker
     $ cordova plugin add cordova-plugin-device
