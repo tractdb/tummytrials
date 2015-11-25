@@ -16,7 +16,6 @@ Add additional plugins as required, ngCordova is the recommended lib for using c
 Current plugins directory: 
 
     $ bower install ngCordova
-    $ phonegap local plugin add https://github.com/couchbaselabs/Couchbase-Lite-PhoneGap-Plugin.git
     $ cordova plugin add https://github.com/katzer/cordova-plugin-badge.git
     $ cordova plugin add cordova-plugin-console
     $ cordova plugin add cordova-plugin-datepicker
@@ -24,7 +23,6 @@ Current plugins directory:
     $ cordova plugin add cordova-plugin-local-notifications
     $ cordova plugin add cordova-plugin-statusbar
     $ cordova plugin add ionic-plugin-keyboard
-    $ cordova plugin add https://github.com/couchbaselabs/Couchbase-Lite-Phonegap-Plugin.git
     $ cordova plugin add https://github.com/katzer/cordova-plugin-badge.git
     $ cordova plugin add https://github.com/katzer/cordova-plugin-local-notifications.git
 
