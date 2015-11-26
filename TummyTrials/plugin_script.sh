@@ -13,9 +13,6 @@ cordova plugin add cordova-plugin-datepicker
 echo "installing cordova-plugin-device"
 cordova plugin add cordova-plugin-device
 
-echo "installing cordova-plugin-local-notifications"
-cordova plugin add cordova-plugin-local-notifications
-
 echo "installing cordova-plugin-statusbar"
 cordova plugin add cordova-plugin-statusbar
 
