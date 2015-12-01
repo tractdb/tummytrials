@@ -1,10 +1,10 @@
 <ion-view title="Current Trial" cache-view="false">
   <ion-pane>
     <ion-content>
-    <div class="calendar">
-      
-
+    <div class="calendar" ng-hide="!study_current">
       <br/><h5 class="padding">Day 9 of 14</h5>
+      Start date: {{start_date}}
+      Start date readable: {{start_date_readable}}
       <div class="button-bar">
         <a class="button button-balanced">27</a>
         <a class="button button-balanced">28</a>
@@ -41,7 +41,7 @@
     </ul> -->
     <h4>Your reminders for today:</h4>
     <!-- XXX In later commit, change contents of the whole page. -->
-    <p ng-show="!study_current">(Actually, there is no current trial.)</p>
+    <p ng-show="!study_current">(No current trial. Please create a new trial.)</p>
     <div ng-repeat="rem in study_reminders">
         <p>
         <i class="ion-ios-checkmark" ng-hide="rem.reportdue" style="font-size: 120%;"></i>

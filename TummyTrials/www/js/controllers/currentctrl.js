@@ -8,6 +8,7 @@
                   'tummytrials.experiments' ])
 
 .controller('CurrentCtrl', function($scope, LC, Text, Experiments) {
+
     Text.all_p()
     .then(function(text) {
         $scope.text = text;
@@ -97,8 +98,15 @@
             });
 
             $scope.study_reminders = rinfo;
+
+
+        $scope.start_date = new Date(cur.start_time * 1000);
+        $scope.start_date_readable = LC.datestr($scope.start_date);
+
         }
     });
+
+
 })
 
 );
