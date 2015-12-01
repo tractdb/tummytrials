@@ -3,18 +3,22 @@
     <ion-content>
     <div class="calendar" ng-hide="!study_current">
       <br/><h5 class="padding">Day 9 of 14</h5>
-      Start date: {{start_date}}
-      Start date readable: {{start_date_readable}}
+      Start date : {{start_date_dtonly}}<br/>
+      Start date : {{start_date_full}}<br/>
+      End date : {{end_date_readable}}<br/>
+      Duration : {{duration_readable}}<br/>
+      Schedule : {{schedule}}
+
       <div class="button-bar">
-        <a class="button button-balanced">27</a>
-        <a class="button button-balanced">28</a>
-        <a class="button button-balanced">29</a>
-        <a class="button button-balanced">30</a>
-        <a class="button button-balanced">31</a>
-        <a class="button button-balanced">1</a>
-        <a class="button button-balanced">2</a>        
+      <a class="button button-balanced" ng-repeat="day in schedule" ng-show="$index < 6">
+        {{day}}</a>
       </div>
 
+      <div class="button-bar">
+      <a class="button button-balanced" ng-repeat="day in schedule" ng-show="$index >= 6">
+        {{day}}</a>
+      </div>
+      <!-- 
       <div class="button-bar">
         <a class="button button-balanced">3</a>
         <a class="button button-royal">4</a>
@@ -24,6 +28,7 @@
         <a class="button">8</a>
         <a class="button">9</a>        
       </div>
+    -->
       <br/><br/>
 
     </div>

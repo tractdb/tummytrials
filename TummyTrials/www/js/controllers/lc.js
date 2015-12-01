@@ -17,6 +17,14 @@
                         d.getDate();
             },
 
+            dateonly: function(d){
+            // Return a string for the date without the day and month. 
+            // It looks like 3
+            //
+            return d.getDate();
+
+            },
+
             timestr: function(sec) {
                 // Return string for the given number of seconds after
                 // midnight. It looks like '9:15 am'.
