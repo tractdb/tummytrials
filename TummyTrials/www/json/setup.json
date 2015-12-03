@@ -17,6 +17,12 @@
                 "breakfast_reminder_logmsg": "Log Breakfast Compliance",
                 "symptomEntry_reminder_logmsg": "Log Symptom Level"
 	},	
+	"calendar":{
+		"title": "Log entry for day:",
+		"field_1": "Condition for the day was:",
+		"field_2": "Compliance for the day was:",
+		"field_3": "Symptom severity rating for the day was:"
+	},	
 	"no_study": {
 		"title": "No ongoing study",
 		"subtitle": "Would you like to setup your study?",

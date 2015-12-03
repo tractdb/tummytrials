@@ -7,7 +7,8 @@
                 [ 'tummytrials.lc', 'tummytrials.text',
                   'tummytrials.experiments' ])
 
-.controller('CurrentCtrl', function($scope, LC, Text, Experiments) {
+//remove $window after done testing calendar widget
+.controller('CurrentCtrl', function($scope, LC, Text, Experiments, $window) {
     Text.all_p()
     .then(function(text) {
         $scope.text = text;
@@ -97,6 +98,42 @@
             });
 
             $scope.study_reminders = rinfo;
+
+            // Stuff dealing with the calendar widget
+
+            $scope.today = new Date();
+            $scope.today_readable = LC.dateonly($scope.today);
+
+
+            $scope.start_date = new Date(cur.start_time * 1000);
+            $scope.start_date_dtonly = LC.dateonly($scope.start_date);
+            $scope.start_date_full = LC.datestr($scope.start_date);
+
+            $scope.end_date = new Date(cur.end_time * 1000); // This is first day *after* the trial
+            $scope.end_date.setDate($scope.end_date.getDate() - 1); // Now this is last day of the trial
+            $scope.end_date_readable = LC.dateonly($scope.end_date);           
+
+            var dur = cur.end_time - cur.start_time;
+            $scope.duration = new Date(dur * 1000); 
+            $scope.duration_readable = LC.dateonly($scope.duration);
+
+            var days = []; // Array for filling the calendar widget 
+            //Take the starting day, and keep adding one day till the end of study
+            for (i = 0; i < $scope.duration_readable; i++ ){
+                
+                var day = new Date((cur.start_time + (86400 * i)) * 1000);  //86400 adds 1 day
+                var dt = LC.dateonly(day);
+                days.push(dt);
+
+            }
+            $scope.schedule = days;
+            
+
+            $scope.selected_date = function(day){
+                $scope.selected_date = $scope.day;
+                $window.alert($scope.day);
+            }
+
         }
     });
 })

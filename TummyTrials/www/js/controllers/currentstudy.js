@@ -4,6 +4,15 @@
 .config(function($stateProvider, $urlRouterProvider) {
 
   $stateProvider
+  .state('calendar', {
+      url: 'current/calendar',
+      views: {
+        current : {
+          templateUrl: 'templates/currenttrial/calendar.html',
+          controller: 'CurrentCtrl'
+        }
+      }
+    })
 	.state('no_study', {
       url: 'current/no_study',
       views: {
