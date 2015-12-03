@@ -22,7 +22,6 @@
             // It looks like 3
             //
             return d.getDate();
-
             },
 
             timestr: function(sec) {

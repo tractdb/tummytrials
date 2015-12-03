@@ -7,28 +7,34 @@
       Start date : {{start_date_full}}<br/>
       End date : {{end_date_readable}}<br/>
       Duration : {{duration_readable}}<br/>
-      Schedule : {{schedule}}
-
-      <div class="button-bar">
-      <a class="button button-balanced" ng-repeat="day in schedule" ng-show="$index < 6">
-        {{day}}</a>
+      Schedule : {{schedule}}<br/>
+      Today:  {{today_readable}}<br/>
+      Selected day : {{selected_date}}
+      <div class="button-bar"> <!-- need to make the ng-show below be a variable and not hard coded -->
+          <a class="button button-balanced" ng-repeat="day in schedule" ng-show="$index < 6" ui-sref="calendar" ng-click="selected_date(day)">{{day}}</a>
+        </div>
       </div>
 
       <div class="button-bar">
-      <a class="button button-balanced" ng-repeat="day in schedule" ng-show="$index >= 6">
-        {{day}}</a>
+        <div ng-repeat="day in schedule" class="zero-padding">
+          <a class="button button-balanced" ng-if="day != today_readable" ng-show="$index >= 6" ui-sref="calendar">{{day}}</a>
+          <a class="button button-energized" ng-if="day == today_readable" ui-sref="calendar">{{day}}</a>
+        </div>
       </div>
-      <!-- 
+
+      <!--
+      <div class="button-bar"> 
+          <a class="button button-balanced" ng-repeat="day in schedule" ng-show="$index < 6">{{day}}</a>
+        </div>
+      </div>
+
       <div class="button-bar">
-        <a class="button button-balanced">3</a>
-        <a class="button button-royal">4</a>
-        <a class="button">5</a>
-        <a class="button">6</a>
-        <a class="button">7</a>
-        <a class="button">8</a>
-        <a class="button">9</a>        
+        <a class="button button-balanced" ng-repeat="day in schedule" ng-if="day != today_readable" ng-show="$index >= 6">{{day}}</a>
+        <a class="button button-energized" ng-repeat="day in schedule" ng-if="day == today_readable">{{day}}</a>
       </div>
-    -->
+
+      --> 
+
       <br/><br/>
 
     </div>
