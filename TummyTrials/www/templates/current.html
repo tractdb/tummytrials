@@ -1,29 +1,40 @@
 <ion-view title="Current Trial" cache-view="false">
   <ion-pane>
     <ion-content>
-    <div class="calendar">
-      
-
+    <div class="calendar" ng-hide="!study_current">
       <br/><h5 class="padding">Day 9 of 14</h5>
-      <div class="button-bar">
-        <a class="button button-balanced">27</a>
-        <a class="button button-balanced">28</a>
-        <a class="button button-balanced">29</a>
-        <a class="button button-balanced">30</a>
-        <a class="button button-balanced">31</a>
-        <a class="button button-balanced">1</a>
-        <a class="button button-balanced">2</a>        
+      Start date : {{start_date_dtonly}}<br/>
+      Start date : {{start_date_full}}<br/>
+      End date : {{end_date_readable}}<br/>
+      Duration : {{duration_readable}}<br/>
+      Schedule : {{schedule}}<br/>
+      Today:  {{today_readable}}<br/>
+      Selected day : {{selected_date}}
+      <div class="button-bar"> <!-- need to make the ng-show below be a variable and not hard coded -->
+          <a class="button button-balanced" ng-repeat="day in schedule" ng-show="$index < 6" ui-sref="calendar" ng-click="selected_date(day)">{{day}}</a>
+        </div>
       </div>
 
       <div class="button-bar">
-        <a class="button button-balanced">3</a>
-        <a class="button button-royal">4</a>
-        <a class="button">5</a>
-        <a class="button">6</a>
-        <a class="button">7</a>
-        <a class="button">8</a>
-        <a class="button">9</a>        
+        <div ng-repeat="day in schedule" class="zero-padding">
+          <a class="button button-balanced" ng-if="day != today_readable" ng-show="$index >= 6" ui-sref="calendar">{{day}}</a>
+          <a class="button button-energized" ng-if="day == today_readable" ui-sref="calendar">{{day}}</a>
+        </div>
       </div>
+
+      <!--
+      <div class="button-bar"> 
+          <a class="button button-balanced" ng-repeat="day in schedule" ng-show="$index < 6">{{day}}</a>
+        </div>
+      </div>
+
+      <div class="button-bar">
+        <a class="button button-balanced" ng-repeat="day in schedule" ng-if="day != today_readable" ng-show="$index >= 6">{{day}}</a>
+        <a class="button button-energized" ng-repeat="day in schedule" ng-if="day == today_readable">{{day}}</a>
+      </div>
+
+      --> 
+
       <br/><br/>
 
     </div>
@@ -41,7 +52,7 @@
     </ul> -->
     <h4>Your reminders for today:</h4>
     <!-- XXX In later commit, change contents of the whole page. -->
-    <p ng-show="!study_current">(Actually, there is no current trial.)</p>
+    <p ng-show="!study_current">(No current trial. Please create a new trial.)</p>
     <div ng-repeat="rem in study_reminders">
         <p>
         <i class="ion-ios-checkmark" ng-hide="rem.reportdue" style="font-size: 120%;"></i>
