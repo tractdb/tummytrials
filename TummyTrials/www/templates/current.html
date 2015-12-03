@@ -26,6 +26,12 @@
       <div class="button-bar"> 
           <a class="button button-balanced" ng-repeat="day in schedule" ng-show="$index < 6">{{day}}</a>
         </div>
+
+      </div>
+
+      <div class="button-bar"> 
+          <a class="button button-balanced" ng-repeat="day in schedule" ng-show="$index < 6">{{day}}</a>
+        </div>
       </div>
       <div class="button-bar">
         <a class="button button-balanced" ng-repeat="day in schedule" ng-if="day != today_readable" ng-show="$index >= 6">{{day}}</a>

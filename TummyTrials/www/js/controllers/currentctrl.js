@@ -9,6 +9,10 @@
 
 //remove $window after done testing calendar widget
 .controller('CurrentCtrl', function($scope, LC, Text, Experiments, $window) {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 85f7eba8e23029e033b761ae9e4c41ec61fcdc82
     Text.all_p()
     .then(function(text) {
         $scope.text = text;
@@ -136,6 +140,8 @@
 
         }
     });
+
+
 })
 
 );

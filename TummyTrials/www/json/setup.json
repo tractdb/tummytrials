@@ -22,7 +22,7 @@
 		"field_1": "Condition for the day was:",
 		"field_2": "Compliance for the day was:",
 		"field_3": "Symptom severity rating for the day was:"
-	},	
+	},
 	"no_study": {
 		"title": "No ongoing study",
 		"subtitle": "Would you like to setup your study?",
