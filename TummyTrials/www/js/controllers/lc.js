@@ -7,8 +7,8 @@
     .factory('LC', function() {
         return {
             datestr: function(d) {
-                // Return a string for the date. It looks like
-                // "Tue, Nov 3".
+                // Return a string for the date (or tdate). It looks
+                // like "Tue, Nov 3".
                 //
                 var days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
                 var mons = ["Jan","Feb","Mar","Apr","May","Jun",

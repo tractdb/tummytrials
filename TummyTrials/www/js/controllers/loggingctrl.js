@@ -4,11 +4,13 @@
 //
 
 (angular.module('tummytrials.loggingctrl',
-                [ 'tractdb.reminders', 'tummytrials.text', 'tummytrials.lc',
+                [ 'tractdb.tdate', 'tractdb.reminders',
+                  'tummytrials.text', 'tummytrials.lc',
                   'tummytrials.experiments', 'tummytrials.symptomdata' ])
 
 .controller('LogDuringCtrl', function($scope, $state, $ionicHistory,
-                                        Reminders, Text, LC, Experiments) {
+                                        TDate, Reminders, Text, LC,
+                                        Experiments) {
     var text;
     var logday; // What study day is being logged
 
@@ -21,7 +23,7 @@
             if (!report) report = {};
             report.study_day = logday;
             report.breakfast_compliance = compliant;
-            report.breakfast_report_time = Math.floor(Date.now() / 1000);
+            report.breakfast_report_time = Math.floor(TDate.now() / 1000);
             return Experiments.put_report_p(cur.id, report);
         })
         .then(function(_) {
@@ -102,7 +104,7 @@
         if (Experiments.study_day_today(cur) == logday) {
             logday_name = text.during.today;
         } else {
-            var ldd = new Date(cur.start_time * 1000);
+            var ldd = new TDate(cur.start_time * 1000);
             ldd.setDate(ldd.getDate() + logday - 1);
             logday_name = LC.datestr(ldd);
         }
@@ -131,12 +133,14 @@
 })
 
 .controller('LogPostCtrl', function($scope, $state, $stateParams,
-                            Reminders, Text, LC, Experiments, SymptomData) {
+                            TDate, Reminders, Text, LC, Experiments,
+                            SymptomData) {
     var text;
     var logday; // What study day is being logged
 
     function make_report_p(severity)
     {
+
         var cur = $scope.study_current;
 
         return Experiments.get_report_p(cur.id, logday)
@@ -151,7 +155,7 @@
                 scores.push(s);
             }
             report.symptom_scores = scores;
-            report.symptom_report_time = Math.floor(Date.now() / 1000);
+            report.symptom_report_time = Math.floor(TDate.now() / 1000);
             return Experiments.put_report_p(cur.id, report);
         })
         .then(function(_) {
@@ -262,7 +266,7 @@
         if (Experiments.study_day_today(cur) == logday) {
             logday_name = text.post.today;
         } else {
-            var ldd = new Date(cur.start_time * 1000);
+            var ldd = new TDate(cur.start_time * 1000);
             ldd.setDate(ldd.getDate() + logday - 1);
             logday_name = LC.datestr(ldd);
         }
