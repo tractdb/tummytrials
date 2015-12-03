@@ -168,7 +168,10 @@
 		"para2" : "Avoid testing triggers that you are confident will make your symptoms worse. You may choose only one factor to test at a time."
  	},	
 	"settings": {
-		"title": "Settings"
+                "clear_creds": "Clear Credentials",
+                "clear_explanation": "This will clear your stored username and password. You'll be prompted to enter them again later.",
+                "accelerated_demo": "Begin Accelerated Trial Demo",
+                "demo_explanation": "This will begin an accelerated demo of the most recently created trial. This is for demonstration purposes only. Do not do this for a genuine trial!"
 	},
 	"setup": {
 		"title": "Setup a new study",

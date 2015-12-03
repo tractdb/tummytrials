@@ -104,9 +104,17 @@
         return remind;
     }
 
-    function validate_reminds_equal(as, bs, tag)
+    function validate_reminds_equal(saw, exp, tag)
     {
-        if (!angular.equals(as, bs)) {
+        if (false) {
+            // (For debugging.)
+            //
+            console.log('validate_reminds_equal, saw',
+                        JSON.stringify(saw, null, 4));
+            console.log('validate_reminds_equal, expected',
+                        JSON.stringify(exp, null, 4));
+        }
+        if (!angular.equals(saw, exp)) {
             console.log('validate_reminds_equal<' + tag + '>: failure');
             throw new Error('validate_reminds_equal<' + tag + '>');
         }
@@ -136,8 +144,6 @@
             dos = 0;
         else
             dos = 1 + Math.trunc((moment - startt) / daysec);
-        if (dos > dayct)
-            return []; // Study is over
 
         // How many seconds past midnight is the moment?
         //
@@ -155,7 +161,7 @@
             if (dos <= 0)
                 n0 = 1; // Study hasn't started yet
             else
-                n0 = dos + (mtime < desc.time ? 0 : 1);
+                n0 = Math.min(dayct + 1, dos + (mtime < desc.time ? 0 : 1));
             // Previously issued reminders with no reports.
             //
             if (!desc.reminderonly)

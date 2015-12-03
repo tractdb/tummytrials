@@ -1,11 +1,23 @@
-<ion-view title="Settings">
-	<ion-pane>
-		<ion-content class="ten-padding">
-			<p>{{text.settings.title}}</p>
-
-		  <button class="button button-large button-block button-assertive" ng-click="loginfo_clear()">
-			  Clear Credentials
-	      </button>
-		</ion-content>  
-	</ion-pane>
+<ion-view title="Settings" cache-view="false">
+  <ion-pane>
+    <ion-content class="ten-padding">
+        <br/>
+        <div class="card">
+          <div class="item item-text-wrap divcenter">
+          <button class="button button-assertive" ng-click="clear_credentials()" ng-disabled="!have_credentials">
+              {{text.settings.clear_creds}}
+          </button>
+          <p style="font-style: italic;">{{text.settings.clear_explanation}}</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="item item-text-wrap divcenter">
+          <button class="button button-assertive" ng-click="begin_demo()" ng-disabled="!demo_is_possible">
+              {{text.settings.accelerated_demo}}
+          </button>
+          <p style="font-style: italic;">{{text.settings.demo_explanation}}</p>
+          </div>
+        </div>
+    </ion-content>  
+  </ion-pane>
 </ion-view>

@@ -21,7 +21,8 @@ function timesec_of_date(date)
 }
 
 (angular.module('tummytrials.setupctrl',
-                [ 'tractdb.reminders', 'tummytrials.lc', 'tummytrials.text',
+                [ 'tractdb.tdate', 'tractdb.reminders',
+                  'tummytrials.lc', 'tummytrials.text',
                   'tummytrials.setupdata', 'tummytrials.studyfmt',
                   'tummytrials.experiments', 'tummytrials.replicator' ])
 
@@ -80,7 +81,7 @@ function timesec_of_date(date)
     });
 })
 
-.controller('Setup5Ctrl', function($scope, $state, Reminders, LC, Text,
+.controller('Setup5Ctrl', function($scope, $state, TDate, Reminders, LC, Text,
                                     SetupData, StudyFmt, Experiments,
                                     Replicator) {
 

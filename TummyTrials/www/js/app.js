@@ -25,18 +25,19 @@ angular.module('starter', ['ionic'])
 
 var app = angular.module('tummytrials',
             ['ionic', 'ngSanitize', 'ngCordova',
-            'tractdb.lifecycle', 'tummytrials.replicator',
+            'tractdb.tdate', 'tractdb.lifecycle', 'tummytrials.replicator',
             'tummytrials.login', 'tummytrials.currentstudy',
             'tummytrials.studysetup', 'tummytrials.faqcontroller',
             'tummytrials.currentctrl',
             'tummytrials.mytrialsctrl', 'tummytrials.pasttrial1ctrl',
+            'tummytrials.settingsctrl',
             'tummytrials.ngcordovacontrollers', 'tummytrials.text',
             'tummytrials.experiments', 'tummytrials.exper-test',
             'tractdb.reminders', 'tummytrials.remind-test']);
 
 //Ionic device ready check
-app.run(function($ionicPlatform, $rootScope, $q, Login, Text, Experiments,
-                    Reminders, ExperTest, RemindTest) {
+app.run(function($ionicPlatform, $rootScope, $q, TDate, Login, Text,
+                    Experiments, Reminders, ExperTest, RemindTest) {
 
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -67,6 +68,24 @@ app.run(function($ionicPlatform, $rootScope, $q, Login, Text, Experiments,
                 st = curex.start_time;
                 et = curex.end_time;
                 rt = Experiments.report_tally(curex);
+
+                // Establish any time transform before resyncing the
+                // reminders.
+                //
+                if (    'ttransform' in curex &&
+                        !isNaN(curex.ttransform.speedup) &&
+                        !isNaN(curex.ttransform.offset)) {
+                    // Current experiment has a time transform.
+                    //
+                    console.log('set transform', curex.ttransform.speedup,
+                                curex.ttransform.offset);
+                    TDate.setTransform(curex.ttransform.speedup,
+                                       curex.ttransform.offset);
+                } else {
+                    // Current experiment doesn't have a time transform.
+                    //
+                    TDate.setTransform(1, 0);
+                }
             } else {
                 // No current experiment.
                 //
@@ -78,12 +97,13 @@ app.run(function($ionicPlatform, $rootScope, $q, Login, Text, Experiments,
           
             return Reminders.sync(rd, st, et, rt)
             .then(function(_) {
-                // Validate that proper reminders have been scheduled (if
-                // desired).
+                // Validate that proper reminders have been
+                // scheduled (if desired).
                 //
                 var want_to_validate = true; // Maybe false in production?
                 if (want_to_validate)
-                    return RemindTest.validateSync(rd, st, et, rt);
+                    return RemindTest.validateSync(rd, st, et, rt)
+                    .then(function() {}, function() {});
                 else
                     return null;
             });
@@ -94,6 +114,7 @@ app.run(function($ionicPlatform, $rootScope, $q, Login, Text, Experiments,
     // replication.
     //
     reminder_sync_p()
+    .then(function(_) {}, function(_) {}) // Ignore failure
     .then(function(_) {
         $rootScope.$on('couchdbAfterReplicate', function() {
             reminder_sync_p();
@@ -181,7 +202,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
       views: {
         settings : {
           templateUrl: 'templates/settings.html',
-          controller: 'setupcontroller'
+          controller: 'SettingsCtrl'
         }
       }
     })
@@ -241,7 +262,7 @@ app.factory('Calander', function () {
       var calander = [];
       if (date && duration){
         var week = [];
-        var currentDate = new Date();
+        var currentDate = new TDate();
         currentDate.setTime(date.getTime());
         for (var count = 0; count < duration; count++){
           var experimentDate = {"day_num" : count, "date" : currentDate.getDate(), "dayType" : "nonTrigger"}
@@ -255,7 +276,7 @@ app.factory('Calander', function () {
                   week.push({"date" : currentDate.getDate(), "dayType" : "none"});
                 }
               } else {
-                var previous = new Date();
+                var previous = new TDate();
                 previous.setTime(date.getTime());
                 while (week.length < 7){
                   previous.setDate(previous.getDate() - 1);

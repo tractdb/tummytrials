@@ -23,7 +23,8 @@ function by_time(a, b)
     return 0;
 }
 
-(angular.module('tummytrials.experiments', ['tractdb.couchdb'])
+(angular.module('tummytrials.experiments',
+                [ 'tractdb.tdate', 'tractdb.couchdb' ])
 
 /* The following fields have a known meaning right now:
  *
@@ -40,6 +41,7 @@ function by_time(a, b)
  *     trigger:     Trigger (string)
  *     remdescrs:   Reminder descriptors (array of object, see reminders.js)
  *     reports:     User reports (array of object, below)
+ *     ttransform:  Time transform for accelerated testing (object, below)
  *
  * The id is managed by the CouchDB module, not supplied by callers. In
  * fact it's the CouchDB id of the document.
@@ -65,6 +67,15 @@ function by_time(a, b)
  * been made. (This will be the usual case between the two report
  * times.)
  *
+ * A time transform looks like this:
+ *
+ * { speedup:  speedup factor for acceleration
+ *   offset:   offset from usual timeline
+ * }
+ *
+ * The transform function looks like f(t) = speedup * t + offset. See
+ * tdate.js for details.
+ *
  * For flexibility, any additional fields supplied by caller are
  * preserved.
  */
@@ -78,7 +89,7 @@ function by_time(a, b)
  *     study_previous    Previous studies (array of object)
  */
 
-.factory('Experiments', function($q, CouchDB) {
+.factory('Experiments', function($q, TDate, CouchDB) {
     var db = new CouchDB("tractdb", [ TYPEDESC ]);
 
     function const_p(k)
@@ -99,7 +110,7 @@ function by_time(a, b)
         // the first day of the study.
         //
         var date0 =
-            new Date(date.getFullYear(), date.getMonth(), date.getDate());
+            new TDate(date.getFullYear(), date.getMonth(), date.getDate());
         var d0ep = Math.trunc(date0.getTime() / 1000);
         return 1 + Math.round((d0ep - exper.start_time) / 86400);
     }
@@ -153,7 +164,7 @@ function by_time(a, b)
         study_day: study_day,
 
         study_day_today: function(exper) {
-            return study_day(exper, new Date());
+            return study_day(exper, new TDate());
         },
 
         study_duration: function(exper) {
@@ -213,6 +224,22 @@ function by_time(a, b)
                     expers.splice(cix, 1);
                 }
                 scope.study_previous = expers;
+
+                // If current experiment has time transform, start up
+                // the transform. If not, revert to identity transform.
+                //
+                var curex = scope.study_current;
+                if (    curex && 'ttransform' in curex &&
+                        !isNaN(curex.ttransform.speedup) &&
+                        !isNaN(curex.ttransform.offset)) {
+                    console.log('Experiments.publish_p set transform',
+                                curex.ttransform.speedup,
+                                curex.ttransform.offset);
+                    TDate.setTransform(curex.ttransform.speedup,
+                                       curex.ttransform.offset);
+                } else {
+                    TDate.setTransform(1, 0);
+                }
 
                 return null;
             });
@@ -281,7 +308,7 @@ function by_time(a, b)
 
         getRemdescrs: function(experimentId) {
             // Return a promise for the current reminder descriptors of
-            // the experiment. See reminder.js for a definition of a
+            // the experiment. See reminders.js for a definition of a
             // reminder descriptor.
             //
 
@@ -293,7 +320,7 @@ function by_time(a, b)
 
         setRemdescrs: function(experimentId, newRemdescrs) {
             // Return a promise to set the reminder descriptors of the
-            // experiment with the given id. See reminder.js for a
+            // experiment with the given id. See reminders.js for a
             // definition of reminder descriptors.
             //
             // The promise resolves to the new reminder descriptors.
@@ -369,6 +396,19 @@ function by_time(a, b)
                 if (!Array.isArray(exper.reports))
                     exper.reports = [];
                 exper.reports[report.study_day - 1] = report;
+                return db.put_p(experimentId, exper);
+            });
+        },
+
+        set_ttransform_p: function(experimentId, speedup, offset) {
+            // Return a promise to set the time transform of the
+            // experiment to the given values. (This is for testing and
+            // demonstration; real experiments will not be transformed.)
+            // The promise resolves to null.
+            //
+            return db.get_p(experimentId)
+            .then(function(exper) {
+                exper.ttransform = { speedup: speedup, offset: offset };
                 return db.put_p(experimentId, exper);
             });
         },

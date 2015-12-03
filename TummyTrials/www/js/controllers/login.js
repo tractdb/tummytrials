@@ -162,6 +162,13 @@
                 return askuser_p(0);
             },
 
+        loginfo_exists: function(storekey) {
+            // Return true iff there is login info stored under the
+            // given key.
+            //
+            return $window.localStorage.getItem(storekey) !== null;
+        },
+
         loginfo_clear: function(storekey) {
             // Clear any login info stored under the given key.
             //

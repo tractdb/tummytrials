@@ -41,10 +41,11 @@
 
 'use strict';
 
-(angular.module('tractdb.reminders', [ 'ngCordova' ])
+(angular.module('tractdb.reminders', [ 'tractdb.tdate', 'ngCordova' ])
 
 .factory('Reminders', function($ionicPlatform, $rootScope, $q,
-                                $cordovaLocalNotification, $cordovaBadge) {
+                                $cordovaLocalNotification, $cordovaBadge,
+                                TDate) {
     var g_nextid = 1;       // Next notification id to use
     var c_remstate;         // Cached reminder state for internal use
     var c_report_cts;       // Cached report counts for internal use
@@ -61,43 +62,58 @@
     {
         // How many seconds after midnight is it right now?
         //
-        var now = new Date();
+        var now = new TDate();
         return (now.getHours() * 60 + now.getMinutes()) * 60 + now.getSeconds();
     }
     
+    function study_duration(remstate)
+    {
+        // Return the duration (in days) of the study.
+        //
+        var d = remstate.end_time - remstate.start_time;
+        return Math.round(d / (60 * 60 * 24));
+    }
+
     function study_day(remstate, date)
     {
         // Return the day of the study on the given date: 1, 2, 3, ... N
         //
-        // Note that remstate.start_time is an Epoch time, 00:00:00 on
-        // the first day of the study.
+        // Note that the result can be <= 0 if the date is before the
+        // study, and can be > N if the study is concluded before the
+        // given date.
+        //
+        // Also recall that remstate.start_time is an Epoch time,
+        // 00:00:00 on the first day of the study.
         //
         var date0 =
-            new Date(date.getFullYear(), date.getMonth(), date.getDate());
+            new TDate(date.getFullYear(), date.getMonth(), date.getDate());
         var d0ep = Math.trunc(date0.getTime() / 1000);
         return 1 + Math.round((d0ep - remstate.start_time) / 86400);
     }
 
     function study_day_today(remstate)
     {
-        return study_day(remstate, new Date());
+        return study_day(remstate, new TDate());
     }
 
     function reminder_time(start, n, time)
     {
-        // Return a reminder time as a Date object.
+        // Return a reminder time as a Date object. Unlike all other
+        // dates in this module, the Date object represents the "real"
+        // time even if the study is accelerated.
         //
         // start: start of experiment (Epoch value, midnight of day 1)
         // n:     day of study (1, ...)
         // time:  time of reminder (seconds after midnight)
         //
-        var startTime = new Date(start * 1000);
+        var startTime = new TDate(start * 1000);
         var h = Math.trunc(time / 3600);
         var m = Math.trunc((time % 3600) / 60);
         var s = Math.trunc(time % 60);
-        return new Date(startTime.getFullYear(), startTime.getMonth(),
-                        startTime.getDate() + n - 1, // Date will normalize
+        var res = new TDate(startTime.getFullYear(), startTime.getMonth(),
+                        startTime.getDate() + n - 1, // TDate will normalize
                         h, m, s);
+        return res.inverse(); // (Inverse transform to "real" time.)
     }
 
     function notifications_now_p()
@@ -139,8 +155,7 @@
 
         // Duration of study in days.
         //
-        var duration = remstate.end_time - remstate.start_time;
-        duration = Math.round(duration / (60 * 60 * 24));
+        var dur = study_duration(remstate);
 
         var notifs = [];
         remstate.descs.forEach(function(desc) {
@@ -149,7 +164,7 @@
             if (sday <= 0)
                 nnext = 1; // Study hasn't started yet
             else
-                nnext = sday + (daysec >= desc.time ? 1 : 0);
+                nnext = Math.min(dur + 1, sday + (daysec >= desc.time ? 1 : 0));
 
             // Head for day n
             function headn(n) {
@@ -173,7 +188,7 @@
             }
 
             if (desc.reminderonly) {
-                for (var n = nnext; n <= duration; n++)
+                for (var n = nnext; n <= dur; n++)
                     notifs.push(notifn(n));
             } else {
                 // Notifications for past reminders with no reports yet.
@@ -187,7 +202,7 @@
                 //
                 n = Math.max(nnext, repct + 1);
 
-                for (; n <= duration; n++)
+                for (; n <= dur; n++)
                     notifs.push(notifn(n));
             }
         });
@@ -278,8 +293,19 @@
         // according to the reminder state and the reports user has
         // filed. The promise resolves to null.
         //
+        var dur = study_duration(remstate);
         var sday = study_day_today(remstate);
-        var daysec = sec_after_midnight();
+        var daysec;
+
+        if (sday > dur) {
+            // If it's after the end of the study, pretend it's very
+            // late on the last day.
+            //
+            sday = dur;
+            daysec = 60 * 60 * 24;
+        } else {
+            daysec = sec_after_midnight();
+        }
 
         // Access reminder descriptors by type.
         //
