@@ -112,14 +112,16 @@
 
         // Compute the phrase that says what they were supposed to do.
         //
-        // XXX: need to choose between phrase_plus and phrase_minus
-        // depending on the randomized choice for the day.
-        //
         var phrase = "?";
-        var trigger = cur.trigger.trim();
+        var abstring = String(cur.abstring);
+        var plusday = abstring.substr(logday - 1, 1) == "A";
+        var trigger = cur.trigger.trim(); // (Obsolescent fixup.)
         for (var i = 0; i < text.setup3.triggers.length; i++)
             if (text.setup3.triggers[i].trigger == trigger) {
-                phrase = text.setup3.triggers[i].phrase_plus;
+                if (plusday)
+                    phrase = text.setup3.triggers[i].phrase_plus;
+                else
+                    phrase = text.setup3.triggers[i].phrase_minus;
                 break;
             }
 

@@ -21,7 +21,7 @@ function timesec_of_date(date)
 }
 
 (angular.module('tummytrials.setupctrl',
-                [ 'tractdb.tdate', 'tractdb.reminders',
+                [ 'tractdb.tdate', 'tractdb.reminders', 'tractdb.abshuffle',
                   'tummytrials.lc', 'tummytrials.text',
                   'tummytrials.setupdata', 'tummytrials.studyfmt',
                   'tummytrials.experiments', 'tummytrials.replicator' ])
@@ -81,9 +81,48 @@ function timesec_of_date(date)
     });
 })
 
-.controller('Setup5Ctrl', function($scope, $state, TDate, Reminders, LC, Text,
-                                    SetupData, StudyFmt, Experiments,
-                                    Replicator) {
+.controller('Setup5Ctrl', function($scope, $state, TDate, ABShuffle,
+                                   Reminders, LC, Text, SetupData,
+                                   StudyFmt, Experiments, Replicator) {
+    var APPNAME = 'TummyTrials';
+
+    function reminder_heads(title)
+    {
+        var heads = [];
+        var duration = Number(SetupData.duration || 0);
+        for (var day = 1; day <= duration; day++) {
+            var h = APPNAME + ' ' + title + ' ' +
+                    text.setup5.day_counter.replace("{DAY}", day);
+            heads.push(h);
+        }
+        return heads;
+    }
+
+    function morning_bodies(text, abstring)
+    {
+        // Calculate the morning reminder bodies from SetupData and the
+        // given random A/B string.
+        //
+        var bodies = [];
+        var duration = Number(SetupData.duration || 0);
+        var tix = Number(SetupData.trigger || 0);
+
+        var triggerdesc = { phrase_plus: 'embrace trigger',
+                            phrase_minus: 'avoid trigger'};
+        if (tix >= 0 && tix < text.setup3.triggers.length)
+            triggerdesc = text.setup3.triggers[tix];
+
+        for (var i = 1; i <= duration; i++) {
+            var aorb;
+            if (abstring.substr(i - 1, 1) == "A")
+                aorb = triggerdesc.phrase_plus;
+            else
+                aorb = triggerdesc.phrase_minus;
+            var b = text.setup5.morning_reminder_text.replace("{AORB}", aorb);
+            bodies.push(b);
+        }
+        return bodies;
+    }
 
     function create_study_ob(text)
     {
@@ -100,14 +139,16 @@ function timesec_of_date(date)
 
         // (Use the Date machinery to work around daylight savings etc.)
         //
+        var duration = Number(SetupData.duration || 0);
         var ed = new Date(sd.getFullYear(), sd.getMonth(),
-                          sd.getDate() + Number(SetupData.duration || 0));
+                          sd.getDate() + duration);
 
         exper.name = 'Trial beginning ' + LC.datestr(sd);
         exper.start_time = Math.floor(sd.getTime() / 1000);
         exper.end_time = Math.floor(ed.getTime() / 1000);
         exper.status = 'active';
         exper.comment = '';
+        exper.abstring = ABShuffle.of_length(duration);
         exper.symptoms = [];
         if(SetupData.symptom)
             for (var i = 0; i < text.setup2.symptoms.length; i++)
@@ -116,24 +157,22 @@ function timesec_of_date(date)
         var tix = Number(SetupData.trigger || '');
         exper.trigger = text.setup3.triggers[tix].trigger;
 
-        // XXX Fix this when A/B day types are available.
-        //
         exper.remdescrs = [
             { type: 'morning',
               reminderonly: true,
               time: timesec_of_date(SetupData.morning_time),
-              heads: ['TummyTrials Morning Reminder'],
-              bodies: ['Today is a day with/without trigger']
+              heads: reminder_heads(text.setup5.morning_reminder_title),
+              bodies: morning_bodies(text, exper.abstring)
             },
             { type: 'breakfast',
               time: timesec_of_date(SetupData.breakfast_time),
-              heads: ['TummyTrials Breakfast Reminder'],
-              bodies: ['Please log your breakfast compliance']
+              heads: reminder_heads(text.setup5.breakfast_reminder_title),
+              bodies: [text.setup5.breakfast_reminder_text]
             },
             { type: 'symptomEntry',
               time: timesec_of_date(SetupData.symptom_time),
-              heads: ['TummyTrials Symptom Entry Reminder'],
-              bodies: ['Please log your symptom level']
+              heads: reminder_heads(text.setup5.symptomEntry_reminder_title),
+              bodies: [text.setup5.symptomEntry_reminder_text]
             }
         ];
         exper.reports = [];
