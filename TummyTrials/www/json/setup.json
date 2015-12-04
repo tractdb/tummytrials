@@ -296,7 +296,11 @@
                 "breakfast_reminder_title": "Breakfast Reminder",
 		"symptomEntry_reminder_title": "Symptom Entry Reminder",
 		"symptom_reminder": "1:00 pm",
-		"button": "Begin Study!"
+		"button": "Begin Study!",
+                "day_counter": "(Day {DAY})",
+                "morning_reminder_text": "Today is a day to {AORB}.",
+                "breakfast_reminder_text": "Please log your breakfast compliance.",
+                "symptomEntry_reminder_text": "Please log your symptom levels."
 	},
         "loginfo": {
                 "header": "Tummy Trials Login",

@@ -36,17 +36,24 @@ function by_time(a, b)
  *     id:          Unique identifier [managed by CouchDB class]
  *
  *   Tummytrials experiment properties:
- *     comment:     Free form comment (string)
+ *     abstring:    String of As & Bs, one for each test day (more below)
  *     symptoms:    Symptoms (array of string)
  *     trigger:     Trigger (string)
  *     remdescrs:   Reminder descriptors (array of object, see reminders.js)
  *     reports:     User reports (array of object, below)
+ *     comment:     Free form comment (string)
  *     ttransform:  Time transform for accelerated testing (object, below)
  *
  * The id is managed by the CouchDB module, not supplied by callers. In
  * fact it's the CouchDB id of the document.
  *
  * Any other fields supplied by caller are preserved.
+ */
+
+/* The abstring shows which for which days the trigger is to be present
+ * (the 'A' days) and absent (the 'B' days). For example, A days might
+ * be days when caffeine is consumed at breakfast and B days when
+ * caffeine is not consumed.
  */
 
 /* A report might look something like this:
