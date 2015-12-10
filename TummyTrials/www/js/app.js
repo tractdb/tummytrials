@@ -28,7 +28,7 @@ var app = angular.module('tummytrials',
             'tractdb.tdate', 'tractdb.lifecycle', 'tummytrials.replicator',
             'tummytrials.login', 'tummytrials.currentstudy',
             'tummytrials.studysetup', 'tummytrials.faqcontroller',
-            'tummytrials.currentctrl',
+            'tummytrials.activitylog', 'tummytrials.currentctrl',
             'tummytrials.mytrialsctrl', 'tummytrials.pasttrial1ctrl',
             'tummytrials.settingsctrl',
             'tummytrials.ngcordovacontrollers', 'tummytrials.text',
@@ -36,8 +36,9 @@ var app = angular.module('tummytrials',
             'tractdb.reminders', 'tummytrials.remind-test']);
 
 //Ionic device ready check
-app.run(function($ionicPlatform, $rootScope, $q, TDate, Login, Text,
-                    Experiments, Reminders, ExperTest, RemindTest) {
+app.run(function($cordovaFile, $ionicPlatform, $rootScope, $q,
+                    TDate, Login, Text, Experiments, ActivityLog,
+                    Reminders, ExperTest, RemindTest) {
 
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -120,6 +121,11 @@ app.run(function($ionicPlatform, $rootScope, $q, TDate, Login, Text,
             reminder_sync_p();
         });
     });
+
+    // Log a user activity now and whenever the app resumes.
+    //
+    ActivityLog.info('app startup');
+    $rootScope.$on('appResume', function() { ActivityLog.info('app resume'); });
 
     // Some tests of Experiments. Move these into some kind of framework
     // later on, probably. (Note: right now some of the tests fail if
