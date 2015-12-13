@@ -29,20 +29,21 @@ function by_time(a, b)
 /* The following fields have a known meaning right now:
  *
  *   Activity properties:
- *     name:        Name of activity (string)
- *     start_time:  Start time (sec since 1970, start of first day)
- *     end_time:    Scheduled end time (sec since 1970, end of last day)
- *     status:      One of 'active', 'ended', 'abandoned'
- *     id:          Unique identifier [managed by CouchDB class]
+ *     name:         Name of activity (string)
+ *     start_time:   Start time (sec since 1970, start of first day)
+ *     end_time:     Scheduled end time (sec since 1970, end of last day)
+ *     status:       One of 'active', 'ended', 'abandoned'
+ *     id:           Unique identifier [managed by CouchDB class]
  *
  *   Tummytrials experiment properties:
- *     abstring:    String of As & Bs, one for each test day (more below)
- *     symptoms:    Symptoms (array of string)
- *     trigger:     Trigger (string)
- *     remdescrs:   Reminder descriptors (array of object, see reminders.js)
- *     reports:     User reports (array of object, below)
- *     comment:     Free form comment (string)
- *     ttransform:  Time transform for accelerated testing (object, below)
+ *     abstring:     String of As & Bs, one for each test day (more below)
+ *     symptoms:     Symptoms (array of string)
+ *     trigger:      Trigger (string)
+ *     remdescrs:    Reminder descriptors (array of object, see reminders.js)
+ *     reports:      User reports (array of object, below)
+ *     comment:      Free form comment (string)
+ *     activity_log: User activities (array of string)
+ *     ttransform:   Time transform for accelerated testing (object, below)
  *
  * The id is managed by the CouchDB module, not supplied by callers. In
  * fact it's the CouchDB id of the document.
@@ -403,6 +404,20 @@ function by_time(a, b)
                 if (!Array.isArray(exper.reports))
                     exper.reports = [];
                 exper.reports[report.study_day - 1] = report;
+                return db.put_p(experimentId, exper);
+            });
+        },
+
+        add_activity_p: function(experimentId, s)
+        {
+            // Add the string to the activity log for the given
+            // experiment.
+            //
+            return db.get_p(experimentId)
+            .then(function(exper) {
+                if (!Array.isArray(exper.activity_log))
+                    exper.activity_log = [];
+                exper.activity_log.push(s);
                 return db.put_p(experimentId, exper);
             });
         },
