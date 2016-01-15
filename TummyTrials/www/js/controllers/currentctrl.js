@@ -117,6 +117,9 @@
             $scope.duration = new Date(dur * 1000); 
             $scope.duration_readable = LC.dateonly($scope.duration);
 
+            //Determine the length of a row in the calendar widget
+            $scope.row_length = ($scope.duration_readable/2);
+
             var days = []; // Array for filling the calendar widget 
             //Take the starting day, and keep adding one day till the end of study
             for (i = 0; i < $scope.duration_readable; i++ ){
