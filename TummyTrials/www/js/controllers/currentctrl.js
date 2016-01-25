@@ -107,11 +107,14 @@
 
             $scope.start_date = new Date(cur.start_time * 1000);
             $scope.start_date_dtonly = LC.dateonly($scope.start_date);
-            $scope.start_date_full = LC.datestr($scope.start_date);
+            $scope.start_date_full = LC.datestrfull($scope.start_date);
 
             $scope.end_date = new Date(cur.end_time * 1000); // This is first day *after* the trial
-            $scope.end_date.setDate($scope.end_date.getDate() - 1); // Now this is last day of the trial
-            $scope.end_date_readable = LC.dateonly($scope.end_date);           
+            $scope.end_date.setDate($scope.end_date.getDate() - 1); // This is last day of the trial
+            $scope.end_date_readable = LC.dateonly($scope.end_date);   
+
+            //Get the number of days into the experiment
+            $scope.day_num = $scope.today_readable - $scope.start_date_dtonly + 1;
 
             var dur = cur.end_time - cur.start_time;
             $scope.duration = new Date(dur * 1000); 
@@ -149,7 +152,7 @@
                     //day reported
                     if(cur.reports[i].breakfast_compliance == true){
                         //symptoms recorded
-                        var day_report = cur.reports[i].symptom_scores[0];
+                        var day_report = cur.reports[i].symptom_scores;
                         report.push("Day " + (i+1) + " report: ", day_report);
                     } else {
                         // print no compliance
