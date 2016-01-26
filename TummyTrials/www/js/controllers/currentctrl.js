@@ -103,7 +103,7 @@
 
             $scope.today = new Date();
             $scope.today_readable = LC.dateonly($scope.today);
-
+            $scope.today_full = LC.datestrfull($scope.today);
 
             $scope.start_date = new Date(cur.start_time * 1000);
             $scope.start_date_dtonly = LC.dateonly($scope.start_date);
@@ -116,6 +116,21 @@
             //Get the number of days into the experiment
             $scope.day_num = $scope.today_readable - $scope.start_date_dtonly + 1;
 
+            //Figure out if experiment has started
+            if($scope.today < $scope.start_date){
+                $scope.exp_bool = true;
+            } else {
+                $scope.exp_bool = false;
+            }
+
+            //Days till experiment starts
+            // Revisit later .. This one gives random days
+
+            // var ctdn_diff = ((cur.start_time * 1000) - Date.now());
+            // $scope.ctdn = new Date(ctdn_diff * 1000);
+            // $scope.countdown = LC.dateonly($scope.ctdn);
+
+            //Get the duration of the experiment
             var dur = cur.end_time - cur.start_time;
             $scope.duration = new Date(dur * 1000); 
             $scope.duration_readable = LC.dateonly($scope.duration);

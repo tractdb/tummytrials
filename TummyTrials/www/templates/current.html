@@ -1,7 +1,7 @@
 <ion-view title="Current Trial" cache-view="false">
   <ion-pane>
     <ion-content>
-    <div class="calendar" ng-hide="!study_current">
+    <div class="calendar" ng-show="study_current && !exp_bool">
       <br/><h5 class="padding">Day {{day_num}} of {{duration_readable}}</h5>
       <!--
       Start date : {{start_date_dtonly}}<br/>
@@ -30,46 +30,73 @@
       <br/><br/>
 
     </div>
-        <br/>
 
-    <div class="padding">    
+
+    <div class="padding" ng-hide="!study_current">    
     
-    <h4 class="title">{{text.current.title}} {{start_date_full}}</h4>
-    <p>{{text.current.subtitle}}</p>
-    <p><a ui-sref="setup_3_2">{{text.current.para1}}</a></p>
-    <br/>    
+        <h4 class="title">{{text.current.title}} {{today_full}}</h4>
+        <!-- 
+        Content to display when there is no on going experiment
+        --> 
+        <div ng-hide="!exp_bool">
+          You have an experiment scheduled to begin on {{start_date_full}}. 
+        </div>    
 
-    <!-- <ul>
-      <li ng-repeat="rem in text.current.reminders"><p><i class="ion-ios-circle-outline"></i> {{rem.rem}}</p></li>
-    </ul> -->
-    <h4>Your reminders for today:</h4>
-    <!-- XXX In later commit, change contents of the whole page. -->
-    <p ng-show="!study_current">(No current trial. Please create a new trial.)</p>
-    <div ng-repeat="rem in study_reminders">
-        <p>
-        <i class="ion-ios-checkmark" ng-hide="rem.reportdue" style="font-size: 120%;"></i>
-        <i class="ion-ios-circle-outline" ng-show="rem.reportdue" style="font-size: 120%;"></i>
-        {{rem.schedmsg}}
-        <div class="divcenter" ng-show="!!rem.logmsg">
-            <a class="button button-royal" ui-sref="{{rem.logstate}}" ng-disabled="rem.disabled">
-                {{rem.logmsg}}
-            </a>
+        <!-- 
+        Content to display when experiment underway
+        --> 
+        <div ng-show="!exp_bool">
+          <p>{{text.current.subtitle}}</p>
+          <p><a ui-sref="setup_3_2">{{text.current.para1}}</a></p>
+          <br/>    
+          <h4>Your reminders for today:</h4>
+          <!-- XXX In later commit, change contents of the whole page. -->
+          <p ng-show="!study_current">(No current trial. Please create a new trial.)</p>
+              
+
+              <div ng-repeat="rem in study_reminders">
+                  <p>
+                  <i class="ion-ios-checkmark" ng-hide="rem.reportdue" style="font-size: 120%;"></i>
+                  <i class="ion-ios-circle-outline" ng-show="rem.reportdue" style="font-size: 120%;"></i>
+                  {{rem.schedmsg}}
+                  <div class="divcenter" ng-show="!!rem.logmsg">
+                      <a class="button button-royal" ui-sref="{{rem.logstate}}" ng-disabled="rem.disabled">
+                          {{rem.logmsg}}
+                      </a>
+                  </div>
+                  </p>
+                  <br/>
+              </div>
+
+          <h4>Optional:</h4>
+            <p>
+              {{text.current.note}}
+              <div class="divcenter">
+                <a class="button button-royal" ui-sref="notes">
+                  {{text.current.button3}}
+                </a>
+              </div>
+            </p>
         </div>
-        </p>
-        <br/>
+    
     </div>
 
-    <h4>Optional:</h4>
-      <p>
-        {{text.current.note}}
-        <div class="divcenter">
-          <a class="button button-royal" ui-sref="notes">
-            {{text.current.button3}}
+    <!-- 
+    Content to display when there is no on going study
+    --> 
+
+      <div class="padding" ng-show="!study_current">
+          <h4 class="title">No ongoing trial</h4>
+      <br/>
+      <p>Would you like to setup a new trial?</p>
+      <br/>
+
+      <a class="button button-block button-royal" ui-sref="setup_1">
+              Setup a New Trial
           </a>
-        </div>
-      </p>
+      </div>    
 
-    </div>
+
     </ion-content>  
   </ion-pane>
 </ion-view>
