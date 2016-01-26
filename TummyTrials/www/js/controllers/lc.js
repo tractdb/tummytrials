@@ -17,11 +17,22 @@
                         d.getDate();
             },
 
+            datestrfull: function(d) {
+                // Return a string for the date (or tdate). It looks
+                // like "Tuesday, Nov 3".
+                //
+                var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+                var mons = ["Jan","Feb","Mar","Apr","May","Jun",
+                            "Jul","Aug","Sep","Oct","Nov","Dec"];
+                return days[d.getDay()] + ", " + mons[d.getMonth()] + " " +
+                        d.getDate();
+            },
+
             dateonly: function(d){
-            // Return a string for the date without the day and month. 
-            // It looks like 3
-            //
-            return d.getDate();
+                // Return a string for the date without the day and month. 
+                // It looks like 3
+                //
+                return d.getDate();
             },
 
             timestr: function(sec) {

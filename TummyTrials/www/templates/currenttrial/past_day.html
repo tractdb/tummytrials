@@ -1,0 +1,41 @@
+<ion-view>
+  <ion-nav-title>
+  {{study_past1.name}}
+  </ion-nav-title>
+  <ion-pane>
+    <ion-content class="padding">
+
+    <h5 class="title">{{text.setup5.topic_title}}</h5>
+    <p>{{study_topic_question}}</p>
+    <br/>
+
+    <h5 class="title">{{text.setup5.symptoms_title}}</h5>
+    <p ng-repeat="symptom in study_past1.symptoms">
+    {{symptom}}
+    </p>
+    <br/>
+
+    <h5 class="title">{{text.setup5.study_length}}</h5>
+    <p>{{study_date_range}}</p>
+    <br/>
+
+    <h5 class="title">{{text.setup5.reminder_times_title}}</h5>
+    <div class="row" ng-repeat="remdesc in study_past1.remdescrs">
+        <div class="col">{{text.setup5[remdesc.type + '_reminder_title'] || remdesc.type}}</div>
+        <div class="col">{{study_reminder_times[remdesc.type]}}</div>
+    </div>
+    <br/>
+
+    <h5 class="title">{{text.pasttrial1.status_title}}</h5>
+    <p>{{study_past1.status}}</p>
+    <br/>
+
+    <div ng-show="study_past1.comment != ''">
+    <h5 class="title">{{text.pasttrial1.notes_title}}</h5>
+    <p>{{study_past1.comment}}</p>
+    </div>
+    <br/>
+
+    </ion-content>  
+  </ion-pane>
+</ion-view>

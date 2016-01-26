@@ -103,16 +103,34 @@
 
             $scope.today = new Date();
             $scope.today_readable = LC.dateonly($scope.today);
-
+            $scope.today_full = LC.datestrfull($scope.today);
 
             $scope.start_date = new Date(cur.start_time * 1000);
             $scope.start_date_dtonly = LC.dateonly($scope.start_date);
-            $scope.start_date_full = LC.datestr($scope.start_date);
+            $scope.start_date_full = LC.datestrfull($scope.start_date);
 
             $scope.end_date = new Date(cur.end_time * 1000); // This is first day *after* the trial
-            $scope.end_date.setDate($scope.end_date.getDate() - 1); // Now this is last day of the trial
-            $scope.end_date_readable = LC.dateonly($scope.end_date);           
+            $scope.end_date.setDate($scope.end_date.getDate() - 1); // This is last day of the trial
+            $scope.end_date_readable = LC.dateonly($scope.end_date);   
 
+            //Get the number of days into the experiment
+            $scope.day_num = $scope.today_readable - $scope.start_date_dtonly + 1;
+
+            //Figure out if experiment has started
+            if($scope.today < $scope.start_date){
+                $scope.exp_bool = true;
+            } else {
+                $scope.exp_bool = false;
+            }
+
+            //Days till experiment starts
+            // Revisit later .. This one gives random days
+
+            // var ctdn_diff = ((cur.start_time * 1000) - Date.now());
+            // $scope.ctdn = new Date(ctdn_diff * 1000);
+            // $scope.countdown = LC.dateonly($scope.ctdn);
+
+            //Get the duration of the experiment
             var dur = cur.end_time - cur.start_time;
             $scope.duration = new Date(dur * 1000); 
             $scope.duration_readable = LC.dateonly($scope.duration);
@@ -120,14 +138,19 @@
             //Determine the length of a row in the calendar widget
             $scope.row_length = ($scope.duration_readable/2);
 
+
+
             var days = []; // Array for filling the calendar widget 
+            var d = []; // Temp array 
+            var rand = cur.abstring.split(''); // Array for the randomization of conditions
             //Take the starting day, and keep adding one day till the end of study
             for (i = 0; i < $scope.duration_readable; i++ ){
-                
                 var day = new Date((cur.start_time + (86400 * i)) * 1000);  //86400 adds 1 day
                 var dt = LC.dateonly(day);
-                days.push(dt);
-
+                d.push(dt);
+                d.push(rand[i]);
+                days.push(d);
+                d = [];
             }
             $scope.schedule = days;
             
@@ -136,6 +159,30 @@
                 $scope.selected_date = $scope.day;
                 $window.alert($scope.day);
             }
+
+
+            // Daily reports
+            // Will be used to color the tabs in the calendar widget. 
+            // Should compliance be overloaded? Can do multicolor gradient or something
+
+            var report = [];
+            for(i=0; i < $scope.duration_readable; i++){
+                if(typeof(cur.reports[i]) == "object"){
+                    //day reported
+                    if(cur.reports[i].breakfast_compliance == true){
+                        //symptoms recorded
+                        var day_report = cur.reports[i].symptom_scores;
+                        report.push("Day " + (i+1) + " report: ", day_report);
+                    } else {
+                        // print no compliance
+                        report.push("No compliance on day " + (i+1));
+                    }
+                } else {
+                    //print no report 
+                        report.push("No report for day " + (i+1));
+                }
+            }
+            $scope.report = report;
 
         }
     });
