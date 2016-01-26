@@ -162,27 +162,24 @@
 
 
             // Daily reports
-            // Will be used to color the tabs in the calendar widget. 
-            // Should compliance be overloaded? Can do multicolor gradient or something
-
-            var report = [];
-            for(i=0; i < $scope.duration_readable; i++){
-                if(typeof(cur.reports[i]) == "object"){
-                    //day reported
-                    if(cur.reports[i].breakfast_compliance == true){
-                        //symptoms recorded
-                        var day_report = cur.reports[i].symptom_scores;
-                        report.push("Day " + (i+1) + " report: ", day_report);
-                    } else {
-                        // print no compliance
-                        report.push("No compliance on day " + (i+1));
-                    }
-                } else {
-                    //print no report 
-                        report.push("No report for day " + (i+1));
-                }
-            }
-            $scope.report = report;
+            // var report = [];
+            // for(i=0; i < $scope.duration_readable; i++){
+            //     if(typeof(cur.reports[i]) == "object"){
+            //         //day reported
+            //         if(cur.reports[i].breakfast_compliance == true){
+            //             //symptoms recorded
+            //             var day_report = cur.reports[i].symptom_scores;
+            //             report.push("Day " + (i+1) + " report: ", day_report);
+            //         } else {
+            //             // print no compliance
+            //             report.push("No compliance on day " + (i+1));
+            //         }
+            //     } else {
+            //         //print no report 
+            //             report.push("No report for day " + (i+1));
+            //     }
+            // }
+            // $scope.report = report;
 
         }
     });
