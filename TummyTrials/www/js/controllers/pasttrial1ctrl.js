@@ -32,14 +32,17 @@
 
                 var day = new Date((cur.start_time + (86400 * i)) * 1000);  //86400 adds 1 day
                 var dt = LC.dateonly(day);
-                var score = cur.reports[i].symptom_scores;
+                // var score = cur.reports[i].symptom_scores;
+                var score = null;
                 d.push(dt);
                 d.push(rand[i]);
 
                 if(typeof(cur.reports[i]) == "object"){
                     //report logged if there is an object
-                    if(cur.reports[i].breakfast_compliance == true){
+
+                    if(cur.reports[i].breakfast_compliance == true && typeof(cur.reports[i].symptom_scores) == "object"){
                         //symptoms exist if compliance is true
+                        // console.log(typeof(cur.reports[i].symptom_scores));
                         score = cur.reports[i].symptom_scores[0].score;
                         // report.push("Day " + (i+1) + " report: ", day_report);
                         d.push(score);
