@@ -11,9 +11,9 @@
       Schedule : {{schedule}}<br/>
       Today:  {{today_readable}}<br/>
       Selected day : {{selected_date}}<br/>
-      Row length : {{row_length}} 
-      -->
+      Row length : {{row_length}} <br/> 
       Reports: {{report}} <br/>
+      -->
       <div class="button-bar"> 
         <div ng-repeat="day in schedule">
           <a class="button" ng-if="day[0] != today_readable" ng-show="$index < row_length"  ng-class="day[1] == 'A' ? 'button-positive' : 'button-balanced'" ui-sref="calendar">{{day[0]}}</a>
