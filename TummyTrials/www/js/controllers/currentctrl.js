@@ -99,6 +99,10 @@
 
             $scope.study_reminders = rinfo;
 
+
+            // Title of the study
+            $scope.title_text = cur.trigger;
+
             // Stuff dealing with the calendar widget
 
             $scope.today = new Date();
@@ -125,7 +129,6 @@
 
             //Days till experiment starts
             // Revisit later .. This one gives random days
-
             // var ctdn_diff = ((cur.start_time * 1000) - Date.now());
             // $scope.ctdn = new Date(ctdn_diff * 1000);
             // $scope.countdown = LC.dateonly($scope.ctdn);
@@ -138,8 +141,7 @@
             //Determine the length of a row in the calendar widget
             $scope.row_length = ($scope.duration_readable/2);
 
-
-
+            var act_day = []; //Array for storing the condition of the day
             var days = []; // Array for filling the calendar widget 
             var d = []; // Temp array 
             var rand = cur.abstring.split(''); // Array for the randomization of conditions
@@ -150,36 +152,30 @@
                 d.push(dt);
                 d.push(rand[i]);
                 days.push(d);
+                if($scope.today_readable == dt){ //check the condition of the day (today)
+                    act_day.push(rand[i]);
+                }
                 d = [];
             }
             $scope.schedule = days;
-            
 
-            $scope.selected_date = function(day){
-                $scope.selected_date = $scope.day;
-                $window.alert($scope.day);
+            //Figuring out the message for the day (avoid/consume the trigger)
+            var A_text, B_text;
+            var text_loc = text.setup3.triggers; //Getting the text from JSON for each trigger
+
+            for(i = 0; i < text_loc.length; i ++){
+                if(cur.trigger == text_loc[i].trigger){ //Checking which trigger is being tested in the current experiment
+                    A_text = text_loc[i].phrase_plus;
+                    B_text = text_loc[i].phrase_minus;
+                }
             }
 
-
-            // Daily reports
-            // var report = [];
-            // for(i=0; i < $scope.duration_readable; i++){
-            //     if(typeof(cur.reports[i]) == "object"){
-            //         //day reported
-            //         if(cur.reports[i].breakfast_compliance == true){
-            //             //symptoms recorded
-            //             var day_report = cur.reports[i].symptom_scores;
-            //             report.push("Day " + (i+1) + " report: ", day_report);
-            //         } else {
-            //             // print no compliance
-            //             report.push("No compliance on day " + (i+1));
-            //         }
-            //     } else {
-            //         //print no report 
-            //             report.push("No report for day " + (i+1));
-            //     }
-            // }
-            // $scope.report = report;
+            //Changes the text prompt based on the condition for the day
+            if(act_day[0] == "A"){
+                $scope.active_text = A_text;
+            } else if(act_day[0] == "B"){
+                $scope.active_text = B_text;
+            }
 
         }
     });

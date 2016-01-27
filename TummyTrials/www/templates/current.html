@@ -2,7 +2,8 @@
   <ion-pane>
     <ion-content>
     <div class="calendar" ng-show="study_current && !exp_bool">
-      <br/><h5 class="padding">Day {{day_num}} of {{duration_readable}}</h5>
+      <br/><h4 class="padding"> {{title_text}} study</h4>
+      <h5 class="padding">Day {{day_num}} of {{duration_readable}}</h5>
       <!--
       Start date : {{start_date_dtonly}}<br/>
       Start date : {{start_date_full}}<br/>
@@ -14,6 +15,7 @@
       Row length : {{row_length}} <br/> 
       Reports: {{report}} <br/>
       -->
+      <div class="divcenter">
       <div class="button-bar"> 
         <div ng-repeat="day in schedule">
           <a class="button" ng-if="day[0] != today_readable" ng-show="$index < row_length"  ng-class="day[1] == 'A' ? 'button-positive' : 'button-balanced'" ui-sref="calendar">{{day[0]}}</a>
@@ -27,6 +29,7 @@
           <a class="button button-energized" ng-if="day[0] == today_readable" ng-show="$index >= row_length" ui-sref="calendar">{{day[0]}}</a>
         </div>
       </div>
+      </div>
       <br/><br/>
 
     </div>
@@ -35,6 +38,8 @@
     <div class="padding" ng-hide="!study_current">    
     
         <h4 class="title">{{text.current.title}} {{today_full}}</h4>
+        {{active_day}}
+        {{test2}}
         <!-- 
         Content to display when there is no on going experiment
         --> 
@@ -46,7 +51,7 @@
         Content to display when experiment underway
         --> 
         <div ng-show="!exp_bool">
-          <p>{{text.current.subtitle}}</p>
+          <p>{{text.current.subtitle}} <b>{{active_text}}</b> {{text.current.subtitle2}}</p>
           <p><a ui-sref="setup_3_2">{{text.current.para1}}</a></p>
           <br/>    
           <h4>Your reminders for today:</h4>
