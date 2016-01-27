@@ -101,7 +101,12 @@
 
 
             // Title of the study
-            $scope.title_text = cur.trigger;
+            if(typeof(cur.trigger) == "string"){
+                $scope.title = cur.trigger + " Study";    
+            } else {
+                $scope.title = "Current Study";
+            }
+            
 
             // Stuff dealing with the calendar widget
 
