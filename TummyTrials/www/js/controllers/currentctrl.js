@@ -153,7 +153,7 @@
                 d.push(rand[i]);
                 days.push(d);
                 if($scope.today_readable == dt){ //check the condition of the day (today)
-                    act_day.push(rand[i]);
+                    act_day.splice(0,0,rand[i]);
                 }
                 d = [];
             }
