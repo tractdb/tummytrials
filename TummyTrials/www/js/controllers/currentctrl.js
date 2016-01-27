@@ -138,14 +138,19 @@
             //Determine the length of a row in the calendar widget
             $scope.row_length = ($scope.duration_readable/2);
 
+
+
             var days = []; // Array for filling the calendar widget 
+            var d = []; // Temp array 
+            var rand = cur.abstring.split(''); // Array for the randomization of conditions
             //Take the starting day, and keep adding one day till the end of study
             for (i = 0; i < $scope.duration_readable; i++ ){
-                
                 var day = new Date((cur.start_time + (86400 * i)) * 1000);  //86400 adds 1 day
                 var dt = LC.dateonly(day);
-                days.push(dt);
-
+                d.push(dt);
+                d.push(rand[i]);
+                days.push(d);
+                d = [];
             }
             $scope.schedule = days;
             
@@ -158,7 +163,6 @@
 
             // Daily reports
             // Will be used to color the tabs in the calendar widget. 
-            // Condition A/B get separate colors
             // Should compliance be overloaded? Can do multicolor gradient or something
 
             var report = [];

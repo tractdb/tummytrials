@@ -16,15 +16,15 @@
       Reports: {{report}} <br/>
       <div class="button-bar"> 
         <div ng-repeat="day in schedule">
-          <a class="button button-balanced" ng-if="day != today_readable" ng-show="$index < row_length" ui-sref="calendar">{{day}}</a>
-          <a class="button button-energized" ng-if="day == today_readable" ng-show="$index < row_length" ui-sref="calendar">{{day}}</a>
+          <a class="button" ng-if="day[0] != today_readable" ng-show="$index < row_length"  ng-class="day[1] == 'A' ? 'button-positive' : 'button-balanced'" ui-sref="calendar">{{day[0]}}</a>
+          <a class="button button-energized" ng-if="day[0] == today_readable" ng-show="$index < row_length" ui-sref="calendar">{{day[0]}}</a>
         </div>
       </div>
 
       <div class="button-bar">
         <div ng-repeat="day in schedule">
-          <a class="button button-balanced" ng-if="day != today_readable" ng-show="$index >= row_length" ui-sref="calendar">{{day}}</a>
-          <a class="button button-energized" ng-if="day == today_readable" ng-show="$index >= row_length" ui-sref="calendar">{{day}}</a>
+          <a class="button" ng-if="day[0] != today_readable" ng-show="$index >= row_length" ng-class="day[1] == 'A' ? 'button-positive' : 'button-balanced'" ui-sref="calendar">{{day[0]}}</a>
+          <a class="button button-energized" ng-if="day[0] == today_readable" ng-show="$index >= row_length" ui-sref="calendar">{{day[0]}}</a>
         </div>
       </div>
       <br/><br/>
@@ -39,6 +39,9 @@
         Content to display when there is no on going experiment
         --> 
         <div ng-hide="!exp_bool">
+          days: {{schedule}}
+          <br/>
+
           You have an experiment scheduled to begin on {{start_date_full}}. 
         </div>    
 
