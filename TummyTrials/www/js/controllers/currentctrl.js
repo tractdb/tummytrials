@@ -7,7 +7,6 @@
                 [ 'tummytrials.lc', 'tummytrials.text',
                   'tummytrials.experiments' ])
 
-//remove $window after done testing calendar widget
 .controller('CurrentCtrl', function($scope, LC, Text, Experiments, $window) {
     Text.all_p()
     .then(function(text) {
@@ -102,11 +101,10 @@
 
             // Title of the study
             if(typeof(cur.trigger) == "string"){
-                $scope.title = cur.trigger + " Study";    
+                $scope.title = cur.trigger + " Study";    //add this to all child pages of current. conditioning not required since not accessible unless study is going on
             } else {
                 $scope.title = "Current Study";
-            }
-            
+            }            
 
             // Stuff dealing with the calendar widget
 
@@ -144,7 +142,12 @@
             $scope.duration_readable = LC.dateonly($scope.duration);
 
             //Determine the length of a row in the calendar widget
-            $scope.row_length = ($scope.duration_readable/2);
+            if($scope.duration_readable <= 8){
+                $scope.row_length = ($scope.duration_readable);
+            } else if($scope.duration_readable > 8){
+                $scope.row_length = ($scope.duration_readable/2);
+            }
+                
 
             var act_day = []; //Array for storing the condition of the day
             var days = []; // Array for filling the calendar widget 
@@ -165,15 +168,19 @@
             $scope.schedule = days;
 
             //Figuring out the message for the day (avoid/consume the trigger)
-            var A_text, B_text;
+            var A_text, B_text, h_URL;
             var text_loc = text.setup3.triggers; //Getting the text from JSON for each trigger
 
             for(i = 0; i < text_loc.length; i ++){
-                if(cur.trigger == text_loc[i].trigger){ //Checking which trigger is being tested in the current experiment
+                if(cur.trigger == text_loc[i].trigger){ //Checking which trigger is being tested in the current experiment                    
                     A_text = text_loc[i].phrase_plus;
                     B_text = text_loc[i].phrase_minus;
+                    h_URL = text_loc[i].uisref; // URL for help deciding what to eat for the condition
                 }
             }
+            $scope.A_text = A_text;
+            $scope.B_text = B_text;
+            $scope.help_URL = h_URL;
 
             //Changes the text prompt based on the condition for the day
             if(act_day[0] == "A"){

@@ -30,7 +30,14 @@
         </div>
       </div>
       </div>
-      <br/><br/>
+      <br/>
+      <!-- Legend for the calendar -->
+      <div class="padding">
+        <i class="ion-stop positive" style="font-size: 150%;"></i> Condition: {{A_text}} <br/>
+        <i class="ion-stop balanced" style="font-size: 150%;"></i> Contidion: {{B_text}} <br/>
+        <i class="ion-stop energized" style="font-size: 150%;"></i> Current day <br/>
+      </div>
+      <br/>
 
     </div>
 
@@ -38,8 +45,6 @@
     <div class="padding" ng-hide="!study_current">    
     
         <h4 class="title">{{text.current.title}} {{today_full}}</h4>
-        {{active_day}}
-        {{test2}}
         <!-- 
         Content to display when there is no on going experiment
         --> 
@@ -52,7 +57,7 @@
         --> 
         <div ng-show="!exp_bool">
           <p>{{text.current.subtitle}} <b>{{active_text}}</b> {{text.current.subtitle2}}</p>
-          <p><a ui-sref="setup_3_2">{{text.current.para1}}</a></p>
+          <p><a ui-sref="{{help_URL}}">{{text.current.para1}}</a></p> <!-- This link needs to be customized to the experiment being run. -->
           <br/>    
           <h4>Your reminders for today:</h4>
           <!-- XXX In later commit, change contents of the whole page. -->

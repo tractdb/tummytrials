@@ -18,6 +18,10 @@
 	background-color: #999999;
 }
 
+.calendar i{
+	padding-top: 10px;
+}
+
 .calfont{
 	font-size: 10px;
 }

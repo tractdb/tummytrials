@@ -215,7 +215,7 @@
 			{"trigger": "Drinking Caffeine",
                          "uisref": "setup_3_3",
                          "phrase_plus": "drink caffeine",
-                         "phrase_minus": "avoid consuming any caffeine"
+                         "phrase_minus": "avoid drinking any caffeine"
                         },
 			{"trigger": "Eating Gluten",
                          "uisref": "setup_3_4",
