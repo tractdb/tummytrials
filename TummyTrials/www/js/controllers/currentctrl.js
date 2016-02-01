@@ -118,10 +118,7 @@
 
             $scope.end_date = new Date(cur.end_time * 1000); // This is first day *after* the trial
             $scope.end_date.setDate($scope.end_date.getDate() - 1); // This is last day of the trial
-            $scope.end_date_readable = LC.dateonly($scope.end_date);   
-
-            //Get the number of days into the experiment
-            $scope.day_num = $scope.today_readable - $scope.start_date_dtonly + 1;
+            $scope.end_date_readable = LC.dateonly($scope.end_date);               
 
             //Figure out if experiment has started
             if($scope.today < $scope.start_date){
@@ -166,6 +163,17 @@
                 d = [];
             }
             $scope.schedule = days;
+
+            //Get the number of days into the experiment for calendar heading
+            var day_n = null;
+            for(var i = 0; i < $scope.duration_readable; i++){
+                day = days[i][0];  // days is an array of arrays [[4,'A'],[5,'B']...] of the experiment date and condition
+                if($scope.today_readable == day){
+                    day_n = i;
+                }
+            }
+            $scope.day_num = day_n + 1;
+
 
             //Figuring out the message for the day (avoid/consume the trigger)
             var A_text, B_text, h_URL;
