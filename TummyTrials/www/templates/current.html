@@ -1,8 +1,9 @@
-<ion-view title="Current Trial" cache-view="false">
+<ion-view title="{{title}}" cache-view="false">
   <ion-pane>
     <ion-content>
     <div class="calendar" ng-show="study_current && !exp_bool">
-      <br/><h5 class="padding">Day {{day_num}} of {{duration_readable}}</h5>
+      <br/><!-- <h4 class="padding"> {{title_text}} Study</h4> -->
+      <h5 class="padding">Day {{day_num}} of {{duration_readable}}</h5>
       <!--
       Start date : {{start_date_dtonly}}<br/>
       Start date : {{start_date_full}}<br/>
@@ -14,6 +15,7 @@
       Row length : {{row_length}} <br/> 
       Reports: {{report}} <br/>
       -->
+      <div class="divcenter">
       <div class="button-bar"> 
         <div ng-repeat="day in schedule">
           <a class="button" ng-if="day[0] != today_readable" ng-show="$index < row_length"  ng-class="day[1] == 'A' ? 'button-positive' : 'button-balanced'" ui-sref="calendar">{{day[0]}}</a>
@@ -27,7 +29,15 @@
           <a class="button button-energized" ng-if="day[0] == today_readable" ng-show="$index >= row_length" ui-sref="calendar">{{day[0]}}</a>
         </div>
       </div>
-      <br/><br/>
+      </div>
+      <br/>
+      <!-- Legend for the calendar -->
+      <div class="padding">
+        <i class="ion-stop positive" style="font-size: 150%;"></i> Condition: {{A_text}} <br/>
+        <i class="ion-stop balanced" style="font-size: 150%;"></i> Contidion: {{B_text}} <br/>
+        <i class="ion-stop energized" style="font-size: 150%;"></i> Current day <br/>
+      </div>
+      <br/>
 
     </div>
 
@@ -46,8 +56,8 @@
         Content to display when experiment underway
         --> 
         <div ng-show="!exp_bool">
-          <p>{{text.current.subtitle}}</p>
-          <p><a ui-sref="setup_3_2">{{text.current.para1}}</a></p>
+          <p>{{text.current.subtitle}} <b>{{active_text}}</b> {{text.current.subtitle2}}</p>
+          <p><a ui-sref="{{help_URL}}">{{text.current.para1}}</a></p> <!-- This link needs to be customized to the experiment being run. -->
           <br/>    
           <h4>Your reminders for today:</h4>
           <!-- XXX In later commit, change contents of the whole page. -->
