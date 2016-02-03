@@ -1,7 +1,7 @@
 <ion-view title="{{title}}" cache-view="false">
   <ion-pane>
     <ion-content>
-    <div class="calendar" ng-show="study_current && !exp_bool">
+    <div class="calendar" ng-show="(study_current && !exp_bool && !is_past)">
       <br/><!-- <h4 class="padding"> {{title_text}} Study</h4> -->
       <h5 class="padding">Day {{day_num}} of {{duration_readable}}</h5>
       <!--
@@ -46,18 +46,18 @@
     
         <h4 class="title">{{text.current.title}} {{today_full}}</h4>
         <!-- 
-        Content to display when there is no on going experiment
+        Content to display when there is no on going trial
         --> 
         <div ng-hide="!exp_bool">
-          You have an experiment scheduled to begin on {{start_date_full}}. 
+          You have an trial scheduled to begin on {{start_date_full}}. 
         </div>    
 
         <!-- 
-        Content to display when experiment underway
+        Content to display when trial underway
         --> 
-        <div ng-show="!exp_bool">
+        <div ng-show="(!exp_bool && !is_past)">
           <p>{{text.current.subtitle}} <b>{{active_text}}</b> {{text.current.subtitle2}}</p>
-          <p><a ui-sref="{{help_URL}}">{{text.current.para1}}</a></p> <!-- This link needs to be customized to the experiment being run. -->
+          <p><a ui-sref="{{help_URL}}">{{text.current.para1}}</a></p> <!-- This link needs to be customized to the trial being run. -->
           <br/>    
           <h4>Your reminders for today:</h4>
           <!-- XXX In later commit, change contents of the whole page. -->
@@ -86,9 +86,26 @@
                   {{text.current.button3}}
                 </a>
               </div>
+
+          <br/> {{is_past}}
+          <br/> {{test}}
             </p>
         </div>
-    
+        <!-- 
+        Content to display when trial is underway but past the last day.
+        -->         
+        <div ng-show="is_past">
+          Your <em>{{title}}</em> is past. Please <b>end</b> the trial to see the results. 
+        </div>
+
+        <br/>
+        <h4>End Trial:</h4>
+        <div class="divcenter">
+          <a class="button button-royal" ui-sref="">
+            Button to end it all 
+          </a>
+        </div>
+
     </div>
 
     <!-- 

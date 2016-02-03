@@ -164,6 +164,18 @@
             }
             $scope.schedule = days;
 
+
+            // checking if the last day of study has passed
+            if(cur){
+                var past = false; //if trial ongoing then false
+                var past_one = new Date((cur.end_time) * 1000);
+                var past_one_readable = LC.dateonly(past_one);
+                if($scope.today_readable == past_one_readable){
+                    past = true; //if past trial date then true
+                }
+            }
+            $scope.is_past = past;
+
             //Get the number of days into the experiment for calendar heading
             var day_n = null;
             for(var i = 0; i < $scope.duration_readable; i++){
