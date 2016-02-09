@@ -1,0 +1,45 @@
+      <ion-view title="Study Setup (4 of 5)">
+          <ion-pane>
+          <ion-content>   
+            <div class="padding">      
+              <h4 class="title">{{text.setup4b.title}}</h4>
+        
+              <div class="list">
+                {{text.setup4b.breakfast_text}}<br/>
+                <!-- <label class="item item-input item-select">
+                  <div class="input-label">
+                    Breakfast
+                  </div> -->
+                  <select>
+                    <option selected disabled>Choose one</option>
+                    <option ng-repeat="breakfast in text.setup4b.breakfast">{{breakfast.breakfast}}</option>
+                  </select>
+                <!-- </label> -->
+              </div>
+
+              <div class="list">
+                {{text.setup4b.drink_text}}<br/>
+                <!-- <label class="item item-input item-select"> -->
+                  <select>
+                    <option selected disabled>Choose one</option>
+                    <option ng-repeat="drink in text.setup4b.drink">{{drink.drink}}</option>
+                  </select>
+                <!-- </label> -->
+              </div>
+
+              <div ng-repeat="trigger in text.setup4b.triggers">
+                <div ng-repeat="condition in trigger.condition">
+                  <p class="new_line">{{condition.Cereal}}</p>
+                </div>
+              </div>
+
+
+          <a class="button button-block button-royal" ui-sref="setup_5">
+            {{text.setup4b.button}} &nbsp; <i class="ion-chevron-right"></i>
+          </a>
+
+          </div>
+
+          </ion-content>  
+          </ion-pane>
+      </ion-view>
