@@ -2,23 +2,23 @@
 	"current": {
 		"title": "Today ",
 		"subtitle": "You are supposed to ",
-		"subtitle2":" during your breakfast today.",
-		"para1" : "Need help deciding what to eat?",
-		"rem1" : "Your first reminder is set for 7 am.",
-		"rem2" : "Your breakfast reminder is set for 9 am.",
-		"rem3" : "Your symptom entry reminder is set for 12 pm.",
-		"note" : "Would you like to add an optional note?",
+		"subtitle2": " during your breakfast today.",
+		"para1": "Need help deciding what to eat?",
+		"rem1": "Your first reminder is set for 7 am.",
+		"rem2": "Your breakfast reminder is set for 9 am.",
+		"rem3": "Your symptom entry reminder is set for 12 pm.",
+		"note": "You can note down specifics of your diet, symptoms, or othere relevant information for the day for later reviewing. Would you like to add an optional note?",
 		"button1": "Log Breakfast Compliance",
 		"button2": "Log Symptom Level",
 		"button3": "Add Note",
-                "reminder_schedule_template": "Your {NAME} reminder is set to {WHEN}.",
-                "morning_reminder_name": "morning",
-                "breakfast_reminder_name": "breakfast",
-                "symptomEntry_reminder_name": "symptom entry",
-                "breakfast_reminder_logmsg": "Log Breakfast Compliance",
-                "symptomEntry_reminder_logmsg": "Log Symptom Level"
-	},	
-	"calendar":{
+		"reminder_schedule_template": "Your {NAME} reminder is set to {WHEN}.",
+		"morning_reminder_name": "morning",
+		"breakfast_reminder_name": "breakfast",
+		"symptomEntry_reminder_name": "symptom entry",
+		"breakfast_reminder_logmsg": "Log Breakfast Compliance",
+		"symptomEntry_reminder_logmsg": "Log Symptom Level"
+	},
+	"calendar": {
 		"title": "Log entry for day:",
 		"field_1": "Condition for the day was:",
 		"field_2": "Compliance for the day was:",
@@ -32,7 +32,7 @@
 	"during": {
 		"title": "Breakfast Compliance for {DAY}",
 		"subtitle": "Did you {PHRASE} during your breakfast?",
-                "today": "Today",
+		"today": "Today",
 		"button1": "Yes",
 		"button2": "No"
 	},
@@ -47,19 +47,32 @@
 	"post": {
 		"title": "Symptom Level for {DAY}",
 		"subtitle": "At its worst, how much has your {SYMPTOM} impacted your day since you last ate?",
-                "today": "Today",
+		"today": "Today",
 		"cancel": "Cancel",
-                "next": "Next",
-                "submit": "Submit",
-		"likertlabels":[
-			{"label": "Not at all", "detail": "no symptom"},
-			{"label": "Slightly", "detail": "only noticed my symptom when I focused on it"},
-			{"label": "Mildly", "detail": "I could ignore my symptom most of the time"},
-			{"label": "Moderately", "detail": "could continue what I was doing"},
-			{"label": "Severely", "detail": "had difficulty concentrating on some tasks"},
-			{"label": "Very severely", "detail": "had difficulty concentrating on any task"},
-			{"label": "Extremely", "detail": "I couldn't do anything"}			
-		]
+		"next": "Next",
+		"submit": "Submit",
+		"likertlabels": [{
+			"label": "Not at all",
+			"detail": "no symptom"
+		}, {
+			"label": "Slightly",
+			"detail": "only noticed my symptom when I focused on it"
+		}, {
+			"label": "Mildly",
+			"detail": "I could ignore my symptom most of the time"
+		}, {
+			"label": "Moderately",
+			"detail": "could continue what I was doing"
+		}, {
+			"label": "Severely",
+			"detail": "had difficulty concentrating on some tasks"
+		}, {
+			"label": "Very severely",
+			"detail": "had difficulty concentrating on any task"
+		}, {
+			"label": "Extremely",
+			"detail": "I couldn't do anything"
+		}]
 	},
 	"notes": {
 		"title": "Add a note:",
@@ -69,116 +82,141 @@
 		"title": "List of my trials",
 		"subtitle": "No ongoing study. Setup a new study.",
 		"button": "Let's Begin!",
-		"currenttrialtitle" : "Current Trial",
+		"currenttrialtitle": "Current Trial",
 		"pasttrialtitle": "Past Trials"
-	},	
+	},
 	"pasttrial": {
 		"title": "Eating Lactose Study Finding",
 		"subtitle": "Oct 2nd to Oct 16th",
 		"label": "Abdominal Pain",
-		"result" : "Based on the study, there is no evidence that your abdominal pain decreases when you don't eat lactose (p=0.762).",
+		"result": "Based on the study, there is no evidence that your abdominal pain decreases when you don't eat lactose (p=0.762).",
 		"sublabel": "Abdominal Pain Severity",
 		"button1": "",
 		"button2": "",
 		"summarylabel": "Average abdominal pain severity on:",
 		"summaryconda": "Days with Lactose was",
 		"summarycondb": "Days without Lactose was "
-	},	
+	},
 	"faqs": {
 		"title": "Frequently Asked Questions",
 		"subtitle": "If you did not find what you are looking for please reach out to us.",
-		"topics": [
-			{"title": "Irritable Bowel Syndrome",
-				"list": [
-					{"faq": "What is Irritable Bowel Syndrome (IBS)?", "uisref": "#"},
-					{"faq": "What are triggers for IBS?", "uisref": "#"},
-					{"faq": "What are various symptoms for IBS?", "uisref": "#"}
-				]
-			},
-			{"title": "Trial / Study",
-				"list": [
-					{"faq": "What is a self-experiment?", "uisref": "#"},
-					{"faq": "How to choose a trigger to test?", "uisref": "triggerchoice"},
-					{"faq": "What is the symptom severity scale?", "uisref": "#"},
-					{"faq": "How is the result calculated?", "uisref": "#"},
-					{"faq": "How do we define Abdominal Pain?", "uisref": "abdominalpain"},
-					{"faq": "How do we define Bloating/Gas?", "uisref": "bloating"},
-					{"faq": "How do we define Bowel Urgency?", "uisref": "urgency"},
-					{"faq": "How do we define Diarrhea?", "uisref": "diarrhea"},
-					{"faq": "How do we define Constipation?", "uisref": "constipation"}
-				]
-			},
-			{"title": "Food Guide",
-				"list": [
-					{"faq": "Need help deciding what to eat?", "uisref": "#"}
-				]
-			},
-			{"title": "Miscellaneous",
-				"list": [
-					{"faq": "What is the meaning of life?", "uisref": "#"},
-					{"faq": "What is a p-value?", "uisref": "pvalue"}
-				]
-			}
-		]
+		"topics": [{
+			"title": "Irritable Bowel Syndrome",
+			"list": [{
+				"faq": "What is Irritable Bowel Syndrome (IBS)?",
+				"uisref": "#"
+			}, {
+				"faq": "What are triggers for IBS?",
+				"uisref": "#"
+			}, {
+				"faq": "What are various symptoms for IBS?",
+				"uisref": "#"
+			}]
+		}, {
+			"title": "Trial / Study",
+			"list": [{
+				"faq": "What is a self-experiment?",
+				"uisref": "#"
+			}, {
+				"faq": "How to choose a trigger to test?",
+				"uisref": "triggerchoice"
+			}, {
+				"faq": "What is the symptom severity scale?",
+				"uisref": "#"
+			}, {
+				"faq": "How is the result calculated?",
+				"uisref": "#"
+			}, {
+				"faq": "How do we define Abdominal Pain?",
+				"uisref": "abdominalpain"
+			}, {
+				"faq": "How do we define Bloating/Gas?",
+				"uisref": "bloating"
+			}, {
+				"faq": "How do we define Bowel Urgency?",
+				"uisref": "urgency"
+			}, {
+				"faq": "How do we define Diarrhea?",
+				"uisref": "diarrhea"
+			}, {
+				"faq": "How do we define Constipation?",
+				"uisref": "constipation"
+			}]
+		}, {
+			"title": "Food Guide",
+			"list": [{
+				"faq": "Need help deciding what to eat?",
+				"uisref": "#"
+			}]
+		}, {
+			"title": "Miscellaneous",
+			"list": [{
+				"faq": "What is the meaning of life?",
+				"uisref": "#"
+			}, {
+				"faq": "What is a p-value?",
+				"uisref": "pvalue"
+			}]
+		}]
 	},
 	"pvalue": {
 		"title": "What is a p-value?",
-		"para1" : "The p-value of your study represents the probability of the result being true.",
-		"para2" : "How to interpret the p-value:",
-		"para3" : "Strong evidence",
-		"para4" : "p < 0.05",
-		"para5" : "Possible evidence",
-		"para6" : "0.05 < p < 0.10",
-		"para7" : "No evidence",
-		"para8" : "p > 0.10",
-		"para9" : "example:",
-		"para10" : "A p-value of 0.06 means there is possible evidence that the trigger you are testing in the trial can be causing your symptoms."
-	},	
+		"para1": "The p-value of your study represents the probability of the result being true.",
+		"para2": "How to interpret the p-value:",
+		"para3": "Strong evidence",
+		"para4": "p < 0.05",
+		"para5": "Possible evidence",
+		"para6": "0.05 < p < 0.10",
+		"para7": "No evidence",
+		"para8": "p > 0.10",
+		"para9": "example:",
+		"para10": "A p-value of 0.06 means there is possible evidence that the trigger you are testing in the trial can be causing your symptoms."
+	},
 	"abdominalpain": {
 		"title": "How do we define Abdominal Pain?",
-		"para1" : "The amount of pain or discomfort (uncomfortable sensation) you feel anywhere between your chest and groin.",
-		"para2" : "On the symptom severity scale:",
-		"para3" : "A 0 would be no pain or discomfort",
-		"para4" : "A 5 would be pain so severe it prevents you from doing your daily tasks."
- 	},	
- 	"bloating": {
+		"para1": "The amount of pain or discomfort (uncomfortable sensation) you feel anywhere between your chest and groin.",
+		"para2": "On the symptom severity scale:",
+		"para3": "A 0 would be no pain or discomfort",
+		"para4": "A 5 would be pain so severe it prevents you from doing your daily tasks."
+	},
+	"bloating": {
 		"title": "How do we define Bloating / Gas?",
-		"para1" : "How full and tight your belly feels and/or how much gas (burping/farting) you are experiencing.",
-		"para2" : "On the symptom severity scale:",
-		"para3" : "A 0 would be no pain or discomfort",
-		"para4" : "A 5 would be pain so severe it prevents you from doing your daily tasks."
- 	},	
- 	"urgency": {
+		"para1": "How full and tight your belly feels and/or how much gas (burping/farting) you are experiencing.",
+		"para2": "On the symptom severity scale:",
+		"para3": "A 0 would be no pain or discomfort",
+		"para4": "A 5 would be pain so severe it prevents you from doing your daily tasks."
+	},
+	"urgency": {
 		"title": "How do we define Bowel Urgency?",
-		"para1" : "How sudden or pressing it feels like you need to have a bowel movement.",
-		"para2" : "On the symptom severity scale:",
-		"para3" : "A 0 would be no pain or discomfort",
-		"para4" : "A 5 would be pain so severe it prevents you from doing your daily tasks."
- 	},	
- 	"diarrhea": {
+		"para1": "How sudden or pressing it feels like you need to have a bowel movement.",
+		"para2": "On the symptom severity scale:",
+		"para3": "A 0 would be no pain or discomfort",
+		"para4": "A 5 would be pain so severe it prevents you from doing your daily tasks."
+	},
+	"diarrhea": {
 		"title": "How do we define Diarrhea?",
-		"para1" : "How frequent and/or loose your stools are.",
-		"para2" : "On the symptom severity scale:",
-		"para3" : "A 0 would be no pain or discomfort",
-		"para4" : "A 5 would be pain so severe it prevents you from doing your daily tasks."
- 	},	
- 	"constipation": {
+		"para1": "How frequent and/or loose your stools are.",
+		"para2": "On the symptom severity scale:",
+		"para3": "A 0 would be no pain or discomfort",
+		"para4": "A 5 would be pain so severe it prevents you from doing your daily tasks."
+	},
+	"constipation": {
 		"title": "How do we define Constipation?",
-		"para1" : "How backed up you feel and/or how hard the passage of stool is.",
-		"para2" : "On the symptom severity scale:",
-		"para3" : "A 0 would be no pain or discomfort",
-		"para4" : "A 5 would be pain so severe it prevents you from doing your daily tasks."
- 	},
- 	"triggerchoice": {
+		"para1": "How backed up you feel and/or how hard the passage of stool is.",
+		"para2": "On the symptom severity scale:",
+		"para3": "A 0 would be no pain or discomfort",
+		"para4": "A 5 would be pain so severe it prevents you from doing your daily tasks."
+	},
+	"triggerchoice": {
 		"title": "How to choose a trigger to test?",
-		"para1" : "It's best to choose something that you eat or do often, but aren't sure whether it affects you.",
-		"para2" : "Avoid testing triggers that you are confident will make your symptoms worse. You may choose only one factor to test at a time."
- 	},	
+		"para1": "It's best to choose something that you eat or do often, but aren't sure whether it affects you.",
+		"para2": "Avoid testing triggers that you are confident will make your symptoms worse. You may choose only one factor to test at a time."
+	},
 	"settings": {
-                "clear_creds": "Clear Credentials",
-                "clear_explanation": "This will clear your stored username and password. You'll be prompted to enter them again later.",
-                "accelerated_demo": "Begin Accelerated Trial Demo",
-                "demo_explanation": "This will begin an accelerated demo of the most recently created trial. This is for demonstration purposes only. Do not do this for a genuine trial!"
+		"clear_creds": "Clear Credentials",
+		"clear_explanation": "This will clear your stored username and password. You'll be prompted to enter them again later.",
+		"accelerated_demo": "Begin Accelerated Trial Demo",
+		"demo_explanation": "This will begin an accelerated demo of the most recently created trial. This is for demonstration purposes only. Do not do this for a genuine trial!"
 	},
 	"setup": {
 		"title": "Setup a new study",
@@ -187,48 +225,53 @@
 	},
 	"setup2": {
 		"title": "1. Choose the symptoms you are experiencing",
-		"symptoms" : [
-		{"symptom": "Abdominal Pain"},
-		{"symptom": "Bloating or Gas"},
-		{"symptom": "Hard Passage of Stool"},
-		{"symptom": "Loose Passage of Stool"},
-		{"symptom": "Infrequent Bowel Movements"},
-		{"symptom": "Frequent Bowel Movements"},
-		{"symptom": "Urgency"}
-		],
+		"symptoms": [{
+			"symptom": "Abdominal Pain"
+		}, {
+			"symptom": "Bloating or Gas"
+		}, {
+			"symptom": "Hard Passage of Stool"
+		}, {
+			"symptom": "Loose Passage of Stool"
+		}, {
+			"symptom": "Infrequent Bowel Movements"
+		}, {
+			"symptom": "Frequent Bowel Movements"
+		}, {
+			"symptom": "Urgency"
+		}],
 		"button": "Continue "
 	},
 	"setup3": {
 		"title": "2. Choose a Possible Cause",
 		"subtitle": "Which possible trigger do you want to test?",
-		"triggers": [
-			{"trigger": "Eating Large Meals",
-                         "uisref": "setup_3_1",
-                         "phrase_plus": "eat a large meal",
-                         "phrase_minus": "avoid eating a large meal"
-                        },
-			{"trigger": "Eating Lactose / Dairy",
-                         "uisref": "setup_3_2",
-                         "phrase_plus": "eat at least 8 grams of lactose",
-                         "phrase_minus": "avoid eating any lactose"
-                        },
-			{"trigger": "Drinking Caffeine",
-                         "uisref": "setup_3_3",
-                         "phrase_plus": "drink caffeine",
-                         "phrase_minus": "avoid drinking any caffeine"
-                        },
-			{"trigger": "Eating Gluten",
-                         "uisref": "setup_3_4",
-                         "phrase_plus": "eat gluten",
-                         "phrase_minus": "avoid eating any gluten"
-                        }
-		],
+		"triggers": [{
+			"trigger": "Eating Sorbitol / Artificial Sweeteners",
+			"uisref": "setup_3_1",
+			"phrase_plus": "eat at least 5g Sorbitol",
+			"phrase_minus": "eat less than 0.5g Sorbitol"
+		}, {
+			"trigger": "Eating Lactose / Dairy",
+			"uisref": "setup_3_2",
+			"phrase_plus": "eat at least 8 grams of lactose",
+			"phrase_minus": "avoid eating any lactose"
+		}, {
+			"trigger": "Drinking Caffeine",
+			"uisref": "setup_3_3",
+			"phrase_plus": "drink caffeine",
+			"phrase_minus": "avoid drinking any caffeine"
+		}, {
+			"trigger": "Eating Gluten",
+			"uisref": "setup_3_4",
+			"phrase_plus": "eat gluten",
+			"phrase_minus": "avoid eating any gluten"
+		}],
 		"button": "Continue "
 	},
 	"setup3_1": {
-		"title": "2.1 Testing effect of Large Meals",
-		"para1": "On randomly pre-assinged days you will be asked to eat at least 8 grams of lactose during your first meal, ideally breakfast. It is ok to eat more than 8 grams on these days.",
-		"para2": "On other pre-assigned days you will be asked not to eat lactose during your first meal. You can eat lactose after logging your symptoms 4 hours after the meal.",
+		"title": "2.1 Testing impact of Sorbitol / Artificial Sweeteners",
+		"para1": "On select days you will be asked to eat at least 5 grams of sorbitol during your breakfast. It is ok to eat more than 5 grams on these days.",
+		"para2": "On select days you will be asked not to eat sorbitol during your breakfast. It is ok if you eat less than 0.5 gram on these days",
 		"para3": "Some examples of 8 grams of lactose are:",
 		"list1": "A cup of cottage cheese (225 grams)",
 		"list2": "A glass of cow's milk (8 oz)",
@@ -236,7 +279,7 @@
 	},
 	"setup3_2": {
 		"title": "2.2 Testing Lactose / Dairy Consumption",
-		"para1": "On randomly pre-assinged days you will be asked to eat at least 8 grams of lactose during your first meal, ideally breakfast. It is ok to eat more than 8 grams on these days.",
+		"para1": "On randomly pre-assinged days you will be asked to eat at least 8 grams of lactose during your breakfast. It is ok to eat more than 8 grams on these days.",
 		"para2": "On other pre-assigned days you will be asked not to eat lactose during your first meal. You can eat lactose after logging your symptoms 4 hours after the meal.",
 		"para3": "Some examples of 8 grams of lactose are:",
 		"list1": "A cup of cottage cheese (225 grams)",
@@ -264,55 +307,227 @@
 	"setup4": {
 		"title": "3. Set Reminders",
 		"subtitle": "When do you want to begin the study and when do you want to receive reminder notifications?",
-                "morning_title": "Morning Reminder",
-                "morning_text": "You will be sent a reminder to follow the study schedule for each day. Choose a time, perhaps a little before breakfast.",
-                "breakfast_title": "Breakfast Entry",
-                "breakfast_text": "You will be sent a reminder to log whether you followed the study schedule correctly during your breakfast meal. Choose a time a little after breakfast.",
-                "symptom_title": "Symptom Entry",
-                "symptom_text": "Later, you will be sent a reminder to log the severity of your symptoms. Choose a time at least 4 hours after breakfast.",
-                "time": "Time",
-                "date": "Date",
-                "study_length_title": "Study Length",
-                "study_length_text": "A longer study will produce results that are more likely to be accurate (8-30 days).",
-                "days": "Days",
-                "start_date_title": "Start Date",
+		"morning_title": "Morning Reminder",
+		"morning_text": "You will be sent a reminder to follow the study schedule for each day. Choose a time, perhaps a little before breakfast.",
+		"breakfast_title": "Breakfast Entry",
+		"breakfast_text": "You will be sent a reminder to log whether you followed the study schedule correctly during your breakfast meal. Choose a time a little after breakfast.",
+		"symptom_title": "Symptom Entry",
+		"symptom_text": "Later, you will be sent a reminder to log the severity of your symptoms. Choose a time at least 4 hours after breakfast.",
+		"time": "Time",
+		"date": "Date",
+		"study_length_title": "Study Length",
+		"study_length_text": "A longer study will produce results that are more likely to be accurate (8-30 days).",
+		"days": "Days",
+		"start_date_title": "Start Date",
 		"button": "Continue"
 	},
+	"setup4b": {
+		"title": "4. Set Food Preferences",
+		"breakfast_text": "Select breakfast preference",
+		"breakfast": [{
+			"breakfast": "Cereal"
+		}, {
+			"breakfast": "Yogurt"
+		}, {
+			"breakfast": "Toast (Bread, english muffin, bagel)"
+		}, {
+			"breakfast": "Muffin"
+		}, {
+			"breakfast": "Waffle/Pancake"
+		}],
+		"drink_text": "Select drink preference",
+		"drink": [{
+			"drink": "Coffee/Espresso"
+		}, {
+			"drink": "Specialty Drink"
+		}, {
+			"drink": "Tea"
+		}, {
+			"drink": "Milk"
+		}, {
+			"drink": "Energy Drink"
+		}, {
+			"drink": "Soda"
+		}, {
+			"drink": "Juice"
+		}, {
+			"drink": "Water"
+		}],
+		"triggers": [{
+			"trigger": "Eating Sorbitol / Artificial Sweeteners",
+			"condition": [{
+				"condition": "on",
+				"Cereal": "Have your usual bowl of cereal your usual way and add at least one of the following: \n - 10 prunes (5 g) \n - Four sugar-free candies like lifesavers or mints (> 5 g) \n - Two pieces of sugar-free gum (4 g) \n - A glass of apple juice (3 g and equivalent amounts of fructose and glucose)",
+				"Yogurt": "Eat at least 5 oz of yogurt and add at least one of the following:\n - 10 prunes (5 g)\n - Four sugar-free candies like lifesavers or mints (> 5 g)\n - Two pieces of sugar-free gum (4 g)\n - A glass of apple juice (3 g and equivalent amounts of fructose and glucose)",
+				"Toast (Bread, english muffin, bagel)": "Eat your usual toast (bread, english muffin or bagel) and add at least one of the following: \n - Sugar-free fruit jams or spreads\n - 10 prunes (5 g)\n - Four sugar-free candies like lifesavers or mints (> 5 g)\n - Two pieces of sugar-free gum (4 g)\n - A glass of apple juice (3 g and equivalent amounts of fructose and glucose)",
+				"Muffin": "Eat your usual muffin and add at least one of the following:\n - Sugar-free fruit jams or spreads\n - 10 prunes (5 g)\n - Four sugar-free candies like lifesavers or mints (> 5 g)\n - Two pieces of sugar-free gum (4 g)\n - A glass of apple juice (3 g and equivalent amounts of fructose and glucose)",
+				"Waffle/Pancake": "Eat your usual waffle/pancake and add at least one of the following:\n - Sugar-free fruit jams or spreads\n - 10 prunes (5 g)\n - Four sugar-free candies like lifesavers or mints (> 5 g)\n - Two pieces of sugar-free gum (4 g)\n - A glass of apple juice (3 g and equivalent amounts of fructose and glucose)",
+				"Coffee/Espresso": "Drink your usual coffee/espresso drink.",
+				"Specialty Drink": "Drink your usual coffee/espresso drink. \nOkay to add any dairy or sweeteners to your drink",
+				"Tea": "Drink your usual tea.\nOkay to add any dairy or sweeteners to your drink",
+				"Milk": "Drink your usual milk.",
+				"Energy Drink": "Drink your usual drink.",
+				"Soda": "Drink your usual drink.",
+				"Juice": "Drink your usual drink.",
+				"Water": "Drink your usual drink."
+			}, {
+				"condition": "off",
+				"Cereal": "Have your usual bowl of cereal the usual way but make sure it is not labeled \"sugar-free\" and avoid adding any:\n - Apples\n - Apricots\n - Pears\n - Nectarines\n - Blackberries\n - Prunes\n - Plums\n - Watermelon",
+				"Yogurt": "Eat at least 5 oz of yogurt but make sure it is not labeled \"sugar-free\" and avoid the following flavors:\n - Apples\n - Pears\n - Nectarines\n - Blackberries\n Also avoid adding any artificial sweeteners except for table sugar",
+				"Toast (Bread, english muffin, bagel)": "Eat your usual breakfast but avoid the following fruit jams/spreads:\n - Sugar-free\n - Apples\n - Apricots\n - Pears\n - Nectarines\n - Blackberries\n - Prunes\n - Plums\n - Watermelon\n Also avoid adding any artificial sweetners aside from table sugar.",
+				"Muffin": "Eat your usual muffin but make sure it is not labeled \"sugar-free.\" Avoid any muffins or adding jams/spreads containing the following:\n - Sugar-free ingredients\n - Apples\n - Apricots\n - Pears\n - Nectarines\n - Blackberries\n - Prunes\n - Plums\n - Watermelon\n Also avoid adding any artificial sweetners aside from table sugar.",
+				"Waffle/Pancake": "Eat your usual waffle/pancake but make sure it is not labeled \"sugar-free.\" Avoid any pancakes/waffles or adding jams/spreads containing the following:\n - Sugar-free ingredients\n - Apples\n - Apricots\n - Pears\n - Nectarines\n - Blackberries\n - Prunes\n - Plums\n - Watermelon\n Also avoid adding any artificial sweetners aside from table sugar.",
+				"Coffee/Espresso": "Drink your usual coffee/espresso drink.\nIf you add any dairy to your drink, avoid non-dairy creamers.\n If you add any sweeteners, only use table or brown sugar.",
+				"Specialty Drink": "Drink your usual specialty drink.\nIf you add any dairy to your drink, avoid non-dairy creamers.\nIf you add any sweeteners, only use table or brown sugar.",
+				"Tea": "Drink your usual tea.\nIf you add any dairy to your drink, avoid non-dairy creamers.\nIf you add any sweeteners, only use table or brown sugar.",
+				"Milk": "Drink your usual milk but make sure it is unflavored and avoid adding any sweeteners except for table sugar",
+				"Energy Drink": "Drink your usual drink but make sure it not labeled \"sugar-free, diet or light/lite.\"",
+				"Soda": "Drink your usual drink but make sure it not labeled \"sugar-free, diet or light/lite.\"",
+				"Juice": "Drink your usual juices but make sure it not labeled \"sugar-free, diet or light/lite.\"\nAvoid the following flavors:\n - Apples\n - Apricots\n - Pears\n - Nectarines\n - Blackberries\n - Prunes\n - Plums\n - Watermelon",
+				"Water": "Drink your usual drink."
+			}],
+			"uisref": "#"
+		}, {
+			"trigger": "Eating Lactose / Dairy",
+			"condition": [{
+				"condition": "on",
+				"Cereal": "Use at least 6 oz of cow's milk with your bowl of cereal.",
+				"Yogurt": "Eat at least 5 oz of cow's milk yogurt (this is most non-Greek yogurts!)",
+				"Toast (Bread, english muffin, bagel)": "Drink at least 6 oz of cow’s milk with your usual breakfast.",
+				"Muffin": "Drink at least 6 oz of cow’s milk with your usual breakfast.",
+				"Waffle/Pancake": "Drink at least 6 oz of cow’s milk with your usual breakfast.",
+				"Coffee/Espresso": "Drink your usual coffee/espresso drink.\nOkay to add any dairy to your drink",
+				"Specialty Drink": "Drink your usual coffee/espresso drink.\nOkay to add any dairy to your drink",
+				"Tea": "Drink your usual tea.\nOkay to add any dairy to your drink",
+				"Milk": "Drink at least 6 oz of cow's milk (if not already prompted to do so with meal prompt).",
+				"Energy Drink": "Drink your usual drink.",
+				"Soda": "Drink your usual drink.",
+				"Juice": "Drink your usual drink.",
+				"Water": "Drink your usual drink."
+			}, {
+				"condition": "off",
+				"Cereal": "Use at least 6 oz of any lactose-free milks with your cereal such as: lactose-free, almond, rice, coconut, hemp, or lactaid-treated milk.",
+				"Yogurt": "Eat at least 5 oz of any specifically labeled lactose-free yogurts.",
+				"Toast (Bread, english muffin, bagel)": "Eat your usual breakfast but avoid any lactose-containing spreads such as:\n - Cheeses or cheese spreads\n - Cream-based spreads\n - Butters\n\n AND\n\n Drink at least 6 oz of any lactose-free milk with your breakfast: lactose, free, almond, rice, coconut, hemp",
+				"Muffin": "Avoid any muffins with glazes, cheese, or cream fillings.\n\nAND\n\nDrink at least 6 oz of any lactose-free milk with your breakfast: lactose, free, almond, rice, coconut, hemp",
+				"Waffle/Pancake": "Eat your usual breakfast but avoid any lactose-containing spreads such as:\n - Cheeses or cheese spreads\n - Butter\n - Whipped cream\n\nAND\n\nDrink at least 6 oz of any lactose-free milk with your breakfast: lactose, free, almond, rice, coconut, hemp",
+				"Coffee/Espresso": "Drink your usual coffee/espresso drink.\nIf you add any milk to your drink, use a lactose-free containing one such as: lactose-free, almond, rice, coconut, hemp",
+				"Specialty Drink": "Drink your usual specialty drink without cow's milk.\nIf the drink base is milk, use a lactose-free containing one such as: lactose-free, almond, rice, coconut, hemp",
+				"Tea": "Drink your usual tea.\nIf you add any milk to your drink, use a lactose-free containing one such as: lactose-free, almond, rice, coconut, hemp",
+				"Milk": "Drink at least 6 oz of lactose-free milk containing one such as: lactose-free, almond, rice, coconut, hemp.",
+				"Energy Drink": "Drink your usual drink.",
+				"Soda": "Drink your usual drink.",
+				"Juice": "Drink your usual drink.",
+				"Water": "Drink your usual drink."
+			}],
+			"uisref": "#"
+		}, {
+			"trigger": "Drinking Caffeine",
+			"condition": [{
+				"condition": "on",
+				"Cereal": "Eat your usual breakfast.",
+				"Yogurt": "Eat your usual breakfast.",
+				"Toast (Bread, english muffin, bagel)": "Eat your usual breakfast.",
+				"Muffin": "Eat your usual breakfast.",
+				"Waffle/Pancake": "Eat your usual breakfast.",
+				"Coffee/Espresso": "Drink your usual coffee/espresso drink, of at least of medium-strength brew.",
+				"Specialty Drink": "Drink your usual specialty drink.",
+				"Tea": "Drink black tea, strongly brewed.",
+				"Milk": "In addition to your milk, drink either 1 cup of medium-brewed coffee/espresso or strongly brewed black tea.",
+				"Energy Drink": "Drink your usual energy drink.",
+				"Soda": "Drink at least 12 ounces of the following caffeine containing sodas: Coke, Diet Coke, Pepsi, Diet Pepsi, Dr. Pepper, Diet Dr. Pepper.",
+				"Juice": "In addition to your juice, drink either 1 cup of medium-brewed coffee/espresso or strongly brewed black tea.",
+				"Water": "In addition to your water, drink either 1 cup of medium-brewed coffee/espresso or strongly brewed black tea."
+			}, {
+				"condition": "off",
+				"Cereal": "Eat your usual breakfast but avoid any chocolate, cocoa, or coffee flavored/containing foods.",
+				"Yogurt": "Eat your usual breakfast but avoid any chocolate, cocoa, or coffee flavored/containing foods.",
+				"Toast (Bread, english muffin, bagel)": "Eat your usual breakfast but avoid any chocolate, cocoa, or coffee flavored/containing foods.",
+				"Muffin": "Eat your usual breakfast but avoid any chocolate, cocoa, or coffee flavored/containing foods.",
+				"Waffle/Pancake": "Eat your usual breakfast but avoid any chocolate, cocoa, or coffee flavored/containing foods.",
+				"Coffee/Espresso": "Drink the decaffeinated version of your usual coffee/espresso drink.",
+				"Specialty Drink": "Drink the decaffeinated version of your usual specialty drink.",
+				"Tea": "Drink decaffeinated tea.",
+				"Milk": "Drink your usual milk.",
+				"Energy Drink": "Drink the decaffeinated version of your energy drink or substitute it with pure fruit juice (only if can't find).",
+				"Soda": "Drink at least 12 ounces of the following caffeine-free  sodas: Root Beer, Sprite, Diet Sprite, Sierra Mist, Diet Sierra Mist, 7UP, Diet 7UP.",
+				"Juice": "Drink your usual juice.",
+				"Water": "Drink your usual water."
+			}],
+			"uisref": "#"
+		}, {
+			"trigger": "Eating Gluten",
+			"condition": [{
+				"condition": "on",
+				"Cereal": "Have your regular portion of gluten-containing cereal such as:\n - Mini Wheats (any variety)\n - Raisin Bran\n - Honey Bunches of Oats",
+				"Yogurt": "Have your regular portion of yogurt\n\nAND\n\nAdd at least 1/4 cup of a gluten-containing cereal such as:\n-Mini Wheats (any variety)\n-Raisin Bran\n-Cheerios\n-Honey Bunches of Oats.",
+				"Toast (Bread, english muffin, bagel)": "Eat your usual gluten-containing toast (bread, english muffin or bagel) with any spread or additions you like. Make sure it is not labeled gluten-free.",
+				"Muffin": "Eat your usual gluten-containing muffin.  Make sure it is not labeled gluten-free.",
+				"Waffle/Pancake": "Eat your usual gluten-containing waffle/pancake.  Make sure it is not labeled gluten-free.",
+				"Coffee/Espresso": "Drink your usual drink.",
+				"Specialty Drink": "Drink your usual drink.",
+				"Tea": "Drink your usual drink.",
+				"Milk": "Drink your usual drink.",
+				"Energy Drink": "Drink your usual drink.",
+				"Soda": "Drink your usual drink.",
+				"Juice": "Drink your usual drink.",
+				"Water": "Drink your usual drink."
+			}, {
+				"condition": "off",
+				"Cereal": "Have your regular portion of gluten-free labeled cereal such as:\n - Cheerios\n - General Mills Rice or Corn Chex\n - Nature's Path Organic Whole O's\n - Glutino's Corn and Rice Flakes\n - Cocoa Pebbles\n - Fruity Pebbles\n - Cream of Rice\n - Oatmeal\n - Grits\n - Rice Krispies",
+				"Yogurt": "Have your regular portion of yogurt.",
+				"Toast (Bread, english muffin, bagel)": "Eat gluten-free toast (bread, english muffin or bagel). Make sure it is labeled gluten-free.\n\nOkay to add any gluten-free spreads, fruits or additives. For bottled products, make sure it is labeled gluten-free.",
+				"Muffin": "Eat a gluten-free labeled muffin.\n\nOkay to add any gluten-free spreads or additives. For bottled products, make sure it is labeled gluten-free.",
+				"Waffle/Pancake": "Eat a gluten-free labeled waffle/pancake.\n\nOkay to add any gluten-free spreads, fruits or additives.  For bottled products, make sure it is labeled gluten-free.",
+				"Coffee/Espresso": "Drink your usual drink.",
+				"Specialty Drink": "Drink your usual drink.",
+				"Tea": "Drink your usual drink.",
+				"Milk": "Drink your usual drink.",
+				"Energy Drink": "Drink your usual drink.",
+				"Soda": "Drink your usual drink.",
+				"Juice": "Drink your usual drink.",
+				"Water": "Drink your usual drink."
+			}],
+			"uisref": "#"
+		}],
+		"uisref": "#",
+		"button": "Continue "
+	},
 	"setup5": {
-		"title": "4. Review Study Details",
+		"title": "5. Review Study Details",
 		"topic_title": "Self-Study Topic",
-                "notopic": "(Please select trigger on screen 2.)",
+		"notopic": "(Please select trigger on screen 2.)",
 		"topic": "Does {TRIGGER} affect my symptoms?",
 		"symptoms_title": "Symptoms Being Tracked",
 		"symptom1": "- Abdominal Pain",
 		"symptom2": "- Bloating or Gas",
-                "nosymptom": "(Please select symptoms on screen 1.)",
+		"nosymptom": "(Please select symptoms on screen 1.)",
 		"study_length": "Study Length",
-                "nolength": "(Please select a length and start date on screen 3.)",
+		"nolength": "(Please select a length and start date on screen 3.)",
 		"start_date": "Tue Mar 27th",
 		"end_date": "Tue Apr 4th",
-                "reminder_times_title": "Reminder Times",
+		"reminder_times_title": "Reminder Times",
 		"morning_reminder_title": "Morning Reminder",
 		"morning_reminder": "9:00 am",
-                "breakfast_reminder_title": "Breakfast Reminder",
+		"breakfast_reminder_title": "Breakfast Reminder",
 		"symptomEntry_reminder_title": "Symptom Entry Reminder",
 		"symptom_reminder": "1:00 pm",
 		"button": "Begin Study!",
-                "day_counter": "(Day {DAY})",
-                "morning_reminder_text": "Today is a day to {AORB}.",
-                "breakfast_reminder_text": "Please log your breakfast compliance.",
-                "symptomEntry_reminder_text": "Please log your symptom levels."
+		"day_counter": "(Day {DAY})",
+		"morning_reminder_text": "Today is a day to {AORB}.",
+		"breakfast_reminder_text": "Please log your breakfast compliance.",
+		"symptomEntry_reminder_text": "Please log your symptom levels."
 	},
-        "loginfo": {
-                "header": "Tummy Trials Login",
-                "badinfo": "The username or password was invalid.",
-                "usertag": "Username",
-                "passtag": "Password",
-                "loginb": "Login",
-                "cancelb": "Cancel"
-        },
-        "pasttrial1": {
-                "status_title": "Status",
-                "notes_title": "Notes"
-        }
+	"loginfo": {
+		"header": "Tummy Trials Login",
+		"badinfo": "The username or password was invalid.",
+		"usertag": "Username",
+		"passtag": "Password",
+		"loginb": "Login",
+		"cancelb": "Cancel"
+	},
+	"pasttrial1": {
+		"status_title": "Status",
+		"notes_title": "Notes"
+	}
 }
