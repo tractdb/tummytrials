@@ -76,6 +76,15 @@
         }
       }
     })
+    .state('setup_4b', {
+      url: 'mytrials/setup_4b',
+      views: {
+        mytrials : {
+          templateUrl: 'templates/study_setup/setup_4b.html',
+          controller: 'Setup4bCtrl'
+        }
+      }
+    })
     .state('setup_5', {
       url: 'mytrials/setup_5',
       views: {

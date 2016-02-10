@@ -3,14 +3,15 @@
 // The controllers communicate through shared state named SetupData, a
 // JavaScript object. Current properties:
 //
-//     startdate       ISO 8601-like
-//     duration        days, numeric string
-//     symptom         array of bool
-//     trigger         numeric string (triggers[] array index)
-//     morning_time    Date (only H:M:S is significant)
-//     breakfast_time  Date   "
-//     symptom_time    Date   "
-//
+//     startdate                ISO 8601-like
+//     duration                 days, numeric string
+//     symptom                  array of bool
+//     trigger                  numeric string (triggers[] array index)
+//     morning_time             Date (only H:M:S is significant)
+//     breakfast_time           Date   "
+//     symptom_time             Date   "
+//     breakfast_preference     key,value object {"breakfast":"Cereal"}
+//     drink_prefernce          key,value object {"drink":"Milk"}
 
 function timesec_of_date(date)
 {
@@ -78,6 +79,55 @@ function timesec_of_date(date)
         //
         if (!$scope.setupdata.duration)
             $scope.setupdata.duration = '18';
+    });
+})
+
+.controller('Setup4bCtrl', function($scope, Text, SetupData){
+    Text.all_p()
+    .then(function(text) {
+        $scope.text = text;
+        $scope.setupdata = SetupData;
+
+
+        var trigger_selected = SetupData.trigger; 
+        var trigger_num = text.setup4b.triggers.length; 
+        
+        // var drink_selected = SetupData.drink_prefernce.drink;     
+        var breakfast_on, breakfast_off, drink_on, drink_off;
+
+        $scope.$watch(function(scope) { return SetupData.breakfast_preference},
+              function() {
+                var breakfast_selected = SetupData.breakfast_preference.breakfast;
+                //loop over the trigger json array for matching the selection
+                for(var i = 0; i < trigger_num; i++){
+                    if(trigger_selected == i){ 
+                        var on_meals = text.setup4b.triggers[i].condition[0];
+                        breakfast_on = on_meals[breakfast_selected];
+                        var off_meals = text.setup4b.triggers[i].condition[1];
+                        breakfast_off = off_meals[breakfast_selected];
+                    }
+                }
+                $scope.bfst_on = breakfast_on;
+                $scope.bfst_off = breakfast_off;
+        });
+
+        $scope.$watch(function(scope) { return SetupData.drink_preference},
+              function() {
+                var drink_selected = SetupData.drink_preference.drink;
+                //loop over the trigger json array for matching the selection
+                for(var i = 0; i < trigger_num; i++){
+                    if(trigger_selected == i){ 
+                        var on_meals = text.setup4b.triggers[i].condition[0];
+                        drink_on = on_meals[drink_selected];
+                        var off_meals = text.setup4b.triggers[i].condition[1];
+                        drink_off = off_meals[drink_selected];
+                    }
+                }
+                $scope.drnk_on = drink_on;
+                $scope.drnk_off = drink_off;
+        });
+
+
     });
 })
 
