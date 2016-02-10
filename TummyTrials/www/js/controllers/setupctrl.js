@@ -107,6 +107,7 @@ function timesec_of_date(date)
                         breakfast_off = off_meals[breakfast_selected];
                     }
                 }
+                $scope.bfst_slc = breakfast_selected;
                 $scope.bfst_on = breakfast_on;
                 $scope.bfst_off = breakfast_off;
         });
@@ -123,6 +124,7 @@ function timesec_of_date(date)
                         drink_off = off_meals[drink_selected];
                     }
                 }
+                $scope.drnk_slc = drink_selected;
                 $scope.drnk_on = drink_on;
                 $scope.drnk_off = drink_off;
         });
