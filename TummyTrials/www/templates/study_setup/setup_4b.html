@@ -5,33 +5,51 @@
               <h4 class="title">{{text.setup4b.title}}</h4>
         
               <div class="list">
-                {{text.setup4b.breakfast_text}}<br/>
-                <!-- <label class="item item-input item-select">
+                <!-- {{text.setup4b.breakfast_text}}<br/> -->
+                <label class="item item-input item-select">
                   <div class="input-label">
                     Breakfast
-                  </div> -->
-                  <select ng-model="setupdata.breakfast_preference" ng-options="breakfast as breakfast.breakfast for breakfast in text.setup4b.breakfast" >{{breakfast.breakfast}}</select>
-                <!-- </label> -->
+                  </div>
+                  <select ng-model="setupdata.breakfast_preference" ng-options="breakfast as breakfast.breakfast for breakfast in text.setup4b.breakfast" >
+                    <!-- Using the workaround to fix selecting one-off value bug https://github.com/angular/angular.js/issues/5132 -->
+                    <option value="" ng-if="!setupdata.breakfast_preference">{{breakfast.breakfast}}</option>
+                  </select>
+                </label>
               </div>
 
               <div class="list">
-                {{text.setup4b.drink_text}}<br/>
-                <!-- <label class="item item-input item-select"> -->
-                  <select ng-model="setupdata.drink_preference" ng-options="drink as drink.drink for drink in text.setup4b.drink" >{{drink.drink}}</select>
-                <!-- </label> -->
+                <!-- {{text.setup4b.drink_text}}<br/> -->
+                <label class="item item-input item-select">
+                  <div class="input-label">
+                    Drink
+                  </div>
+                  <select ng-model="setupdata.drink_preference" ng-options="drink as drink.drink for drink in text.setup4b.drink" >
+                    <option value="" ng-if="!setupdata.drink_preference">{{drink.drink}}</option>
+                  </select>
+                </label>
               </div>
               
               <div class="card">
-                <div class="item item-text-wrap new_line">
-                  {{bfst_on}}<br/>
-                  {{drnk_on}}
+                <div class="item item-text-wrap item-divider">
+                  On days when you are supposed to eat {{bfst_slc}}
+                </div>
+                <div class="item item-text-wrap">
+                  <b>For breakfast:</b><br/>
+                  <span class="new_line">{{bfst_on}}</span><br/><br/>
+                  <b>For drink:</b><br/>
+                  <span class="new_line">{{drnk_on}}</span>
                 </div>
               </div>
 
               <div class="card">
-                <div class="item item-text-wrap new_line">
-                  {{bfst_off}}<br/>
-                  {{drnk_off}}
+                <div class="item item-text-wrap item-divider">
+                  On days when you are supposed to avoid {{bfst_slc}}
+                </div>
+                <div class="item item-text-wrap">
+                  <b>For breakfast:</b><br/>
+                  <span class="new_line">{{bfst_off}}</span><br/><br/>
+                  <b>For drink:</b><br/>
+                  <span class="new_line">{{drnk_off}}</span>
                 </div>
               </div>
 
