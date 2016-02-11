@@ -43,7 +43,7 @@
 
 
     <div class="padding" ng-hide="!study_current">    
-    
+      <div class="card padding">
         <h4 class="title">{{text.current.title}} {{today_full}}</h4>
         <!-- 
         Content to display when there is no on going trial
@@ -57,8 +57,20 @@
         --> 
         <div ng-show="(!exp_bool && !is_past)">
           <p>{{text.current.subtitle}} <b>{{active_text}}</b> {{text.current.subtitle2}}</p>
-          <p><a ui-sref="{{help_URL}}">{{text.current.para1}}</a></p> <!-- This link needs to be customized to the trial being run. -->
-          <br/>    
+          <p><a style="text-decoration: underline; color:royal" ng-click="help = help ? false : true">{{text.current.para1}}</a></p>
+
+          <div class="card" ng-show="help">
+              <div class="item item-text-wrap">
+                  <b>For breakfast:</b><br/>
+                  <span class="new_line">{{active_bfst}}</span><br/><br/>
+                  <b>For drink:</b><br/>
+                  <span class="new_line">{{active_drnk}}</span>
+              </div>
+          </div>
+        </div>
+      </div>
+           
+          <div class="card padding">  
           <h4>Your reminders for today:</h4>
           <!-- XXX In later commit, change contents of the whole page. -->
           <p ng-show="!study_current">(No current trial. Please create a new trial.)</p>
@@ -78,6 +90,9 @@
                   <br/>
               </div>
 
+          </div>
+
+          <div class="card padding">  
           <h4>Optional:</h4>
             <p>
               {{text.current.note}}
@@ -87,7 +102,8 @@
                 </a>
               </div>
             </p>
-        </div>
+          </div>
+        
         <!-- 
         Content to display when trial is underway but past the last day.
         -->         
@@ -95,14 +111,18 @@
           Your <em>{{title}}</em> is past. Please <b>end</b> the trial to see the results. 
         </div>
 
-        <br/>
+        
+        <div class="card padding"> 
         <h4>End Trial:</h4>
         <p>{{text.current.abandon_text}}</p>
         <div class="divcenter">
           <button class="button button-royal" ng-click="abandon_trial()" ng-disable="!abdn_btn">
             Abandon Trial
           </button>
+          </p>
         </div>
+      </div>
+      </div>
 
     </div>
 

@@ -256,10 +256,18 @@
             //Changes the text prompt based on the condition for the day
             if(act_day[0] == "A"){
                 $scope.active_text = A_text;
+                $scope.active_bfst = cur.breakfast_on_prompt;
+                $scope.active_drnk = cur.drink_on_prompt;
             } else if(act_day[0] == "B"){
                 $scope.active_text = B_text;
+                $scope.active_bfst = cur.breakfast_off_prompt;
+                $scope.active_drnk = cur.drink_off_prompt;
             }
 
+            //Help toggle
+            $scope.help = false;
+
+            // For 'unnecessary' toggling of the abandon button
             if(cur.status == 'active'){
                 $scope.abdn_btn = true;
             } else {
