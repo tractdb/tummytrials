@@ -516,7 +516,10 @@
 		"day_counter": "(Day {DAY})",
 		"morning_reminder_text": "Today is a day to {AORB}.",
 		"breakfast_reminder_text": "Please log your breakfast compliance.",
-		"symptomEntry_reminder_text": "Please log your symptom levels."
+		"symptomEntry_reminder_text": "Please log your symptom levels.",
+		"food_pref_title":"Food preferences",
+		"breakfast_pref":"Breakfast preference",
+		"drink_pref":"Drink preference"
 	},
 	"loginfo": {
 		"header": "Tummy Trials Login",

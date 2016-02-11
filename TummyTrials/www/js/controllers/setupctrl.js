@@ -11,7 +11,7 @@
 //     breakfast_time           Date   "
 //     symptom_time             Date   "
 //     breakfast_preference     key,value object {"breakfast":"Cereal"}
-//     drink_prefernce          key,value object {"drink":"Milk"}
+//     drink_preference          key,value object {"drink":"Milk"}
 
 function timesec_of_date(date)
 {
@@ -227,6 +227,18 @@ function timesec_of_date(date)
               bodies: [text.setup5.symptomEntry_reminder_text]
             }
         ];
+        exper.breakfast_pref =  SetupData.breakfast_preference.breakfast;
+        exper.drink_pref = SetupData.drink_preference.drink;
+        for(var i = 0; i < text.setup4b.triggers.length; i++){
+            if(SetupData.trigger == i){ 
+                var on_meals = text.setup4b.triggers[i].condition[0];
+                exper.breakfast_on_prompt = on_meals[SetupData.breakfast_preference.breakfast];
+                exper.drink_on_prompt = on_meals[SetupData.drink_preference.drink];
+                var off_meals = text.setup4b.triggers[i].condition[1];
+                exper.breakfast_off_prompt = off_meals[SetupData.breakfast_preference.breakfast];
+                exper.drink_off_prompt = off_meals[SetupData.drink_preference.drink];
+            }
+        }
         exper.reports = [];
 
         return exper;
@@ -316,6 +328,19 @@ function timesec_of_date(date)
         } else {
             $scope.chosen_date_range = text.setup5.nolength;
             $scope.study_data_complete = false;
+        }
+
+        $scope.breakfast_pref =  SetupData.breakfast_preference.breakfast;
+        $scope.drink_pref = SetupData.drink_preference.drink;
+        for(var i = 0; i < text.setup4b.triggers.length; i++){
+            if(SetupData.trigger == i){ 
+                var on_meals = text.setup4b.triggers[i].condition[0];
+                $scope.breakfast_on_prompt = on_meals[SetupData.breakfast_preference.breakfast];
+                $scope.drink_on_prompt = on_meals[SetupData.drink_preference.drink];
+                var off_meals = text.setup4b.triggers[i].condition[1];
+                $scope.breakfast_off_prompt = off_meals[SetupData.breakfast_preference.breakfast];
+                $scope.drink_off_prompt = off_meals[SetupData.drink_preference.drink];
+            }
         }
 
         // XXX test for valid reminder times
