@@ -11,6 +11,7 @@
 		"button1": "Log Breakfast Compliance",
 		"button2": "Log Symptom Level",
 		"button3": "Add Note",
+		"abandon_text": "You can abandon the ongoing/scheduled trial anytime you wish. Please note that upon doing so, if you wish to remain in the study you will have to setup a new trial and reschedule your exit interview date.",
 		"reminder_schedule_template": "Your {NAME} reminder is set to {WHEN}.",
 		"morning_reminder_name": "morning",
 		"breakfast_reminder_name": "breakfast",
