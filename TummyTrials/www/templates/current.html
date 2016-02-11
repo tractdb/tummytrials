@@ -86,9 +86,6 @@
                   {{text.current.button3}}
                 </a>
               </div>
-
-          <br/> {{is_past}}
-          <br/> {{test}}
             </p>
         </div>
         <!-- 
@@ -100,10 +97,11 @@
 
         <br/>
         <h4>End Trial:</h4>
+        <p>{{text.current.abandon_text}}</p>
         <div class="divcenter">
-          <a class="button button-royal" ui-sref="">
-            Button to end it all 
-          </a>
+          <button class="button button-royal" ng-click="abandon_trial()" ng-disable="!abdn_btn">
+            Abandon Trial
+          </button>
         </div>
 
     </div>
