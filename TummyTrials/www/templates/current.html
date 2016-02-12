@@ -43,12 +43,11 @@
 
 
     <div class="padding" ng-hide="!study_current">    
-      <div class="card padding">
-        <h4 class="title">{{text.current.title}} {{today_full}}</h4>
         <!-- 
         Content to display when there is no on going trial
         --> 
-        <div ng-hide="!exp_bool">
+        <div class="card padding" ng-hide="!exp_bool">
+          <h4 class="title">{{text.current.title}} {{today_full}}</h4>
           You have an trial scheduled to begin on {{start_date_full}}. 
         </div>    
 
@@ -56,43 +55,41 @@
         Content to display when trial underway
         --> 
         <div ng-show="(!exp_bool && !is_past)">
-          <p>{{text.current.subtitle}} <b>{{active_text}}</b> {{text.current.subtitle2}}</p>
-          <p><a style="text-decoration: underline; color:royal" ng-click="help = help ? false : true">{{text.current.para1}}</a></p>
-
-          <div class="card" ng-show="help">
-              <div class="item item-text-wrap">
-                  <b>For breakfast:</b><br/>
-                  <span class="new_line">{{active_bfst}}</span><br/><br/>
-                  <b>For drink:</b><br/>
-                  <span class="new_line">{{active_drnk}}</span>
-              </div>
-          </div>
-        </div>
-      </div>
-           
-          <div class="card padding">  
-          <h4>Your reminders for today:</h4>
-          <!-- XXX In later commit, change contents of the whole page. -->
-          <p ng-show="!study_current">(No current trial. Please create a new trial.)</p>
-              
-
-              <div ng-repeat="rem in study_reminders">
-                  <p>
-                  <i class="ion-ios-checkmark" ng-hide="rem.reportdue" style="font-size: 120%;"></i>
-                  <i class="ion-ios-circle-outline" ng-show="rem.reportdue" style="font-size: 120%;"></i>
-                  {{rem.schedmsg}}
-                  <div class="divcenter" ng-show="!!rem.logmsg">
-                      <a class="button button-royal" ui-sref="{{rem.logstate}}" ng-disabled="rem.disabled">
-                          {{rem.logmsg}}
-                      </a>
-                  </div>
-                  </p>
-                  <br/>
-              </div>
-
+        
+          <div class="card padding">
+            <h4 class="title">{{text.current.title}} {{today_full}}</h4>
+            <p>{{text.current.subtitle}} <b>{{active_text}}</b> {{text.current.subtitle2}}</p>
+            <p><a style="text-decoration: underline; color:royal" ng-click="help = help ? false : true">{{text.current.para1}}</a></p> 
+            <div class="card" ng-show="help">
+               <div class="item item-text-wrap">
+                   <b>For breakfast:</b><br/>
+                   <span class="new_line">{{active_bfst}}</span><br/><br/>
+                   <b>For drink:</b><br/>
+                   <span class="new_line">{{active_drnk}}</span>
+               </div>
+            </div>
           </div>
 
-          <div class="card padding">  
+          <div class="card padding">   
+            <h4>Your reminders for today:</h4>
+            <!-- XXX In later commit, change contents of the whole page. -->
+            <p ng-show="!study_current">(No current trial. Please create a new trial.)</p>
+                <div ng-repeat="rem in study_reminders">
+                    <p>
+                    <i class="ion-ios-checkmark" ng-hide="rem.reportdue" style="font-size: 120%;"></i>
+                    <i class="ion-ios-circle-outline" ng-show="rem.reportdue" style="font-size: 120%;"></i>
+                    {{rem.schedmsg}}
+                    <div class="divcenter" ng-show="!!rem.logmsg">
+                        <a class="button button-royal" ui-sref="{{rem.logstate}}" ng-disabled="rem.disabled">
+                            {{rem.logmsg}}
+                        </a>
+                    </div>
+                    </p>
+                    <br/>
+                </div>
+          </div>
+
+          <div class="card padding">
           <h4>Optional:</h4>
             <p>
               {{text.current.note}}
@@ -102,35 +99,33 @@
                 </a>
               </div>
             </p>
-          </div>
-        
+          </div>  
+        </div>
         <!-- 
         Content to display when trial is underway but past the last day.
         -->         
         <div ng-show="is_past">
-          Your <em>{{title}}</em> is past. Please <b>end</b> the trial to see the results. 
+          Your <em>{{title}}</em> is past. Please <b>end</b> the trial to see the results.
         </div>
 
-        
-        <div class="card padding"> 
-        <h4>End Trial:</h4>
-        <p>{{text.current.abandon_text}}</p>
-        <div class="divcenter">
-          <button class="button button-royal" ng-click="abandon_trial()" ng-disable="!abdn_btn">
-            Abandon Trial
-          </button>
+
+        <div class="card padding">
+          <h4>End Trial:</h4>
+          <p>{{text.current.abandon_text}}
+            <div class="divcenter">
+              <button class="button button-royal" ng-click="abandon_trial()" ng-disable="!abdn_btn">
+                Abandon Trial
+              </button>
+            </div>
           </p>
         </div>
-      </div>
-      </div>
-
     </div>
 
     <!-- 
     Content to display when there is no on going study
     --> 
 
-      <div class="padding" ng-show="!study_current">
+      <div class="card padding" ng-show="!study_current">
           <h4 class="title">No ongoing trial</h4>
       <br/>
       <p>Would you like to setup a new trial?</p>
