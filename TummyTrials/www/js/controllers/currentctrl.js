@@ -7,7 +7,7 @@
                 [ 'tummytrials.lc', 'tummytrials.text',
                   'tummytrials.experiments', 'ionic' ])
 
-.controller('CurrentCtrl', function($scope, LC, Text, Experiments, $window, $ionicPopup, $timeout) {
+.controller('CurrentCtrl', function($scope, $state, LC, Text, Experiments, $window, $ionicPopup, $timeout) {
 
      // An elaborate, custom popup to abandon ongoing trial
      $scope.abandon_trial = function(){
@@ -15,20 +15,19 @@
       var cur = $scope.study_current;
       var status = null;
       if(cur.status == "active"){
-            // $scope.abandon_trial = function(){
               var myPopup = $ionicPopup.show({
                 template: '<input type="text" ng-model="reason.abandon">',
                 title: 'Abandon trial',
                 subTitle: 'Are you sure you want to abandon this trial? If so, please state your reason for abandoning.',
                 scope: $scope,
                 buttons: [
-                  { text: 'Cancel' },
+                  { text: 'Continue Trial' },
                   {
                     text: '<b>Abandon</b>',
                     type: 'button-royal',
                     onTap: function(e) {
                        if (!$scope.reason.abandon) {
-                         //don't allow the user to close unless he enters wifi password
+                         //don't allow the user to close unless she enters the reason
                          e.preventDefault();
                        } else {
                          return $scope.reason.abandon;
@@ -39,20 +38,23 @@
               });
 
               myPopup.then(function(res) {
-                console.log('Tapped!', res);
-                         if(res) {
-                            console.log('inside res if');
-                            status = "abandoned";
-                            $ionicPopup.alert({
-                                title: 'Abandon successful',
-                                template: 'The ' + cur.trigger + ' trial has been abandoned.'
-                            });
-                            return Experiments.setStatus(cur.id, status);
-                         } else {
-                           console.log('You are not sure');
-                         }
-                     
+                    if(res) {
+                        var status = "abandoned";
+                        var reason = $scope.reason.abandon;
+                        $ionicPopup.alert({
+                            title: 'Abandon successful',
+                            template: 'The ' + cur.trigger + ' trial has been abandoned.'
+                        });
+                        return Experiments.setAbandon(cur.id, status, reason);
+                     } else {
+                       console.log('You are not sure');
+                     }
+              }).then(function(_){
+                if(cur.status == "abandoned"){
+                    $state.go('mytrials');
+                }
               });
+              
             // }
       } else {
         // $scope.cur_exp = false;
