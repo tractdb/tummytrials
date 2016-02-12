@@ -240,6 +240,7 @@ function timesec_of_date(date)
             }
         }
         exper.reports = [];
+        exper.reason = [];
 
         return exper;
     }

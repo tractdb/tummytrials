@@ -314,6 +314,27 @@ function by_time(a, b)
             });
         },
 
+        setAbandon: function(experimentId, newStatus, newReason) {
+            // Return a promise to set the reason for abandonment of the 
+            // experiment with the given id. newReason should be a text field.
+            //
+            // The promise resolves to the new status and reason.
+            //
+
+            return db.get_p(experimentId)
+            .then(function(exper) {
+                exper.reason = newReason;
+                exper.status = newStatus;
+                return db.put_p(experimentId, exper);
+            })
+            .then(function(_) {
+                return newReason;
+            })
+            .then(function(__) {
+                return newStatus;
+            });
+        },
+
         getRemdescrs: function(experimentId) {
             // Return a promise for the current reminder descriptors of
             // the experiment. See reminders.js for a definition of a
