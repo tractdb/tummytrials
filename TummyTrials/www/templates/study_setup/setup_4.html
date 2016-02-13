@@ -7,7 +7,7 @@
 
             <div class="list">
               <div class="item item-text-wrap">
-                {{text.setup4.morning_title}}
+                <h4>{{text.setup4.morning_title}}</h4>
                 <p>{{text.setup4.morning_text}}</p>
                 <label class="item item-input">
                   <span class="input-label">{{text.setup4.time}}</span>
@@ -16,7 +16,7 @@
               </div>      
 
               <div class="item item-text-wrap">
-                {{text.setup4.breakfast_title}}
+                <h4>{{text.setup4.breakfast_title}}</h4>
                 <p>{{text.setup4.breakfast_text}}</p>
                 <label class="item item-input">
                   <span class="input-label">{{text.setup4.time}}</span>
@@ -25,17 +25,25 @@
               </div>      
 
               <div class="item item-text-wrap">
-                {{text.setup4.symptom_title}}
+                <h4>{{text.setup4.symptom_title}}</h4>
                 <p>{{text.setup4.symptom_text}}</p>
-                
                 <label class="item item-input"> 
                   <span class="input-label">{{text.setup4.time}}</span> 
                   <input type="time" ng-model="setupdata.symptom_time">
                 </label>
               </div>  
+
+              <div class="item item-text-wrap">
+                <h4>{{text.setup4.evening_title}}</h4>
+                <p>{{text.setup4.evening_text}}</p>
+                <label class="item item-input"> 
+                  <span class="input-label">{{text.setup4.time}}</span> 
+                  <input type="time" ng-model="setupdata.evening_time">
+                </label>
+              </div> 
             
               <div class="item item-text-wrap">
-                {{text.setup4.study_length_title}}
+                <h4>{{text.setup4.study_length_title}}</h4>
                 <p>{{text.setup4.study_length_text}}</p>
                 <label class="item item-input item-select">
                   <div class="input-label">
@@ -48,25 +56,27 @@
                     <option value="14">14</option>
                     <option value="16">16</option>
                     <option value="18">18</option>
-                    <option value="20">20</option>
+                    <!-- <option value="20">20</option>
                     <option value="22">22</option>
                     <option value="24">24</option>
                     <option value="26">26</option>
                     <option value="28">28</option>
-                    <option value="30">30</option>
+                    <option value="30">30</option> -->
                   </select>
                 </label>
               </div>   
               
-              <div class="item">
-                {{text.setup4.start_date_title}}
+              <div class="item item-text-wrap">
+                <h4>{{text.setup4.start_date_title}}</h4>
+                <p>{{text.setup4.start_date_text}}</p>
                 <label class="item item-input">
                   <span class="input-label">{{text.setup4.date}}</span>
                   <input type="date" ng-model="setupdata.startdate">
                 </label>
               </div> 
 
-              <div class="item" ng-hide="setup.paramsSet">
+<!-- Ian's thing with calendar widget -->
+<!--               <div class="item" ng-hide="setup.paramsSet">
                 <div class="button button-bar button-balanced" ng-click="setup.getDates()">
                   {{setup.getExerciseMessage()}}
                 </div>
@@ -96,7 +106,7 @@
                   </div>
                 </div>
               </div>
-            </div> 
+            </div>  -->
 
               <a class="button button-block button-royal" ui-sref="setup_4b">
                 {{text.setup4.button}} &nbsp; <i class="ion-chevron-right"></i>

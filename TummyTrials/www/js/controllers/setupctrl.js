@@ -64,6 +64,8 @@ function timesec_of_date(date)
             $scope.setupdata.breakfast_time = new Date(1970, 0, 1, 9, 0, 0);
         if (!$scope.setupdata.symptom_time)
             $scope.setupdata.symptom_time = new Date(1970, 0, 1, 12, 0, 0);
+        if (!$scope.setupdata.evening_time)
+            $scope.setupdata.evening_time = new Date(1970, 0, 1, 18, 0, 0);
 
         // Default experiment start time. Again, a JavaScript Date
         // object is required as the Angular model for the input[date]
@@ -78,7 +80,7 @@ function timesec_of_date(date)
         // Default duration.
         //
         if (!$scope.setupdata.duration)
-            $scope.setupdata.duration = '18';
+            $scope.setupdata.duration = '12';
     });
 })
 
@@ -225,6 +227,11 @@ function timesec_of_date(date)
               time: timesec_of_date(SetupData.symptom_time),
               heads: reminder_heads(text.setup5.symptomEntry_reminder_title),
               bodies: [text.setup5.symptomEntry_reminder_text]
+            },
+            { type: 'evening',
+              time: timesec_of_date(SetupData.evening_time),
+              heads: reminder_heads(text.setup5.evening_reminder_title),
+              bodies: [text.setup5.evening_reminder_text]
             }
         ];
         exper.breakfast_pref =  SetupData.breakfast_preference.breakfast;
