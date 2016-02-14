@@ -229,6 +229,7 @@ function timesec_of_date(date)
               bodies: [text.setup5.symptomEntry_reminder_text]
             },
             { type: 'evening',
+              reminderonly: true,
               time: timesec_of_date(SetupData.evening_time),
               heads: reminder_heads(text.setup5.evening_reminder_title),
               bodies: [text.setup5.evening_reminder_text]
