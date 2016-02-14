@@ -4,29 +4,18 @@
     <div class="calendar" ng-show="(study_current && !exp_bool && !is_past)">
       <br/><!-- <h4 class="padding"> {{title_text}} Study</h4> -->
       <h5 class="padding">Day {{day_num}} of {{duration_readable}}</h5>
-      <!--
-      Start date : {{start_date_dtonly}}<br/>
-      Start date : {{start_date_full}}<br/>
-      End date : {{end_date_readable}}<br/>
-      Duration : {{duration_readable}}<br/>
-      Schedule : {{schedule}}<br/>
-      Today:  {{today_readable}}<br/>
-      Selected day : {{selected_date}}<br/>
-      Row length : {{row_length}} <br/> 
-      Reports: {{report}} <br/>
-      -->
       <div class="divcenter">
       <div class="button-bar"> 
         <div ng-repeat="day in schedule">
-          <a class="button" ng-if="day[0] != today_readable" ng-show="$index < row_length"  ng-class="day[1] == 'A' ? 'button-positive' : 'button-balanced'" ui-sref="calendar">{{day[0]}}</a>
-          <a class="button button-energized" ng-if="day[0] == today_readable" ng-show="$index < row_length" ui-sref="calendar">{{day[0]}}</a>
+          <a class="button" ng-if="day[0] != today_readable" ng-show="$index < row_length"  ng-class="day[1] == 'A' ? 'button-positive' : 'button-balanced'" ng-click="calendardata.button = day[0]" ui-sref="calendar">{{day[0]}}</a>
+          <a class="button button-energized" ng-if="day[0] == today_readable" ng-show="$index < row_length" ng-click="calendardata.button = day[0]" ui-sref="calendar">{{day[0]}}</a>
         </div>
       </div>
 
       <div class="button-bar">
         <div ng-repeat="day in schedule">
-          <a class="button" ng-if="day[0] != today_readable" ng-show="$index >= row_length" ng-class="day[1] == 'A' ? 'button-positive' : 'button-balanced'" ui-sref="calendar">{{day[0]}}</a>
-          <a class="button button-energized" ng-if="day[0] == today_readable" ng-show="$index >= row_length" ui-sref="calendar">{{day[0]}}</a>
+          <a class="button" ng-if="day[0] != today_readable" ng-show="$index >= row_length" ng-class="day[1] == 'A' ? 'button-positive' : 'button-balanced'" ng-click="calendardata.button = day[0]" ui-sref="calendar">{{day[0]}}</a>
+          <a class="button button-energized" ng-if="day[0] == today_readable" ng-show="$index >= row_length" ng-click="calendardata.button = day[0]" ui-sref="calendar">{{day[0]}}</a>
         </div>
       </div>
       </div>

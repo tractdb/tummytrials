@@ -5,11 +5,11 @@
 
   $stateProvider
   .state('calendar', {
-      url: 'current/calendar',
+      url: 'current/:dayId',
       views: {
         current : {
           templateUrl: 'templates/currenttrial/calendar.html',
-          controller: 'CurrentCtrl'
+          controller: 'WidgetCtrl'
         }
       }
     })
