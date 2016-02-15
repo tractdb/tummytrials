@@ -314,7 +314,7 @@ function by_time(a, b)
             });
         },
 
-        setAbandon: function(experimentId, newStatus, newReason) {
+        setAbandon_p: function(experimentId, newStatus, newReason) {
             // Return a promise to set the reason for abandonment of the 
             // experiment with the given id. newReason should be a text field.
             //
