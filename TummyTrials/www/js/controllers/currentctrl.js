@@ -1,7 +1,18 @@
 // currentctrl.js     Controller for 'Current Trial' tab
 //
 // Calendar object is a shared service which maitains the value of the button being clicked in the calendar widget
-// It maintains the format of "key":"value" of "button":"day" where day is the date.
+// It has the following structure
+// "button":"day" where day is the date.
+// "date":"date" date in a readable format 
+// "score":"symptom score" right now its the numerical value, should be switched to text
+// "condition":"conditional prompt" conditional phrase for the day
+// "state": maintains the display state of the page has values:
+//          a.o.k. : everything in order print it 
+//          neg compliance : neg compliance, no score
+//          no report : pos compliance but no report
+// "A_text": prompt for A condition
+// "B_text": prompt for B condition
+
 
 'use strict';
 
@@ -300,7 +311,7 @@
         return Experiments.publish_p($scope);
     })
     .then(function(_) {
-        
+        var text = $scope.text;
         var cur = $scope.study_current;
         $scope.duration_readable = Experiments.study_duration(cur);
         $scope.calendardata = Calendar;
@@ -420,7 +431,19 @@
             } else if(Calendar.condition == "B"){
                 $scope.cal_cond = Calendar.B_text;
             }
-           
+
+
+            //Figuring out text for the symptom score
+            var text_loc = text.post.likertlabels; //Getting the text from JSON for each likert value
+            console.log("Outside Calendar score = " + Calendar.score);
+            for(var k = 0; k < text_loc.length; k ++){
+                if(Calendar.score == k){ 
+                    console.log("Calendar score = " + Calendar.score);
+                    Calendar.score_text = text_loc[k].label + " : " + text_loc[k].detail;
+                }
+            }
+            $scope.cal_scr_txt = Calendar.score_text;
+
            $scope.cal_display = display;
 
     });
