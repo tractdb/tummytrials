@@ -2,9 +2,11 @@
 //
 // Calendar object is a shared service which maitains the value of the button being clicked in the calendar widget
 // It has the following structure
-// "button":"day" where day is the date.
-// "date":"date" date in a readable format 
-// "score":"symptom score" right now its the numerical value, should be switched to text
+// "button": date / value of the button clicked.
+// "date": date in a readable format 
+// "score": contains array of objects for each symptom being logged
+//          "symptom text": "symptom score"
+//          symptom score is later converted to relevant description from likert
 // "condition":"conditional prompt" conditional phrase for the day
 // "state": maintains the display state of the page has values:
 //          a.o.k. : everything in order print it 
@@ -332,7 +334,7 @@
                 var day = new Date((cur.start_time + (86400 * i)) * 1000);  //86400 adds 1 day
                 var dt = LC.dateonly(day);
                 var dtr = LC.datestrfull(day);
-                var score = null;
+                var scr_val, scr_txt, scr_arr = [], score = {};
                 d.push(dt);
                 d.push(rand[i]);
 
@@ -340,14 +342,21 @@
                     //report logged if there is an object
                     if(cur.reports[i].breakfast_compliance == true && typeof(cur.reports[i].symptom_scores) == "object"){
                         // if symptoms exist and compliance is true
-                        score = cur.reports[i].symptom_scores[0].score;
+                        for(var l = 0; l < cur.reports[i].symptom_scores.length; l++){
+                            scr_val = cur.reports[i].symptom_scores[l].score;
+                            scr_txt = cur.reports[i].symptom_scores[l].name;
+                            scr_arr.push(scr_val);
+                            scr_arr.push(scr_txt);
+                            score[scr_txt] = scr_val;
+                        }
+                        
                         // adding details to calendar object
                         if(dt == Calendar.button){
                             Calendar.date = dtr;
                             Calendar.condition = rand[i];
                             Calendar.score = score;
                             Calendar.state = "a.o.k.";
-                        } 
+                        }
                         d.push(score);
                     // if compliance is true but score not yet reported
                     } else if(cur.reports[i].breakfast_compliance == true && typeof(cur.reports[i].symptom_scores) != "object"){
@@ -389,7 +398,7 @@
 
             var d = []; // Temp array 
             //Take the starting day, and keep adding one day till the end of study
-            for (i = 0; i < $scope.duration_readable; i++ ){
+            for (var i = 0; i < $scope.duration_readable; i++ ){
                 var day = new Date((cur.start_time + (86400 * i)) * 1000);  //86400 adds 1 day
                 var dt = LC.dateonly(day);
                 d.push(dt);
@@ -431,17 +440,18 @@
             } else if(Calendar.condition == "B"){
                 $scope.cal_cond = Calendar.B_text;
             }
-
-
             //Figuring out text for the symptom score
             var text_loc = text.post.likertlabels; //Getting the text from JSON for each likert value
-            console.log("Outside Calendar score = " + Calendar.score);
             for(var k = 0; k < text_loc.length; k ++){
-                if(Calendar.score == k){ 
-                    console.log("Calendar score = " + Calendar.score);
-                    Calendar.score_text = text_loc[k].label + " : " + text_loc[k].detail;
+                for(var key in Calendar.score){
+                    if(Calendar.score.hasOwnProperty(key)){
+                        if(Calendar.score[key] == k){
+                            Calendar.score[key] = text_loc[k].label + " : " + text_loc[k].detail;
+                        }
+                    }
                 }
             }
+            $scope.cal_scr = Calendar.score;
             $scope.cal_scr_txt = Calendar.score_text;
 
            $scope.cal_display = display;

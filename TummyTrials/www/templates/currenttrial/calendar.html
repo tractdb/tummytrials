@@ -6,9 +6,17 @@
         <div ng-if="cal_display === 'yes'" class="padding card">
         	<h4>{{text.calendar.title}} {{cal_day}}</h4>
         	<p> {{text.calendar.field_1}} <b>{{cal_cond}}</b></p>
-        	<p> {{text.calendar.field_2}} <b>{{cal_comp}}</b></p>
-        	<p> {{text.calendar.field_3}} <b>{{cal_scr_txt}}</b></p>
+        	<p> {{text.calendar.field_2}} <b>{{cal_comp}}</b></p>            
+            <p> {{text.calendar.field_3}} <br/><br/>
+            <ul class="list">
+                <li class="item item-text-wrap list_text" ng-repeat="(key,value) in cal_scr">
+                    <b>{{key}}</b><br/> {{value}} 
+                </li>
+            </ul>
         </div>
+
+
+
 
         <!-- Content to display on invalid days (days in the future) -->
         <div ng-if="cal_display === 'no'" class="padding card">
@@ -37,6 +45,7 @@
             <p> {{text.calendar.missing}}</p>
         </div>
         
+
     </ion-content>  
   </ion-pane>
 </ion-view>
