@@ -2,18 +2,18 @@
 //
 // Calendar object is a shared service which maitains the value of the button being clicked in the calendar widget
 // It has the following structure
-// "button": date / value of the button clicked.
-// "date": date in a readable format 
-// "score": contains array of objects for each symptom being logged
-//          "symptom text": "symptom score"
-//          symptom score is later converted to relevant description from likert
+// "button":    date / value of the button clicked.
+// "date":      date in a readable format 
+// "score":     contains array of objects for each symptom being logged
+//      "symptom text": "symptom score"
+//              symptom score is later converted to relevant description from likert
 // "condition":"conditional prompt" conditional phrase for the day
-// "state": maintains the display state of the page has values:
-//          a.o.k. : everything in order print it 
-//          neg compliance : neg compliance, no score
-//          no report : pos compliance but no report
-// "A_text": prompt for A condition
-// "B_text": prompt for B condition
+// "state":     maintains the display state of the page has values:
+//              a.o.k. : everything in order print it 
+//              neg compliance : neg compliance, no score
+//              no report : pos compliance but no report
+// "A_text":    prompt for A condition
+// "B_text":    prompt for B condition
 
 
 'use strict';
@@ -61,7 +61,7 @@
                             title: 'Abandon successful',
                             template: 'The ' + cur.trigger + ' trial has been abandoned.'
                         });
-                        return Experiments.setAbandon(cur.id, status, reason);
+                        return Experiments.setAbandon_p(cur.id, status, reason);
                      } else {
                        console.log('You are not sure');
                      }
