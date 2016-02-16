@@ -1,3 +1,18 @@
+<!-- 
+Page Hierarchy:
+
+- Calendar widget   when ongoing/scheduled study && if experiment has started && last day of study has passed 
+- Day card          when ongoing/scheduled study
+  - Scheduled but not started 
+  - Started but not past
+    - Reminder card
+    - Optional card
+  - Past but not ended
+  - Abandon card
+- No onging study  
+-->
+
+
 <ion-view title="{{title}}" cache-view="false">
   <ion-pane>
     <ion-content>
@@ -27,9 +42,7 @@
         <i class="ion-stop energized" style="font-size: 150%;"></i> Current day <br/>
       </div>
       <br/>
-
     </div>
-
 
     <div class="padding" ng-hide="!study_current">    
         <!-- 
@@ -79,25 +92,27 @@
           </div>
 
           <div class="card padding">
-          <h4>Optional:</h4>
-            <p>
-              {{text.current.note}}
-              <div class="divcenter">
-                <a class="button button-royal" ui-sref="notes">
-                  {{text.current.button3}}
-                </a>
-              </div>
-            </p>
-          </div>  
+            <h4>Optional:</h4>
+              <p>
+                {{text.current.note}}
+                <div class="divcenter">
+                  <a class="button button-royal" ui-sref="notes">
+                    {{text.current.button3}}
+                  </a>
+                </div>
+              </p>
+          </div> 
         </div>
         <!-- 
         Content to display when trial is underway but past the last day.
         -->         
         <div ng-show="is_past">
-          Your <em>{{title}}</em> is past. Please <b>end</b> the trial to see the results.
+            Your <em>{{title}}</em> is past. Please <b>end</b> the trial to see the results.
         </div>
 
-
+        <!-- 
+        Abandoning / Completing a study
+        --> 
         <div class="card padding">
           <h4>End Trial:</h4>
           <p>{{text.current.abandon_text}}
@@ -113,18 +128,15 @@
     <!-- 
     Content to display when there is no on going study
     --> 
-
-      <div class="card padding" ng-show="!study_current">
-          <h4 class="title">No ongoing trial</h4>
-      <br/>
-      <p>Would you like to setup a new trial?</p>
-      <br/>
-
-      <a class="button button-block button-royal" ui-sref="setup_1">
-              Setup a New Trial
-          </a>
-      </div>    
-
+    <div class="card padding" ng-show="!study_current">
+        <h4 class="title">No ongoing trial</h4>
+        <br/>
+        <p>Would you like to setup a new trial?</p>
+        <br/>
+        <a class="button button-block button-royal" ui-sref="setup_1">
+          Setup a New Trial
+        </a>
+    </div>    
 
     </ion-content>  
   </ion-pane>
