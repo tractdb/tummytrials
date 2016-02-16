@@ -1,13 +1,27 @@
-<ion-view title="Current Trial" cache-view="false">
+<ion-view title="Current Trial">
   <ion-pane>
     <ion-content>
-    	<h4>{{text.calendar.title}}</h4>
-    	<p> {{text.calendar.field_1}} </p>
-    	<p> {{text.calendar.field_2}} </p>
-    	<p> {{text.calendar.field_3}} </p>
 
-    	{{start_date_full}} <br/>
-    	{{teh_date}}
+        <!-- Content to display on valid days (ones with records) -->
+        <div ng-if="cal_display === 'yes'" class="padding card">
+        	<h4>{{text.calendar.title}} {{cal_day}}</h4>
+        	<p> {{text.calendar.field_1}} {{cal_cond}}</p>
+        	<p> {{text.calendar.field_2}} {{cal_comp}}</p>
+        	<p> {{text.calendar.field_3}} {{cal_score}}</p>
+        </div>
+
+        <!-- Content to display on invalid days (days in the future) -->
+        <div ng-if="cal_display === 'no'" class="padding card">
+            <h4>{{text.calendar.title}} {{cal_btn}}</h4>
+            <p> {{text.calendar.future}}</p>
+        </div>
+
+        <!-- Content to display for today -->
+        <div ng-if="cal_display === 'today'" class="padding card">
+            <h4>{{text.calendar.title}} {{cal_btn}}</h4>
+            <p> {{text.calendar.today}}</p>
+        </div>
+    	
     </ion-content>  
   </ion-pane>
 </ion-view>

@@ -1,20 +1,23 @@
 // currentctrl.js     Controller for 'Current Trial' tab
 //
+// Calendar object is a shared service which maitains the value of the button being clicked in the calendar widget
+// It maintains the format of "key":"value" of "button":"day" where day is the date.
 
 'use strict';
 
 (angular.module('tummytrials.currentctrl',
-                [ 'tummytrials.lc', 'tummytrials.text',
-                  'tummytrials.experiments', 'ionic' ])
+                [ 'tummytrials.lc', 'tummytrials.text', 'tummytrials.studyfmt',
+                  'tummytrials.experiments', 'ionic', 'tummytrials.calendar' ])
 
-.controller('CurrentCtrl', function($scope, $state, LC, Text, Experiments, $window, $ionicPopup, $timeout) {
+.controller('CurrentCtrl', function($scope, $state, LC, Text, Experiments, 
+                                        $window, $ionicPopup, $timeout, Calendar) {
 
-     // An elaborate, custom popup to abandon ongoing trial
-     $scope.abandon_trial = function(){
+    // An elaborate, custom popup to abandon ongoing trial
+    $scope.abandon_trial = function(){
       $scope.reason = {};
-      var cur = $scope.study_current;
-      var status = null;
-      if(cur.status == "active"){
+        var cur = $scope.study_current;
+        var status = null;
+        if(cur.status == "active"){
               var myPopup = $ionicPopup.show({
                 template: '<input type="text" ng-model="reason.abandon">',
                 title: 'Abandon trial',
@@ -59,14 +62,18 @@
       } else {
         // $scope.cur_exp = false;
       }
-    }
+    };
 
     Text.all_p()
-    .then(function(text) {
-        $scope.text = text;
-        return Experiments.publish_p($scope);
-    })
-    .then(function(_) {
+        .then(function(text) {
+            $scope.text = text;
+            return Experiments.publish_p($scope);
+        })
+        .then(function(_) {
+
+        //service data object
+        $scope.calendardata = Calendar;
+
         var text = $scope.text;
         var cur = $scope.study_current;
         $scope.study_reminders = [];
@@ -255,6 +262,10 @@
             $scope.B_text = B_text;
             $scope.help_URL = h_URL;
 
+            //Assign both prompts to calendar object
+            Calendar.A_text = A_text;
+            Calendar.B_text = B_text;
+
             //Changes the text prompt based on the condition for the day
             if(act_day[0] == "A"){
                 $scope.active_text = A_text;
@@ -277,8 +288,115 @@
             }
         }
     });
-
-
 })
 
+
+//controller for calendar widget buttons
+.controller('WidgetCtrl', function($scope, $stateParams, Calendar,
+                        Text, Experiments, LC, StudyFmt){
+    Text.all_p()
+    .then(function(text) {
+        $scope.text = text;
+        return Experiments.publish_p($scope);
+    })
+    .then(function(_) {
+        
+        var cur = $scope.study_current;
+        $scope.duration_readable = Experiments.study_duration(cur);
+        $scope.calendardata = Calendar;
+
+        var report = [];
+        var days = []; // Array for filling the calendar widget 
+        var d = []; // Temp array 
+        var rand = cur.abstring.split(''); // Array for the randomization of conditions
+        var score = null;
+
+        // report object format
+        // {{["day, condition, report"]}} 
+        // where day is the actual calendar date, condition is A or B and
+        // report is the symptom severity case when it exists or null
+
+            for(var i=0; i < $scope.duration_readable; i++){
+
+                var day = new Date((cur.start_time + (86400 * i)) * 1000);  //86400 adds 1 day
+                var dt = LC.dateonly(day);
+                var dtr = LC.datestrfull(day);
+                var score = null;
+                d.push(dt);
+                d.push(rand[i]);
+
+                if(typeof(cur.reports[i]) == "object"){
+                    //report logged if there is an object
+                    if(cur.reports[i].breakfast_compliance == true && typeof(cur.reports[i].symptom_scores) == "object"){
+                        //symptoms exist if compliance is true
+                        score = cur.reports[i].symptom_scores[0].score;
+                        // adding details to calendar object
+                        if(dt == Calendar.button){
+                            Calendar.date = dtr;
+                            Calendar.score = score;
+                            Calendar.condition = rand[i];
+                        } 
+                        d.push(score);
+                    } else {
+                        // print no compliance
+                        d.push("false");
+                    }
+                } else {
+                    //print no report 
+                    d.push(null);
+                }
+                days.push(d);
+                d = [];
+                score = null;
+            }
+            $scope.report = days;
+
+
+            // Logic for controlling layout of calendar page
+            var today = new Date();
+            var today_readable = LC.dateonly(today);
+            var today_full = LC.datestrfull(today);
+
+            var d = []; // Temp array 
+            //Take the starting day, and keep adding one day till the end of study
+            for (i = 0; i < $scope.duration_readable; i++ ){
+                var day = new Date((cur.start_time + (86400 * i)) * 1000);  //86400 adds 1 day
+                var dt = LC.dateonly(day);
+                d.push(dt);
+            }
+            $scope.schedule = d;
+
+            // Display variable controls the content of calendar.html page.
+            // If true i.e. date in the past, then show the details.
+            // If false, i.e. date is in the future/today, then show text.
+            var cal_index = null;
+            var today_index = d.indexOf(today_readable);
+            var display = null;
+            // Looping over the array of dates 
+            for(var j = 0; j < d.length; j++){
+                cal_index = d.indexOf(Calendar.button);
+                if(cal_index > today_index){
+                    display = "no";
+                } else if(cal_index == today_index) {
+                    display = "today";
+                } else {
+                    display = "yes";
+                }
+            } 
+            $scope.cal_display = display;
+
+            $scope.cal_btn = Calendar.button;
+            $scope.cal_day = Calendar.date;
+            $scope.cal_comp = "True (change text)";
+            $scope.cal_score = Calendar.score;
+            if(Calendar.condition == "A"){
+                $scope.cal_cond = Calendar.A_text;
+            } else if(Calendar.condition == "B"){
+                $scope.cal_cond = Calendar.B_text;
+            }
+
+    });
+})
+
+//module end
 );
