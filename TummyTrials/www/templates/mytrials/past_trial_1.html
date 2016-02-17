@@ -36,13 +36,16 @@
     </div>
     <br/>
 
-    <div>
-        <bar-chart bar-height="20" bar-padding="5"></bar-chart>
+    <div ng-controller="Ctrl">
+        <result-vis result-data="rs_data" bar-height="20" bar-padding="5"></result-vis>
+        <br/>
+        rs_data : {{rs_data}}
     </div>
 
-    Num: {{test}}
+    <!-- test: {{test}} -->
     <br/>
-    Report: {{report}}
+    sym_sym : {{sym_syma}}
+    <!-- Report: {{report}} -->
 
 
     </ion-content>  
