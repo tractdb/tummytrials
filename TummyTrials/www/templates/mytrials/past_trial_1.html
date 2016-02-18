@@ -37,7 +37,9 @@
     <br/>
 
     <div ng-controller="Ctrl">
-        <result-vis result-data="rs_data" bar-height="20" bar-padding="5"></result-vis>
+        <result-vis result-data="rs_data" label="d3Label" on-click="d3OnClick(item)" bar-height="20" bar-padding="5"></result-vis>
+        <br/>
+        <span> update pls! : {{ip}} </span>
         <br/>
         rs_data : {{rs_data}}
     </div>

@@ -36,7 +36,11 @@
   .directive('resultVis', ['d3Service', function(d3Service, $window) {
     return {
       restrict: 'EA',
-      scope: { data: '=resultData' },
+      scope: { 
+        data: '=resultData',
+        label: '@',
+        onClick: '&'
+      },
       link: function( scope, element, attrs) {
         d3Service.d3().then(function(d3) {
 
@@ -101,6 +105,7 @@
 		    svg.selectAll('rect')
 		      .data(scope.data).enter()
 		        .append('rect')
+            .on("click", function(d, i){return scope.onClick({item: d});})
 		        .attr('height', barHeight)
 		        .attr('width', 140)
 		        .attr('x', Math.round(margin/2))
@@ -112,7 +117,7 @@
 		          .duration(1000)
 		          .attr('width', function(d) {
 		            return xScale(d.score);
-		          });	
+		          });
 
           // }
 
@@ -120,7 +125,3 @@
       }}
 }])
 );
-
-// function Ctrl($scope) {
-//     $scope.myData = [10,20,30,40,60, 80, 20, 50];
-// }

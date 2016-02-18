@@ -94,13 +94,30 @@ app.controller('PastTrial1Ctrl', function($scope, $stateParams,
     });
 });
 
-app.controller('Ctrl', function($scope){
+app.controller('Ctrl', function($scope, $cordovaDialogs){
         $scope.rs_data = [
-            {name: "Gregory", score: 98},
-            {name: "Ariaga", score: 50},
-            {name: 'Qu', score: 75},
-            {name: "Loserest", score: 48}
+            {name: "Dunkey", score: 98},
+            {name: "Funkey", score: 50},
+            {name: 'Clunkey', score: 75},
+            {name: "Chunkey", score: 48}
         ];
 
-        $scope.myData = [10,20,30,40,60];
+        $scope.d3OnClick = function(item){
+          console.log("item name: " + item.name);
+
+            $cordovaDialogs.alert(item.name, 'Name', 'Dismiss')
+            .then(function() {
+              // callback success
+            });
+        };
+
+
+        $scope.onClick = function(item) {
+            $scope.$apply(function() {
+              if (!$scope.showDetailPanel)
+                $scope.showDetailPanel = true;
+              $scope.detailItem = item;
+            });
+        };
+
 })
