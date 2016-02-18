@@ -25,7 +25,9 @@ angular.module('starter', ['ionic'])
 
 var app = angular.module('tummytrials',
             ['ionic', 'ngSanitize', 'ngCordova',
-            'tractdb.tdate', 'tractdb.lifecycle', 'tummytrials.replicator',
+            'tractdb.tdate', 'tractdb.lifecycle',
+            'tractdb.touchtrack', 'tractdb.navlog',
+            'tummytrials.replicator',
             'tummytrials.login', 'tummytrials.currentstudy',
             'tummytrials.studysetup', 'tummytrials.faqcontroller',
             'tummytrials.activitylog', 'tummytrials.currentctrl',
