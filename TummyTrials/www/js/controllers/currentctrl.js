@@ -328,20 +328,39 @@
                 if(typeof(cur.reports[i]) == "object"){
                     //report logged if there is an object
                     if(cur.reports[i].breakfast_compliance == true && typeof(cur.reports[i].symptom_scores) == "object"){
-                        //symptoms exist if compliance is true
+                        // if symptoms exist and compliance is true
                         score = cur.reports[i].symptom_scores[0].score;
                         // adding details to calendar object
                         if(dt == Calendar.button){
                             Calendar.date = dtr;
-                            Calendar.score = score;
                             Calendar.condition = rand[i];
+                            Calendar.score = score;
+                            Calendar.state = "a.o.k.";
                         } 
                         d.push(score);
+                    // if compliance is true but score not yet reported
+                    } else if(cur.reports[i].breakfast_compliance == true && typeof(cur.reports[i].symptom_scores) != "object"){
+                        Calendar.score = "not reported";
+                        Calendar.date = dtr;
+                        Calendar.condition = rand[i];
+                        Calendar.state = "a.o.k.";
                     } else {
                         // print no compliance
+                        if(dt == Calendar.button){
+                            Calendar.date = dtr;
+                            Calendar.score = "n/a";
+                            Calendar.condition = rand[i];
+                            Calendar.state = "neg compliance";
+                        } 
                         d.push("false");
                     }
                 } else {
+                    if(dt == Calendar.button){
+                            Calendar.date = dtr;
+                            Calendar.score = "n/a";
+                            Calendar.condition = rand[i];
+                            Calendar.state = "no report";
+                        } 
                     //print no report 
                     d.push(null);
                 }
@@ -380,20 +399,29 @@
                 } else if(cal_index == today_index) {
                     display = "today";
                 } else {
-                    display = "yes";
+                    // if everything is fine, show the report
+                    if(Calendar.state == "a.o.k."){
+                        $scope.cal_comp = "True (change text)";
+                        $scope.cal_score = Calendar.score;
+                        display = "yes";
+                    } else if(Calendar.state == "neg compliance"){
+                        $scope.cal_comp = "False (change text)";
+                        display = "neg";
+                    } else if(Calendar.state == "no report"){
+                        display = "null";
+                    }
                 }
             } 
-            $scope.cal_display = display;
-
+            
             $scope.cal_btn = Calendar.button;
             $scope.cal_day = Calendar.date;
-            $scope.cal_comp = "True (change text)";
-            $scope.cal_score = Calendar.score;
             if(Calendar.condition == "A"){
                 $scope.cal_cond = Calendar.A_text;
             } else if(Calendar.condition == "B"){
                 $scope.cal_cond = Calendar.B_text;
             }
+           
+           $scope.cal_display = display;
 
     });
 })

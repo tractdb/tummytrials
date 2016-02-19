@@ -25,7 +25,9 @@
 		"field_2": "Compliance for the day was:",
 		"field_3": "Symptom severity rating for the day was:",
 		"future": "There is no data available for this date.",
-		"today": "This is the ongoing day."
+		"today": "This is the ongoing day.",
+		"neg": "The compliance for this day was negative and therefore, there is no symptom score for this day.",
+		"missing": "Nothing was reported for this day."
 	},
 	"no_study": {
 		"title": "No ongoing study",
