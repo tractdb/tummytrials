@@ -299,6 +299,15 @@
             } else {
                 $scope.abdn_btn = false;
             }
+
+            // For detecting accelerated demo
+            // If ttransform exists, then trail is being accelerated
+            if(typeof(cur.ttransform) == "object"){
+                $scope.accelerated = true;
+                $scope.exp_bool = false; // over-riding exp_bool to ignore date requirement
+            } else {
+                $scope.accelerated = false;
+            }
         }
     });
 })
