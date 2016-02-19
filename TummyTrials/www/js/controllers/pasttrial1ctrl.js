@@ -1,8 +1,28 @@
-(angular.module('tummytrials.pasttrial1ctrl',
-                ['tummytrials.text', 'tummytrials.experiments',
-                 'tummytrials.studyfmt','tummytrials.currentctrl', 'tummytrials.lc'])
+// Proposed data structure for consumption by the vis:
 
-.controller('PastTrial1Ctrl', function($scope, $stateParams,
+// "symptoms": [{
+//     "symptom": name of symptom,
+//     "date": readable date,
+//     "condition": A/B + text,
+//     "severity": num/missing
+//     "compliance": yes/no
+// }, ...
+// ]
+// on second thought, use severity to overload compliance. 
+// if, complied, then a positive number, else -2, if complied and no score, -1
+// if compliance is true, but no score reported, does that mean no compliance?
+// "symptoms": [{
+//     "symptom": name of symptom,
+//          "date": [condition, score]    
+// }, ...
+// ]
+
+
+var app = angular.module('tummytrials.pasttrial1ctrl',
+                ['tummytrials.text', 'tummytrials.experiments', 'd3.directives', 'd3',
+                 'tummytrials.studyfmt','tummytrials.currentctrl', 'tummytrials.lc']);
+
+app.controller('PastTrial1Ctrl', function($scope, $stateParams,
                                         Text, Experiments, StudyFmt, LC) {
     Text.all_p()
     .then(function(text) {
@@ -16,7 +36,7 @@
         //gather all data needed for report + vis 
         var cur = study;
         $scope.nm = name;
-        
+
         //Get the duration of the experiment
         var dur = cur.end_time - cur.start_time;
         $scope.duration = new Date(dur * 1000); 
@@ -27,51 +47,77 @@
         var d = []; // Temp array 
         var rand = cur.abstring.split(''); // Array for the randomization of conditions
         var score = null;
+        var sym_num = cur.symptoms.length; // number of symptoms being logged
+        var sym_name = null;
+        var sym_sym = {};
+        var sym_data = {};
 
+
+        // iterating over all the symptoms
+        for(var a = 0; a < sym_num; a++){
+
+            // iterating over all the days of the trial
             for(i=0; i < $scope.duration_readable; i++){
 
                 var day = new Date((cur.start_time + (86400 * i)) * 1000);  //86400 adds 1 day
                 var dt = LC.dateonly(day);
-                // var score = cur.reports[i].symptom_scores;
                 var score = null;
-                d.push(dt);
+                // d.push(dt);
                 d.push(rand[i]);
 
                 if(typeof(cur.reports[i]) == "object"){
                     //report logged if there is an object
-
                     if(cur.reports[i].breakfast_compliance == true && typeof(cur.reports[i].symptom_scores) == "object"){
                         //symptoms exist if compliance is true
-                        // console.log(typeof(cur.reports[i].symptom_scores));
-                        score = cur.reports[i].symptom_scores[0].score;
-                        // report.push("Day " + (i+1) + " report: ", day_report);
+                        score = cur.reports[i].symptom_scores[a].score;
                         d.push(score);
+                    // if compliance is true but score not yet reported
+                    } else if(cur.reports[i].breakfast_compliance == true && typeof(cur.reports[i].symptom_scores) != "object"){
+
                     } else {
                         // print no compliance
-                        // report.push("No compliance on day " + (i+1));
-                        d.push(null);
+                        d.push(-2);
                     }
                 } else {
                     //print no report 
-                    //report.push("No report for day " + (i+1));
-                    d.push(null);
+                    d.push(-1);
                 }
-                days.push(d);
+                // Using the date as the key, store the condition and the score for each day
+                sym_data[dt] = d; // d is condition, score
                 d = [];
                 score = null;
-                console.log(days); //this is working as expected. shows the correct values in the array.
             }
-            // console.log("\n");
-            // console.log(days);
-            $scope.report = days;
-
-        return StudyFmt.new_p(study);
-    })
-    .then(function(studyfmt) {
-        $scope.study_topic_question = studyfmt.topicQuestion();
-        $scope.study_date_range = studyfmt.dateRange();
-        $scope.study_reminder_times = studyfmt.reminderTimes();
+            sym_sym[cur.symptoms[a]] = sym_data;
+            $scope.sym_syma = sym_sym;
+            sym_data = {};
+        }
     });
-})
+});
 
-);
+app.controller('Ctrl', function($scope, $cordovaDialogs){
+        $scope.rs_data = [
+            {name: "Dunkey", score: 98},
+            {name: "Funkey", score: 50},
+            {name: 'Clunkey', score: 75},
+            {name: "Chunkey", score: 48}
+        ];
+
+        $scope.d3OnClick = function(item){
+          console.log("item name: " + item.name);
+
+            $cordovaDialogs.alert(item.name, 'Name', 'Dismiss')
+            .then(function() {
+              // callback success
+            });
+        };
+
+
+        $scope.onClick = function(item) {
+            $scope.$apply(function() {
+              if (!$scope.showDetailPanel)
+                $scope.showDetailPanel = true;
+              $scope.detailItem = item;
+            });
+        };
+
+})

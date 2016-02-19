@@ -32,7 +32,7 @@ var app = angular.module('tummytrials',
             'tummytrials.studysetup', 'tummytrials.faqcontroller',
             'tummytrials.activitylog', 'tummytrials.currentctrl',
             'tummytrials.mytrialsctrl', 'tummytrials.pasttrial1ctrl',
-            'tummytrials.settingsctrl',
+            'tummytrials.settingsctrl', 'd3', 'd3.directives',
             'tummytrials.ngcordovacontrollers', 'tummytrials.text',
             'tummytrials.experiments', 'tummytrials.exper-test',
             'tractdb.reminders', 'tummytrials.remind-test']);

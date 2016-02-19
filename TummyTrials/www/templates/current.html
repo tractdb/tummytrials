@@ -58,7 +58,16 @@ Page Hierarchy:
         --> 
         <div ng-show="(!exp_bool && !is_past)">
         
-          <div class="card padding">
+          <!-- Card to display during accelerated trial -->
+          <div class="card padding" ng-show="accelerated">
+            <h4 class="assertive item-text-wrap">Accelerated Trial enabled!</h4>
+              <b>The entire trial will be completed in one hour. </b><br/>
+              Please note that certain features like date, breakfast preferences, and calendar widget will not be available during accelerated trial.
+              You will be able to enter your daily compliance and symptom severity levels as expected.
+            </p>
+          </div>
+
+          <div class="card padding" ng-hide="accelerated">
             <h4 class="title">{{text.current.title}} {{today_full}}</h4>
             <p>{{text.current.subtitle}} <b>{{active_text}}</b> {{text.current.subtitle2}}</p>
             <p><a style="text-decoration: underline; color:royal" ng-click="help = help ? false : true">{{text.current.para1}}</a></p> 
