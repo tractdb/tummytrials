@@ -299,6 +299,8 @@
             } else {
                 $scope.abdn_btn = false;
             }
+
+            $scope.exp_id = cur.id;
         }
     });
 })
