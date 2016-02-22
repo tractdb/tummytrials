@@ -1,5 +1,4 @@
 // Proposed data structure for consumption by the vis:
-
 // "symptoms": [{
 //     "symptom": name of symptom,
 //     "date": readable date,
@@ -56,9 +55,11 @@
         var sym_sym = [];
         var sym_data = {};
 
-
         // iterating over all the symptoms
         for(var a = 0; a < sym_num; a++){
+
+            // iterating over all the days of the trial
+            for(i=0; i < $scope.duration_readable; i++){
 
             // iterating over all the days of the trial
             for(var i=0; i < $scope.duration_readable; i++){

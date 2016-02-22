@@ -221,8 +221,6 @@
 
 
 /* Old stuff
-
-
           // console.log("data is: " + data);
           console.log("\nscope data is: " + scope.data);
           var margin = parseInt(attrs.margin) || 20,
