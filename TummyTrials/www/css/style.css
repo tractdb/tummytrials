@@ -42,3 +42,8 @@
 .new_line{
 	white-space: pre-wrap;
 }
+
+/*Default text size in list seems to be 16px compared to 14px of p tag*/
+.list_text{
+	font-size: 14px;
+}
