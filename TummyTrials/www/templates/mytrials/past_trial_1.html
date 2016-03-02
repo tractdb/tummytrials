@@ -39,17 +39,20 @@
     Exp ID: {{exp_id}} <br/> <br/>
 
    
-    <div ng-controller="Ctrl">
+    <!-- <div ng-controller="Ctrl"> -->
         <!-- <result-vis label="d3Label" on-click="d3OnClick(item)"></result-vis> -->
-        <result-vis> </result-vis>
-        <br/>
-        data : {{visdata}}  <br/>
-    </div>
-    <!-- test: {{test}} -->
-    <br/>
-    sym_sym : {{test}}
-    <!-- Report: {{report}} -->
+        <div ng-repeat="symptom in visdata">
+            <result-vis result-data="symptom" label="d3Label"> </result-vis>
+            <br/><br/>
+            
+            <input name="updateButton" type="button" value="Frequency" ng-click="updateData()" />
+            <br/><br/>
+            visdata : {{symptom}} <br/>
+            <!-- datatype : {{test}}  <br/> -->
+        </div>
 
+        {{visdata}}
+    <!-- </div> -->
 
     </ion-content>  
   </ion-pane>

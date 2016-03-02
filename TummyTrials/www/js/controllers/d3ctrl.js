@@ -31,14 +31,15 @@
 );
 
 
-(angular.module('d3.directives', ['d3','tummytrials.pasttrial1ctrl', 'tummytrials.visdata'])
-  .directive('resultVis', ['d3Service', function(d3Service, $window, Visdata) {
+(angular.module('d3.directives', ['d3','tummytrials.pasttrial1ctrl'])
+  .directive('resultVis', ['d3Service', function(d3Service, $window) {
 
     return {
       restrict: 'EA',
+      replace: true,
       scope: { 
-        // data: '=resultData',
-        // label: '@',
+        data: '=resultData',
+        label: '@'
         // onClick: '&'
       },
       link: function( scope, element, attrs) {
@@ -79,105 +80,12 @@
             .append("g")
               .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-          var data = [
-                      {
-                        "condition": "a",
-                        "severity": 4,
-                        "date": 14
-                      },
-                      {
-                        "condition": "a",
-                        "severity": -2,
-                        "date": 15
-                      },
-                      {
-                        "condition": "b",
-                        "severity": -2,
-                        "date": 16
-                      },
-                      {
-                        "condition": "b",
-                        "severity": 2,
-                        "date": 17
-                      },
-                      {
-                        "condition": "a",
-                        "severity": 5,
-                        "date": 18
-                      },
-                      {
-                        "condition": "a",
-                        "severity": 1,
-                        "date": 19
-                      },
-                      {
-                        "condition": "b",
-                        "severity": 4,
-                        "date": 20
-                      },
-                      {
-                        "condition": "b",
-                        "severity": 4,
-                        "date": 21
-                      },
-                      {
-                        "condition": "a",
-                        "severity": 4,
-                        "date": 22
-                      },
-                      {
-                        "condition": "a",
-                        "severity": 1,
-                        "date": 23
-                      },
-                      {
-                        "condition": "b",
-                        "severity": 3,
-                        "date": 24
-                      },
-                      {
-                        "condition": "b",
-                        "severity": 3,
-                        "date": 25
-                      },
-                      {
-                        "condition": "a",
-                        "severity": 0,
-                        "date": 26
-                      },
-                      {
-                        "condition": "a",
-                        "severity": -1,
-                        "date": 27
-                      },
-                      {
-                        "condition": "b",
-                        "severity": 4,
-                        "date": 28
-                      },
-                      {
-                        "condition": "b",
-                        "severity": 4,
-                        "date": 29
-                      },
-                      {
-                        "condition": "a",
-                        "severity": 5,
-                        "date": 30
-                      },
-                      {
-                        "condition": "b",
-                        "severity": 4,
-                        "date": 31
-                      }
-                    ];
 
-          console.log("Data : " + typeof(data));
+          console.log("Data : " + typeof(scope.data));
           // Scale the range of the data
-          x.domain(d3.extent(data, function(d) { 
-            //console.log(d.date);
-            return parseInt(d.date); }));
-          //x.domain(data.map(function(d) { return d.date; }));
+          x.domain(d3.extent(scope.data, function(d) { 
+            return parseInt(d.index); 
+          }));
           y.domain([-2, 6]);
 
           // remove all previous items before render
@@ -194,6 +102,7 @@
               .attr("class", "y axis")
               .call(yAxis)
             .append("text")
+              .attr("x", x(scope.data[0].date))
               .attr("transform", "rotate(-90)")
               .attr("y", 7)
               .attr("dy", ".71em")
@@ -202,12 +111,12 @@
 
           // Add the squares
           svg.selectAll(".point")
-              .data(data)
+              .data(scope.data)
             .enter().append("path")
                 .attr("class", "point")
-                .attr("d", d3.svg.symbol().type("square").size([100]))
+                .attr("d", d3.svg.symbol().type("square").size([150]))
                 .attr("transform", function(d) { 
-                    return "translate(" + x(d.date) + "," + y(d.severity) + ")"; 
+                    return "translate(" + x(d.index) + "," + y(d.severity) + ")"; 
                 })
                 .style("fill", function(d){return color(d.condition)});
                 // .on('mouseover', tip.show)
@@ -216,11 +125,37 @@
 
         });
       }}
-}])
+  }])
+
+  .directive('newresultVis',['d3Service', function(d3Service, $window) {
+
+    return {
+      restrict: 'EA',
+      replace: true,
+      scope: { 
+        data: '=resultData',
+        label: '@'
+        // onClick: '&'
+      },
+      template: '<div class="form">' +
+                        '<br /><button ng-click="update()">Update Data</button>' +
+                        '<br />Hovered bar data: {{barValue}}</div>',
+      link: function( scope, element, attrs) {
+        d3Service.d3().then(function(d3) {
+
+
+
+        });
+      }}
+
+  }])
+
 );
 
 
 /* Old stuff
+
+
           // console.log("data is: " + data);
           console.log("\nscope data is: " + scope.data);
           var margin = parseInt(attrs.margin) || 20,
