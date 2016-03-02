@@ -42,7 +42,7 @@
     <!-- <div ng-controller="Ctrl"> -->
         <!-- <result-vis label="d3Label" on-click="d3OnClick(item)"></result-vis> -->
         <div ng-repeat="symptom in visdata">
-            <result-vis result-data="symptom" label="d3Label"> </result-vis>
+            <result-vis result-data="symptom" on-click="d3OnClick(data_pt)" label="d3Label"> </result-vis>
             <br/><br/>
             
             <input name="updateButton" type="button" value="Frequency" ng-click="updateData()" />

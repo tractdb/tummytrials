@@ -22,7 +22,7 @@
                 ['tummytrials.text', 'tummytrials.experiments', 'd3.directives', 'd3',
                  'tummytrials.studyfmt','tummytrials.currentctrl', 'tummytrials.lc'])
 
-.controller('PastTrial1Ctrl', function($scope, $stateParams,
+.controller('PastTrial1Ctrl', function($scope, $stateParams, $cordovaDialogs,
                                         Text, Experiments, StudyFmt, LC, d3Service, $window) {
     Text.all_p()
     .then(function(text) {
@@ -100,6 +100,17 @@
             sym_sym = [];
         }
         $scope.visdata = res_all;
+
+        $scope.d3OnClick = function(data_pt){
+            console.log("data_pt severity: " + data_pt.severity);
+ 
+            $cordovaDialogs.alert(data_pt.severity, 'Name', 'Dismiss')
+                .then(function() {
+                // callback success
+                });
+        };
+
+
     });
 })
 // module end

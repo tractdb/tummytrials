@@ -39,14 +39,14 @@
       replace: true,
       scope: { 
         data: '=resultData',
-        label: '@'
-        // onClick: '&'
+        label: '@',
+        onClick: '&'
       },
       link: function( scope, element, attrs) {
         d3Service.d3().then(function(d3) {
 
           // Set dimensions of the canvas
-          var margin = {top: 20, right: 20, bottom: 30, left: 40},
+          var margin = {top: 20, right: 20, bottom: 30, left: 70},
               width = 350 - margin.left - margin.right,
               height = 300 - margin.top - margin.bottom;
 
@@ -69,8 +69,21 @@
           var yAxis = d3.svg.axis()
               .scale(y)
               .orient("left")
-              .ticks(7)
-              .tickPadding(15);
+              .ticks(9)
+              .tickFormat(function (d) {
+                var mapper = {
+                  "-2" : "No report",
+                  "-1" : "Missing data",
+                  0 : "Not at all",
+                  1 : "Slightly",        
+                  2 : "Mildly",
+                  3 : "Moderately",
+                  4 : "Severely",
+                  5 : "Very severely",
+                  6 : "Extremely"
+                }
+                return mapper[d]
+              });
 
           // Add the svg canvas
           var svg = d3.select(element[0])
@@ -118,7 +131,8 @@
                 .attr("transform", function(d) { 
                     return "translate(" + x(d.index) + "," + y(d.severity) + ")"; 
                 })
-                .style("fill", function(d){return color(d.condition)});
+                .style("fill", function(d){return color(d.condition)})
+                .on("click", function(d, i){return scope.onClick({data_pt: d});});
                 // .on('mouseover', tip.show)
                 // .on('mouseout', tip.hide);
 
