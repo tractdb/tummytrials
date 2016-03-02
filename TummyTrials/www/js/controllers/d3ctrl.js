@@ -40,9 +40,11 @@
       scope: { 
         data: '=resultData',
         label: '@',
-        onClick: '&'
+        onClick: '&',
+        control: '='
       },
       link: function( scope, element, attrs) {
+
         d3Service.d3().then(function(d3) {
 
           // Set dimensions of the canvas
@@ -51,7 +53,12 @@
               height = 300 - margin.top - margin.bottom;
 
           // Hard coding values of colors
-          var color = d3.scale.ordinal().range(['#74c476', ' #6baed6']); // green and blue respectively
+          // var color = d3.scale.ordinal().range(['#FFA70F', '#0F85FF']); // orange and blue respectively
+          var color = d3.scale.ordinal()
+                        .domain([0,1])
+                        .range(['#FFA70F', '#0F85FF']);
+
+          var circleR = 7;
 
           // Set the ranges
           var x = d3.scale.linear()
@@ -63,8 +70,7 @@
           // Define the axes
           var xAxis = d3.svg.axis()
               .scale(x)
-              .orient("bottom")
-              .tickPadding(15);
+              .orient("bottom");
 
           var yAxis = d3.svg.axis()
               .scale(y)
@@ -72,15 +78,15 @@
               .ticks(9)
               .tickFormat(function (d) {
                 var mapper = {
-                  "-2" : "No report",
-                  "-1" : "Missing data",
-                  0 : "Not at all",
-                  1 : "Slightly",        
-                  2 : "Mildly",
-                  3 : "Moderately",
-                  4 : "Severely",
-                  5 : "Very severely",
-                  6 : "Extremely"
+                  0 : "No report",
+                  1 : "Missing data",
+                  2 : "Not at all",
+                  3 : "Slightly",        
+                  4 : "Mildly",
+                  5 : "Moderately",
+                  6 : "Severely",
+                  7 : "Very severely",
+                  8 : "Extremely"
                 }
                 return mapper[d]
               });
@@ -94,12 +100,12 @@
               .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
-          console.log("Data : " + typeof(scope.data));
+          // console.log("Data : " + typeof(scope.data));
           // Scale the range of the data
           x.domain(d3.extent(scope.data, function(d) { 
             return parseInt(d.index); 
           }));
-          y.domain([-2, 6]);
+          y.domain([0, 8]);
 
           // remove all previous items before render
           svg.selectAll('*').remove();
@@ -108,14 +114,20 @@
           svg.append("g")
               .attr("class", "x axis")
               .attr("transform", "translate(0," + height + ")")
-              .call(xAxis);
+              .call(xAxis)
+            .append("text")
+              .attr("y", -7)
+              .attr("transform", "translate(" + width + " ,0)")
+              .style("text-anchor", "end")
+              // .style("padding-botton","10px")
+              .text("Condition");
 
           // Add the Y Axis
           svg.append("g")
               .attr("class", "y axis")
               .call(yAxis)
             .append("text")
-              .attr("x", x(scope.data[0].date))
+              // .attr("x", x(scope.data[0].date))
               .attr("transform", "rotate(-90)")
               .attr("y", 7)
               .attr("dy", ".71em")
@@ -123,122 +135,101 @@
               .text("Severity");
 
           // Add the squares
-          svg.selectAll(".point")
+          svg.selectAll("circle")
               .data(scope.data)
-            .enter().append("path")
-                .attr("class", "point")
-                .attr("d", d3.svg.symbol().type("square").size([150]))
-                .attr("transform", function(d) { 
-                    return "translate(" + x(d.index) + "," + y(d.severity) + ")"; 
+            .enter().append("circle")
+                .attr("class", ".dot")
+                // .attr("d", d3.svg.symbol().type("circle").size([150]))
+                .attr("cx", function(d){return x(d.index);})
+                .attr("cy", function(d){return y(d.severity);})
+                .attr("r", circleR)
+                .style("fill", function(d){
+                    if(d.severity > 1){
+                      return color(d.condition); 
+                    } else if(d.severity == 0 || d.severity == 1){
+                      return "grey";
+                    }
                 })
-                .style("fill", function(d){return color(d.condition)})
                 .on("click", function(d, i){return scope.onClick({data_pt: d});});
-                // .on('mouseover', tip.show)
-                // .on('mouseout', tip.hide);
+        
+          scope.control.updateVis = function(){
+
+            var xscale = d3.scale.ordinal()
+                            .domain([0,1])
+                            .rangeRoundBands([0,width]);
+
+            var yscale = d3.scale.linear()
+                            .domain([0,8])
+                            .range([height,0]);
+
+            // Define the axes
+            var xAxis = d3.svg.axis()
+                          .scale(xscale)
+                          .orient("bottom")
+                          .tickFormat(function (d) {
+                            var mapper = {
+                              0 : "Condition a",
+                              1 : "Condition b"
+                            }
+                            return mapper[d]
+                          });
+
+            // Select the section we want to apply our changes to
+            var svg = d3.select(element[0]).transition();
+
+            // Make the changes
+            // Change X Axis
+            svg.select(".x.axis") 
+              .duration(750)
+              .call(xAxis);
+
+                // Change Y Axis
+            svg.select(".y.axis")
+              .duration(750)
+              .call(yAxis);
 
 
+            var groups = {};
+            var circleR = 7;
+            var discreteTo = (circleR * 2) / (yscale.range()[0] / yscale.domain()[1]);
+            // console.log(discreteTo);
+            scope.data.forEach (function(datum) {
+                var g = Math.floor (datum.severity / discreteTo);
+                var cat = datum.condition;
+                var ref = cat+"-"+g;
+                if (!groups[ref]) { groups[ref] = 0; }
+                datum.groupIndex = groups[ref];
+                datum.discy = yscale (g * discreteTo);  // discrete.
+                groups[ref]++;
+            });
+            scope.data.forEach (function(datum) {
+                var cat = datum.condition;
+                var g = Math.floor (datum.severity / discreteTo);
+                var ref = cat+"-"+g;
+                datum.offset = datum.groupIndex - ((groups[ref] - 1) / 2);
+            });
+
+            svg.selectAll(".dot")
+            // .attr("d", "circle")
+            .attr("transform", function(d){
+                    // change the "3" to vary spacing between points. 2 is 0 spacing since diameter.
+                    x_move = (margin.left - circleR/2 - 1) + xscale(d.condition) + (d.offset * (circleR * 3)); 
+                    y_move = d.discy - circleR;
+                    var position = "translate(" + x_move + "," + y_move + ")";
+                   return position;
+                }) 
+            .duration(750);
+
+
+          //end updateVis function
+          };
+
+
+        // end d3 service
         });
-      }}
+      // end link
+      }
+      // template: '<button ng-click="updateVis()">Change Vis</button>'
+      }
   }])
-
-  .directive('newresultVis',['d3Service', function(d3Service, $window) {
-
-    return {
-      restrict: 'EA',
-      replace: true,
-      scope: { 
-        data: '=resultData',
-        label: '@'
-        // onClick: '&'
-      },
-      template: '<div class="form">' +
-                        '<br /><button ng-click="update()">Update Data</button>' +
-                        '<br />Hovered bar data: {{barValue}}</div>',
-      link: function( scope, element, attrs) {
-        d3Service.d3().then(function(d3) {
-
-
-
-        });
-      }}
-
-  }])
-
 );
-
-
-/* Old stuff
-
-
-          // console.log("data is: " + data);
-          console.log("\nscope data is: " + scope.data);
-          var margin = parseInt(attrs.margin) || 20,
-          barHeight = parseInt(attrs.barHeight) || 20,
-          barPadding = parseInt(attrs.barPadding) || 5;
-          // d3 is the raw d3 object
-          // We can find the width of the parent element with a bit of 
-          // DOM-dancing with the following: d3.select(ele[0]).node().offsetWidth.
-          var svg = d3.select(element[0])
-            .append('svg')
-            .style('width', '100%');
- 
-          // Browser onresize event
-          // window.onresize = function() {
-          //   scope.$apply();
-          // };
-          
-          // Watch for resize event
-          // scope.$watch(function() {
-          //   return angular.element($window)[0].innerWidth;
-          // }, function() {
-          //   scope.render(scope.data);
-          // });
- 
-        // scope.render = function(data) {
-          // our custom d3 code
-
-          // remove all previous items before render
-        svg.selectAll('*').remove();
-     
-        // If we don't pass any data, return out of the element
-        // if (!data) return;
-
-
-        // setup variables
-        var width = d3.select(element[0]).node().offsetWidth - margin,
-            // calculate the height
-            height = scope.data.length * (barHeight + barPadding),
-            // Use the category20() scale function for multicolor support
-            color = d3.scale.category20(),
-            // our xScale
-            xScale = d3.scale.linear()
-              .domain([0, d3.max(scope.data, function(d) {
-                return d.score;
-              })])
-              .range([0, width]);
-     
-        // set the height based on the calculations above
-        svg.attr('height', height);
-
-        //create the rectangles for the bar chart
-        svg.selectAll('rect')
-          .data(scope.data).enter()
-            .append('rect')
-            .on("click", function(d, i){return scope.onClick({item: d});})
-            .attr('height', barHeight)
-            .attr('width', 140)
-            .attr('x', Math.round(margin/2))
-            .attr('y', function(d,i) {
-              return i * (barHeight + barPadding);
-            })
-            .attr('fill', function(d) { return color(d.score); })
-            .transition()
-              .duration(1000)
-              .attr('width', function(d) {
-                return xScale(d.score);
-              });
-
-          // }
-
-
-*/ //End of old stuff

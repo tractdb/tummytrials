@@ -68,24 +68,30 @@
                     // d.push(dt);
                     d.push(rand[i]);
                     sym_data["index"] = (i+1);
-                    sym_data["condition"] = rand[i];
+                    if(rand[i] == "A"){
+                        sym_data["condition"] = 0;
+                    } 
+                    if(rand[i] == "B"){
+                        sym_data["condition"] = 1;
+                    } 
 
                     if(typeof(cur.reports[i]) == "object"){
                         //report logged if there is an object and symptom scores exists
                         if(cur.reports[i].breakfast_compliance == true && typeof(cur.reports[i].symptom_scores) == "object"){
                             score = cur.reports[i].symptom_scores[a].score;
-                            sym_data["severity"] = score;
+                            // off setting the symptom score by 2 for the result vis.
+                            sym_data["severity"] = score + 2;
                         // if compliance is true but score not reported
                         } else if(cur.reports[i].breakfast_compliance == true && typeof(cur.reports[i].symptom_scores) != "object"){
-                            sym_data["severity"] = -1;
+                            sym_data["severity"] = 1;
                         // negative compliance
                         } else {
                             // print no compliance
-                            sym_data["severity"] = -2;
+                            sym_data["severity"] = 0;
                         }
                     // no response at all
                     } else {
-                        sym_data["severity"] = -2;
+                        sym_data["severity"] = 0;
                     }
                     // Using the date as the key, store the condition and the score for each day
                     sym_data["date"] = dt;
@@ -110,6 +116,7 @@
                 });
         };
 
+        $scope.resultVisControl = {};
 
     });
 })
