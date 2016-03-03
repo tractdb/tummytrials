@@ -39,10 +39,13 @@
     Exp ID: {{exp_id}} <br/> <br/>
 
    
-        <newresult-vis result-data="symptom" label="d3Label"></newresult-vis> <br/><br/>
+        <!-- <newresult-vis result-data="symptom" label="d3Label"></newresult-vis> <br/><br/> -->
         <!-- <result-vis label="d3Label" on-click="d3OnClick(item)"></result-vis> -->
-        <button class="button" ng-click="resultVisControl.updateVis()">Call directive function</button>
+        
+        <button class="button" ng-click="resultVisControl.updateVis()">Old</button>
+        <button class="button" ng-click="resultVisControl.revertVis()">New</button>
         <div ng-repeat="symptom in visdata">
+            
             <result-vis result-data="symptom" on-click="d3OnClick(data_pt)" label="d3Label" control="resultVisControl"> </result-vis>
             <br/><br/>
             
