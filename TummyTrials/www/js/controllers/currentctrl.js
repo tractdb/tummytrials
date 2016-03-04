@@ -308,6 +308,8 @@
             } else {
                 $scope.accelerated = false;
             }
+
+            $scope.exp_id = cur.id;
         }
     });
 })

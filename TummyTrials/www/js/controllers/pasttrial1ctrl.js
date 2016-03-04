@@ -1,5 +1,4 @@
 // Proposed data structure for consumption by the vis:
-
 // "symptoms": [{
 //     "symptom": name of symptom,
 //     "date": readable date,
@@ -17,13 +16,15 @@
 // }, ...
 // ]
 
+'use strict';
 
-var app = angular.module('tummytrials.pasttrial1ctrl',
-                ['tummytrials.text', 'tummytrials.experiments', 'd3.directives', 'd3',
-                 'tummytrials.studyfmt','tummytrials.currentctrl', 'tummytrials.lc']);
+(angular.module('tummytrials.pasttrial1ctrl', 
+                ['tummytrials.text', 'ionic', 'tummytrials.experiments', 
+                 'd3', 'tummytrials.vis', 'd3.directives', 
+                 'tummytrials.studyfmt','tummytrials.currentctrl', 'tummytrials.lc'])
 
-app.controller('PastTrial1Ctrl', function($scope, $stateParams,
-                                        Text, Experiments, StudyFmt, LC) {
+.controller('PastTrial1Ctrl', function($scope, $stateParams, $ionicPopup, $timeout, Vis,
+                                        Text, Experiments, LC, d3Service, $window) {
     Text.all_p()
     .then(function(text) {
         $scope.text = text;
@@ -32,9 +33,10 @@ app.controller('PastTrial1Ctrl', function($scope, $stateParams,
     .then(function(_) {
         var study = $scope.study_previous[$stateParams.studyIndex];
         $scope.study_past1 = study;
-
+        $scope.visdata = Vis;
         //gather all data needed for report + vis 
         var cur = study;
+        $scope.exp_id = cur.id;
         $scope.nm = name;
 
         //Get the duration of the experiment
@@ -49,9 +51,9 @@ app.controller('PastTrial1Ctrl', function($scope, $stateParams,
         var score = null;
         var sym_num = cur.symptoms.length; // number of symptoms being logged
         var sym_name = null;
-        var sym_sym = {};
+        var sym_sym = [];
         var sym_data = {};
-
+        var res_all = {};
 
         // iterating over all the symptoms
         for(var a = 0; a < sym_num; a++){
@@ -59,65 +61,128 @@ app.controller('PastTrial1Ctrl', function($scope, $stateParams,
             // iterating over all the days of the trial
             for(i=0; i < $scope.duration_readable; i++){
 
-                var day = new Date((cur.start_time + (86400 * i)) * 1000);  //86400 adds 1 day
-                var dt = LC.dateonly(day);
-                var score = null;
-                // d.push(dt);
-                d.push(rand[i]);
+                // iterating over all the days of the trial
+                for(var i=0; i < $scope.duration_readable; i++){
+                    var day = new Date((cur.start_time + (86400 * i)) * 1000);  //86400 adds 1 day
+                    var dt = LC.fulldate(day);
+                    var score = null;
+                    // d.push(dt);
+                    d.push(rand[i]);
+                    sym_data["index"] = (i+1);
+                    if(rand[i] == "A"){
+                        sym_data["condition"] = 0;
+                    } 
+                    if(rand[i] == "B"){
+                        sym_data["condition"] = 1;
+                    } 
 
-                if(typeof(cur.reports[i]) == "object"){
-                    //report logged if there is an object
-                    if(cur.reports[i].breakfast_compliance == true && typeof(cur.reports[i].symptom_scores) == "object"){
-                        //symptoms exist if compliance is true
-                        score = cur.reports[i].symptom_scores[a].score;
-                        d.push(score);
-                    // if compliance is true but score not yet reported
-                    } else if(cur.reports[i].breakfast_compliance == true && typeof(cur.reports[i].symptom_scores) != "object"){
-
+                    if(typeof(cur.reports[i]) == "object"){
+                        //report logged if there is an object and symptom scores exists
+                        if(cur.reports[i].breakfast_compliance == true && typeof(cur.reports[i].symptom_scores) == "object"){
+                            score = cur.reports[i].symptom_scores[a].score;
+                            // off setting the symptom score by 2 for the result vis.
+                            sym_data["severity"] = score + 2;
+                        // if compliance is true but score not reported
+                        } else if(cur.reports[i].breakfast_compliance == true && typeof(cur.reports[i].symptom_scores) != "object"){
+                            sym_data["severity"] = 1;
+                        // negative compliance
+                        } else {
+                            // print no compliance
+                            sym_data["severity"] = 0;
+                        }
+                    // no response at all
                     } else {
-                        // print no compliance
-                        d.push(-2);
+                        sym_data["severity"] = 0;
                     }
-                } else {
-                    //print no report 
-                    d.push(-1);
+                    // Using the date as the key, store the condition and the score for each day
+                    sym_data["date"] = dt;
+                    sym_sym.push(sym_data);
+                    d = [];
+                    score = null;
+                    sym_data = {};
                 }
-                // Using the date as the key, store the condition and the score for each day
-                sym_data[dt] = d; // d is condition, score
-                d = [];
-                score = null;
+                $scope.sym_syma = sym_sym;
             }
-            sym_sym[cur.symptoms[a]] = sym_data;
-            $scope.sym_syma = sym_sym;
-            sym_data = {};
+            res_all[cur.symptoms[a]] = sym_sym; 
+            sym_sym = [];
         }
+        $scope.visdata = res_all;
+
+        // $scope.view_title = Vis.view_title;
+
+        $scope.$watch(Vis.view_title, function(newVal, oldVal, scope){
+            if(newVal){
+                scope.view_title = newVal;
+            }
+        })
+        
+        //Figuring out the message for the day (avoid/consume the trigger)
+            var A_text, B_text, h_URL;
+            var text_loc = $scope.text.setup3.triggers; //Getting the text from JSON for each trigger
+
+            for(i = 0; i < text_loc.length; i ++){
+                if(cur.trigger == text_loc[i].trigger){ //Checking which trigger is being tested in the current experiment                    
+                    A_text = text_loc[i].phrase_plus;
+                    B_text = text_loc[i].phrase_minus;
+                    h_URL = text_loc[i].uisref; // URL for help deciding what to eat for the condition
+                }
+            }
+            $scope.A_text = A_text;
+            $scope.B_text = B_text;
+            $scope.help_URL = h_URL;
+
+            Vis.A_text = A_text;
+            Vis.B_text = B_text;
+
+        // onclick function for the visualization
+        $scope.d3OnClick = function(data_pt){
+
+            var cond_text = null;
+                if(data_pt.condition == 0){
+                    cond_text = A_text;
+                }
+                if(data_pt.condition == 1){
+                    cond_text = B_text;
+                }
+
+            var severity_text = null;
+               var mapper = {
+                  0 : "No report",
+                  1 : "Missing data",
+                  2 : "Not at all",
+                  3 : "Slightly",        
+                  4 : "Mildly",
+                  5 : "Moderately",
+                  6 : "Severely",
+                  7 : "Very severely",
+                  8 : "Extremely"
+                };
+            severity_text = mapper[data_pt.severity];
+
+            //trimming date to be more readable
+            var date_trimmed = JSON.stringify(data_pt.date);
+            date_trimmed = date_trimmed.replace('T08:00:00.000Z', '');
+            date_trimmed = date_trimmed.replace(/"/g, '');
+
+            $scope.alert_message = "Condition : " + cond_text + "<br/>" + "Severity : " + severity_text + "<br/>" + 
+                          "Date : " + date_trimmed;
+
+            $scope.alert_title = "Details for the day"
+
+               var alertPopup = $ionicPopup.alert({
+                 title: $scope.alert_title,
+                 template: $scope.alert_message
+               });
+
+               alertPopup.then(function(res) {
+               });
+             // };
+        //end onClick
+        };
+
+        $scope.resultVisControl = {};
+
     });
-});
-
-app.controller('Ctrl', function($scope, $cordovaDialogs){
-        $scope.rs_data = [
-            {name: "Dunkey", score: 98},
-            {name: "Funkey", score: 50},
-            {name: 'Clunkey', score: 75},
-            {name: "Chunkey", score: 48}
-        ];
-
-        $scope.d3OnClick = function(item){
-          console.log("item name: " + item.name);
-
-            $cordovaDialogs.alert(item.name, 'Name', 'Dismiss')
-            .then(function() {
-              // callback success
-            });
-        };
-
-
-        $scope.onClick = function(item) {
-            $scope.$apply(function() {
-              if (!$scope.showDetailPanel)
-                $scope.showDetailPanel = true;
-              $scope.detailItem = item;
-            });
-        };
-
 })
+// module end
+);

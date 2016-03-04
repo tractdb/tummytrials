@@ -35,6 +35,18 @@
                 return d.getDate();
             },
 
+            // being used in the visualization for the result
+            fulldate: function(d){
+                // Return a string for the date without the day and month. 
+                // It looks like "Tue, Nov 3 2015"
+                //
+                var days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+                var mons = ["Jan","Feb","Mar","Apr","May","Jun",
+                            "Jul","Aug","Sep","Oct","Nov","Dec"];
+                return days[d.getDay()] + ", " + mons[d.getMonth()] + " " +
+                        d.getDate() + " " + d.getFullYear();
+            },
+
             timestr: function(sec) {
                 // Return string for the given number of seconds after
                 // midnight. It looks like '9:15 am'.

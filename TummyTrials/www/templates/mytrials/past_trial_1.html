@@ -36,19 +36,26 @@
     </div>
     <br/>
 
-    <div ng-controller="Ctrl">
-        <result-vis result-data="rs_data" label="d3Label" on-click="d3OnClick(item)" bar-height="20" bar-padding="5"></result-vis>
-        <br/>
-        <span> update pls! : {{ip}} </span>
-        <br/>
-        rs_data : {{rs_data}}
-    </div>
+        <div ng-repeat="(key, value) in visdata">
+            <!-- Result for symptom:<br/> -->
+            <div class="divcenter">
+                <b>{{key}}</b>
+                <br/>
+                <b><label >{{view_title}}</label></b>
+            </div>
+            <result-vis result-data="value" on-click="d3OnClick(data_pt)" label="d3Label" control="resultVisControl"> </result-vis>
+            <div class="divcenter">
+                <!-- <button class="button button-small button-royal" ng-click="resultVisControl.updateVis(); pickChosen = 1; makePick()" ng-class="[pickChosen == 1 ? 'disabled' : 'royal']">Time line view</button>
+                <button class="button button-small button-royal" ng-click="resultVisControl.revertVis(); pickChosen = 2; makePick()" ng-class="[pickChosen == 2 ? 'disabled' : 'royal']">Trend view</button> -->
+                <button class="button button-small button-royal" ng-click="resultVisControl.updateVis();">Time line view</button>
+                <button class="button button-small button-royal" ng-click="resultVisControl.revertVis();">Trend view</button>
+            </div>
+            <br/><br/>
+            <!-- visdata : {{value}} <br/> -->
+        </div>
 
-    <!-- test: {{test}} -->
-    <br/>
-    sym_sym : {{sym_syma}}
-    <!-- Report: {{report}} -->
-
+        <!-- vis data: {{res_keys}} -->
+        <!-- Exp ID: {{exp_id}} <br/> <br/> -->
 
     </ion-content>  
   </ion-pane>
