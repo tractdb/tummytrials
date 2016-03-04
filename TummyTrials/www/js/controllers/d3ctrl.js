@@ -3,7 +3,7 @@
 'use strict';
 
 (angular.module('d3', [])
-  .factory('d3Service', ['$document', '$q', '$rootScope',
+  .factory('d3Service', ['$document', '$q', '$rootScope', 
     function($document, $q, $rootScope) {
       var d = $q.defer();
       function onScriptLoad() {
@@ -31,8 +31,8 @@
 );
 
 
-(angular.module('d3.directives', ['d3','tummytrials.pasttrial1ctrl'])
-  .directive('resultVis', ['d3Service', function(d3Service, $window) {
+(angular.module('d3.directives', ['d3','tummytrials.pasttrial1ctrl', 'tummytrials.vis'])
+  .directive('resultVis', function(d3Service, $window, Vis) {
 
     return {
       restrict: 'EA',
@@ -44,21 +44,29 @@
         control: '='
       },
       link: function( scope, element, attrs) {
+        scope.visdata = Vis;
+        var A_text = scope.visdata.A_text;
+        var B_text = scope.visdata.B_text;
 
         d3Service.d3().then(function(d3) {
+          // counter for number of datapoints
+          var xcount = null;
 
-          // Set dimensions of the canvas
-          var margin = {top: 20, right: 20, bottom: 30, left: 70},
+          var parseDate = d3.time.format("%a, %b %e %Y").parse;
+          scope.data.forEach(function(d) {
+            d.date = parseDate(d.date);
+            xcount += 1;
+          });
+
+          var margin = {top: 20, right: 20, bottom: 50, left: 70},
               width = 350 - margin.left - margin.right,
-              height = 300 - margin.top - margin.bottom;
+              height = 320 - margin.top - margin.bottom;
 
-          // Hard coding values of colors
-          // var color = d3.scale.ordinal().range(['#FFA70F', '#0F85FF']); // orange and blue respectively
           var color = d3.scale.ordinal()
                         .domain([0,1])
                         .range(['#FFA70F', '#0F85FF']);
 
-          var circleR = 7;
+          var circleR = 9;
 
           var yscale = d3.scale.linear()
                           .domain([0,8])
@@ -73,8 +81,8 @@
               .orient("bottom")
               .tickFormat(function (d) {
                 var mapper = {
-                  0 : "Condition a",
-                  1 : "Condition b"
+                  0 : A_text,
+                  1 : B_text
                 }
                 return mapper[d]
               });
@@ -113,30 +121,27 @@
           svg.append("g")
               .attr("class", "x axis")
               .attr("transform", "translate(0," + height + ")")
-              .call(xAxis)
-            .append("text")
-              .attr("y", -7)
-              .attr("transform", "translate(" + width + " ,0)")
-              .style("text-anchor", "end")
-              // .style("padding-botton","10px")
-              .text("Condition");
+              .call(xAxis);
+            // .append("text")
+            //   .attr("y", -7)
+            //   .attr("class","label")
+            //   .attr("transform", "translate(" + width + " ,0)")
+            //   .style("text-anchor", "end")
+            //   .text("Condition");
 
           // Add the Y Axis
           svg.append("g")
               .attr("class", "y axis")
-              .call(yAxis)
-            .append("text")
-              // .attr("x", x(scope.data[0].date))
-              .attr("transform", "rotate(-90)")
-              .attr("y", 7)
-              .attr("dy", ".71em")
-              .style("text-anchor", "end")
-              .text("Severity");
+              .call(yAxis);
+            // .append("text")
+            //   .attr("transform", "rotate(-90)")
+            //   .attr("y", 7)
+            //   .attr("dy", ".71em")
+            //   .style("text-anchor", "end")
+            //   .text("Severity");
 
           var groups = {};
-          var circleR = 7;
           var discreteTo = (circleR * 2) / (yscale.range()[0] / yscale.domain()[1]);
-          // console.log(discreteTo);
           scope.data.forEach (function(datum) {
               var g = Math.floor (datum.severity / discreteTo);
               var cat = datum.condition;
@@ -171,120 +176,81 @@
 
 
 
-        
+          // Animating the vis for the time line view
           scope.control.updateVis = function(){
 
-            var xscale = d3.scale.linear()
+            Vis.view_title = "Time Line View";
+            
+            var xscale = d3.time.scale()
                             .range([0, width])
-                            .domain(d3.extent(scope.data, function(d) { 
-                              return parseInt(d.index); 
-                            }));
+                            .domain(d3.extent(scope.data, function(d) { return d.date; }));
 
             var xAxis = d3.svg.axis()
                           .scale(xscale)
-                          .orient("bottom");                            
+                          .ticks(xcount)
+                          .orient("bottom");
 
-            var yscale = d3.scale.linear()
-                            .domain([0,8])
-                            .range([height,0]);
+            var svg = d3.selectAll('svg');
 
-            var yAxis = d3.svg.axis()
-              .scale(yscale)
-              .orient("left")
-              .ticks(9)
-              .tickFormat(function (d) {
-                var mapper = {
-                  0 : "No report",
-                  1 : "Missing data",
-                  2 : "Not at all",
-                  3 : "Slightly",        
-                  4 : "Mildly",
-                  5 : "Moderately",
-                  6 : "Severely",
-                  7 : "Very severely",
-                  8 : "Extremely"
-                }
-                return mapper[d]
-            });
-
-            // Select the section we want to apply our changes to
-            // var svg = d3.select(element[0]).transition();
-
-            // Make the changes
-            // Change X Axis
             svg.select(".x.axis") 
               .transition()
               .duration(750)
-              .call(xAxis);
-
-            //     // Change Y Axis
-            // svg.select(".y.axis")
-            //   .duration(750)
-            //   .call(yAxis);
+              .call(xAxis)
+            .selectAll("text")
+              .attr("transform", "rotate(-65)")
+              .attr("x", -7)
+              .attr("y", 0)
+              .style("text-anchor", "end");
 
             svg.selectAll("circle")
-                    // .attr("class", ".dot")
                     .transition()
                     .attr("cx", function(d){
-                      return xscale(d.index); 
+                      return xscale(d.date); 
                     })
-                    // .on("click", function(d, i){return scope.onClick({data_pt: d});})
                     .duration(750);
+
           //end updateVis function
           };
 
+          // Animating the vis back to the original view
           scope.control.revertVis = function(){
+            
+            Vis.view_title = "Trend View";
+
             var xscale = d3.scale.ordinal()
                             .domain([0,1])
                             .rangeRoundBands([0,width]);
 
-            var yscale = d3.scale.linear()
-                            .domain([0,8])
-                            .range([height,0]);
-
-            // Define the axes
             var xAxis = d3.svg.axis()
                           .scale(xscale)
                           .orient("bottom")
                           .tickFormat(function (d) {
                             var mapper = {
-                              0 : "Condition a",
-                              1 : "Condition b"
+                              0 : A_text,
+                              1 : B_text
                             }
                             return mapper[d]
                           });
 
-            // Select the section we want to apply our changes to
-            // var svg = d3.select(element[0]).transition();
+            var svg = d3.selectAll('svg');
 
-            // Make the changes
-            // Change X Axis
             svg.select(".x.axis") 
               .transition()
               .duration(750)
               .call(xAxis);
 
             svg.selectAll("circle")
-            .transition()
-            // .attr("d", "circle")
-            .attr("cx", function(d){
-                    // change the "3" to vary spacing between points. 2 is 0 spacing since diameter.
+                .transition()
+                .attr("cx", function(d){
                    return (margin.left - circleR/2 + 1)  + xscale(d.condition) + (d.offset * (circleR * 3)); 
-                    // var y_move = d.discy - circleR;
-                    // var position = "translate(" + x_move +   ",0)";
-                   // return x_move;
                 }) 
             .duration(750);
-
           // end revertVis function    
           };  
-
-
         // end d3 service
         });
       // end link
       }
-      // template: '<button ng-click="updateVis()">Change Vis</button>'
       }
-  }])
+  })
 );

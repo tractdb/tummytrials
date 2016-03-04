@@ -36,27 +36,26 @@
     </div>
     <br/>
 
-    Exp ID: {{exp_id}} <br/> <br/>
-
-   
-        <!-- <newresult-vis result-data="symptom" label="d3Label"></newresult-vis> <br/><br/> -->
-        <!-- <result-vis label="d3Label" on-click="d3OnClick(item)"></result-vis> -->
-        
-        <button class="button" ng-click="resultVisControl.updateVis()">Old</button>
-        <button class="button" ng-click="resultVisControl.revertVis()">New</button>
-        <div ng-repeat="symptom in visdata">
-            
-            <result-vis result-data="symptom" on-click="d3OnClick(data_pt)" label="d3Label" control="resultVisControl"> </result-vis>
+        <div ng-repeat="(key, value) in visdata">
+            <!-- Result for symptom:<br/> -->
+            <div class="divcenter">
+                <b>{{key}}</b>
+                <br/>
+                <b><label >{{view_title}}</label></b>
+            </div>
+            <result-vis result-data="value" on-click="d3OnClick(data_pt)" label="d3Label" control="resultVisControl"> </result-vis>
+            <div class="divcenter">
+                <!-- <button class="button button-small button-royal" ng-click="resultVisControl.updateVis(); pickChosen = 1; makePick()" ng-class="[pickChosen == 1 ? 'disabled' : 'royal']">Time line view</button>
+                <button class="button button-small button-royal" ng-click="resultVisControl.revertVis(); pickChosen = 2; makePick()" ng-class="[pickChosen == 2 ? 'disabled' : 'royal']">Trend view</button> -->
+                <button class="button button-small button-royal" ng-click="resultVisControl.updateVis();">Time line view</button>
+                <button class="button button-small button-royal" ng-click="resultVisControl.revertVis();">Trend view</button>
+            </div>
             <br/><br/>
-            
-            <!-- <input name="updateButton" type="button" value="Frequency" ng-click="updateData()" /> -->
-            <br/><br/>
-            visdata : {{symptom}} <br/>
-            <!-- datatype : {{test}}  <br/> -->
+            <!-- visdata : {{value}} <br/> -->
         </div>
 
-        {{visdata}}
-    <!-- </div> -->
+        <!-- vis data: {{res_keys}} -->
+        <!-- Exp ID: {{exp_id}} <br/> <br/> -->
 
     </ion-content>  
   </ion-pane>
