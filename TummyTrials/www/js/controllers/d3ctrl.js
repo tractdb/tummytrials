@@ -58,7 +58,7 @@
             xcount += 1;
           });
 
-          var margin = {top: 20, right: 20, bottom: 50, left: 70},
+          var margin = {top: 20, right: 20, bottom: 50, left: 60},
               width = 350 - margin.left - margin.right,
               height = 320 - margin.top - margin.bottom;
 
@@ -117,29 +117,6 @@
           // remove all previous items before render
           svg.selectAll('*').remove();
 
-          // Add the X Axis
-          svg.append("g")
-              .attr("class", "x axis")
-              .attr("transform", "translate(0," + height + ")")
-              .call(xAxis);
-            // .append("text")
-            //   .attr("y", -7)
-            //   .attr("class","label")
-            //   .attr("transform", "translate(" + width + " ,0)")
-            //   .style("text-anchor", "end")
-            //   .text("Condition");
-
-          // Add the Y Axis
-          svg.append("g")
-              .attr("class", "y axis")
-              .call(yAxis);
-            // .append("text")
-            //   .attr("transform", "rotate(-90)")
-            //   .attr("y", 7)
-            //   .attr("dy", ".71em")
-            //   .style("text-anchor", "end")
-            //   .text("Severity");
-
           var groups = {};
           var discreteTo = (circleR * 2) / (yscale.range()[0] / yscale.domain()[1]);
           scope.data.forEach (function(datum) {
@@ -148,7 +125,7 @@
               var ref = cat+"-"+g;
               if (!groups[ref]) { groups[ref] = 0; }
               datum.groupIndex = groups[ref];
-              datum.discy = yscale (g * discreteTo);  // discrete.
+              datum.discy = yscale (datum.severity);
               groups[ref]++;
           });
           scope.data.forEach (function(datum) {
@@ -158,12 +135,31 @@
               datum.offset = datum.groupIndex - ((groups[ref] - 1) / 2);
           });
 
+          // Add the X Axis
+          svg.append("g")
+              .attr("class", "x axis")
+              .attr("transform", "translate(0," + height + ")")
+              .call(xAxis)
+            .selectAll("text")
+              .attr("x", 0)
+              .attr("y", 15);
+
+          // Add the Y Axis
+          svg.append("g")
+              .attr("class", "y axis")
+              .call(yAxis)
+            .selectAll("text")
+              .attr("transform", "rotate(-35)")
+              .attr("x", -7)
+              .attr("y", -7)
+              .style("text-anchor", "end");
+
           svg.selectAll("circle").data(scope.data)
           .enter()
           .append("circle")
-            .attr("cx", function(d) { return (margin.left - circleR/2 + 1)  + xscale(d.condition) + (d.offset * (circleR * 3)); }) // change the "3" to vary spacing between points. 2 is 0 spacing since diameter.
+            .attr("cx", function(d) { return (margin.left + circleR/2 + 3)  + xscale(d.condition) + (d.offset * (circleR * 3)); }) // change the "3" to vary spacing between points. 2 is 0 spacing since diameter.
             .attr("r", circleR)
-            .attr("cy", function(d) { return d.discy - circleR; })
+            .attr("cy", function(d) { return d.discy; })
             .style ("fill", function(d) { 
                 if(d.severity > 1){
                   return color(d.condition); 
@@ -197,9 +193,9 @@
               .duration(750)
               .call(xAxis)
             .selectAll("text")
-              .attr("transform", "rotate(-65)")
-              .attr("x", -7)
-              .attr("y", 0)
+              .attr("transform", "rotate(-35)")
+              .attr("x", -10)
+              .attr("y", 10)
               .style("text-anchor", "end");
 
             svg.selectAll("circle")
@@ -242,7 +238,7 @@
             svg.selectAll("circle")
                 .transition()
                 .attr("cx", function(d){
-                   return (margin.left - circleR/2 + 1)  + xscale(d.condition) + (d.offset * (circleR * 3)); 
+                   return (margin.left + circleR/2 + 3)  + xscale(d.condition) + (d.offset * (circleR * 3)); 
                 }) 
             .duration(750);
           // end revertVis function    

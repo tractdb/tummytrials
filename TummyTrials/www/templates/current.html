@@ -83,8 +83,7 @@ Page Hierarchy:
 
           <div class="card padding">   
             <h4>Your reminders for today:</h4>
-            <!-- XXX In later commit, change contents of the whole page. -->
-            <p ng-show="!study_current">(No current trial. Please create a new trial.)</p>
+            <!-- <p ng-show="!study_current">(No current trial. Please create a new trial.)</p> -->
                 <div ng-repeat="rem in study_reminders">
                     <p>
                     <i class="ion-ios-checkmark" ng-hide="rem.reportdue" style="font-size: 120%;"></i>
@@ -147,10 +146,9 @@ Page Hierarchy:
         </a>
     </div>   
 
-
      <div class="card padding">
-      For testing purposes only: <br/>
-      {{exp_id}}
+        For testing purposes only: <br/>
+        {{exp_id}}
      </div>
 
     </ion-content>  
