@@ -26,7 +26,7 @@ angular.module('starter', ['ionic'])
 var app = angular.module('tummytrials',
             ['ionic', 'ngSanitize', 'ngCordova',
             'tractdb.tdate', 'tractdb.lifecycle',
-            'tractdb.touchtrack', 'tractdb.navlog',
+            'tractdb.touchtrack',
             'tummytrials.replicator',
             'tummytrials.login', 'tummytrials.currentstudy',
             'tummytrials.studysetup', 'tummytrials.faqcontroller',
@@ -39,7 +39,7 @@ var app = angular.module('tummytrials',
 
 //Ionic device ready check
 app.run(function($cordovaFile, $ionicPlatform, $rootScope, $q,
-                    TDate, Login, Text, Experiments, ActivityLog,
+                    TDate, Login, Text, Experiments,
                     Reminders, ExperTest, RemindTest) {
 
   $ionicPlatform.ready(function() {
@@ -126,8 +126,10 @@ app.run(function($cordovaFile, $ionicPlatform, $rootScope, $q,
 
     // Log a user activity now and whenever the app resumes.
     //
-    ActivityLog.info('app startup');
-    $rootScope.$on('appResume', function() { ActivityLog.info('app resume'); });
+    // NO LONGER NEEDED: ActivityLog works autonomously.
+    //
+    // ActivityLog.info('app startup');
+    // $rootScope.$on('appResume', function() { ActivityLog.info('app resume'); });
 
     // Some tests of Experiments. Move these into some kind of framework
     // later on, probably. (Note: right now some of the tests fail if

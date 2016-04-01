@@ -25,6 +25,16 @@
         $document[0].addEventListener("resume", function() {
             $rootScope.$broadcast('appResume');
         });
+
+        // These are iOS-specific events. They seem to be more reliable
+        // than the above, when writing to the DB.
+        //
+        $document[0].addEventListener("resign", function() {
+            $rootScope.$broadcast('appResign');
+        });
+        $document[0].addEventListener("active", function() {
+            $rootScope.$broadcast('appActive');
+        });
     });
 })
 );
