@@ -86,17 +86,23 @@
             $state.go('current');
         }
 
-        // Caller assures us that we need to log a breakfast compliance.
-        // Find the first study day without a breakfast report.
-        //
-        logday = 1;
+// No need to figure out the day. All log entries are for today.
+//
+//      // Caller assures us that we need to log a breakfast compliance.
+//      // Find the first study day without a breakfast report.
+//      //
+//      logday = 1;
+//      if (!Array.isArray(cur.reports))
+//          cur.reports = [];
+//      for (var i = 0; i < 10000; i++)
+//          if (!Experiments.report_made(cur.reports[i], 'breakfast')) {
+//              logday = i + 1;
+//              break;
+//          }
+
         if (!Array.isArray(cur.reports))
             cur.reports = [];
-        for (var i = 0; i < 10000; i++)
-            if (!Experiments.report_made(cur.reports[i], 'breakfast')) {
-                logday = i + 1;
-                break;
-            }
+        logday = Experiments.study_day_today(cur);
 
         // Compute a name for the day to be logged.
         //
@@ -250,17 +256,21 @@
                 delete SymptomData.severity[cur.symptoms[symix]];
         });
 
-        // Caller assures us that we need to log symptom severity. Find
-        // the first study day without a symptom report.
-        //
-        logday = 1;
-        if (!Array.isArray(cur.reports))
-            cur.reports = [];
-        for (var i = 0; i < 10000; i++)
-            if (!Experiments.report_made(cur.reports[i], 'symptomEntry')) {
-                logday = i + 1;
-                break;
-            }
+//      // Caller assures us that we need to log symptom severity. Find
+//      // the first study day without a symptom report.
+//      //
+//      logday = 1;
+//      if (!Array.isArray(cur.reports))
+//          cur.reports = [];
+//      for (var i = 0; i < 10000; i++)
+//          if (!Experiments.report_made(cur.reports[i], 'symptomEntry')) {
+//              logday = i + 1;
+//              break;
+//          }
+
+// No need to figure out the day to log. All logging is for today.
+//
+        logday = Experiments.study_day_today(cur);
 
         // Compute a name for the day to be logged.
         //
