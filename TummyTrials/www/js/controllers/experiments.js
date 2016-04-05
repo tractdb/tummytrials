@@ -62,8 +62,10 @@ function by_time(a, b)
  * { study_day:             day to which the report applies (number, 1 .. N)
  *   breakfast_compliance:  (bool)
  *   breakfast_report_time: time of breakfast report (number, sec since 1970)
+ *   breakfast_history:     array of former breakfast reports (see below)
  *   symptom_scores:        (array of { name: string, score: number })
  *   symptom_report_time:   time of symptom report (number, sec since 1970)
+ *   symptom_history:       array of former symptom reports (see below)
  *   comment:               (string)
  * }
  *
@@ -74,6 +76,24 @@ function by_time(a, b)
  * If symptom_scores is absent, null, or empty, no symptom report has
  * been made. (This will be the usual case between the two report
  * times.)
+ *
+ * The user is allowed to change their breakfast and symptom reports
+ * throughout the day until a cutoff time in the evening. Old reports
+ * are retained for analysis.
+ *
+ * breakfast_history is an array of previous breakfast reports for the
+ * day. Each entry in the array looks like this:
+ *
+ * { report_time: (sec since 1970),
+ *   compliance: bool
+ * }
+ *
+ * symptom_history is an array of previous symptom reports for the day.
+ * Each entry in the array looks like this:
+ *
+ * { report_time: (sec since 1970),
+ *   scores: (array of { name: string, score: number })
+ * }
  *
  * A time transform looks like this:
  *
@@ -141,29 +161,87 @@ function by_time(a, b)
         return -1;
     }
 
+// Old definition allows user to fall behind in reporting. Latest plan
+// is to require them to stay current.
+//
+//  function report_tally(exper)
+//  {
+//      // Count the number of reports of each type. Note that if there
+//      // was no compliance at breakfast there's no need for symptom
+//      // entry. We handle this by treating the symptomEntry report as
+//      // present for such a day.
+//      //
+//      var tally = { breakfast: 0, symptomEntry: 0};
+
+//      if (!exper.reports)
+//          return tally;
+
+//      exper.reports.forEach(function(r) {
+//          if (    r.breakfast_compliance === true ||
+//                  r.breakfast_compliance === false)
+//              tally.breakfast++;
+//          if (    r.breakfast_compliance === false ||
+//                  (Array.isArray(r.symptom_scores) &&
+//                   r.symptom_scores.length > 0))
+//              tally.symptomEntry++;
+//      });
+
+//      return tally;
+//  }
+
+
     function report_tally(exper)
     {
-        // Count the number of reports of each type. Note that if there
-        // was no compliance at breakfast there's no need for symptom
-        // entry. We handle this by treating the symptomEntry report as
-        // present for such a day.
+        // For each report type, determine whether today's report is
+        // present. If not, its tally is one less than the day of the
+        // study. If yes, its tally is the same as the day of the study.
         //
-        var tally = { breakfast: 0, symptomEntry: 0};
+        var sd_today = study_day(exper, new TDate());
+        var tally = { breakfast: sd_today - 1, symptomEntry: sd_today - 1 };
 
-        if (!exper.reports)
+        if (!exper.reports || !exper.reports[sd_today - 1])
             return tally;
 
-        exper.reports.forEach(function(r) {
-            if (    r.breakfast_compliance === true ||
-                    r.breakfast_compliance === false)
-                tally.breakfast++;
-            if (    r.breakfast_compliance === false ||
-                    (Array.isArray(r.symptom_scores) &&
-                     r.symptom_scores.length > 0))
-                tally.symptomEntry++;
-        });
+        var r = exper.reports[sd_today - 1];
+
+        if (r.breakfast_compliance === true || r.breakfast_compliance === false)
+            tally.breakfast = sd_today;
+        if (Array.isArray(r.symptom_scores) && r.symptom_scores.length > 0)
+            tally.symptomEntry = sd_today;
 
         return tally;
+    }
+
+    function update_history(oldexper, newexper)
+    {
+        // Maintain history of breakfast compliance and symptom
+        // severities.
+        //
+        var hist;
+
+        if (!oldexper)
+            return;
+
+        if (oldexper.breakfast_report_time &&
+            newexper.breakfast_report_time != oldexper.breakfast_report_time) {
+            hist = {
+                report_time: oldexper.breakfast_report_time,
+                compliance: oldexper.breakfast_compliance
+            };
+            if (!newexper.breakfast_history)
+                newexper.breakfast_history = [];
+            newexper.breakfast_history.push(hist);
+        }
+        if (oldexper.symptom_report_time &&
+            newexper.symptom_report_time != oldexper.symptom_report_time) {
+            hist = {
+                report_time: oldexper.symptom_report_time,
+                scores: angular.copy(oldexper.symptom_scores)
+            };
+            if (!newexper.symptom_history)
+                newexper.symptom_history = [];
+            newexper.symptom_history.push(hist);
+        }
     }
 
     return {
@@ -424,6 +502,7 @@ function by_time(a, b)
             .then(function(exper) {
                 if (!Array.isArray(exper.reports))
                     exper.reports = [];
+                update_history(exper.reports[report.study_day - 1], report);
                 exper.reports[report.study_day - 1] = report;
                 return db.put_p(experimentId, exper);
             });
