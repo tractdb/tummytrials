@@ -1,30 +1,37 @@
 // reminders.js     Schedule reminders and keep icon badge up to date
 //
-// Assumptions: there are some small number of reminders per day, of
-// different types. Some types are just "pure" reminders that display a
-// notification at a certain time. Other types are asking the user to
-// make a report, where the report is given the same type as the
-// reminder. Each type of reminder happens at a different time of day,
-// but at the same time every day.
+// Assumptions
+//
+//   There are some small number of reminders per day, of different
+//   types.
+//
+//   Some types are just "pure" reminders that display a notification at
+//   a certain time. Other types are asking the user to make a report,
+//   where the report is associated with the reminder type.
+//
+//   You can also have a reminder whose purpose is to close out the day;
+//   i.e., it represents a time of day when any pending user actions are
+//   instead handled somehow by the system.
+//
+//   Each type of reminder happens at a different time of day, but at
+//   the same time every day.
 //
 // This code manages local notifications and the badge on the app icon.
 // The badge shows the number of reports that are due, even when the app
 // isn't running.
 //
-// For things to work, you have to call sync() any time there is new
-// information about reminders or reports. Examples of such times:
+// There is really just one function in the interface, sync(), which
+// must be called any time there is new information about reminders or
+// reports. Examples of such times:
 //
-//     App startup
+//     App startup/resumption
 //     User creates a study
 //     User submits a report
 //     User sets new reminder times
 //     After a replication
 //
-// For testing you can call accelerate() to establish a fictional
-// timeline that elapses faster than real time. (Not yet implemented.)
-//
-// You can call list() to get a list of current reminders, though this
-// is also intended for testing.
+// You can call clear() to remove all reminders, and list() to get a
+// list of current reminders. These are intended for internal testing.
 //
 // Note 1: $cordovaLocalNotification supports two types of
 // notifications, one-shot and repeating. We use only one-shot
@@ -53,8 +60,19 @@
 
     function by_at(a, b)
     {
+        // Compare two notifications by their "at" fields.
+        //
         if (a.at < b.at) return -1;
         if (a.at > b.at) return 1;
+        return 0;
+    }
+
+    function by_time(a, b)
+    {
+        // Compare two reminder descriptors by their "time" fields.
+        //
+        if (a.time < b.time) return -1;
+        if (a.time > b.time) return 1;
         return 0;
     }
 
@@ -146,9 +164,10 @@
         // Return an array of notifications that follow from the given
         // new status:
         //
-        // remstate:    Reminder state
-        // report_cts:  Number of reports for each type
-        // app_badge:   App's correct badge count now
+        // remstate:      Reminder state
+        // descr_by_type: Hash from reminder type -> descr
+        // report_cts:    Number of reports for each type
+        // app_badge:     App's correct badge count now
         //
         var sday = study_day_today(remstate);
         var daysec = sec_after_midnight();
@@ -219,9 +238,21 @@
         notifs.forEach(function(notif) {
             notif.id *= g_nextid++;
             var descr = descr_by_type[notif.data];
-            if (notif.id >= 0 && descr && !descr.reminderonly)
-                notibadge++;
-            notif.badge = notibadge;
+            if (notif.id >= 0 && descr)
+                if (descr.reportclose)
+                    notibadge = 0; // No more reports for the day, so no badge
+                else if (!descr.reminderonly)
+                    notibadge++;   // Another report is due
+
+            // Contrary to the $cordovaLocalNotification docs, a badge
+            // value of 0 means to leave the badge setting unchanged. A
+            // value of -1 means to remove the badge. (At least for the
+            // ngCordova revision we're using.) This is good to know.
+            //
+            if (notibadge <= 0)
+                notif.badge = -1;
+            else
+                notif.badge = notibadge;
         });
 
         // Seemingly $cordovaLocalNotification has a bug whereby
@@ -231,6 +262,10 @@
         // the Notification Center. But since (2^1-1) = 1, we can at
         // least keep the most recent one as long as we schedule it
         // last.
+        //
+        // (At this point it would probably be better to just give up on
+        // preserving formerly triggered reminders in the Notification
+        // Center. The badge seems like a sufficiently good motivator.)
         //
         while (notifs.length > 1 && notifs[1].id < 0)
             notifs.splice(0, 1);
@@ -323,13 +358,33 @@
 
         // Figure out what the badge count should be for the app.
         //
+        // If there's a "reportclose" reminder, only need to count
+        // reports from today, and only if the "reportclose" reminder
+        // hasn't been issued yet.
+        //
+        // (The idea is that studies without a "reportclose" reminder
+        // allow reports to be made on later days.)
+        //
         var app_badge = 0;
-        remstate.descs.forEach(function(desc) {
-            if (desc.reminderonly)
-                return;
-            var due = sday - (daysec >= desc.time ? 0 : 1);
-            app_badge += Math.max(0, due - report_cts[desc.type]);
-        });
+        var dlen = remstate.descs.length;
+        if (dlen > 0 && remstate.descs[dlen - 1].reportclose) {
+            if (daysec < remstate.descs[dlen - 1].time) {
+                remstate.descs.forEach(function(desc) {
+                    if (desc.reminderonly || desc.reportclose)
+                        return;
+                    var due = sday - (daysec >= desc.time ? 0 : 1);
+                    if (due > report_cts[desc.type])
+                        app_badge++;
+                });
+            }
+        } else {
+            remstate.descs.forEach(function(desc) {
+                if (desc.reminderonly)
+                    return;
+                var due = sday - (daysec >= desc.time ? 0 : 1);
+                app_badge += Math.max(0, due - report_cts[desc.type]);
+            });
+        }
 
 
         // Remove all old notifications, schedule new ones, set app
@@ -365,6 +420,7 @@
             // {
             //     type: type of reminder
             //     reminderonly: no report, just reminder (default false)
+            //     reportclose: close pending reports (default false)
             //     time: time of reminder (number; seconds after midnight)
             //     heads: heading of reminder (array)
             //     bodies: body of reminder (array)
@@ -377,6 +433,16 @@
             // whether this is a "pure" reminder with no associated
             // report. The default is a "reportable" reminder (false
             // value for the field).
+            //
+            // The 'reportclose' field, if present, is a boolean saying
+            // whether pending reports are disabled after this reminder.
+            // In practice this means the reminder clears the badge
+            // count--the app itself is responsible for preventing
+            // reports after closure. The default is false.
+            //
+            // To keep things simple for now, there can be only one
+            // 'reportclose' reminder, and it has to be the last one of
+            // the day. This seems to cover many cases.
             //
             // For a pure reminder the associated notifications are
             // created by this module and removed by the user.
@@ -398,6 +464,7 @@
             //
             c_remstate = {};
             c_remstate.descs = angular.copy(descs);
+            c_remstate.descs.sort(by_time);
             c_remstate.start_time = start_time;
             c_remstate.end_time = end_time;
             c_report_cts = angular.copy(report_cts);

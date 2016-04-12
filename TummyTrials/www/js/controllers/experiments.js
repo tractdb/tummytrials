@@ -161,8 +161,31 @@ function by_time(a, b)
         return -1;
     }
 
-// Old definition allows user to fall behind in reporting. Latest plan
-// is to require them to stay current.
+    function report_made(rep, repty)
+    {
+        // rep contains the reports for one day. Return true if a report
+        // of type repty is present.
+        //
+        // Note that when breakfast compliance has been specifically
+        // disclaimed we treat the symptom entry report as having been
+        // made.
+        //
+        if (!rep)
+            return false;
+        switch(repty) {
+            case 'breakfast':
+                return rep.breakfast_compliance === false ||
+                       rep.breakfast_compliance === true;
+            case 'symptomEntry':
+                return rep.breakfast_compliance === false ||
+                       (Array.isArray(rep.symptom_scores) &&
+                        rep.symptom_scores.length > 0);
+        }
+        return false;
+    }
+
+// This old definition allows user to fall behind in reporting. Latest
+// plan is to require them to stay current.
 //
 //  function report_tally(exper)
 //  {
@@ -172,10 +195,10 @@ function by_time(a, b)
 //      // present for such a day.
 //      //
 //      var tally = { breakfast: 0, symptomEntry: 0};
-
+//
 //      if (!exper.reports)
 //          return tally;
-
+//
 //      exper.reports.forEach(function(r) {
 //          if (    r.breakfast_compliance === true ||
 //                  r.breakfast_compliance === false)
@@ -185,31 +208,40 @@ function by_time(a, b)
 //                   r.symptom_scores.length > 0))
 //              tally.symptomEntry++;
 //      });
-
+//
 //      return tally;
 //  }
 
 
     function report_tally(exper)
     {
-        // For each report type, determine whether today's report is
-        // present. If not, its tally is one less than the day of the
-        // study. If yes, its tally is the same as the day of the study.
+        // Figure out how many reports have been made of each type.
+        // Since reports must be made by the end of the day, this is a
+        // simple calculation. Determine whether there's a report for
+        // today. If not, use yesterday's study day number. Otherwise
+        // use today's study day number.
         //
-        var sd_today = study_day(exper, new TDate());
-        var tally = { breakfast: sd_today - 1, symptomEntry: sd_today - 1 };
+        var sd = study_day(exper, new TDate());
 
-        if (!exper.reports || !exper.reports[sd_today - 1])
-            return tally;
+        var yestsd = Math.max(0, sd - 1);
+        var breakf = yestsd;
+        var sympto = yestsd;
 
-        var r = exper.reports[sd_today - 1];
+        function tally() {
+            return { breakfast: breakf, symptomEntry: sympto };
+        }
 
-        if (r.breakfast_compliance === true || r.breakfast_compliance === false)
-            tally.breakfast = sd_today;
-        if (Array.isArray(r.symptom_scores) && r.symptom_scores.length > 0)
-            tally.symptomEntry = sd_today;
+        if (sd <= 0 || !exper.reports)
+            return tally();
 
-        return tally;
+        var r = exper.reports[sd - 1];
+
+        if (report_made(r, 'breakfast'))
+            breakf = sd;
+        if (report_made(r, 'symptomEntry'))
+            sympto = sd;
+
+        return tally();
     }
 
     function update_history(oldexper, newexper)
@@ -259,23 +291,7 @@ function by_time(a, b)
             return Math.round((exper.end_time - exper.start_time) / 86400);
         },
 
-        report_made: function(rep, repty) {
-            // Return true if a report of the given type was made in the
-            // given report.
-            //
-            if (!rep)
-                return false;
-            switch(repty) {
-                case 'breakfast':
-                    return rep.breakfast_compliance === false ||
-                           rep.breakfast_compliance === true;
-                case 'symptomEntry':
-                    return rep.breakfast_compliance === false ||
-                           (Array.isArray(rep.symptom_scores) &&
-                            rep.symptom_scores.length > 0);
-            }
-            return false;
-        },
+        report_made: report_made, 
 
         // Useful services for controllers.
         //
