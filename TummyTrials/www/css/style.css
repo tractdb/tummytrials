@@ -48,6 +48,15 @@
 	font-size: 14px;
 }
 
+/*changing the size of button-small to be slightly bigger*/
+.small-text{
+	font-size: 14px;
+}
+
+.submit-card{
+	background-color: grey;
+}
+
 /* css for the result vis */
 .axis {
   font: 10px sans-serif;

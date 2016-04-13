@@ -88,14 +88,19 @@ Page Hierarchy:
                     <p>
                     <i class="ion-ios-checkmark" ng-hide="rem.reportdue" style="font-size: 120%;"></i>
                     <i class="ion-ios-circle-outline" ng-show="rem.reportdue" style="font-size: 120%;"></i>
-                    {{rem.schedmsg}}
+                    {{rem.schedmsg}} <br/>
+                    Your response is : 
                     <div class="divcenter" ng-show="!!rem.logmsg">
-                        <a class="button button-royal" ui-sref="{{rem.logstate}}" ng-disabled="rem.disabled">
-                            {{rem.logmsg}}
+                        <a class="button button-small button-royal small-text" ui-sref="{{rem.logstate}}" ng-disabled="rem.disabled">
+                            &nbsp&nbsp {{rem.logmsg}} &nbsp&nbsp
                         </a>
                     </div>
                     </p>
-                    <br/>
+                    <!-- <br/> -->
+                </div>
+                <div class="card padding divcenter submit-card">
+                  <p>Submit compliance and symptom reports for the day.</p>
+                  <a class="button button-royal" ui-sref="" > &nbsp&nbsp Submit (change)&nbsp&nbsp </a>
                 </div>
           </div>
 
@@ -118,19 +123,6 @@ Page Hierarchy:
             Your <em>{{title}}</em> is past. Please <b>end</b> the trial to see the results.
         </div>
 
-        <!-- 
-        Abandoning / Completing a study
-        --> 
-        <div class="card padding">
-          <h4>End Trial:</h4>
-          <p>{{text.current.abandon_text}}
-            <div class="divcenter">
-              <button class="button button-royal" ng-click="abandon_trial()" ng-disable="!abdn_btn">
-                Abandon Trial
-              </button>
-            </div>
-          </p>
-        </div>
     </div>
 
     <!-- 

@@ -207,6 +207,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
+    .state('current_trial', {
+      url: '/mytrials/current_trial',
+      views: {
+        mytrials : {
+          templateUrl: 'templates/mytrials/current_trial.html',
+          controller: 'MyTrialsCtrl'
+        }
+      }
+    })
     .state('settings', {
       url: '/settings',
       views: {
