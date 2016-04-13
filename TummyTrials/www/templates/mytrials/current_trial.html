@@ -1,0 +1,34 @@
+<ion-view title="My Trial">
+  <ion-pane>
+    <ion-content class="padding">
+
+   		<div class="card padding">
+	        For testing purposes only: <br/>
+	        {{study_current.id}}
+	     </div>
+
+		<div class="card padding">
+	        Name : {{study_current.name}} <br/> 
+	        Breakfast preference : {{study_current.breakfast_pref}} <br/> 
+	        Drink preference : {{study_current.drink_pref}} <br/> 
+	        Status : {{study_current.status}}  <br/>
+	    </div>
+
+        <!-- 
+        Abandoning / Completing a study
+        --> 
+        <div class="card padding">
+          <h4>End Trial:</h4>
+          <p>{{text.current.abandon_text}}
+            <div class="divcenter">
+              <button class="button button-royal" ng-click="abandon_trial()" >
+                Abandon Trial
+              </button>
+            </div>
+          </p>
+        </div>
+
+
+    </ion-content>  
+  </ion-pane>
+</ion-view>
