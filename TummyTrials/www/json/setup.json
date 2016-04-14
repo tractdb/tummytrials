@@ -16,8 +16,8 @@
 		"morning_reminder_name": "morning",
 		"breakfast_reminder_name": "breakfast",
 		"symptomEntry_reminder_name": "symptom entry",
-		"breakfast_reminder_logmsg": "Log Breakfast Compliance",
-		"symptomEntry_reminder_logmsg": "Log Symptom Level"
+		"breakfast_reminder_logmsg": " Breakfast Compliance",
+		"symptomEntry_reminder_logmsg": " Symptom Level"
 	},
 	"calendar": {
 		"title": "Log entry for day:",

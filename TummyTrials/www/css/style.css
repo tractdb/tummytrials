@@ -43,6 +43,11 @@
 	white-space: pre-wrap;
 }
 
+/*Allowing italics and emphasis*/
+em,i{
+    font-style:italic;
+}
+
 /*Default text size in list seems to be 16px compared to 14px of p tag*/
 .list_text{
 	font-size: 14px;

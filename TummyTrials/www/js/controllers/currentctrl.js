@@ -106,12 +106,6 @@
                 $scope.exp_bool = false;
             }
 
-            //Days till experiment starts
-            // Revisit later .. This one gives random days
-            // var ctdn_diff = ((cur.start_time * 1000) - Date.now());
-            // $scope.ctdn = new Date(ctdn_diff * 1000);
-            // $scope.countdown = LC.dateonly($scope.ctdn);
-
             //Get the duration of the experiment
             var dur = cur.end_time - cur.start_time;
             $scope.duration = new Date(dur * 1000); 
@@ -190,6 +184,7 @@
             for(var i = 0; i < days.length; i++){
                 if($scope.today_readable == days[i][0]){
                     day_pos = i;
+                    // get text for the condition of the day
                     if(days[i][1] == "A"){
                         day_cond = A_text;
                     } else if(days[i][1] == "B"){
@@ -197,8 +192,9 @@
                     } 
                 }
             }
-            $scope.day_pos = cur.reports[day_pos].symptom_scores.length;
-            // if there is a report for today 
+
+            // Preparing messages to display when reports are present. 
+            // Reported value for breakfast compliance 
             var bfst_comp_msg, bfst_comp_state = false, sym_score_state = false, 
                 scr_val, scr_txt, scr_arr = [], sym_report_msg;
             if(typeof(cur.reports[day_pos]) == "object"){
@@ -210,7 +206,7 @@
                     bfst_comp_state = true;
                 }
 
-                //report logged if there is an object
+                // Reported value for symptoms. If multiple symptoms, it is displayed as a single sentence summary
                 if(cur.reports[day_pos].breakfast_compliance == true && typeof(cur.reports[day_pos].symptom_scores) == "object"){
                     // if symptoms exist and compliance is true
                     var report_msg = "You reported ", temp_msg, sym_len;
@@ -221,6 +217,7 @@
                         sym_len = cur.reports[day_pos].symptom_scores.length;
 
                         // Punctuation logic
+                        // Separate conditions for more or less than 2 symptoms
                         if(sym_len <= 2){
                             if(l < (sym_len - 1)){
                                 temp_msg = scr_txt + " impacted you " + scr_val + " and ";
@@ -244,8 +241,6 @@
                 }
             }
 
-
-
             var rep_tally = Experiments.report_tally(cur);
 
             cur.remdescrs.forEach(function(rd) {
@@ -257,7 +252,7 @@
                 info.disabled = false;
                 var msg, name, reportmsg;
                 msg = text.current.reminder_schedule_template;
-                name = text.current[rd.type + '_reminder_name'] || rd.type;
+                name = text.current[rd.type + '_reminder_name'] || rd.type; 
                 msg = msg.replace('{NAME}', name);
                 msg = msg.replace('{WHEN}', LC.timestr(rd.time || 0));
                 info.schedmsg = msg;
@@ -265,19 +260,27 @@
                     info.logmsg = null;
                     info.selected_value = null;
                     info.reportmsg = null;
-                    // info.logstate = 'none';
                 } else {
                     info.logmsg = text.current[rd.type + '_reminder_logmsg'];
-                    info.logmsg = info.logmsg || ('Log ' + rd.type);
-                    // info.selected_value = 'Your response is : ';
+                    // info.logmsg = info.logmsg || ('Log ' + rd.type);
                     switch(rd.type) {
                         case 'breakfast':
                             info.logstate = 'during';
                             info.reportmsg = bfst_comp_msg;
+                            if(bfst_comp_state == true){
+                                info.logmsg = 'Edit ' + info.logmsg;
+                            }else{
+                                info.logmsg = 'Log ' + info.logmsg;
+                            }
                             break;
                         case 'symptomEntry':
                             info.logstate = 'post({symptomIndex:0})';
                             info.reportmsg = report_msg;
+                            if(sym_score_state == true){
+                                info.logmsg = 'Edit ' + info.logmsg;
+                            }else{
+                                info.logmsg = 'Log ' + info.logmsg;
+                            }
                             break;
                         default:
                             info.logstate = 'none';
