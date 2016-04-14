@@ -80,7 +80,6 @@ Page Hierarchy:
                </div>
             </div>
           </div>
-
           <div class="card padding">   
             <h4>Your reminders for today:</h4>
             <!-- <p ng-show="!study_current">(No current trial. Please create a new trial.)</p> -->
@@ -89,7 +88,7 @@ Page Hierarchy:
                     <i class="ion-ios-checkmark" ng-hide="rem.reportdue" style="font-size: 120%;"></i>
                     <i class="ion-ios-circle-outline" ng-show="rem.reportdue" style="font-size: 120%;"></i>
                     {{rem.schedmsg}} <br/>
-                    Your response is : 
+                    {{rem.reportmsg}}
                     <div class="divcenter" ng-show="!!rem.logmsg">
                         <a class="button button-small button-royal small-text" ui-sref="{{rem.logstate}}" ng-disabled="rem.disabled">
                             &nbsp&nbsp {{rem.logmsg}} &nbsp&nbsp

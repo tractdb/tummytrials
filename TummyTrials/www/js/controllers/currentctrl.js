@@ -16,7 +16,7 @@
 // "B_text":    prompt for B condition
 
 
-// 'use strict';
+'use strict';
 
 (angular.module('tummytrials.currentctrl',
                 [ 'tummytrials.lc', 'tummytrials.text', 'tummytrials.studyfmt',
@@ -86,54 +86,7 @@
 //              }
 //          }
 
-            var rep_tally = Experiments.report_tally(cur);
-
-            cur.remdescrs.forEach(function(rd) {
-                var info = {};
-                info.reportdue =
-                    !rd.reminderonly &&
-                    rep_tally[rd.type] < Experiments.study_day_today(cur);
-                // info.disabled = rd.type != rep_type;
-                info.disabled = false;
-                var msg, name;
-                msg = text.current.reminder_schedule_template;
-                name = text.current[rd.type + '_reminder_name'] || rd.type;
-                msg = msg.replace('{NAME}', name);
-                msg = msg.replace('{WHEN}', LC.timestr(rd.time || 0));
-                info.schedmsg = msg;
-                if (rd.reminderonly) {
-                    info.logmsg = null;
-                    info.logstate = 'none';
-                } else {
-                    info.logmsg = text.current[rd.type + '_reminder_logmsg'];
-                    info.logmsg = info.logmsg || ('Log ' + rd.type);
-                    switch(rd.type) {
-                        case 'breakfast':
-                            info.logstate = 'during';
-                            break;
-                        case 'symptomEntry':
-                            info.logstate = 'post({symptomIndex:0})';
-                            break;
-                        default:
-                            info.logstate = 'none';
-                            break;
-                    }
-                }
-                rinfo.push(info);
-            });
-
-            $scope.study_reminders = rinfo;
-
-
-            // Title of the study
-            if(typeof(cur.trigger) == "string"){
-                $scope.title = cur.trigger + " Study";    //add this to all child pages of current. conditioning not required since not accessible unless study is going on
-            } else {
-                $scope.title = "Current Study";
-            }            
-
             // Stuff dealing with the calendar widget
-
             $scope.today = new Date();
             $scope.today_readable = LC.dateonly($scope.today);
             $scope.today_full = LC.datestrfull($scope.today);
@@ -171,7 +124,7 @@
                 $scope.row_length = ($scope.duration_readable/2);
             }
                 
-
+            // Returns an array of the calendar for the study [day, condition] eg. [[13,"A"],[14,"B"], ... ]
             var act_day = []; //Array for storing the condition of the day
             var days = []; // Array for filling the calendar widget 
             var d = []; // Temp array 
@@ -188,30 +141,7 @@
                 }
                 d = [];
             }
-            $scope.schedule = days;
-
-
-            // checking if the last day of study has passed
-            if(cur){
-                var past = false; //if trial ongoing then false
-                var past_one = new Date((cur.end_time) * 1000);
-                var past_one_readable = LC.dateonly(past_one);
-                if($scope.today_readable == past_one_readable){
-                    past = true; //if past trial date then true
-                }
-            }
-            $scope.is_past = past;
-
-            //Get the number of days into the experiment for calendar heading
-            var day_n = null;
-            for(var i = 0; i < $scope.duration_readable; i++){
-                day = days[i][0];  // days is an array of arrays [[4,'A'],[5,'B']...] of the experiment date and condition
-                if($scope.today_readable == day){
-                    day_n = i;
-                }
-            }
-            $scope.day_num = day_n + 1;
-
+            $scope.schedule = days; 
 
             //Figuring out the message for the day (avoid/consume the trigger)
             var A_text, B_text, h_URL;
@@ -243,15 +173,154 @@
                 $scope.active_drnk = cur.drink_off_prompt;
             }
 
+            // Object mapping symptom score to values
+            var sym_mapper = {
+                  0 : "Not at all",
+                  1 : "Slightly",        
+                  2 : "Mildly",
+                  3 : "Moderately",
+                  4 : "Severely",
+                  5 : "Very severely",
+                  6 : "Extremely"
+            };
+
+            // count the number of days into the study
+            // used for figuring out which report to check for current day
+            var day_pos, day_cond;
+            for(var i = 0; i < days.length; i++){
+                if($scope.today_readable == days[i][0]){
+                    day_pos = i;
+                    if(days[i][1] == "A"){
+                        day_cond = A_text;
+                    } else if(days[i][1] == "B"){
+                        day_cond = B_text;
+                    } 
+                }
+            }
+            $scope.day_pos = cur.reports[day_pos].symptom_scores.length;
+            // if there is a report for today 
+            var bfst_comp_msg, bfst_comp_state = false, sym_score_state = false, 
+                scr_val, scr_txt, scr_arr = [], sym_report_msg;
+            if(typeof(cur.reports[day_pos]) == "object"){
+                if(cur.reports[day_pos].breakfast_compliance == false){
+                    bfst_comp_msg = "You reported that you did not " + day_cond; 
+                    bfst_comp_state = true;
+                } else if(cur.reports[day_pos].breakfast_compliance == true){
+                    bfst_comp_msg = "You reported that you did " + day_cond;
+                    bfst_comp_state = true;
+                }
+
+                //report logged if there is an object
+                if(cur.reports[day_pos].breakfast_compliance == true && typeof(cur.reports[day_pos].symptom_scores) == "object"){
+                    // if symptoms exist and compliance is true
+                    var report_msg = "You reported ", temp_msg, sym_len;
+                    for(var l = 0; l < cur.reports[day_pos].symptom_scores.length; l++){
+                        scr_val = cur.reports[day_pos].symptom_scores[l].score;
+                        scr_txt = cur.reports[day_pos].symptom_scores[l].name;
+                        scr_val = sym_mapper[scr_val];
+                        sym_len = cur.reports[day_pos].symptom_scores.length;
+
+                        // Punctuation logic
+                        if(sym_len <= 2){
+                            if(l < (sym_len - 1)){
+                                temp_msg = scr_txt + " impacted you " + scr_val + " and ";
+                            } else if(l == (sym_len - 1)){
+                                // last symptom in the array 
+                                temp_msg = scr_txt + " impacted you " + scr_val + ".";
+                            }
+                        } else if(sym_len > 2){
+                            if(l < (sym_len - 1)){
+                                temp_msg = scr_txt + " impacted you " + scr_val + ", ";
+                            } else if(l == (sym_len - 2)){
+                                temp_msg = scr_txt + " impacted you " + scr_val + " and ";
+                            } else if(l == (sym_len - 1)){
+                                // last symptom in the array 
+                                temp_msg = scr_txt + " impacted you " + scr_val + ".";
+                            }
+                        }
+                        report_msg = report_msg.concat(temp_msg);
+                        sym_score_state = true;
+                    }   
+                }
+            }
+
+
+
+            var rep_tally = Experiments.report_tally(cur);
+
+            cur.remdescrs.forEach(function(rd) {
+                var info = {};
+                info.reportdue =
+                    !rd.reminderonly &&
+                    rep_tally[rd.type] < Experiments.study_day_today(cur);
+                // info.disabled = rd.type != rep_type;
+                info.disabled = false;
+                var msg, name, reportmsg;
+                msg = text.current.reminder_schedule_template;
+                name = text.current[rd.type + '_reminder_name'] || rd.type;
+                msg = msg.replace('{NAME}', name);
+                msg = msg.replace('{WHEN}', LC.timestr(rd.time || 0));
+                info.schedmsg = msg;
+                if (rd.reminderonly) {
+                    info.logmsg = null;
+                    info.selected_value = null;
+                    info.reportmsg = null;
+                    // info.logstate = 'none';
+                } else {
+                    info.logmsg = text.current[rd.type + '_reminder_logmsg'];
+                    info.logmsg = info.logmsg || ('Log ' + rd.type);
+                    // info.selected_value = 'Your response is : ';
+                    switch(rd.type) {
+                        case 'breakfast':
+                            info.logstate = 'during';
+                            info.reportmsg = bfst_comp_msg;
+                            break;
+                        case 'symptomEntry':
+                            info.logstate = 'post({symptomIndex:0})';
+                            info.reportmsg = report_msg;
+                            break;
+                        default:
+                            info.logstate = 'none';
+                            info.reportmsg = null;
+                            break;
+                    }
+                }
+                rinfo.push(info);
+            });
+
+            $scope.study_reminders = rinfo;
+
+
+            // Title of the study
+            if(typeof(cur.trigger) == "string"){
+                $scope.title = cur.trigger + " Study";    //add this to all child pages of current. conditioning not required since not accessible unless study is going on
+            } else {
+                $scope.title = "Current Study";
+            }            
+
+            // checking if the last day of study has passed
+            if(cur){
+                var past = false; //if trial ongoing then false
+                var past_one = new Date((cur.end_time) * 1000);
+                var past_one_readable = LC.dateonly(past_one);
+                if($scope.today_readable == past_one_readable){
+                    past = true; //if past trial date then true
+                }
+            }
+            $scope.is_past = past;
+
+            //Get the number of days into the experiment for calendar heading
+            var day_n = null;
+            for(var i = 0; i < $scope.duration_readable; i++){
+                day = days[i][0];  // days is an array of arrays [[4,'A'],[5,'B']...] of the experiment date and condition
+                if($scope.today_readable == day){
+                    day_n = i;
+                }
+            }
+            $scope.day_num = day_n + 1;
+
             //Help toggle
             $scope.help = false;
-
-            // For 'unnecessary' toggling of the abandon button
-            if(cur.status == 'active'){
-                $scope.abdn_btn = true;
-            } else {
-                $scope.abdn_btn = false;
-            }
 
             // For detecting accelerated demo
             // If ttransform exists, then trail is being accelerated
