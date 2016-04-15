@@ -90,7 +90,7 @@ Page Hierarchy:
                     <i class="ion-ios-checkmark" ng-hide="rem.reportdue" style="font-size: 120%;"></i>
                     <i class="ion-ios-circle-outline" ng-show="rem.reportdue" style="font-size: 120%;"></i>
                     {{rem.schedmsg}} <br/>
-                    <em>{{rem.reportmsg}}</em>
+                    <em class="balanced" ng-bind-html="rem.reportmsg"></em>
                     <div class="divcenter" ng-show="!!rem.logmsg">
                         <a class="button button-small button-royal small-text" ui-sref="{{rem.logstate}}" ng-disabled="rem.disabled">
                             &nbsp&nbsp {{rem.logmsg}} &nbsp&nbsp

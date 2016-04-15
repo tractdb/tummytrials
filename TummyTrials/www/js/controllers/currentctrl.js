@@ -20,7 +20,7 @@
 
 (angular.module('tummytrials.currentctrl',
                 [ 'tummytrials.lc', 'tummytrials.text', 'tummytrials.studyfmt',
-                  'tummytrials.experiments', 'ionic', 'tummytrials.calendar' ])
+                  'tummytrials.experiments', 'ionic', 'tummytrials.calendar', 'ngSanitize' ])
 
 .controller('CurrentCtrl', function($scope, $state, LC, Text, Experiments, 
                                         $window, $ionicPopup, $timeout, Calendar) {
@@ -199,10 +199,10 @@
                 scr_val, scr_txt, scr_arr = [], sym_report_msg;
             if(typeof(cur.reports[day_pos]) == "object"){
                 if(cur.reports[day_pos].breakfast_compliance == false){
-                    bfst_comp_msg = "You reported that you did not " + day_cond; 
+                    bfst_comp_msg = "You reported that you <b> did not </b>" + day_cond; 
                     bfst_comp_state = true;
                 } else if(cur.reports[day_pos].breakfast_compliance == true){
-                    bfst_comp_msg = "You reported that you did " + day_cond;
+                    bfst_comp_msg = "You reported that you <b> did </b>" + day_cond;
                     bfst_comp_state = true;
                 }
 
@@ -220,19 +220,19 @@
                         // Separate conditions for more or less than 2 symptoms
                         if(sym_len <= 2){
                             if(l < (sym_len - 1)){
-                                temp_msg = scr_txt + " impacted you " + scr_val + " and ";
+                                temp_msg = "<b>" + scr_txt + "</b> impacted you " + "<b>" + scr_val + "</b> and ";
                             } else if(l == (sym_len - 1)){
                                 // last symptom in the array 
-                                temp_msg = scr_txt + " impacted you " + scr_val + ".";
+                                temp_msg = "<b>" + scr_txt + "</b> impacted you " +  "<b>" + scr_val + "</b>.";
                             }
                         } else if(sym_len > 2){
                             if(l < (sym_len - 1)){
-                                temp_msg = scr_txt + " impacted you " + scr_val + ", ";
+                                temp_msg = "<b>" + scr_txt + "</b> impacted you " + "<b>" + scr_val + "</b>, ";
                             } else if(l == (sym_len - 2)){
-                                temp_msg = scr_txt + " impacted you " + scr_val + " and ";
+                                temp_msg = "<b>" + scr_txt + "</b> impacted you " + "<b>" + scr_val + "</b> and ";
                             } else if(l == (sym_len - 1)){
                                 // last symptom in the array 
-                                temp_msg = scr_txt + " impacted you " + scr_val + ".";
+                                temp_msg = "<b>" + scr_txt + "</b> impacted you " + "<b>" + scr_val + "</b>.";
                             }
                         }
                         report_msg = report_msg.concat(temp_msg);
@@ -276,6 +276,7 @@
                         case 'symptomEntry':
                             info.logstate = 'post({symptomIndex:0})';
                             info.reportmsg = report_msg;
+
                             if(sym_score_state == true){
                                 info.logmsg = 'Edit ' + info.logmsg;
                             }else{
