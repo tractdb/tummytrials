@@ -17,6 +17,15 @@
                         d.getDate();
             },
 
+            datemd: function(d) {
+                // Return a string for the date (or tdate). It looks
+                // like "Nov 3".
+                //
+                var mons = ["Jan","Feb","Mar","Apr","May","Jun",
+                            "Jul","Aug","Sep","Oct","Nov","Dec"];
+                return mons[d.getMonth()] + " " + d.getDate();
+            },
+
             datestrfull: function(d) {
                 // Return a string for the date (or tdate). It looks
                 // like "Tuesday, Nov 3".

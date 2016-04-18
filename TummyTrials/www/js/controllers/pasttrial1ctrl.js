@@ -33,6 +33,22 @@
     .then(function(_) {
         var study = $scope.study_previous[$stateParams.studyIndex];
         $scope.study_past1 = study;
+
+        // variables for displaying test in the results
+
+        $scope.start_date_md = LC.datemd(new Date(study.start_time * 1000));
+
+        var end_date = new Date(study.end_time * 1000); // This is first day *after* the trial
+        end_date.setDate(end_date.getDate() - 1); // This is last day of the trial
+        $scope.end_date_md = LC.datemd(end_date);     
+
+        $scope.st_trigger = study.trigger;
+        $scope.st_symptom = study.symptoms;
+        $scope.st_status = study.status;
+        $scope.st_comment = study.comment;
+
+
+        // injecting Vis service
         $scope.visdata = Vis;
         //gather all data needed for report + vis 
         var cur = study;

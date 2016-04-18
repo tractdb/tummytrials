@@ -1,7 +1,7 @@
 (angular.module('tummytrials.mytrialsctrl',
-                ['tummytrials.text', 'ionic', 'tummytrials.experiments'])
+                ['tummytrials.lc','tummytrials.text', 'ionic', 'tummytrials.experiments'])
 
-.controller('MyTrialsCtrl', function($scope, $state, $timeout, Text, $ionicPopup, Experiments) {
+.controller('MyTrialsCtrl', function($scope, $state, $timeout, Text, LC, $ionicPopup, Experiments) {
 
 	// An elaborate, custom popup to abandon ongoing trial
     $scope.abandon_trial = function(){
@@ -62,7 +62,12 @@
         return Experiments.publish_p($scope);
     })
     .then(function(_){
-    	var cur =  $scope.study_current;
+    	// var cur =  $scope.study_current;
+
+     //  $scope.start_date_md = LC.datemd(new Date(study.start_time * 1000));
+
+     //  $scope.end_date_md = LC.datemd(end_date.setDate((new Date(study.end_time * 1000)).getDate() - 1));  
+
     });
 })
 

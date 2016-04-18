@@ -1,41 +1,37 @@
 <ion-view>
   <ion-nav-title>
-  {{study_past1.name}}
+  Past Trials
   </ion-nav-title>
   <ion-pane>
     <ion-content class="padding">
 
-    <h5 class="title">{{text.setup5.topic_title}}</h5>
-    <p>{{study_topic_question}}</p>
+    <h4 class="title">{{st_trigger}} Study</h4>
+    Study length {{duration_readable}} days : <b>{{start_date_md}} - {{end_date_md}} </b>
+    <br/> 
+    
+    <h5 class="title">Description</h5>
+    <i>Does {{st_trigger}} affect my <span ng-repeat="symptom in st_symptom"> {{symptom}} &nbsp </span> ?</i><!-- work on punctuation logic --> 
     <br/>
 
     <h5 class="title">{{text.setup5.symptoms_title}}</h5>
-    <p ng-repeat="symptom in study_past1.symptoms">
-    {{symptom}}
-    </p>
+    <p ng-repeat="symptom in st_symptom"> {{symptom}} </p>
     <br/>
 
-    <h5 class="title">{{text.setup5.study_length}}</h5>
-    <p>{{study_date_range}}</p>
-    <br/>
-
-    <h5 class="title">{{text.setup5.reminder_times_title}}</h5>
+<!--     <h5 class="title">{{text.setup5.reminder_times_title}}</h5>
     <div class="row" ng-repeat="remdesc in study_past1.remdescrs">
         <div class="col">{{text.setup5[remdesc.type + '_reminder_title'] || remdesc.type}}</div>
         <div class="col">{{study_reminder_times[remdesc.type]}}</div>
     </div>
-    <br/>
+    <br/> -->
 
     <h5 class="title">{{text.pasttrial1.status_title}}</h5>
-    <p>{{study_past1.status}}</p>
+    <p ng-show="st_status == 'ended'"> This trial has {{st_status}}</p>
+    <p ng-show="st_status == 'abandoned'"> This trial has been {{st_status}}. <span ng-show="st_comment != ''">The reason for abandoning was <i>'{{st_comment}}'</i>.</span></p>
     <br/>
 
-    <div ng-show="study_past1.comment != ''">
-    <h5 class="title">{{text.pasttrial1.notes_title}}</h5>
-    <p>{{study_past1.comment}}</p>
-    </div>
-    <br/>
 
+    <!-- Show results only if study was ended -->
+    <div ng-show="st_status == 'ended'">
         <div ng-repeat="(key, value) in visdata">
             <!-- Result for symptom:<br/> -->
             <div class="divcenter">
@@ -45,15 +41,12 @@
             </div>
             <result-vis result-data="value" on-click="d3OnClick(data_pt)" label="d3Label" control="resultVisControl"> </result-vis>
             <div class="divcenter">
-                <button class="button button-small button-royal" ng-click="resultVisControl.updateVis();">Time line view</button>
-                <button class="button button-small button-royal" ng-click="resultVisControl.revertVis();">Trend view</button>
+                <button class="button button-small button-royal small-text" ng-click="resultVisControl.updateVis();">&nbsp&nbsp Time line view &nbsp&nbsp </button> &nbsp&nbsp &nbsp&nbsp 
+                <button class="button button-small button-royal small-text" ng-click="resultVisControl.revertVis();">&nbsp&nbsp Trend view &nbsp&nbsp </button>
             </div>
             <br/><br/>
-            <!-- visdata : {{value}} <br/> -->
         </div>
-
-        <!-- vis data: {{res_keys}} -->
-        <!-- Exp ID: {{exp_id}} <br/> <br/> -->
+    </div>
 
     </ion-content>  
   </ion-pane>
