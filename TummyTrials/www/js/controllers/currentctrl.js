@@ -412,7 +412,7 @@
                             score["score not reported"] = "n/a";
                             Calendar.date = dtr;
                             Calendar.condition = rand[i];
-                            Calendar.state = "a.o.k.";
+                            Calendar.state = "eh.o.k.";
                         }
                         d.push(score);
                     } else if(cur.reports[i].breakfast_compliance == false){
@@ -466,9 +466,12 @@
                     if(Calendar.state == "a.o.k."){
                         $scope.cal_comp = "Positive (change text)";
                         $scope.cal_score = Calendar.score;
+                        $scope.cal_comp = "Positive (change text)";
                         display = "yes";
+                    } else if(Calendar.state == "eh.o.k."){
+                        display = "guess";
                     } else if(Calendar.state == "neg compliance"){
-                        $scope.cal_comp = "False (change text)";
+                        $scope.cal_comp = "Negative (change text)";
                         display = "neg";
                     } else if(Calendar.state == "no report"){
                         display = "null";

@@ -15,7 +15,13 @@
             </ul>
         </div>
 
-
+        <!-- Content to display on days with compliance but no symptom reports -->
+        <div ng-if="cal_display === 'guess'" class="padding card">
+            <h4>{{text.calendar.title}} {{cal_day}}</h4>
+            <p> {{text.calendar.field_1}} <b>{{cal_cond}}</b></p>
+            <p> {{text.calendar.field_2}} <b>{{cal_comp}}</b></p>            
+            <p> {{text.calendar.guess}} <br/><br/>
+        </div>
 
 
         <!-- Content to display on invalid days (days in the future) -->

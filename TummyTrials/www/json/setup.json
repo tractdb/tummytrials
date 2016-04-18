@@ -28,7 +28,8 @@
 		"today": "This is the ongoing day.",
 		"neg": "The compliance for this day was negative and therefore, there is no symptom score for this day.",
 		"missing": "No symptom levels were reported for this day.",
-		"noreport":"No report was logged for the day."
+		"noreport":"No report was logged for the day.",
+		"guess":"No symptom levels were reported for this day."
 	},
 	"no_study": {
 		"title": "No ongoing study",
