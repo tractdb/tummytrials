@@ -24,10 +24,11 @@
 		"field_1": "Prompt for the day was to:",
 		"field_2": "Compliance with the prompt was:",
 		"field_3": "Symptom level reported for the day was:",
-		"future": "There is no data available for this date.",
+		"future": "Looking for some tea leaves and crystal balls, eh?",
 		"today": "This is the ongoing day.",
 		"neg": "The compliance for this day was negative and therefore, there is no symptom score for this day.",
-		"missing": "Nothing was reported for this day."
+		"missing": "No symptom levels were reported for this day.",
+		"noreport":"No report was logged for the day."
 	},
 	"no_study": {
 		"title": "No ongoing study",
