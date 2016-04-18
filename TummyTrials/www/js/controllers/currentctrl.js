@@ -376,8 +376,18 @@
                 d.push(rand[i]);
 
                 if(typeof(cur.reports[i]) == "object"){
+                    // report is null when user did not report anything and day elapsed
+                    if(cur.reports[i] == null){
+                        if(dt == Calendar.button){
+                            score["no report"] = "n/a";
+                            Calendar.date = dtr;
+                            Calendar.condition = rand[i];
+                            Calendar.state = "no report";
+                        } 
+                        //print no report 
+                        d.push(score);
                     //report logged if there is an object
-                    if(cur.reports[i].breakfast_compliance == true && typeof(cur.reports[i].symptom_scores) == "object"){
+                    } else if(cur.reports[i].breakfast_compliance == true && typeof(cur.reports[i].symptom_scores) == "object"){
                         // if symptoms exist and compliance is true
                         for(var l = 0; l < cur.reports[i].symptom_scores.length; l++){
                             scr_val = cur.reports[i].symptom_scores[l].score;
@@ -395,31 +405,27 @@
                             Calendar.state = "a.o.k.";
                         }
                         d.push(score);
-                    // if compliance is true but score not yet reported
+                    // if compliance is true but score not reported
                     } else if(cur.reports[i].breakfast_compliance == true && typeof(cur.reports[i].symptom_scores) != "object"){
-                        Calendar.score = "not reported";
-                        Calendar.date = dtr;
-                        Calendar.condition = rand[i];
-                        Calendar.state = "a.o.k.";
-                    } else {
+                        // Calendar.score = "not reported";
+                        if(dt == Calendar.button){
+                            score["score not reported"] = "n/a";
+                            Calendar.date = dtr;
+                            Calendar.condition = rand[i];
+                            Calendar.state = "a.o.k.";
+                        }
+                        d.push(score);
+                    } else if(cur.reports[i].breakfast_compliance == false){
                         // print no compliance
                         if(dt == Calendar.button){
                             Calendar.date = dtr;
-                            Calendar.score = "n/a";
+                            // Calendar.score = "can't report";
+                            score["neg compliance"] = "can't report";
                             Calendar.condition = rand[i];
                             Calendar.state = "neg compliance";
                         } 
-                        d.push("false");
+                        d.push(score);
                     }
-                } else {
-                    if(dt == Calendar.button){
-                            Calendar.date = dtr;
-                            Calendar.score = "n/a";
-                            Calendar.condition = rand[i];
-                            Calendar.state = "no report";
-                        } 
-                    //print no report 
-                    d.push(null);
                 }
                 days.push(d);
                 d = [];
@@ -458,7 +464,7 @@
                 } else {
                     // if everything is fine, show the report
                     if(Calendar.state == "a.o.k."){
-                        $scope.cal_comp = "True (change text)";
+                        $scope.cal_comp = "Positive (change text)";
                         $scope.cal_score = Calendar.score;
                         display = "yes";
                     } else if(Calendar.state == "neg compliance"){
@@ -480,13 +486,13 @@
             //Figuring out text for the symptom score
             var text_loc = text.post.likertlabels; //Getting the text from JSON for each likert value
             for(var k = 0; k < text_loc.length; k ++){
-                for(var key in Calendar.score){
-                    if(Calendar.score.hasOwnProperty(key)){
-                        if(Calendar.score[key] == k){
-                            Calendar.score[key] = text_loc[k].label + " : " + text_loc[k].detail;
+                    for(var key in Calendar.score){
+                        if(Calendar.score.hasOwnProperty(key)){
+                            if(Calendar.score[key] == k){
+                                Calendar.score[key] = text_loc[k].label + " : " + text_loc[k].detail;
+                            }
                         }
                     }
-                }
             }
             $scope.cal_scr = Calendar.score;
             $scope.cal_scr_txt = Calendar.score_text;
