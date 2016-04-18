@@ -7,14 +7,14 @@
 
     <h4 class="title">{{st_trigger}} Study</h4>
     Study length {{duration_readable}} days : <b>{{start_date_md}} - {{end_date_md}} </b>
-    <br/> 
+    <br/> <br/> 
     
     <h5 class="title">Description</h5>
     <i>Does {{st_trigger}} affect my <span ng-repeat="symptom in st_symptom"> {{symptom}} &nbsp </span> ?</i><!-- work on punctuation logic --> 
     <br/>
 
     <h5 class="title">{{text.setup5.symptoms_title}}</h5>
-    <p ng-repeat="symptom in st_symptom"> {{symptom}} </p>
+    <span ng-repeat="symptom in st_symptom"> {{symptom}} </span>
     <br/>
 
 <!--     <h5 class="title">{{text.setup5.reminder_times_title}}</h5>
@@ -25,8 +25,8 @@
     <br/> -->
 
     <h5 class="title">{{text.pasttrial1.status_title}}</h5>
-    <p ng-show="st_status == 'ended'"> This trial has {{st_status}}</p>
-    <p ng-show="st_status == 'abandoned'"> This trial has been {{st_status}}. <span ng-show="st_comment != ''">The reason for abandoning was <i>'{{st_comment}}'</i>.</span></p>
+    <span ng-show="st_status == 'ended'"> This trial has {{st_status}}</span>
+    <span ng-show="st_status == 'abandoned'"> This trial has been {{st_status}}. <span ng-show="st_comment != ''">The reason for abandoning was <i>'{{st_comment}}'</i>.</span></span>
     <br/>
 
 
