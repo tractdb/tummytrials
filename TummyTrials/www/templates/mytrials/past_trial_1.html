@@ -33,7 +33,7 @@
             <!-- Result for symptom:<br/> -->
             <b>{{key}}</b>
             <hr>
-            {{value[0].summary}} <br/><br/>
+            {{value[0].summary}}. (p={{value[0].p_val}}) <br/><br/>
             <div class="divcenter">
                 <!-- {{key}}  -->
                 <b><label >{{view_title}}</label></b>
@@ -45,7 +45,17 @@
             </div>
             <br/><br/>
             <div>
-                Average {{key}} severity on days with {{trig}} was {{result1}} and on days without {{trig}} was {{result2}}
+<!--                 Average {{key}} severity on days with {{trig}} was 
+                {{value[duration_readable - 1].a_avg / ((duration_readable / 2) - value[0].a_void)}} 
+                and on days without {{trig}} was 
+                {{value[duration_readable - 1].b_avg / ((duration_readable / 2) - value[0].b_void)}} <br/> -->
+
+                Average {{key}} severity on days with {{trig}} was 
+                {{value[0].a_res_text}} 
+                and on days without {{trig}} was 
+                {{value[0].b_res_text}}. <br/><br/>
+
+                <span ng-show="value[0].a_void > 0 || value[0].b_void > 0">There were one or more days when no symptoms were recorded which may affect the averages shown above. Missing data is shown in grey circles in the visualization.</span>
             </div>
             <br/><br/>
         </div>

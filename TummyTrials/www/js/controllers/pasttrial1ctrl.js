@@ -81,6 +81,9 @@
         //Statement summary of the result
         var res_desc = text.results.summary;
         var trig = cur.trigger;
+        var p_val = cur.results;
+        var a_avg = 0, a_void = 0, a_void_flag, a_res_text,
+             b_avg = 0, b_void = 0, b_void_flag, b_res_text;
 
         // checking if trigger has Eating or Drinking in its text
         // 'Drinking Caffeine' becomes 'Caffeine'
@@ -90,6 +93,7 @@
             trig = trig.replace('Drinking ', '');
         }
         $scope.trig = trig;
+
 
         // iterating over all the symptoms
         for(var a = 0; a < sym_num; a++){
@@ -115,24 +119,79 @@
                             score = cur.reports[i].symptom_scores[a].score;
                             // off setting the symptom score by 2 for the result vis.
                             sym_data["severity"] = score + 2;
+                            if(rand[i] == "A"){
+                                a_avg = a_avg + score;
+                            }
+                            if(rand[i] == "B"){
+                                b_avg = b_avg + score;
+                            } 
                         // if compliance is true but score not reported
                         } else if(cur.reports[i].breakfast_compliance == true && typeof(cur.reports[i].symptom_scores) != "object"){
                             sym_data["severity"] = 1;
+                            if(rand[i] == "A"){
+                                a_void = a_void + 1;
+                            }
+                            if(rand[i] == "B"){
+                                b_void = b_void + 1;
+                            } 
                         // negative compliance
                         } else {
                             // print no compliance
                             sym_data["severity"] = 0;
+                            if(rand[i] == "A"){
+                                a_void = a_void + 1;
+                            }
+                            if(rand[i] == "B"){
+                                b_void = b_void + 1;
+                            }
                         }
                     // no response at all
                     } else {
                         sym_data["severity"] = 0;
+                        if(rand[i] == "A"){
+                            a_void = a_void + 1;
+                        }
+                        if(rand[i] == "B"){
+                            b_void = b_void + 1;
+                        }
+                    }
+                    // a_avg = a_avg / [($scope.duration_readable / 2) - a_void];
+                    // b_avg = b_avg / [($scope.duration_readable / 2) - b_void];
+
+                    if(a_void > 0){
+                        a_void_flag = true;
+                    } else {
+                        a_void_flag = false;
+                    }
+                    if(b_void > 0){
+                        b_void_flag = true;
+                    } else {
+                        b_void_flag = false;
                     }
                     // Using the date as the key, store the condition and the score for each day
                     sym_data["date"] = dt;
 
                     res_desc = res_desc.replace('{SYMPTOM}', sym_name);
                     res_desc = res_desc.replace('{TRIGGER}', trig);
+                    if(p_val[a]){
+                        var p_val_num = Number(p_val[a]);
+                        if(p_val_num <= 0.05){
+                            res_desc = res_desc.replace('{EVIDENCE}', 'strong');
+                        } else if(p_val_num > 0.05 && p_val_num <= 0.1) {
+                            res_desc = res_desc.replace('{EVIDENCE}', 'possible');
+                        } else if(p_val_num > 0.1){
+                            res_desc = res_desc.replace('{EVIDENCE}', 'no');
+                        }
+
+                    }
                     sym_data["summary"] = res_desc;
+                    sym_data["a_avg"] = a_avg;
+                    sym_data["b_avg"] = b_avg;
+                    sym_data["a_void"] = a_void;
+                    sym_data["b_void"] = b_void;
+                    sym_data["p_val"] = p_val[a];
+
+
                     sym_sym.push(sym_data);
                     d = [];
                     score = null;
@@ -140,6 +199,68 @@
                     // need to reset the description text since {SYMPTOM} no longer exists after first pass
                     res_desc = text.results.summary;
                 }
+
+                a_avg = a_avg / [($scope.duration_readable / 2) - a_void];
+                b_avg = b_avg / [($scope.duration_readable / 2) - b_void];
+                // console.log("A " + a_avg + " B " + b_avg);
+                // 0 - 6
+                if(a_avg <= 0.2){
+                    a_res_text = "Not at all";
+                } else if (a_avg > 0.2 && a_avg < 0.8){
+                    a_res_text = "between Not at all and Slightly";
+                } else if (a_avg >= 0.8 && a_avg <= 1.2){
+                    a_res_text = "Slightly";
+                } else if (a_avg > 1.2 && a_avg < 1.8){
+                    a_res_text = "between Slightly and Mildly";
+                } else if (a_avg >= 1.8 && a_avg <= 2.2){
+                    a_res_text = "Mildly";
+                } else if (a_avg > 2.2 && a_avg < 2.8){
+                    a_res_text = "between Mildly and Moderately";
+                } else if (a_avg >= 2.8 && a_avg <= 3.2){
+                    a_res_text = "Moderately";
+                } else if (a_avg > 3.2 && a_avg < 3.8){
+                    a_res_text = "between Moderately and Severely";
+                } else if (a_avg >= 3.8 && a_avg <= 4.2){
+                    a_res_text = "Severely";
+                } else if (a_avg > 4.2 && a_avg < 4.8){
+                    a_res_text = "between Severely and Very Severely";
+                } else if (a_avg >= 4.8 && a_avg <= 5.2){
+                    a_res_text = "Very Severely";
+                } else if (a_avg > 5.2 && a_avg < 5.8){
+                    a_res_text = "between Very Severely and Extremely";
+                } else if (a_avg >= 5.8){
+                    a_res_text = "Extremely";
+                } 
+
+                if(b_avg <= 0.2){
+                    b_res_text = "Not at all";
+                } else if (b_avg > 0.2 && b_avg < 0.8){
+                    b_res_text = "between Not at all and Slightly";
+                } else if (b_avg >= 0.8 && b_avg <= 1.2){
+                    b_res_text = "Slightly";
+                } else if (b_avg > 1.2 && b_avg < 1.8){
+                    b_res_text = "between Slightly and Mildly";
+                } else if (b_avg >= 1.8 && b_avg <= 2.2){
+                    b_res_text = "Mildly";
+                } else if (b_avg > 2.2 && b_avg < 2.8){
+                    b_res_text = "between Mildly and Moderately";
+                } else if (b_avg >= 2.8 && b_avg <= 3.2){
+                    b_res_text = "Moderately";
+                } else if (b_avg > 3.2 && b_avg < 3.8){
+                    b_res_text = "between Moderately and Severely";
+                } else if (b_avg >= 3.8 && b_avg <= 4.2){
+                    b_res_text = "Severely";
+                } else if (b_avg > 4.2 && b_avg < 4.8){
+                    b_res_text = "between Severely and Very Severely";
+                } else if (b_avg >= 4.8 && b_avg <= 5.2){
+                    b_res_text = "Very Severely";
+                } else if (b_avg > 5.2 && b_avg < 5.8){
+                    b_res_text = "between Very Severely and Extremely";
+                } else if (b_avg >= 5.8){
+                    b_res_text = "Extremely";
+                } 
+                sym_sym[0]["a_res_text"] = a_res_text;
+                sym_sym[0]["b_res_text"] = b_res_text;
                 $scope.sym_syma = sym_sym;
                 res_all[sym_name] = sym_sym; 
                 sym_sym = [];

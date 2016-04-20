@@ -105,7 +105,7 @@
 		"summarycondb": "Days without Lactose was "
 	},
 	"results": {
-		"summary": "Based on the trial, there is {EVIDENCE} that your {SYMPTOM} gets {BETTER/WORSE} when you consume {TRIGGER}"
+		"summary": "Based on the trial, there is {EVIDENCE} evidence that your {SYMPTOM} gets {BETTER/WORSE} when you consume {TRIGGER}"
 	},
 	"faqs": {
 		"title": "Frequently Asked Questions",
