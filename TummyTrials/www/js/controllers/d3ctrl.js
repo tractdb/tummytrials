@@ -144,6 +144,10 @@
               .attr("x", 0)
               .attr("y", 15);
 
+          // remove the line for x axis since we're drawing a line above no reports
+          svg.select(".domain")
+              .remove();
+
           // Add the Y Axis
           svg.append("g")
               .attr("class", "y axis")
@@ -153,6 +157,15 @@
               .attr("x", -7)
               .attr("y", -7)
               .style("text-anchor", "end");
+
+          // replacement for the x axis
+          svg.append("line")
+              .attr("x1",0)
+              .attr("y1",187.5)
+              .attr("x2",width)
+              .attr("y2",187.5)
+              .attr("stroke-width", 1)
+              .attr("stroke", "black");
 
           svg.selectAll("circle").data(scope.data)
           .enter()
@@ -164,7 +177,7 @@
                 if(d.severity > 1){
                   return color(d.condition); 
                 } else if(d.severity == 0 || d.severity == 1){
-                  return "grey";
+                  return "#cccccc";
                 }
 
               })
@@ -197,6 +210,9 @@
               .attr("x", -10)
               .attr("y", 10)
               .style("text-anchor", "end");
+
+            svg.select(".domain")
+              .remove();
 
             svg.selectAll("circle")
                     .transition()
@@ -234,6 +250,9 @@
               .transition()
               .duration(750)
               .call(xAxis);
+
+            svg.select(".domain")
+              .remove();
 
             svg.selectAll("circle")
                 .transition()
