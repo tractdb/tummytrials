@@ -4,18 +4,17 @@
   </ion-nav-title>
   <ion-pane>
     <ion-content class="padding">
-
-    <h4 class="title">{{st_trigger}} Study</h4>
+    <h4 class="title">{{st_trigger}} Study Findings</h4>
     Study length {{duration_readable}} days : <b>{{start_date_md}} - {{end_date_md}} </b>
-    <br/> <br/> 
+    <br/> <br/>
     
-    <h5 class="title">Description</h5>
-    <i>Does {{st_trigger}} affect my <span ng-repeat="symptom in st_symptom"> {{symptom}} &nbsp </span> ?</i><!-- work on punctuation logic --> 
+    <!-- <h5 class="title">Description</h5> -->
+    <h5>Does {{st_trigger}} affect my <span ng-repeat="symptom in st_symptom"> {{symptom}} &nbsp </span>?</h5><!-- work on punctuation logic --> 
     <br/>
 
-    <h5 class="title">{{text.setup5.symptoms_title}}</h5>
+<!--     <h5 class="title">{{text.setup5.symptoms_title}}</h5>
     <span ng-repeat="symptom in st_symptom"> {{symptom}} </span>
-    <br/>
+    <br/> -->
 
 <!--     <h5 class="title">{{text.setup5.reminder_times_title}}</h5>
     <div class="row" ng-repeat="remdesc in study_past1.remdescrs">
@@ -24,25 +23,29 @@
     </div>
     <br/> -->
 
-    <h5 class="title">{{text.pasttrial1.status_title}}</h5>
-    <span ng-show="st_status == 'ended'"> This trial has {{st_status}}</span>
-    <span ng-show="st_status == 'abandoned'"> This trial has been {{st_status}}. <span ng-show="st_comment != ''">The reason for abandoning was <i>'{{st_comment}}'</i>.</span></span>
-    <br/>
-
+    <!-- <h5 class="title">{{text.pasttrial1.status_title}}</h5> -->
+    <!-- <span ng-show="st_status == 'ended'"> This trial has {{st_status}}.</span> -->
+    <span ng-show="st_status == 'abandoned'"> This trial was {{st_status}}.</span><span ng-show="st_comment != ''">The reason for abandoning was <i>'{{st_comment}}'</i>.</span>
 
     <!-- Show results only if study was ended -->
     <div ng-show="st_status == 'ended'">
         <div ng-repeat="(key, value) in visdata">
             <!-- Result for symptom:<br/> -->
+            <b>{{key}}</b>
+            <hr>
+            {{value[0].summary}} <br/><br/>
             <div class="divcenter">
-                <b>{{key}}</b>
-                <br/>
+                <!-- {{key}}  -->
                 <b><label >{{view_title}}</label></b>
             </div>
             <result-vis result-data="value" on-click="d3OnClick(data_pt)" label="d3Label" control="resultVisControl"> </result-vis>
             <div class="divcenter">
                 <button class="button button-small button-royal small-text" ng-click="resultVisControl.updateVis();">&nbsp&nbsp Time line view &nbsp&nbsp </button> &nbsp&nbsp &nbsp&nbsp 
                 <button class="button button-small button-royal small-text" ng-click="resultVisControl.revertVis();">&nbsp&nbsp Trend view &nbsp&nbsp </button>
+            </div>
+            <br/><br/>
+            <div>
+                Average {{key}} severity on days with {{trig}} was {{result1}} and on days without {{trig}} was {{result2}}
             </div>
             <br/><br/>
         </div>

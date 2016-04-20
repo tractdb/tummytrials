@@ -104,6 +104,9 @@
 		"summaryconda": "Days with Lactose was",
 		"summarycondb": "Days without Lactose was "
 	},
+	"results": {
+		"summary": "Based on the trial, there is {EVIDENCE} that your {SYMPTOM} gets {BETTER/WORSE} when you consume {TRIGGER}"
+	},
 	"faqs": {
 		"title": "Frequently Asked Questions",
 		"subtitle": "If you did not find what you are looking for please reach out to us.",
