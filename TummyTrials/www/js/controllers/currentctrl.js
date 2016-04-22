@@ -19,11 +19,14 @@
 'use strict';
 
 (angular.module('tummytrials.currentctrl',
-                [ 'tummytrials.lc', 'tummytrials.text', 'tummytrials.studyfmt',
-                  'tummytrials.experiments', 'ionic', 'tummytrials.calendar', 'ngSanitize' ])
+                [ 'tractdb.tdate', 'tractdb.reminders', 'tummytrials.lc',
+                  'tummytrials.text', 'tummytrials.studyfmt',
+                  'tummytrials.experiments', 'ionic', 'tummytrials.calendar',
+                  'ngSanitize' ])
 
-.controller('CurrentCtrl', function($scope, $state, LC, Text, Experiments, 
-                                        $window, $ionicPopup, $timeout, Calendar) {
+.controller('CurrentCtrl', function($scope, $state, LC, Text, TDate,
+                                    Reminders, Experiments, $window,
+                                    $ionicPopup, $timeout, Calendar) {
 
     Text.all_p()
         .then(function(text) {
@@ -47,44 +50,6 @@
             //     logstate   ex: 'during' (angular-ui state for logging)
             //
             var rinfo = [];
-
-// We're going to require the user to enter the info for each day on the
-// day itself. So, no falling behind.
-//
-//
-//          // If the user falls behind in reporting, there can be
-//          // reports due for days in the past. Or there can be reports
-//          // due now or sometime later today. We'll guide the user to
-//          // make the earliest such report. So figure out its type.
-//          //
-//          var rep_type = null; // Next report to make; null => done thru today
-//          var sdn = Math.min(Experiments.study_day_today(cur),
-//                             Experiments.study_duration(cur));
-
-//          found: for (var sd = 1; sd <= sdn; sd++) {
-//              if (!cur.reports || !cur.reports[sd - 1]) {
-//                  // No report object at all; so, first report of day
-//                  // is earliest report due.
-//                  //
-//                  for (var i = 0; i < cur.remdescrs.length; i++) {
-//                      if (!cur.remdescrs[i].reminderonly) {
-//                          rep_type = cur.remdescrs[i].type;
-//                          break found;
-//                      }
-//                  }
-//                  break found; // (No reportable reminders at all?)
-//              }
-//              var rsd = cur.reports[sd - 1];
-//              for (var i = 0; i < cur.remdescrs.length; i++) {
-//                  if (cur.remdescrs[i].reminderonly)
-//                      continue;
-//                  var ty = cur.remdescrs[i].type;
-//                  if (!Experiments.report_made(rsd, ty)) {
-//                      rep_type = ty;
-//                      break found;
-//                  }
-//              }
-//          }
 
             // Stuff dealing with the calendar widget
             $scope.today = new Date();
@@ -248,7 +213,6 @@
                 info.reportdue =
                     !rd.reminderonly &&
                     rep_tally[rd.type] < Experiments.study_day_today(cur);
-                // info.disabled = rd.type != rep_type;
                 info.disabled = false;
                 var msg, name, reportmsg;
                 msg = text.current.reminder_schedule_template;
@@ -256,44 +220,37 @@
                 msg = msg.replace('{NAME}', name);
                 msg = msg.replace('{WHEN}', LC.timestr(rd.time || 0));
                 info.schedmsg = msg;
-                if (rd.reminderonly) {
-                    info.logmsg = null;
-                    info.selected_value = null;
-                    info.reportmsg = null;
-                } else {
-                    info.logmsg = text.current[rd.type + '_reminder_logmsg'];
-                    // info.logmsg = info.logmsg || ('Log ' + rd.type);
-                    switch(rd.type) {
-                        case 'breakfast':
-                            info.logstate = 'during';
-                            info.reportmsg = bfst_comp_msg;
-                            if(bfst_comp_state == true){
-                                info.logmsg = 'Edit ' + info.logmsg;
-                            }else{
-                                info.logmsg = 'Log ' + info.logmsg;
-                            }
-                            break;
-                        case 'symptomEntry':
-                            info.logstate = 'post({symptomIndex:0})';
-                            info.reportmsg = report_msg;
+                info.logmsg = text.current[rd.type + '_reminder_logmsg'];
+                switch(rd.type) {
+                    case 'breakfast':
+                        info.logstate = 'during';
+                        info.reportmsg = bfst_comp_msg;
+                        if (bfst_comp_state == true) {
+                            info.logmsg = 'Edit ' + info.logmsg;
+                        } else {
+                            info.logmsg = 'Log ' + info.logmsg;
+                        }
+                        break;
+                    case 'symptomEntry':
+                        info.logstate = 'post({symptomIndex:0})';
+                        info.reportmsg = report_msg;
 
-                            if(sym_score_state == true){
-                                info.logmsg = 'Edit ' + info.logmsg;
-                            }else{
-                                info.logmsg = 'Log ' + info.logmsg;
-                            }
-                            break;
-                        default:
-                            info.logstate = 'none';
-                            info.reportmsg = null;
-                            break;
-                    }
+                        if (sym_score_state == true) {
+                            info.logmsg = 'Edit ' + info.logmsg;
+                        } else {
+                            info.logmsg = 'Log ' + info.logmsg;
+                        }
+                        break;
+                    default:
+                        info.logmsg = null;
+                        info.logstate = 'none';
+                        info.reportmsg = null;
+                        break;
                 }
                 rinfo.push(info);
             });
 
             $scope.study_reminders = rinfo;
-
 
             // Title of the study
             if(typeof(cur.trigger) == "string"){
@@ -325,6 +282,46 @@
 
             //Help toggle
             $scope.help = false;
+
+            // The function for the 'Submit' button.
+            //
+            $scope.submit_for_day = function() {
+                var sd = Experiments.study_day_today(cur);
+                var dur = Experiments.study_duration(cur);
+                if (sd <= 0 || sd > dur)
+                    // Study not in progress. Nothing to submit.
+                    //
+                    return;
+                var rep = null;
+                if (Array.isArray(cur.reports))
+                    rep = cur.reports[sd - 1];
+                if (!rep)
+                    rep = Experiments.report_new(sd);
+                rep.confirmed = true;
+                rep.confirmed_time = Math.floor(TDate.now() / 1000);
+                Experiments.put_report_p(cur.id, rep)
+                .then(function(_) {
+                    // Reload the modified experiment.
+                    //
+                    return Experiments.getCurrent();
+                })
+                .then(function(cur2) {
+                    // Resync the reminders.
+                    //
+                    if (!cur2)
+                        return null; // Shouldn't happen; but nothing to sync
+                    var rd = cur2.remdescrs;
+                    var st = cur2.start_time;
+                    var et = cur2.end_time;
+                    var rt = Experiments.report_tally(cur2);
+                    return Reminders.sync(rd, st, et, rt);
+                })
+                .then(function(_) {
+                    // Reload current page.
+                    //
+                    $state.go($state.current, {}, { reload: true });
+                });
+            }
 
             // For detecting accelerated demo
             // If ttransform exists, then trail is being accelerated

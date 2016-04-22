@@ -129,6 +129,24 @@ function by_time(a, b)
         return def.promise;
     }
 
+    function set_transform(curex)
+    {
+        // The given experiment is the current experiment. If it has a
+        // transform, instantiate the transform in TDate. Otherwise
+        // revert to the identity transform.
+        //
+        if (curex && 'ttransform' in curex &&
+            !isNaN(curex.ttransform.speedup) &&
+            !isNaN(curex.ttransform.offset)) {
+            console.log('Experiments.set_transform',
+                        curex.ttransform.speedup, curex.ttransform.offset);
+            TDate.setTransform(curex.ttransform.speedup,
+                                curex.ttransform.offset);
+        } else {
+            TDate.setTransform(1, 0);
+        }
+    }
+
     function study_day(exper, date) {
         // Return the day of the study on the given date: 1, 2, 3,
         // ... N. The result can be 0 or negative if the date falls
@@ -141,6 +159,20 @@ function by_time(a, b)
             new TDate(date.getFullYear(), date.getMonth(), date.getDate());
         var d0ep = Math.trunc(date0.getTime() / 1000);
         return 1 + Math.round((d0ep - exper.start_time) / 86400);
+    }
+
+    function study_duration(exper) {
+        // Return duration of the study in days.
+        //
+        return Math.round((exper.end_time - exper.start_time) / 86400);
+    }
+
+    function sec_after_midnight()
+    {
+        // How many seconds after midnight is it right now?
+        //
+        var now = new TDate();
+        return (now.getHours() * 60 + now.getMinutes()) * 60 + now.getSeconds();
     }
 
     function get_all_p()
@@ -166,80 +198,74 @@ function by_time(a, b)
         // rep contains the reports for one day. Return true if a report
         // of type repty is present.
         //
-        // Note that when breakfast compliance has been specifically
-        // disclaimed we treat the symptom entry report as having been
-        // made.
-        //
         if (!rep)
             return false;
         switch(repty) {
-            case 'breakfast':
-                return rep.breakfast_compliance === false ||
-                       rep.breakfast_compliance === true;
-            case 'symptomEntry':
-                return rep.breakfast_compliance === false ||
-                       (Array.isArray(rep.symptom_scores) &&
-                        rep.symptom_scores.length > 0);
+            case 'morning':
+                return !!rep.morning_reminded;
+            case 'evening':
+                return !!rep.confirmed;
         }
         return false;
     }
 
-// This old definition allows user to fall behind in reporting. Latest
-// plan is to require them to stay current.
-//
-//  function report_tally(exper)
-//  {
-//      // Count the number of reports of each type. Note that if there
-//      // was no compliance at breakfast there's no need for symptom
-//      // entry. We handle this by treating the symptomEntry report as
-//      // present for such a day.
-//      //
-//      var tally = { breakfast: 0, symptomEntry: 0};
-//
-//      if (!exper.reports)
-//          return tally;
-//
-//      exper.reports.forEach(function(r) {
-//          if (    r.breakfast_compliance === true ||
-//                  r.breakfast_compliance === false)
-//              tally.breakfast++;
-//          if (    r.breakfast_compliance === false ||
-//                  (Array.isArray(r.symptom_scores) &&
-//                   r.symptom_scores.length > 0))
-//              tally.symptomEntry++;
-//      });
-//
-//      return tally;
-//  }
-
-
     function report_tally(exper)
     {
-        // Figure out how many reports have been made of each type.
-        // Since reports must be made by the end of the day, this is a
-        // simple calculation. Determine whether there's a report for
-        // today. If not, use yesterday's study day number. Otherwise
-        // use today's study day number.
+        // Figure out how many reports have been made of each type as of
+        // the current moment. Since reports must be made by the end of
+        // the day, this is a simple calculation. Determine whether
+        // there's a report for today. If not, use yesterday's study day
+        // number. Otherwise use today's study day number.
         //
         var sd = study_day(exper, new TDate());
+        var dur = study_duration(exper);
 
         var yestsd = Math.max(0, sd - 1);
-        var breakf = yestsd;
-        var sympto = yestsd;
+        var morning = yestsd;
+        var evening = yestsd;
 
         function tally() {
-            return { breakfast: breakf, symptomEntry: sympto };
+            return { morning: morning, evening: evening, closeout: evening };
         }
 
-        if (sd <= 0 || !exper.reports)
+        if (sd <= 0)
+            // Study hasn't started yet.
+            //
+            return tally();
+        if (sd > dur) {
+            // Study is over. All reports are deemed to have been made.
+            //
+            morning = dur;
+            evening = dur;
+            return tally();
+        }
+
+        // If it's after the closeout time today, all reports for the
+        // day are deemed to exist.
+        //
+        if (Array.isArray(exper.remdescrs)) {
+            var closeout_rd = null;
+            for (var i = 0; i < exper.remdescrs.length; i++)
+                if (exper.remdescrs[i].reportclose) {
+                    closeout_rd = exper.remdescrs[i];
+                    break;
+                }
+            if (closeout_rd && sec_after_midnight() >= closeout_rd.time) {
+                morning = sd;
+                evening = sd;
+                return tally();
+            }
+        }
+
+        if (!exper.reports)
             return tally();
 
         var r = exper.reports[sd - 1];
 
-        if (report_made(r, 'breakfast'))
-            breakf = sd;
-        if (report_made(r, 'symptomEntry'))
-            sympto = sd;
+        if (report_made(r, 'morning'))
+            morning = sd;
+        if (report_made(r, 'evening'))
+            evening = sd;
 
         return tally();
     }
@@ -279,16 +305,20 @@ function by_time(a, b)
     return {
         // Useful computations relating to experiments.
         //
+        set_transform: set_transform,
+
         study_day: study_day,
 
         study_day_today: function(exper) {
             return study_day(exper, new TDate());
         },
 
-        study_duration: function(exper) {
-            // Return duration of study in days.
+        study_duration: study_duration,
+
+        report_new: function(study_day) {
+            // Return an empty report for the given study day.
             //
-            return Math.round((exper.end_time - exper.start_time) / 86400);
+            return { study_day: study_day };
         },
 
         report_made: report_made, 
@@ -324,25 +354,9 @@ function by_time(a, b)
                 } else {
                     scope.study_current = expers[cix];
                     expers.splice(cix, 1);
+                    set_transform(scope.study_current);
                 }
                 scope.study_previous = expers;
-
-                // If current experiment has time transform, start up
-                // the transform. If not, revert to identity transform.
-                //
-                var curex = scope.study_current;
-                if (    curex && 'ttransform' in curex &&
-                        !isNaN(curex.ttransform.speedup) &&
-                        !isNaN(curex.ttransform.offset)) {
-                    console.log('Experiments.publish_p set transform',
-                                curex.ttransform.speedup,
-                                curex.ttransform.offset);
-                    TDate.setTransform(curex.ttransform.speedup,
-                                       curex.ttransform.offset);
-                } else {
-                    TDate.setTransform(1, 0);
-                }
-
                 return null;
             });
         },

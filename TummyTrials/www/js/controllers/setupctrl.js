@@ -135,7 +135,7 @@ function timesec_of_date(date)
     });
 })
 
-.controller('Setup5Ctrl', function($scope, $state, TDate, ABShuffle,
+.controller('Setup5Ctrl', function($scope, $state, ABShuffle,
                                    Reminders, LC, Text, SetupData,
                                    StudyFmt, Experiments, Replicator) {
     var APPNAME = 'TummyTrials';
@@ -213,26 +213,34 @@ function timesec_of_date(date)
 
         exper.remdescrs = [
             { type: 'morning',
-              reminderonly: true,
               time: timesec_of_date(SetupData.morning_time),
               heads: reminder_heads(text.setup5.morning_reminder_title),
               bodies: morning_bodies(text, exper.abstring)
             },
             { type: 'breakfast',
+              reminderonly: true,
               time: timesec_of_date(SetupData.breakfast_time),
               heads: reminder_heads(text.setup5.breakfast_reminder_title),
               bodies: [text.setup5.breakfast_reminder_text]
             },
             { type: 'symptomEntry',
+              reminderonly: true,
               time: timesec_of_date(SetupData.symptom_time),
               heads: reminder_heads(text.setup5.symptomEntry_reminder_title),
               bodies: [text.setup5.symptomEntry_reminder_text]
             },
             { type: 'evening',
-              reminderonly: true,
               time: timesec_of_date(SetupData.evening_time),
               heads: reminder_heads(text.setup5.evening_reminder_title),
               bodies: [text.setup5.evening_reminder_text]
+            },
+            { type: 'closeout',
+              reportclose: true,
+              time:
+                Math.min(timesec_of_date(SetupData.evening_time) + 60 * 60 * 4,
+                         (24 * 60 - 1) * 60), // No later than 11:59 PM
+              heads: reminder_heads(text.setup5.closeout_reminder_title),
+              bodies: [text.setup5.closeout_reminder_text]
             }
         ];
         exper.breakfast_pref =  SetupData.breakfast_preference.breakfast;

@@ -532,7 +532,9 @@
 		"evening_reminder_text": "Please update symptom levels if necessary.",
 		"food_pref_title":"Food preferences",
 		"breakfast_pref":"Breakfast preference",
-		"drink_pref":"Drink preference"
+		"drink_pref":"Drink preference",
+                "closeout_reminder_title": "End of Symtom Entry Period",
+                "closeout_reminder_text": "The time for reporting symptom severities has ended for today."
 	},
 	"loginfo": {
 		"header": "Tummy Trials Login",

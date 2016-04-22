@@ -83,7 +83,7 @@
         var now = new TDate();
         return (now.getHours() * 60 + now.getMinutes()) * 60 + now.getSeconds();
     }
-    
+
     function study_duration(remstate)
     {
         // Return the duration (in days) of the study.
@@ -300,7 +300,11 @@
         }
         g_notifs_seen[notif.id] = 1;
 
-        // Otherwise recalculate based on our latest info.
+        // Otherwise broadcast the trigger event to interested parties.
+        //
+        $rootScope.$broadcast('reminderTriggered');
+
+        // Recalculate reminders based on our latest info.
         //
         if (c_remstate && c_report_cts)
             sync_p(c_remstate, c_report_cts);
