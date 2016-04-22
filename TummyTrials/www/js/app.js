@@ -30,6 +30,7 @@ var app = angular.module('tummytrials',
             'tummytrials.replicator',
             'tummytrials.login', 'tummytrials.currentstudy',
             'tummytrials.studysetup', 'tummytrials.faqcontroller',
+            'tummytrials.morning',
             'tummytrials.activitylog', 'tummytrials.currentctrl',
             'tummytrials.mytrialsctrl', 'tummytrials.pasttrial1ctrl',
             'tummytrials.settingsctrl', 'd3', 'd3.directives',
@@ -63,32 +64,19 @@ app.run(function($cordovaFile, $ionicPlatform, $rootScope, $q,
         .then(function(curex) {
             var rd, st, et, rt;
 
-            if (    curex && curex.remdescrs &&
-                    curex.start_time && curex.end_time) {
+            // Establish time transform before tallying.
+            //
+            if (curex)
+                Experiments.set_transform(curex);
+
+            if (curex && curex.remdescrs &&
+                curex.start_time && curex.end_time) {
                 // Current experiment looks good.
                 //
                 rd = curex.remdescrs;
                 st = curex.start_time;
                 et = curex.end_time;
                 rt = Experiments.report_tally(curex);
-
-                // Establish any time transform before resyncing the
-                // reminders.
-                //
-                if (    'ttransform' in curex &&
-                        !isNaN(curex.ttransform.speedup) &&
-                        !isNaN(curex.ttransform.offset)) {
-                    // Current experiment has a time transform.
-                    //
-                    console.log('set transform', curex.ttransform.speedup,
-                                curex.ttransform.offset);
-                    TDate.setTransform(curex.ttransform.speedup,
-                                       curex.ttransform.offset);
-                } else {
-                    // Current experiment doesn't have a time transform.
-                    //
-                    TDate.setTransform(1, 0);
-                }
             } else {
                 // No current experiment.
                 //

@@ -20,8 +20,8 @@
 
         Experiments.get_report_p(cur.id, logday)
         .then(function(report) {
-            if (!report) report = {};
-            report.study_day = logday;
+            if (!report)
+                report = Experiments.report_new(logday);
             report.breakfast_compliance = compliant;
             report.breakfast_report_time = Math.floor(TDate.now() / 1000);
             return Experiments.put_report_p(cur.id, report);
@@ -153,8 +153,8 @@
 
         return Experiments.get_report_p(cur.id, logday)
         .then(function(report) {
-            if (!report) report = {}; // (Shouldn't happen, breakfast is first.)
-            report.study_day = logday;
+            if (!report)
+                report = Experiments.report_new(logday); // Unlikely
             var scores = [];
             for (var i = 0; i < cur.symptoms.length; i++) {
                 var s = {};
@@ -256,20 +256,6 @@
                 delete SymptomData.severity[cur.symptoms[symix]];
         });
 
-//      // Caller assures us that we need to log symptom severity. Find
-//      // the first study day without a symptom report.
-//      //
-//      logday = 1;
-//      if (!Array.isArray(cur.reports))
-//          cur.reports = [];
-//      for (var i = 0; i < 10000; i++)
-//          if (!Experiments.report_made(cur.reports[i], 'symptomEntry')) {
-//              logday = i + 1;
-//              break;
-//          }
-
-// No need to figure out the day to log. All logging is for today.
-//
         logday = Experiments.study_day_today(cur);
 
         // Compute a name for the day to be logged.
