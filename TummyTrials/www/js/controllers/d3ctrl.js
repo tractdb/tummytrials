@@ -167,6 +167,13 @@
               .attr("stroke-width", 1)
               .attr("stroke", "black");
 
+          svg.append("rect")
+            .attr("x", 0)
+            .attr("y", 187.5)
+            .attr("width", width)
+            .attr("height", 63)
+            .attr("fill", "#e2fff8");
+
           svg.selectAll("circle").data(scope.data)
           .enter()
           .append("circle")
