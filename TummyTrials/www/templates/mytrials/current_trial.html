@@ -6,8 +6,7 @@
 	        For testing purposes only: <br/>
 	        {{study_current.id}}
 	     </div> -->
-       View: {{view}} <br/>
-       
+
 		<div class="card padding">
 	        Name : {{study_current.name}} <br/> 
 	        Breakfast preference : {{study_current.breakfast_pref}} <br/> 
@@ -15,9 +14,12 @@
 	        Status : {{study_current.status}}  <br/>
 	  </div>
 
-
+        <!-- 
+        Completing a study
+        --> 
         <div ng-show="complete" class="card padding">
           <h4>Complete Trial:</h4>
+          <p>You have finished the trial. Please submit the trial by pressing the button below to view results.</p>
            <div class="divcenter">
               <button class="button button-royal" ng-click="complete_trial()" >
                 Complete Trial
@@ -26,17 +28,16 @@
         </div>
 
         <!-- 
-        Abandoning / Completing a study
+        Abandoning a study
         --> 
         <div ng-show="abandon" class="card padding">
           <h4>End Trial:</h4>
-          <p>{{text.current.abandon_text}}
+          <p>{{text.current.abandon_text}}</p>
             <div class="divcenter">
               <button class="button button-royal" ng-click="abandon_trial()" >
                 Abandon Trial
               </button>
             </div>
-          </p>
         </div>
 
 

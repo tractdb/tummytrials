@@ -67,9 +67,9 @@
         if(cur.status == "active"){
             return Experiments.setStatus(cur.id, "ended");
         }
-        if(cur.status == "ended"){
-          $state.go('mytrials');
-        }
+        // if(cur.status == "ended"){
+        //   $state.go('mytrials');
+        // }
     };
 
     Text.all_p()
@@ -84,23 +84,30 @@
       var not_end_date = cur.end_time;
       var end_date = not_end_date - 86400;
       var today = Math.round(Date.now()/1000);
-      var view = null, complete = false , abandon = false;
+      var complete = false , abandon = false;
 
 
       //experiment has elapsed
       if(today > not_end_date){
-        view = 'complete';
         complete = true;
       } else if(today >= end_date <= not_end_date){
         // this is the last day of the trial
         // check for evening reminder or check if values exist
+        var last_report = cur.reports[Experiments.study_duration(cur) - 1];
+        if(last_report.breakfast_compliance == false){
+          // if complaince is false then last day report is over
+          complete = true;
+        } else if(last_report.breakfast_compliance == true){
+            if(typeof(last_report.symptom_scores) == "object"){
+            // if compliance was true check if scores reported.
+            complete = true;
+            }
+        }
       } else if(today < end_date){
         //experiment still on going
-        view = 'abandon';
         abandon = true;
       }
 
-      $scope.view = view;
       $scope.complete = complete;
       $scope.abandon = abandon;
 
