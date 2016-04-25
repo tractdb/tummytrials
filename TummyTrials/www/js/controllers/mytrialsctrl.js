@@ -1,3 +1,10 @@
+// Rules for ending the trial.
+// User cannot abandon trial on or after the last day of trial. 
+// If day is past the last day of trial, end trial. 
+// If day is last day of trial, allow for completing trial after the noon reminder.
+
+
+
 (angular.module('tummytrials.mytrialsctrl',
                 ['tummytrials.lc','tummytrials.text', 'ionic', 'tummytrials.experiments'])
 
@@ -5,7 +12,6 @@
 
 	// An elaborate, custom popup to abandon ongoing trial
     $scope.abandon_trial = function(){
-    	console.log("function called");
       $scope.reason = {};
         var cur = $scope.study_current;
         var status = null;
@@ -42,7 +48,6 @@
                         });
                         return Experiments.setAbandon_p(cur.id, status, reason);
                      } else {
-                       console.log('You are not sure');
                      }
               }).then(function(_){
                 if(cur.status == "abandoned"){
@@ -56,17 +61,48 @@
       }
     };
 
+    $scope.complete_trial = function(){
+      console.log("function called");
+        var cur = $scope.study_current;
+        if(cur.status == "active"){
+            return Experiments.setStatus(cur.id, "ended");
+        }
+        if(cur.status == "ended"){
+          $state.go('mytrials');
+        }
+    };
+
     Text.all_p()
     .then(function(text) {
         $scope.text = text;
         return Experiments.publish_p($scope);
     })
     .then(function(_){
-    	// var cur =  $scope.study_current;
+    	var cur =  $scope.study_current;
 
-     //  $scope.start_date_md = LC.datemd(new Date(study.start_time * 1000));
+      //end_time is the last day + 1
+      var not_end_date = cur.end_time;
+      var end_date = not_end_date - 86400;
+      var today = Math.round(Date.now()/1000);
+      var view = null, complete = false , abandon = false;
 
-     //  $scope.end_date_md = LC.datemd(end_date.setDate((new Date(study.end_time * 1000)).getDate() - 1));  
+
+      //experiment has elapsed
+      if(today > not_end_date){
+        view = 'complete';
+        complete = true;
+      } else if(today >= end_date <= not_end_date){
+        // this is the last day of the trial
+        // check for evening reminder or check if values exist
+      } else if(today < end_date){
+        //experiment still on going
+        view = 'abandon';
+        abandon = true;
+      }
+
+      $scope.view = view;
+      $scope.complete = complete;
+      $scope.abandon = abandon;
 
     });
 })

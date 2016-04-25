@@ -93,7 +93,7 @@
               .ticks(9)
               .tickFormat(function (d) {
                 var mapper = {
-                  0 : "No report",
+                  0 : "Negative compliance",
                   1 : "Missing data",
                   2 : "Not at all",
                   3 : "Slightly",        
@@ -183,8 +183,10 @@
             .style ("fill", function(d) { 
                 if(d.severity > 1){
                   return color(d.condition); 
-                } else if(d.severity == 0 || d.severity == 1){
+                } else if(d.severity == 1){
                   return "#cccccc";
+                } else if(d.severity == 0){
+                  return "#ef473a";
                 }
 
               })

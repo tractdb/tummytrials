@@ -2,22 +2,33 @@
   <ion-pane>
     <ion-content class="padding">
 
-   		<div class="card padding">
+<!--    		<div class="card padding">
 	        For testing purposes only: <br/>
 	        {{study_current.id}}
-	     </div>
-
+	     </div> -->
+       View: {{view}} <br/>
+       
 		<div class="card padding">
 	        Name : {{study_current.name}} <br/> 
 	        Breakfast preference : {{study_current.breakfast_pref}} <br/> 
 	        Drink preference : {{study_current.drink_pref}} <br/> 
 	        Status : {{study_current.status}}  <br/>
-	    </div>
+	  </div>
+
+
+        <div ng-show="complete" class="card padding">
+          <h4>Complete Trial:</h4>
+           <div class="divcenter">
+              <button class="button button-royal" ng-click="complete_trial()" >
+                Complete Trial
+              </button>
+           </div>
+        </div>
 
         <!-- 
         Abandoning / Completing a study
         --> 
-        <div class="card padding">
+        <div ng-show="abandon" class="card padding">
           <h4>End Trial:</h4>
           <p>{{text.current.abandon_text}}
             <div class="divcenter">

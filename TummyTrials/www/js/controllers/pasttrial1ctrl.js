@@ -41,8 +41,17 @@
         var text = $scope.text;
         $scope.study_past1 = study;
 
-        // variables for displaying test in the results
+        // check if result is ready
+        var ready = null; 
+        if(!study.results){
+            ready = false;
+        } else {
+            ready = true;
+        }
+        $scope.ready = ready;
 
+
+        // variables for displaying test in the results
         $scope.start_date_md = LC.datemd(new Date(study.start_time * 1000));
 
         var end_date = new Date(study.end_time * 1000); // This is first day *after* the trial
@@ -113,7 +122,16 @@
                         sym_data["condition"] = 1;
                     } 
 
-                    if(typeof(cur.reports[i]) == "object"){
+
+                    if(cur.reports[i] == null) {
+                        sym_data["severity"] = 0;
+                        if(rand[i] == "A"){
+                            a_void = a_void + 1;
+                        }
+                        if(rand[i] == "B"){
+                            b_void = b_void + 1;
+                        }
+                    } else if(typeof(cur.reports[i]) == "object"){
                         //report logged if there is an object and symptom scores exists
                         if(cur.reports[i].breakfast_compliance == true && typeof(cur.reports[i].symptom_scores) == "object"){
                             score = cur.reports[i].symptom_scores[a].score;
@@ -155,8 +173,6 @@
                             b_void = b_void + 1;
                         }
                     }
-                    // a_avg = a_avg / [($scope.duration_readable / 2) - a_void];
-                    // b_avg = b_avg / [($scope.duration_readable / 2) - b_void];
 
                     if(a_void > 0){
                         a_void_flag = true;
@@ -168,6 +184,7 @@
                     } else {
                         b_void_flag = false;
                     }
+
                     // Using the date as the key, store the condition and the score for each day
                     sym_data["date"] = dt;
 
@@ -278,6 +295,8 @@
                 $scope.sym_syma = sym_sym;
                 res_all[sym_name] = sym_sym; 
                 sym_sym = [];
+                a_avg = 0; b_avg = 0; a_void = 0; b_void = 0;
+
         }
         $scope.visdata = res_all;
 
@@ -318,7 +337,7 @@
 
             var severity_text = null;
                var mapper = {
-                  0 : "No report",
+                  0 : "Negative compliance",
                   1 : "Missing data",
                   2 : "Not at all",
                   3 : "Slightly",        

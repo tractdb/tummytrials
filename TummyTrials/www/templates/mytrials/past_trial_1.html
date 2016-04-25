@@ -12,23 +12,16 @@
     <h5>Does {{st_trigger}} affect my <span ng-repeat="symptom in st_symptom"> {{symptom}} &nbsp </span>?</h5><!-- work on punctuation logic --> 
     <br/>
 
-<!--     <h5 class="title">{{text.setup5.symptoms_title}}</h5>
-    <span ng-repeat="symptom in st_symptom"> {{symptom}} </span>
-    <br/> -->
-
-<!--     <h5 class="title">{{text.setup5.reminder_times_title}}</h5>
-    <div class="row" ng-repeat="remdesc in study_past1.remdescrs">
-        <div class="col">{{text.setup5[remdesc.type + '_reminder_title'] || remdesc.type}}</div>
-        <div class="col">{{study_reminder_times[remdesc.type]}}</div>
-    </div>
-    <br/> -->
-
     <!-- <h5 class="title">{{text.pasttrial1.status_title}}</h5> -->
-    <!-- <span ng-show="st_status == 'ended'"> This trial has {{st_status}}.</span> -->
     <span ng-show="st_status == 'abandoned'"> This trial was {{st_status}}.</span><span ng-show="st_comment != ''">The reason for abandoning was <i>'{{st_comment}}'</i>.</span>
 
-    <!-- Show results only if study was ended -->
-    <div ng-show="st_status == 'ended'">
+    <!-- Message while results are being processed -->
+    <div ng-show="!ready">
+        <p class="assertive">Your data is being proccessed and your result will be available soon.</p>
+    </div>
+
+    <!-- Show results only if study has ended and results are available -->
+    <div ng-show="st_status == 'ended' && ready">
         <div ng-repeat="(key, value) in visdata">
             <!-- Result for symptom:<br/> -->
             <b>{{key}}</b>
