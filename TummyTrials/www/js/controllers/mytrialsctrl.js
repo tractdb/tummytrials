@@ -46,14 +46,13 @@
                             title: 'Abandon successful',
                             template: 'The ' + cur.trigger + ' trial has been abandoned.'
                         });
-                        return Experiments.setAbandon_p(cur.id, status, reason);
+                        return Experiments.setAbandon_p(cur.id, status, reason)
+                          .then(function(_){
+                                $state.go('mytrials');
+                          });
                      } else {
                      }
-              }).then(function(_){
-                if(cur.status == "abandoned"){
-                    $state.go('mytrials');
-                }
-              });
+              })
               
             // }
       } else {
@@ -62,14 +61,13 @@
     };
 
     $scope.complete_trial = function(){
-      console.log("function called");
         var cur = $scope.study_current;
         if(cur.status == "active"){
-            return Experiments.setStatus(cur.id, "ended");
+            return Experiments.setStatus(cur.id, "ended")
+            .then(function(_){
+              $state.go('mytrials');
+            });
         }
-        // if(cur.status == "ended"){
-        //   $state.go('mytrials');
-        // }
     };
 
     Text.all_p()

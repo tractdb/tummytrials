@@ -48,7 +48,8 @@
                 and on days without {{trig}} was 
                 {{value[0].b_res_text}}. <br/><br/>
 
-                <span ng-show="value[0].a_void > 0 || value[0].b_void > 0">There were one or more days when no symptoms were recorded which may affect the averages shown above. Missing data is shown in grey circles in the visualization.</span>
+                <span ng-show="value[duration_readable - 1].a_void > 0 || value[duration_readable - 1].b_void > 0">There were one or more days when no symptoms were recorded which may affect the averages shown above. Missing data is shown in grey circles in the visualization.</span>
+
             </div>
             <br/><br/>
         </div>

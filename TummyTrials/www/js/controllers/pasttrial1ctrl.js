@@ -207,7 +207,8 @@
                     sym_data["a_void"] = a_void;
                     sym_data["b_void"] = b_void;
                     sym_data["p_val"] = p_val[a];
-
+                    sym_data["a_void_flag"] = a_void_flag;
+                    sym_data["b_void_flag"] = b_void_flag;
 
                     sym_sym.push(sym_data);
                     d = [];
