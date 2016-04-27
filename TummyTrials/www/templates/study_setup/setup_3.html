@@ -1,4 +1,4 @@
-      <ion-view title="Study Setup (2 of 5)">
+      <ion-view title="Trial Setup (2 of 5)">
           <ion-pane>
           <ion-content>   
             <div class="padding">      
@@ -12,7 +12,7 @@
                     <li class="item item-checkbox" >
                       <label class="checkbox">
                         <input type="radio" name="trigger" value="{{$index}}" ng-model="setupdata.trigger">
-                      </label>{{trigger.trigger}} 
+                      </label><span class="item-text-wrap"> {{trigger.trigger}} </span>
                     </li>
                   </div>
                   <div class="col col-center zero-padding" class="button button-clear button-dark" ui-sref="{{trigger.uisref}}">&nbsp&nbsp&nbsp

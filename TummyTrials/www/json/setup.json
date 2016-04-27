@@ -229,8 +229,8 @@
 		"demo_explanation": "This will begin an accelerated demo of the most recently created trial. This is for demonstration purposes only. Do not do this for a genuine trial!"
 	},
 	"setup": {
-		"title": "Setup a new study",
-		"content": "This app will guide you through self-studies to see whether eating certain food affects your symptoms. During this study, you will be asked to eat certain foo on some days and not eat that food on other days. We will aslo help you track your symptoms by sending you daily remiinders to log them.",
+		"title": "Setup a new trial",
+		"content": "This setup will guide you through the steps to create your own self trial. The trial will help you figure out whether certain foods are affecting your symptoms for IBS or not. During the trial, you will be asked to eat certain foods on some days and avoid that food on other days. We will aslo help you track your symptoms by sending you daily reminders to log them.",
 		"button": "Let's Begin!"
 	},
 	"setup2": {
@@ -253,8 +253,8 @@
 		"button": "Continue "
 	},
 	"setup3": {
-		"title": "2. Choose a Possible Cause",
-		"subtitle": "Which possible trigger do you want to test?",
+		"title": "2. Choose a possible cause",
+		"subtitle": "Which of the following food items is a likely cause for your symptoms?",
 		"triggers": [{
 			"trigger": "Eating Sorbitol / Artificial Sweeteners",
 			"uisref": "setup_3_1",
@@ -315,14 +315,14 @@
 		"list3": "A bowl of yogurt (5 oz)"
 	},
 	"setup4": {
-		"title": "3. Set Reminders",
+		"title": "3. Set start date and reminders",
 		"subtitle": "When do you want to begin the study and when do you want to receive reminder notifications?",
 		"morning_title": "Morning Reminder",
 		"morning_text": "You will be sent a reminder to follow the study schedule for each day. Choose a time, perhaps a little before breakfast.",
 		"breakfast_title": "Breakfast Entry",
 		"breakfast_text": "You will be sent a reminder to log whether you followed the study schedule correctly during your breakfast meal. Choose a time a little after breakfast.",
 		"symptom_title": "Symptom Entry",
-		"symptom_text": "Later, you will be sent a reminder to log the severity of your symptoms. Choose a time at least 4 hours after breakfast.",
+		"symptom_text": "Later, you will be sent a reminder to log the severity of your symptoms. Choose a time at least 3 hours after breakfast but before lunch.",
 		"evening_title":"Evening Reminder",
 		"evening_text":"You will receive one final reminder for the day to make changes to any of your responses. Choose a time in the evening, preferably before your dinner.",
 		"time": "Time",
@@ -336,7 +336,7 @@
 	},
 	"setup4b": {
 		"title": "4. Set Food Preferences",
-		"breakfast_text": "Select breakfast preference",
+		"breakfast_text": "Select a breakfast food and drink which you are likely to consume for the duration of the trial. You will have access to the recommended meals every day during the trial.",
 		"breakfast": [{
 			"breakfast": "Cereal"
 		}, {
@@ -507,8 +507,8 @@
 		"button": "Continue "
 	},
 	"setup5": {
-		"title": "5. Review Study Details",
-		"topic_title": "Self-Study Topic",
+		"title": "5. Review Trial Details",
+		"topic_title": "Trial Topic",
 		"notopic": "(Please select trigger on screen 2.)",
 		"topic": "Does {TRIGGER} affect my symptoms?",
 		"symptoms_title": "Symptoms Being Tracked",

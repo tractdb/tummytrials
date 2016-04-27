@@ -48,6 +48,11 @@ em,i{
     font-style:italic;
 }
 
+/*Background color for reminder lists*/
+.rem_bkg{
+	background-color: #e9eaed;
+}
+
 /*Default text size in list seems to be 16px compared to 14px of p tag*/
 .list_text{
 	font-size: 14px;

@@ -1,9 +1,10 @@
-      <ion-view title="Study Setup (4 of 5)">
+      <ion-view title="Trial Setup (4 of 5)">
           <ion-pane>
           <ion-content>   
             <div class="padding">      
               <h4 class="title">{{text.setup4b.title}}</h4>
-        
+              <p>{{text.setup4b.breakfast_text}}</p>
+              
               <div class="list">
                 <!-- {{text.setup4b.breakfast_text}}<br/> -->
                 <label class="item item-input item-select">
@@ -12,7 +13,7 @@
                   </div>
                   <select ng-model="setupdata.breakfast_preference" ng-options="breakfast as breakfast.breakfast for breakfast in text.setup4b.breakfast" >
                     <!-- Using the workaround to fix selecting one-off value bug https://github.com/angular/angular.js/issues/5132 -->
-                    <option value="" ng-if="!setupdata.breakfast_preference">{{breakfast.breakfast}}</option>
+                    <option value="" ng-if="!setupdata.breakfast_preference" class="item-text-wrap">{{breakfast.breakfast}}</option>
                   </select>
                 </label>
               </div>
@@ -34,10 +35,10 @@
                   On days when you are supposed to eat {{bfst_slc}}
                 </div>
                 <div class="item item-text-wrap">
-                  <b>For breakfast:</b><br/>
-                  <span class="new_line">{{bfst_on}}</span><br/><br/>
-                  <b>For drink:</b><br/>
-                  <span class="new_line">{{drnk_on}}</span>
+                  <h3>For breakfast:</h3>
+                  <span class="new_line list_text">{{bfst_on}}</span><br/><br/>
+                  <h3>For drink:</h3>
+                  <span class="new_line list_text">{{drnk_on}}</span>
                 </div>
               </div>
 
@@ -46,10 +47,10 @@
                   On days when you are supposed to avoid {{bfst_slc}}
                 </div>
                 <div class="item item-text-wrap">
-                  <b>For breakfast:</b><br/>
-                  <span class="new_line">{{bfst_off}}</span><br/><br/>
-                  <b>For drink:</b><br/>
-                  <span class="new_line">{{drnk_off}}</span>
+                  <h3>For breakfast:</h3>
+                  <span class="new_line list_text">{{bfst_off}}</span><br/><br/>
+                  <h3>For drink:</h3>
+                  <span class="new_line list_text">{{drnk_off}}</span>
                 </div>
               </div>
 
