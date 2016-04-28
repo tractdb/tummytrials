@@ -200,7 +200,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
       views: {
         mytrials : {
           templateUrl: 'templates/mytrials/current_trial.html',
-          controller: 'MyTrialsCtrl'
+          controller: 'MyCrntTrialsCtrl'
         }
       }
     })

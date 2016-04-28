@@ -10,7 +10,16 @@
 
 .controller('MyTrialsCtrl', function($scope, $state, $timeout, Text, LC, $ionicPopup, Experiments) {
 
-	// An elaborate, custom popup to abandon ongoing trial
+    Text.all_p()
+    .then(function(text) {
+        $scope.text = text;
+        return Experiments.publish_p($scope);
+    });
+})
+
+.controller('MyCrntTrialsCtrl', function($scope, $state, $timeout, Text, LC, $ionicPopup, Experiments) {
+
+  // An elaborate, custom popup to abandon ongoing trial
     $scope.abandon_trial = function(){
       $scope.reason = {};
         var cur = $scope.study_current;
@@ -76,7 +85,7 @@
         return Experiments.publish_p($scope);
     })
     .then(function(_){
-    	var cur =  $scope.study_current;
+      var cur =  $scope.study_current;
 
       //end_time is the last day + 1
       var not_end_date = cur.end_time;
@@ -84,11 +93,10 @@
       var today = Math.round(Date.now()/1000);
       var complete = false , abandon = false;
 
-
       //experiment has elapsed
       if(today > not_end_date){
         complete = true;
-      } else if(today >= end_date <= not_end_date){
+      } else if(today >= end_date && today <= not_end_date){
         // this is the last day of the trial
         // check for evening reminder or check if values exist
         var last_report = cur.reports[Experiments.study_duration(cur) - 1];
@@ -106,8 +114,8 @@
         abandon = true;
       }
 
-      $scope.complete = complete;
-      $scope.abandon = abandon;
+      $scope.comp = complete;
+      $scope.abdn = abandon;
 
     });
 })
