@@ -92,7 +92,7 @@ Page Hierarchy:
                     {{rem.schedmsg}} <br/>
                     <em class="balanced" ng-bind-html="rem.reportmsg"></em>
                     <div class="divcenter" ng-show="!!rem.logmsg">
-                        <a class="button button-small button-royal small-text" ui-sref="{{rem.logstate}}" ng-disabled="rem.disabled">
+                        <a class="button button-small button-royal small-text" ui-sref="{{rem.logstate}}" ng-disabled="sbmtd">
                             &nbsp&nbsp {{rem.logmsg}} &nbsp&nbsp
                         </a>
                     </div>
@@ -100,8 +100,9 @@ Page Hierarchy:
                     <!-- <br/> -->
                 </div>
                 <div class="card padding divcenter submit-card">
-                  <p>Submit compliance and symptom reports for the day.</p>
-                  <a class="button button-royal" ng-click="submit_for_day()" > &nbsp&nbsp Submit (change)&nbsp&nbsp </a>
+                  <p ng-hide="sbmtd">Submit compliance and symptom reports for the day.</p>
+                  <p ng-show="sbmtd">You have submitted your reports for the day. You will not receive any further alerts for the day.</p>
+                  <a class="button button-royal" ng-click="submit_for_day()" ng-disabled="sbmtd" > &nbsp&nbsp Submit (change)&nbsp&nbsp </a>
                 </div>
           </div>
 

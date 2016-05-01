@@ -317,10 +317,19 @@
                     return Reminders.sync(rd, st, et, rt);
                 })
                 .then(function(_) {
+                    // variable for locking log buttons
+                    submitted = true;
                     // Reload current page.
                     //
                     $state.go($state.current, {}, { reload: true });
                 });
+            }
+            // Toggle for disabling logging buttons once report is submitted
+            var submitted = cur.reports[day_pos].confirmed;
+            if (submitted == true) {
+                $scope.sbmtd = true;
+            } else {
+                $scope.sbmtd = false;
             }
 
             // For detecting accelerated demo
