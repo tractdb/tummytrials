@@ -14,7 +14,7 @@
     var text;
     var logday; // What study day is being logged
 
-    function make_report(compliant)
+    function make_report(compliant, resp)
     {
         var cur = $scope.study_current;
 
@@ -22,7 +22,12 @@
         .then(function(report) {
             if (!report)
                 report = Experiments.report_new(logday);
-            report.breakfast_compliance = compliant;
+            if(resp == 'yes'){
+                report.breakfast_compliance = true;    
+            } else if(resp == 'no'){
+                report.breakfast_compliance = false;
+            }
+            
             report.breakfast_report_time = Math.floor(TDate.now() / 1000);
             return Experiments.put_report_p(cur.id, report);
         })
@@ -41,8 +46,13 @@
             return Reminders.sync(rd, st, et, rt);
         })
         .then(function(_) {
-            var state = compliant ? 'pos_compliance' : 'neg_compliance';
-        
+            // var state = compliant ? 'pos_compliance' : 'neg_compliance';
+            var state;
+            if(resp == 'yes'){
+                state = 'pos_compliance';
+            } else if(resp == 'no'){
+                state = 'neg_compliance';
+            }
             // { location: 'replace' } is documented to replace our
             // current state in the history stack with the new state.
             // The new back button should skip over this log page and
@@ -67,8 +77,9 @@
         });
     }
 
-    function compliant_yes() { make_report(true); }
-    function compliant_no() { make_report(false); }
+    function compliant_yes() { make_report(true, 'yes'); }
+    // allow reporting symptoms in either case
+    function compliant_no() { make_report(true, 'no'); }
 
     Text.all_p()
     .then(function(alltext) {

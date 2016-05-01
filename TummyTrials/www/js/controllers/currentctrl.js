@@ -172,8 +172,8 @@
                 }
 
                 // Reported value for symptoms. If multiple symptoms, it is displayed as a single sentence summary
-                if(cur.reports[day_pos].breakfast_compliance == true && typeof(cur.reports[day_pos].symptom_scores) == "object"){
-                    // if symptoms exist and compliance is true
+                if(typeof(cur.reports[day_pos].breakfast_compliance) != null && typeof(cur.reports[day_pos].symptom_scores) == "object"){
+                    // if symptoms exist and compliance is true/false
                     var report_msg = "You reported ", temp_msg, sym_len;
                     for(var l = 0; l < cur.reports[day_pos].symptom_scores.length; l++){
                         scr_val = cur.reports[day_pos].symptom_scores[l].score;
