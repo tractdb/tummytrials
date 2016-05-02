@@ -119,10 +119,12 @@ Page Hierarchy:
           <div class="card padding">
             <h4>Note:</h4>
               <p>
-                {{text.current.note}}
+                <span ng-hide="nt_fg">{{text.current.note}}</span>
+                <span ng-show="nt_fg">{{text.current.note2}}</span> <br/><br/>
+                <span ng-show="nt_fg" class="balanced">{{note}}</span>
                 <div class="divcenter">
                   <a class="button button-royal" ui-sref="notes">
-                    {{text.current.button3}}
+                    {{nt_btn_txt}}
                   </a>
                 </div>
               </p>

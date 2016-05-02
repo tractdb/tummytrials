@@ -8,6 +8,7 @@
 		"rem2": "Your breakfast reminder is set for 9 am.",
 		"rem3": "Your symptom entry reminder is set for 12 pm.",
 		"note": "You can note down specifics of your diet, symptoms, or othere relevant information for the day for later reviewing. Would you like to add an optional note?",
+		"note2": "You can edit your current note (seen below).",
 		"button1": "Log Breakfast Compliance",
 		"button2": "Log Symptom Level",
 		"button3": "Add Note",

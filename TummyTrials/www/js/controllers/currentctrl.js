@@ -373,6 +373,16 @@
                 $scope.accelerated = false;
             }
 
+            // Note button. Toggle add/edit and display note when available.
+            var nt_btn = text.current.button3;
+            $scope.nt_btn_txt = nt_btn;
+            if(cur.reports[day_pos].note != null){
+                $scope.note = cur.reports[day_pos].note;
+                $scope.nt_fg = true;
+                nt_btn = nt_btn.replace('Add', 'Edit');
+                $scope.nt_btn_txt = nt_btn;
+            }
+
             $scope.exp_id = cur.id;
         }
     });
