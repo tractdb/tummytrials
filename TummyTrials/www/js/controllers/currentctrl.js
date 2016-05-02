@@ -234,6 +234,13 @@
                     case 'symptomEntry':
                         info.logstate = 'post({symptomIndex:0})';
                         info.reportmsg = report_msg;
+                        // if breakfast compliance is reported pos/neg then the bfst_comp_state is true. Allow symptom logging.
+                        if(bfst_comp_state == true){
+                            info.disabled = false;
+                        }else{
+                            // else do not all symptom logging
+                            info.disabled = true;
+                        }
 
                         if (sym_score_state == true) {
                             info.logmsg = 'Edit ' + info.logmsg;
@@ -284,46 +291,71 @@
             $scope.help = false;
 
             // The function for the 'Submit' button.
-            //
+            // A pop up is displayed to verify if the user wants to submit. If the user responds with 'no' nothing is done.
             $scope.submit_for_day = function() {
-                var sd = Experiments.study_day_today(cur);
-                var dur = Experiments.study_duration(cur);
-                if (sd <= 0 || sd > dur)
-                    // Study not in progress. Nothing to submit.
-                    //
-                    return;
-                var rep = null;
-                if (Array.isArray(cur.reports))
-                    rep = cur.reports[sd - 1];
-                if (!rep)
-                    rep = Experiments.report_new(sd);
-                rep.confirmed = true;
-                rep.confirmed_time = Math.floor(TDate.now() / 1000);
-                Experiments.put_report_p(cur.id, rep)
-                .then(function(_) {
-                    // Reload the modified experiment.
-                    //
-                    return Experiments.getCurrent();
-                })
-                .then(function(cur2) {
-                    // Resync the reminders.
-                    //
-                    if (!cur2)
-                        return null; // Shouldn't happen; but nothing to sync
-                    var rd = cur2.remdescrs;
-                    var st = cur2.start_time;
-                    var et = cur2.end_time;
-                    var rt = Experiments.report_tally(cur2);
-                    return Reminders.sync(rd, st, et, rt);
-                })
-                .then(function(_) {
-                    // variable for locking log buttons
-                    submitted = true;
-                    // Reload current page.
-                    //
-                    $state.go($state.current, {}, { reload: true });
-                });
-            }
+               var confirmPopup = $ionicPopup.confirm({
+                 title: '<h4>Confirm Submission<h4>',
+                 template: '<p>Are you sure you want to submit the report for the day? <br/>Once submitted, you will no longer be able to change your responses.</p>',
+                 buttons: [
+                        { 
+                            text: '<b>No</b>',
+                            onTap: function(e) { return false; } 
+                        },
+                        {
+                            text: '<b>Yes</b>',
+                            type: 'button-positive',
+                            onTap: function(e) { return true; } 
+                        }]
+               });
+
+               confirmPopup.then(function(res) {
+                console.log("res is " + res);
+                 if(res) {
+                    var sd = Experiments.study_day_today(cur);
+                    var dur = Experiments.study_duration(cur);
+                    if (sd <= 0 || sd > dur)
+                        // Study not in progress. Nothing to submit.
+                        //
+                        return;
+                    var rep = null;
+                    if (Array.isArray(cur.reports))
+                        rep = cur.reports[sd - 1];
+                    if (!rep)
+                        rep = Experiments.report_new(sd);
+                    rep.confirmed = true;
+                    rep.confirmed_time = Math.floor(TDate.now() / 1000);
+                    Experiments.put_report_p(cur.id, rep)
+                    .then(function(_) {
+                        // Reload the modified experiment.
+                        //
+                        return Experiments.getCurrent();
+                    })
+                    .then(function(cur2) {
+                        // Resync the reminders.
+                        //
+                        if (!cur2)
+                            return null; // Shouldn't happen; but nothing to sync
+                        var rd = cur2.remdescrs;
+                        var st = cur2.start_time;
+                        var et = cur2.end_time;
+                        var rt = Experiments.report_tally(cur2);
+                        return Reminders.sync(rd, st, et, rt);
+                    })
+                    .then(function(_) {
+                        // variable for locking log buttons
+                        submitted = true;
+                        // Reload current page.
+                        //
+                        $state.go($state.current, {}, { reload: true });
+                    });                
+                   console.log('Confirm submission');
+                 } else {
+                    //do nothing
+                   console.log('Confirm cancellation');
+                 }
+               });
+            };
+
             // Toggle for disabling logging buttons once report is submitted
             var submitted = cur.reports[day_pos].confirmed;
             if (submitted == true) {
