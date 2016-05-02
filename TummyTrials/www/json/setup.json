@@ -17,7 +17,12 @@
 		"breakfast_reminder_name": "breakfast",
 		"symptomEntry_reminder_name": "symptom entry",
 		"breakfast_reminder_logmsg": " Breakfast Compliance",
-		"symptomEntry_reminder_logmsg": " Symptom Level"
+		"symptomEntry_reminder_logmsg": " Symptom Level",
+		"reminder_title":"Reminders for today:",
+		"submit_button":"Submit",
+		"submit_text":"Submit compliance and symptom reports for the day.",
+		"submitted_text":"You have submitted your reports for the day. You will not receive any further alerts for the day.",
+		"report_sum_title":"Report for the day:"
 	},
 	"calendar": {
 		"title": "Log entry for day:",

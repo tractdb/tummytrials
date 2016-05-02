@@ -82,8 +82,8 @@ Page Hierarchy:
           </div>
           <!-- {{test}} <br/> -->
           <!-- {{bfst_comp_msg}} -->
-          <div class="card padding">   
-            <h4>Your reminders for today:</h4>
+          <div class="card padding" ng-hide="sbmtd">   
+            <h4>{{text.current.reminder_title}}</h4>
             <!-- <p ng-show="!study_current">(No current trial. Please create a new trial.)</p> -->
                 <div ng-repeat="rem in study_reminders">
                     <p>
@@ -100,10 +100,19 @@ Page Hierarchy:
                     <!-- <br/> -->
                 </div>
                 <div class="card padding divcenter submit-card">
-                  <p ng-hide="sbmtd">Submit compliance and symptom reports for the day.</p>
-                  <p ng-show="sbmtd">You have submitted your reports for the day. You will not receive any further alerts for the day.</p>
-                  <a class="button button-royal" ng-click="submit_for_day()" ng-disabled="sbmtd" > &nbsp&nbsp Submit (change)&nbsp&nbsp </a>
+                  <p ng-hide="sbmtd">{{text.current.submit_text}}</p>
+                  <p ng-show="sbmtd">{{text.current.submitted_text}}</p>
+                  <a class="button button-royal" ng-click="submit_for_day()" ng-disabled="sbmtd" > &nbsp&nbsp {{submit_button}} &nbsp&nbsp </a>
                 </div>
+          </div>
+
+          <!-- Card to show when the user submits the report for the day -->
+          <div class="card padding" ng-show="sbmtd">
+            <h4>{{text.current.report_sum_title}}</h4>
+            <div ng-repeat="rem in study_reminders">
+              <em class="balanced" ng-bind-html="rem.reportmsg"></em>
+            </div><br/>
+            <p>{{text.current.submitted_text}}</p>
           </div>
 
           <div class="card padding">

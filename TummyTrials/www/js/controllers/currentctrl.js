@@ -188,7 +188,7 @@
                                 temp_msg = "<b>" + scr_txt + "</b> impacted you " + "<b>" + scr_val + "</b> and ";
                             } else if(l == (sym_len - 1)){
                                 // last symptom in the array 
-                                temp_msg = "<b>" + scr_txt + "</b> impacted you " +  "<b>" + scr_val + "</b>.";
+                                temp_msg = "<b>" + scr_txt + "</b> impacted you " +  "<b>" + scr_val + "</b>.<br/>";
                             }
                         } else if(sym_len > 2){
                             if(l < (sym_len - 1)){
@@ -197,7 +197,7 @@
                                 temp_msg = "<b>" + scr_txt + "</b> impacted you " + "<b>" + scr_val + "</b> and ";
                             } else if(l == (sym_len - 1)){
                                 // last symptom in the array 
-                                temp_msg = "<b>" + scr_txt + "</b> impacted you " + "<b>" + scr_val + "</b>.";
+                                temp_msg = "<b>" + scr_txt + "</b> impacted you " + "<b>" + scr_val + "</b>.<br/>";
                             }
                         }
                         report_msg = report_msg.concat(temp_msg);
