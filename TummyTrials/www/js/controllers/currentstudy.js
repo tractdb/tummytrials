@@ -45,7 +45,7 @@
       views: {
         current : {
           templateUrl: 'templates/currenttrial/notes.html',
-          controller: 'setupcontroller'
+          controller: 'NotesCtrl'
         }
       }
     }) 

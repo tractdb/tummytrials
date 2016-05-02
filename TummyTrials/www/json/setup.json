@@ -88,7 +88,8 @@
 		}]
 	},
 	"notes": {
-		"title": "Add a note:",
+		"title": "Add a note to today's report:",
+		"title2": "Edit the note in today's report:",
 		"button": "Submit"
 	},
 	"mytrials": {

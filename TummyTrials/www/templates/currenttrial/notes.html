@@ -2,18 +2,24 @@
   <ion-pane>
     <ion-content class="padding">
         <br/>
-    <h4 class="title">{{text.notes.title}}</h4>
+    <h4 class="title" ng-hide="ntexst">{{text.notes.title}}</h4>
+    <h4 class="title" ng-show="ntexst">{{text.notes.title2}}</h4>
+
     <br/>
     <label class="item item-input">
-      <textarea cols="25", rows="?"></textarea>
+      <textarea cols="25", rows="?" ng-model="tm.note"></textarea>
       <input type="text">
     </label>
+    <br/>
+    
+    <!-- <h4>Preview:</h4>
+    <div class = "card padding"> {{tm.note}}</div> -->
 
-    <a class="button button-block button-royal" ui-sref="#">
+    <a class="button button-block button-royal" ng-click="add_note()">
       {{text.notes.button}}
     </a>
 
-    <div ng-controller="CameraCtrl">
+<!--     <div ng-controller="CameraCtrl">
     <h4 class="text-center">Attach a Picture</h4>
     <br/>
     <br/>
@@ -21,7 +27,7 @@
     <button class="button button-block button-positive" ng-click="takePicture()">
         Take a Picture
     </button>
-    <img class="padding" ng-src="{{imgSrc}}">
+    <img class="padding" ng-src="{{imgSrc}}"> -->
   </div>
     </ion-content>  
   </ion-pane>
