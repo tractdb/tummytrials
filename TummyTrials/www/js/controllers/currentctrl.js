@@ -449,7 +449,7 @@
 
                 var bcomp = null, lcomp = null;
 
-                if(typeof(cur.reports[i]) == "object"){
+                if(typeof(cur.reports[i]) == "object"){ // typeof(null) = object
                     // report is null when user did not report anything and day elapsed
                     if(cur.reports[i] == null){
                         if(dt == Calendar.button){

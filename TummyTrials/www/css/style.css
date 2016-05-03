@@ -39,6 +39,12 @@
 	color:grey;
 }
 
+/*Attempt to fix delay in ng-if and ng-show/hide*/
+.ng-hide.ng-hide-animate{
+     display: none !important;
+}
+
+/*New line when fetching text from json : see study setup page with food prefs*/
 .new_line{
 	white-space: pre-wrap;
 }
