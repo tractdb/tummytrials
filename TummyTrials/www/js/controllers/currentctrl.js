@@ -323,7 +323,6 @@
                });
 
                confirmPopup.then(function(res) {
-                console.log("res is " + res);
                  if(res) {
                     var sd = Experiments.study_day_today(cur);
                     var dur = Experiments.study_duration(cur);
@@ -381,9 +380,6 @@
                 $scope.sbmtd = false;
             }
             $scope.sym_scr_st = sym_score_state;
-            console.log('type check ' + typeof(cur.reports[day_pos].confirmed));
-            console.log('scope thingy ' + $scope.sbmtd);
-            console.log('not thingy ' + sym_score_state);
 
             // For detecting accelerated demo
             // If ttransform exists, then trail is being accelerated
@@ -444,6 +440,15 @@
                 d.push(dt);
                 d.push(rand[i]);
 
+
+                // no report object = nothing
+                // report object = ?
+                // bfst comp = true / false 
+                // lnch comp = true / false
+                // reports != null
+
+                var bcomp = null, lcomp = null;
+
                 if(typeof(cur.reports[i]) == "object"){
                     // report is null when user did not report anything and day elapsed
                     if(cur.reports[i] == null){
@@ -455,46 +460,81 @@
                         } 
                         //print no report 
                         d.push(score);
-                    //report logged if there is an object
-                    } else if(cur.reports[i].breakfast_compliance == true && typeof(cur.reports[i].symptom_scores) == "object"){
-                        // if symptoms exist and compliance is true
-                        for(var l = 0; l < cur.reports[i].symptom_scores.length; l++){
-                            scr_val = cur.reports[i].symptom_scores[l].score;
-                            scr_txt = cur.reports[i].symptom_scores[l].name;
-                            scr_arr.push(scr_val);
-                            scr_arr.push(scr_txt);
-                            score[scr_txt] = scr_val;
-                        }
-                        
-                        // adding details to calendar object
+                    }
+
+                    if(typeof(cur.reports[i].breakfast_compliance) == "boolean"){
+                        // can log second compliance only after first one
+                            if(cur.reports[i].breakfast_compliance == true){
+                                bcomp = true;
+                            }
+                            else {
+                                bcomp = false;
+                            }
+                        if(typeof(cur.reports[i].lunch_compliance) == "boolean"){
+                            // can log symptoms only after second compliance
+                            if(cur.reports[i].lunch_compliance == true){
+                                lcomp = true;
+                            }
+                            else {
+                                lcomp = false;
+                            }
+
+                            if(typeof(cur.reports[i].symptom_scores) == "object"){
+                                
+                                for(var l = 0; l < cur.reports[i].symptom_scores.length; l++){
+                                    scr_val = cur.reports[i].symptom_scores[l].score;
+                                    scr_txt = cur.reports[i].symptom_scores[l].name;
+                                    scr_arr.push(scr_val);
+                                    scr_arr.push(scr_txt);
+                                    score[scr_txt] = scr_val;
+                                }
+                                
+                                // adding details to calendar object
+                                if(dt == Calendar.button){
+                                    Calendar.date = dtr;
+                                    Calendar.condition = rand[i];
+                                    Calendar.score = score;
+                                    Calendar.state = "a.o.k.";
+                                    Calendar.lcomp = lcomp;
+                                    Calendar.bcomp = bcomp;
+
+                                }
+                                d.push(score);
+                            } else {
+                                // no symptom report
+                                if(dt == Calendar.button){
+                                    score["score not reported"] = "n/a";
+                                    Calendar.date = dtr;
+                                    Calendar.condition = rand[i];
+                                    Calendar.state = "eh.o.k.";
+                                    Calendar.lcomp = lcomp;
+                                    Calendar.bcomp = bcomp;
+                                }
+                                d.push(score);
+                            } // end report 
+
+                        } else {
+                            // no lunch compliance
+                            if(dt == Calendar.button){
+                                Calendar.date = dtr;
+                                score["missing compliance"] = "can't report";
+                                Calendar.condition = rand[i];
+                                Calendar.state = "missing compliance";  
+                                Calendar.bcomp = bcomp;
+                            } 
+                            d.push(score);
+                        } //end lunch comp
+                    } else {
+                        // no bfst compliance
                         if(dt == Calendar.button){
                             Calendar.date = dtr;
+                            score["missing compliance"] = "can't report";
                             Calendar.condition = rand[i];
-                            Calendar.score = score;
-                            Calendar.state = "a.o.k.";
-                        }
-                        d.push(score);
-                    // if compliance is true but score not reported
-                    } else if(cur.reports[i].breakfast_compliance == true && typeof(cur.reports[i].symptom_scores) != "object"){
-                        // Calendar.score = "not reported";
-                        if(dt == Calendar.button){
-                            score["score not reported"] = "n/a";
-                            Calendar.date = dtr;
-                            Calendar.condition = rand[i];
-                            Calendar.state = "eh.o.k.";
-                        }
-                        d.push(score);
-                    } else if(cur.reports[i].breakfast_compliance == false){
-                        // print no compliance
-                        if(dt == Calendar.button){
-                            Calendar.date = dtr;
-                            // Calendar.score = "can't report";
-                            score["neg compliance"] = "can't report";
-                            Calendar.condition = rand[i];
-                            Calendar.state = "neg compliance";
+                            Calendar.state = "missing compliance";  
                         } 
                         d.push(score);
-                    }
+                    }//end bfst comp
+
                 }
                 days.push(d);
                 d = [];
@@ -535,19 +575,20 @@
                     if(Calendar.state == "a.o.k."){
                         $scope.cal_comp = "Positive (change text)";
                         $scope.cal_score = Calendar.score;
-                        $scope.cal_comp = "Positive (change text)";
                         display = "yes";
                     } else if(Calendar.state == "eh.o.k."){
                         display = "guess";
-                    } else if(Calendar.state == "neg compliance"){
-                        $scope.cal_comp = "Negative (change text)";
-                        display = "neg";
+                    } else if(Calendar.state == "missing compliance"){
+                        $scope.cal_comp = "Missing (change text)";
+                        display = "miss";
                     } else if(Calendar.state == "no report"){
                         display = "null";
                     }
                 }
             } 
             
+            $scope.cal_bcomp = Calendar.bcomp;
+            $scope.cal_lcomp = Calendar.lcomp;
             $scope.cal_btn = Calendar.button;
             $scope.cal_day = Calendar.date;
             if(Calendar.condition == "A"){

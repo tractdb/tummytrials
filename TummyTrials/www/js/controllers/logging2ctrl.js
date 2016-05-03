@@ -44,30 +44,6 @@
             var et = curex.end_time;
             var rt = Experiments.report_tally(curex);
             return Reminders.sync(rd, st, et, rt);
-        })
-        .then(function(_) {
-            // var state = 'post({symptomIndex:0})';
-            // // { location: 'replace' } is documented to replace our
-            // // current state in the history stack with the new state.
-            // // The new back button should skip over this log page and
-            // // lead back to the main screen for the current trial. This
-            // // apparently works in ui-routing, but the Ionic back button
-            // // doesn't work right. There have been calls to fix it for a
-            // // couple of years. The following is a hack from the Ionic
-            // // GitHub issue discussion:
-            // //
-            // //     https://github.com/driftyco/ionic/issues/1287
-            // //
-            // // If it stops working, maybe get a similar effect by
-            // // reloading the current state with new data (using ng-hide
-            // // and ng-show).
-            // //
-            // // It's also possible there's a supported way to make this
-            // // work. But nobody mentions it on the issue page.
-            // //
-            // $ionicHistory.currentView($ionicHistory.backView());
-
-            // $state.go(state, {}, { location: 'replace' });
         });
     }
 
@@ -90,20 +66,6 @@
             //
             $state.go('current');
         }
-
-// No need to figure out the day. All log entries are for today.
-//
-//      // Caller assures us that we need to log a breakfast compliance.
-//      // Find the first study day without a breakfast report.
-//      //
-//      logday = 1;
-//      if (!Array.isArray(cur.reports))
-//          cur.reports = [];
-//      for (var i = 0; i < 10000; i++)
-//          if (!Experiments.report_made(cur.reports[i], 'breakfast')) {
-//              logday = i + 1;
-//              break;
-//          }
 
         if (!Array.isArray(cur.reports))
             cur.reports = [];

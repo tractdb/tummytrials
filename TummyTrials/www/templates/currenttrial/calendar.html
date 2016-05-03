@@ -1,13 +1,13 @@
 <ion-view title="Current Trial">
   <ion-pane>
     <ion-content>
-        {{cal_day}}
 
         <!-- Content to display on valid days (ones with records) -->
         <div ng-if="cal_display === 'yes'" class="padding card">
         	<h4>{{text.calendar.title}} {{cal_day}}</h4>
         	<p> {{text.calendar.field_1}} <b>{{cal_cond}}</b></p>
-        	<p> {{text.calendar.field_2}} <b>{{cal_comp}}</b></p>            
+        	<p> {{text.calendar.field_2}} <b>{{cal_bcomp}}</b></p> 
+            <p> {{text.calendar.field_4}} <b>{{cal_lcomp}}</b></p> 
             <p> {{text.calendar.field_3}} <br/><br/>
             <ul class="list">
                 <li class="item item-text-wrap list_text" ng-repeat="(key,value) in cal_scr">
@@ -20,7 +20,7 @@
         <div ng-if="cal_display === 'guess'" class="padding card">
             <h4>{{text.calendar.title}} {{cal_day}}</h4>
             <p> {{text.calendar.field_1}} <b>{{cal_cond}}</b></p>
-            <p> {{text.calendar.field_2}} <b>{{cal_comp}}</b></p>            
+            <p> {{text.calendar.field_2}} <b>{{cal_bcomp}}</b></p>           <p> {{text.calendar.field_4}} <b>{{cal_lcomp}}</b></p> 
             <p> {{text.calendar.guess}} <br/><br/>
         </div>
 
@@ -37,12 +37,12 @@
             <p> {{text.calendar.today}}</p>
         </div>
 
-        <!-- Content to display for neg compliance -->
-        <div ng-if="cal_display === 'neg'" class="padding card">
+        <!-- Content to display for missing compliance -->
+        <div ng-if="cal_display === 'miss'" class="padding card">
             <h4>{{text.calendar.title}} {{cal_btn}}</h4>
             <p> {{text.calendar.field_1}} <b>{{cal_cond}}</b></p>
-            <p> {{text.calendar.field_2}} <b>{{cal_comp}}</b></p>
-            <p> {{text.calendar.field_3}} <b>{{text.calendar.neg}}</b></p>
+            <!-- <p> {{text.calendar.field_2}} <b>{{cal_bcomp}}</b></p> -->
+            <p> {{text.calendar.field_3}} <b>{{text.calendar.miss}}</b></p>
         </div>
 
         <!-- Content to display for missing report -->
