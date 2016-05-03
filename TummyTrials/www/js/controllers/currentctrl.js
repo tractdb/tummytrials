@@ -515,6 +515,7 @@
 
                         } else {
                             // no lunch compliance
+                            console.log("this will be an issue with old schema which does not have lunch compliance");
                             if(dt == Calendar.button){
                                 Calendar.date = dtr;
                                 score["missing compliance"] = "can't report";
