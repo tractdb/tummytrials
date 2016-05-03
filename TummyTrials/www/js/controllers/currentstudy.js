@@ -1,5 +1,5 @@
 (angular.module('tummytrials.currentstudy',
-                [ 'ionic', 'tummytrials.loggingctrl' ])
+                [ 'ionic', 'tummytrials.loggingctrl', 'tummytrials.logging2ctrl' ])
 
 .config(function($stateProvider, $urlRouterProvider) {
 
@@ -30,7 +30,16 @@
           controller: 'LogDuringCtrl'
         }
       }
-    })     
+    })
+  .state('sec_comp', {
+      url: 'current/sec_comp',
+      views: {
+        current : {
+          templateUrl: 'templates/currenttrial/sec_comp.html',
+          controller: 'LogDuring2Ctrl'
+        }
+      }
+    })      
   .state('post', {
       url: 'current/post/:symptomIndex',
       views: {

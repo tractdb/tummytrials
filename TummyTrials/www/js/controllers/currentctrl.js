@@ -161,7 +161,7 @@
             // Preparing messages to display when reports are present. 
             // Reported value for breakfast compliance 
             var bfst_comp_msg, bfst_comp_state = false, sym_score_state = false, 
-                scr_val, scr_txt, scr_arr = [], sym_report_msg;
+                scr_val, scr_txt, scr_arr = [], sym_report_msg, lcomp_sate = false, lcomp_msg, lunch_comp = false;
             if(typeof(cur.reports[day_pos]) == "object"){
                 if(cur.reports[day_pos].breakfast_compliance == false){
                     bfst_comp_msg = "You reported that you <b> did not </b>" + day_cond; 
@@ -174,6 +174,15 @@
                 // Reported value for symptoms. If multiple symptoms, it is displayed as a single sentence summary
                 if(typeof(cur.reports[day_pos].breakfast_compliance) != null && typeof(cur.reports[day_pos].symptom_scores) == "object"){
                     // if symptoms exist and compliance is true/false
+                    if(typeof(cur.reports[day_pos].lunch_compliance) == "boolean"){
+                        lcomp_sate = true;
+                        if(lunch_comp == true){
+                            lcomp_msg = "Your reported that you <b> did </b> eat something between your breakfast and symptom report.";
+                        } else if(lunch_comp == false){
+                            lcomp_msg = "Your reported that you <b> did not </b> eat something between your breakfast and symptom report.";
+                        }                  
+                    }
+
                     var report_msg = "You reported ", temp_msg, sym_len;
                     for(var l = 0; l < cur.reports[day_pos].symptom_scores.length; l++){
                         scr_val = cur.reports[day_pos].symptom_scores[l].score;
@@ -232,8 +241,8 @@
                         }
                         break;
                     case 'symptomEntry':
-                        info.logstate = 'post({symptomIndex:0})';
-                        info.reportmsg = report_msg;
+                        info.logstate = 'sec_comp';
+                        
                         // if breakfast compliance is reported pos/neg then the bfst_comp_state is true. Allow symptom logging.
                         if(bfst_comp_state == true){
                             info.disabled = false;
@@ -241,6 +250,11 @@
                             // else do not all symptom logging
                             info.disabled = true;
                         }
+
+                        if(lcomp_sate == true){
+                            info.reportmsg = lcomp_msg + '<br/><br/>' + report_msg;
+                        }
+
 
                         if (sym_score_state == true) {
                             info.logmsg = 'Edit ' + info.logmsg;
@@ -343,7 +357,7 @@
                     })
                     .then(function(_) {
                         // variable for locking log buttons
-                        submitted = true;
+                        // submitted = true;
                         // Reload current page.
                         //
                         $state.go($state.current, {}, { reload: true });
@@ -357,12 +371,19 @@
             };
 
             // Toggle for disabling logging buttons once report is submitted
-            var submitted = cur.reports[day_pos].confirmed;
-            if (submitted == true) {
-                $scope.sbmtd = true;
+            if(typeof(cur.reports[day_pos].confirmed) == "boolean" ){
+                if(cur.reports[day_pos].confirmed == true){
+                    $scope.sbmtd = true;
+                } else {
+                    $scope.sbmtd = false;
+                }
             } else {
                 $scope.sbmtd = false;
             }
+            $scope.sym_scr_st = sym_score_state;
+            console.log('type check ' + typeof(cur.reports[day_pos].confirmed));
+            console.log('scope thingy ' + $scope.sbmtd);
+            console.log('not thingy ' + sym_score_state);
 
             // For detecting accelerated demo
             // If ttransform exists, then trail is being accelerated

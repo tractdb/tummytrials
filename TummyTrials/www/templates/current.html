@@ -80,8 +80,7 @@ Page Hierarchy:
                </div>
             </div>
           </div>
-          <!-- {{test}} <br/> -->
-          <!-- {{bfst_comp_msg}} -->
+
           <div class="card padding" ng-hide="sbmtd">   
             <h4>{{text.current.reminder_title}}</h4>
             <!-- <p ng-show="!study_current">(No current trial. Please create a new trial.)</p> -->
@@ -100,10 +99,10 @@ Page Hierarchy:
                     <!-- <br/> -->
                 </div>
                 <div class="card padding divcenter submit-card">
-                  <p ng-show="sym_score_state">{{text.current.submit_text}}</p>
+                  <p ng-show="sym_scr_st">{{text.current.submit_text}}</p>
                   <!-- <p ng-show="sbmtd">{{text.current.submitted_text}}</p> -->
-                  <p ng-show="!sym_score_state">{{text.current.submit_cant}}</p>
-                  <a class="button button-royal" ng-click="submit_for_day()" ng-disabled="sbmtd || !sym_score_state" > &nbsp&nbsp {{text.current.submit_button}} &nbsp&nbsp </a>
+                  <p ng-show="!sym_scr_st">{{text.current.submit_cant}}</p>
+                  <a class="button button-royal" ng-click="submit_for_day()" ng-disabled="sbmtd || !sym_scr_st" > &nbsp&nbsp {{text.current.submit_button}} &nbsp&nbsp </a>
                 </div>
           </div>
 
