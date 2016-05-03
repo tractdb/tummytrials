@@ -2,8 +2,8 @@
 //
 // This module subscribes to events and logs them to the DB. Currently
 // there's no interface to this module, it's supposed to "just work" all
-// on its own. Events are logged to the current study in a field named
-// activity_log (an array of strings).
+// on its own. Events are logged to the current log object; see
+// experiments.js for a description.
 //
 // Events are organized into log categories:
 //
@@ -32,18 +32,18 @@ var g_navlogger; // Logger for Navigation category
 
     function log(s)
     {
-        // Log an event to current study (if there is one). Note that
-        // we don't wait for the update to complete.
+        // Log an event. Note that we don't wait for the update to
+        // complete.
         //
         Experiments.getCurrent()
-        .then(function(curex) {
-            if (!curex)
-                return null;
-
-            // Add millisec timestamp and current page URL to the
-            // message.
+        .then(function(curstudy) {
+            // Add millisec timestamp, current page URL, and current
+            // study id, if any, to the message.
             //
-            var infix = Date.now() + ' ' + $state.href($state.current);
+            var study_id = curstudy ? curstudy.id : 'no-current-study';
+            var infix =
+                Date.now() + ' ' + $state.href($state.current) + ' ' +
+                study_id;
             var rb = s.indexOf(']');
             var msg;
             if (rb < 0) {
@@ -54,7 +54,7 @@ var g_navlogger; // Logger for Navigation category
 
             // Add to the study.
             //
-            return Experiments.add_activity_p(curex.id, msg);
+            return Experiments.log_addmsg_p(msg);
         });
     }
 
