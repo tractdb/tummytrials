@@ -1,16 +1,13 @@
 // navlog.js     Log navigation from page to page
 //
+// NOTE: this module is unused and should be deleted at some point.
+//
 // This module subscribes to location change events, and logs them to
 // the DB. Currently there's no interface to this module, it's supposed
 // to "just work" all on its own.
 //
 
 'use strict';
-
-// NOTE: If parsing navigation particulars from the log messages is a
-// drag you could use special navigation records in the DB rather than
-// log entries.
-//
 
 var g_logger;
 

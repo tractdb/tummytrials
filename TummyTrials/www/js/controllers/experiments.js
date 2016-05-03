@@ -1,16 +1,24 @@
 // experiments.js     TummyTrials experiments
 //
-// (Want to pick a consistent name. The GUI uses "trial" and "study".
-// Only this module uses "experiment".)
+// (Should eventually converge on a consistent name. The GUI uses
+// "trial" and "study". This module uses "experiment" but is trying to
+// to migrate to "study".)
 //
 
 'use strict';
 
-var VIEWKEY = 'start_time';
-var TYPEDESC = {
+var STUDY_VIEWKEY = 'start_time';
+var STUDY_TYPEDESC = {
     doctype: { name: 'activity', version: 1 },
     datatype: { name: 'tummytrials_experiment', version: 1 },
-    viewkeys: [ VIEWKEY ]
+    viewkeys: [ STUDY_VIEWKEY ]
+};
+
+var LOG_VIEWKEY = 'start_time';
+var LOG_TYPEDESC = {
+    doctype: { name: 'log', version: 1 },
+    datatype: { name: 'tummytrials_log', version: 1 },
+    viewkeys: [ LOG_VIEWKEY ]
 };
 
 function by_time(a, b)
@@ -26,7 +34,7 @@ function by_time(a, b)
 (angular.module('tummytrials.experiments',
                 [ 'tractdb.tdate', 'tractdb.couchdb' ])
 
-/* The following fields have a known meaning right now:
+/* The following study fields have a known meaning right now:
  *
  *   Activity properties:
  *     name:         Name of activity (string)
@@ -42,7 +50,6 @@ function by_time(a, b)
  *     remdescrs:    Reminder descriptors (array of object, see reminders.js)
  *     reports:      User reports (array of object, below)
  *     comment:      Free form comment (string)
- *     activity_log: User activities (array of string)
  *     ttransform:   Time transform for accelerated testing (object, below)
  *
  * The id is managed by the CouchDB module, not supplied by callers. In
@@ -117,8 +124,19 @@ function by_time(a, b)
  *     study_previous    Previous studies (array of object)
  */
 
+/* The following log fields have a known meaning right now.
+ *
+ *   Log properties:
+ *     start_time:   creation time of the log (sec since 1970)
+ *     messages:     array of string, the log messages
+ *     id:           unique identifier [managed by CouchDB class]
+ *
+ *   Tummytrials log properties:
+ *     (none)
+ */
+
 .factory('Experiments', function($q, TDate, CouchDB) {
-    var db = new CouchDB("tractdb", [ TYPEDESC ]);
+    var db = new CouchDB("tractdb", [ STUDY_TYPEDESC, LOG_TYPEDESC ]);
 
     function const_p(k)
     {
@@ -177,7 +195,8 @@ function by_time(a, b)
 
     function get_all_p()
     {
-        return db.get_all_p(TYPEDESC, VIEWKEY, { descending: true });
+        return db.get_all_p(STUDY_TYPEDESC, STUDY_VIEWKEY,
+                            { descending: true });
     }
 
     function current_ix(expers)
@@ -302,6 +321,43 @@ function by_time(a, b)
         }
     }
 
+    function log_getall_p()
+    {
+        return db.get_all_p(LOG_TYPEDESC, LOG_VIEWKEY, { descending: true });
+    }
+
+    function log_getcurrent_p()
+    {
+        // Return a promise for the current log, which is the first one
+        // (in reverse chronological order). If there are no logs, the
+        // promise resolves to null.
+        //
+        return log_getall_p()
+        .then(function(logs) {
+            if (Array.isArray(logs) && logs.length > 0)
+                return logs[0];
+            return null;
+        });
+    }
+
+    function log_add_p()
+    {
+        // Return a promise to create a new log. The promise resolves to
+        // the id of the new log.
+        //
+        // Note 1: writing a log message (with log_addmsg_p()) creates
+        // a log if there is none.
+        //
+        // Note 2: use Date rather than TDate here because the log
+        // exists outside the "accelerated study" facility.
+        // 
+        var log = {
+            start_time: Math.floor(Date.now() / 1000),
+            messages: []
+        };
+        return db.add_p(LOG_TYPEDESC, log);
+    }
+
     return {
         // Useful computations relating to experiments.
         //
@@ -401,7 +457,7 @@ function by_time(a, b)
             // Return a promise to add the specified experiment. The
             // promise resolves to the id of the experiment.
             //
-            return db.add_p(TYPEDESC, experiment);
+            return db.add_p(STUDY_TYPEDESC, experiment);
         },
 
         setStatus: function(experimentId, newStatus) {
@@ -538,19 +594,19 @@ function by_time(a, b)
             });
         },
 
-        add_activity_p: function(experimentId, s)
-        {
-            // Add the string to the activity log for the given
-            // experiment.
-            //
-            return db.get_p(experimentId)
-            .then(function(exper) {
-                if (!Array.isArray(exper.activity_log))
-                    exper.activity_log = [];
-                exper.activity_log.push(s);
-                return db.put_p(experimentId, exper);
-            });
-        },
+//      add_activity_p: function(experimentId, s)
+//      {
+//          // Add the string to the activity log for the given
+//          // experiment.
+//          //
+//          return db.get_p(experimentId)
+//          .then(function(exper) {
+//              if (!Array.isArray(exper.activity_log))
+//                  exper.activity_log = [];
+//              exper.activity_log.push(s);
+//              return db.put_p(experimentId, exper);
+//          });
+//      },
 
         set_ttransform_p: function(experimentId, speedup, offset) {
             // Return a promise to set the time transform of the
@@ -596,11 +652,53 @@ function by_time(a, b)
             return db.replicating();
         },
 
+        // Operations on logs. These are separate from studies, so that
+        // log entries can be made at any time (even when there is no
+        // current study).
+        //
+        // A log is created by log_add_p(), or by the first call to
+        // log_addmsg_p() when there is no log.
+        //
+
+        log_getall_p: log_getall_p,
+
+        log_get_p: function(logId) {
+            // Return a promise for the log with the given id.
+            //
+            return db.get_p(logId);
+        },
+
+        log_getcurrent_p: log_getcurrent_p,
+
+        log_addmsg_p: function(s) {
+            // Return a promise to add a message to the current log. If
+            // there's no current log, create one first. The promise
+            // resolves to null.
+            //
+            return log_getcurrent_p()
+            .then(function(curlog) {
+                if (curlog)
+                    return curlog;
+                return log_add_p()
+                .then(function(_) { return log_get_current_p(); });
+            })
+            .then(function(curlog) {
+                curlog.messages.push(s);
+                return db.put_p(curlog.id, curlog);
+            });
+        },
+
+        log_add_p: log_add_p,
+
+        log_delete_p: function(logId) {
+            return db.delete_p(logId);
+        },
+
         // Secret values used in testing.
         //
         _test_docversion: 1,
-        _test_doctype: TYPEDESC.doctype,
-        _test_datatype: TYPEDESC.datatype
+        _test_doctype: STUDY_TYPEDESC.doctype,
+        _test_datatype: STUDY_TYPEDESC.datatype
     };
 })
 );
