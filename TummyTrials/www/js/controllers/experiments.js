@@ -70,9 +70,15 @@ function by_time(a, b)
  *   breakfast_compliance:  (bool)
  *   breakfast_report_time: time of breakfast report (number, sec since 1970)
  *   breakfast_history:     array of former breakfast reports (see below)
+ *   lunch_compliance:      (bool)
+ *   lunch_report_time:     time of lunch report (number, sec since 1970)
+ *   lunch_history:         array of former lunch reports (see below)
  *   symptom_scores:        (array of { name: string, score: number })
  *   symptom_report_time:   time of symptom report (number, sec since 1970)
  *   symptom_history:       array of former symptom reports (see below)
+ *   note:                  (string)
+ *   note_time:             time of note (number, sec since 1970)
+ *   note_history:          array of former note reports (see below)
  *   comment:               (string)
  * }
  *
@@ -80,15 +86,30 @@ function by_time(a, b)
  * been made. (More likely the report object simply won't exist,
  * however.)
  *
+ * If lunch_compliance is absent or null, no lunch report has
+ * been made. (More likely the report object simply won't exist,
+ * however.)
+ *
  * If symptom_scores is absent, null, or empty, no symptom report has
  * been made. (This will be the usual case between the two report
  * times.)
  *
- * The user is allowed to change their breakfast and symptom reports
- * throughout the day until a cutoff time in the evening. Old reports
+ * If note is absent or null, no note has
+ * been made. (More likely the report object simply won't exist,
+ * however.)
+ *
+ * The user is allowed to change their breakfast, lunch, symptom, and note 
+ * reports throughout the day until a cutoff time in the evening. Old reports
  * are retained for analysis.
  *
  * breakfast_history is an array of previous breakfast reports for the
+ * day. Each entry in the array looks like this:
+ *
+ * { report_time: (sec since 1970),
+ *   compliance: bool
+ * }
+ *
+ * lunch_history is an array of previous lunch reports for the
  * day. Each entry in the array looks like this:
  *
  * { report_time: (sec since 1970),
@@ -100,6 +121,13 @@ function by_time(a, b)
  *
  * { report_time: (sec since 1970),
  *   scores: (array of { name: string, score: number })
+ * }
+ *
+ * note_history is an array of previous notes for the
+ * day. Each entry in the array looks like this:
+ *
+ * { note_time: (sec since 1970),
+ *   note: string
  * }
  *
  * A time transform looks like this:
@@ -309,6 +337,16 @@ function by_time(a, b)
                 newexper.breakfast_history = [];
             newexper.breakfast_history.push(hist);
         }
+        if (oldexper.lunch_report_time &&
+            newexper.lunch_report_time != oldexper.lunch_report_time) {
+            hist = {
+                report_time: oldexper.lunch_report_time,
+                compliance: oldexper.lunch_compliance
+            };
+            if (!newexper.lunch_history)
+                newexper.lunch_history = [];
+            newexper.lunch_history.push(hist);
+        }
         if (oldexper.symptom_report_time &&
             newexper.symptom_report_time != oldexper.symptom_report_time) {
             hist = {
@@ -318,6 +356,16 @@ function by_time(a, b)
             if (!newexper.symptom_history)
                 newexper.symptom_history = [];
             newexper.symptom_history.push(hist);
+        }
+        if (oldexper.note_time &&
+            newexper.note_time != oldexper.note_time) {
+            hist = {
+                report_time: oldexper.note_time,
+                note: oldexper.note
+            };
+            if (!newexper.note_history)
+                newexper.note_history = [];
+            newexper.note_history.push(hist);
         }
     }
 

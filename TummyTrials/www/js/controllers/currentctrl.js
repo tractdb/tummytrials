@@ -164,7 +164,7 @@
                 scr_val, scr_txt, scr_arr = [], sym_report_msg, lcomp_sate = false, lcomp_msg, lunch_comp = false;
             if(typeof(cur.reports[day_pos]) == "object"){
                 if(cur.reports[day_pos].breakfast_compliance == false){
-                    bfst_comp_msg = "You reported that you <b> did not </b>" + day_cond; 
+                    bfst_comp_msg = '<span class="positive">You reported that you <b> did not </b>' + day_cond +'</span>'; 
                     bfst_comp_state = true;
                 } else if(cur.reports[day_pos].breakfast_compliance == true){
                     bfst_comp_msg = "You reported that you <b> did </b>" + day_cond;
@@ -176,11 +176,12 @@
                     // if symptoms exist and compliance is true/false
                     if(typeof(cur.reports[day_pos].lunch_compliance) == "boolean"){
                         lcomp_sate = true;
-                        if(lunch_comp == true){
-                            lcomp_msg = "Your reported that you <b> did </b> eat something between your breakfast and symptom report.";
-                        } else if(lunch_comp == false){
-                            lcomp_msg = "Your reported that you <b> did not </b> eat something between your breakfast and symptom report.";
+                        if(cur.reports[day_pos].lunch_compliance == true){
+                            lcomp_msg = 'You reported that you <b> did not </b> eat something between your breakfast and symptom report.';
+                        } else if(cur.reports[day_pos].lunch_compliance == false){
+                            lcomp_msg = '<span class="positive">You reported that you <b> did </b> eat something between your breakfast and symptom report.</span>';
                         }                  
+                        console.log('l rep is ' + cur.reports[day_pos].lunch_compliance + ' msg is ' + lcomp_msg);
                     }
 
                     var report_msg = "You reported ", temp_msg, sym_len;

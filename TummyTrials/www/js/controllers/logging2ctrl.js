@@ -1,4 +1,4 @@
-// loggingctrl.js     Controllers for logging daily study results
+// logging2ctrl.js     Controllers for logging daily study results
 //
 // (These are known as reports in the code.)
 //
@@ -23,11 +23,11 @@
             if (!report)
                 report = Experiments.report_new(logday);
             if(resp == 'yes'){
-                report.lunch_compliance = true;    
+                report.lunch_compliance = false;    
             } else if(resp == 'no'){
-                report.lunch_compliance = false;
+                report.lunch_compliance = true;
             }
-            
+            console.log('resp is ' + resp + ' compl is ' + report.lunch_compliance);
             report.lunch_report_time = Math.floor(TDate.now() / 1000);
             return Experiments.put_report_p(cur.id, report);
         })
@@ -47,9 +47,9 @@
         });
     }
 
-    function compliant_yes() { make_report(true, 'yes'); }
+    function compliant_yes() { console.log('yes clicked'); make_report(true, 'yes'); }
     // allow reporting symptoms in either case
-    function compliant_no() { make_report(true, 'no'); }
+    function compliant_no() { console.log('no clicked'); make_report(true, 'no'); }
 
     Text.all_p()
     .then(function(alltext) {

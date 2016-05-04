@@ -186,6 +186,9 @@
                         }
                     }
 
+                    sym_data["bcomp"] = cur.reports[i].breakfast_compliance;
+                    sym_data["lcomp"] = cur.reports[i].lunch_compliance;
+
                     // set void flag true for void days > 0
                     // void flag is used to toggle text alerting user about misleading averages
                     if(a_void > 0){
@@ -367,6 +370,8 @@
             severity_text = mapper[data_pt.real_severity];
 
             var nt = data_pt.note;
+            var bcomp = data_pt.bcomp;
+            var lcomp = data_pt.lcomp;
 
             //trimming date to be more readable
             var date_trimmed = JSON.stringify(data_pt.date);
@@ -375,7 +380,8 @@
             date_trimmed = date_trimmed.replace(/"/g, '');
 
             $scope.alert_message = "Condition : " + cond_text + "<br/>" + "Severity : " + severity_text + "<br/>" + 
-                                    "Note : " + nt + "<br/>" + "Date : " + date_trimmed;
+                                    "Note : " + nt + "<br/>" + "Date : " + date_trimmed + "<br/>" + 
+                                    "Breakfast Compliance : " + bcomp + "<br/>" + "Lunch Compliance : " + lcomp + "<br/>";
 
             $scope.alert_title = "Details for the day"
 
