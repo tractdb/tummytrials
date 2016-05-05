@@ -45,8 +45,13 @@
       },
       link: function( scope, element, attrs) {
         scope.visdata = Vis;
-        var A_text = scope.visdata.A_text;
-        var B_text = scope.visdata.B_text;
+        // var A_text = scope.visdata.A_text;
+        // var B_text = scope.visdata.B_text;
+        var A_text = 'Have ' + scope.data[0].trigger;
+        var B_text = 'Avoid ' + scope.data[0].trigger;
+
+        // console.log(A_text + ' and ' + B_text);
+        // console.log('on ' + scope.data[0].trigger + ' and off ' +  scope.data[0].trigger );
 
         d3Service.d3().then(function(d3) {
           // counter for number of datapoints
@@ -76,6 +81,7 @@
                           .rangeRoundBands([0,width]);
 
           // Define the axes
+          // 0 is consume trigger and 1 is avoid trigger
           var xAxis = d3.svg.axis()
               .scale(xscale)
               .orient("bottom")
@@ -142,7 +148,8 @@
               .call(xAxis)
             .selectAll("text")
               .attr("x", 0)
-              .attr("y", 15);
+              .attr("y", 20)
+              .style("font-size", "14px");
 
           // remove the line for x axis since we're drawing a line above no reports
           svg.select(".domain")
@@ -258,7 +265,11 @@
             svg.select(".x.axis") 
               .transition()
               .duration(750)
-              .call(xAxis);
+              .call(xAxis)
+            .selectAll("text")
+              .attr("x", 0)
+              .attr("y", 20)
+              .style("font-size", "14px");
 
             svg.select(".domain")
               .remove();

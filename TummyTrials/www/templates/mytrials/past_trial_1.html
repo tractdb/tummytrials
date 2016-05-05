@@ -17,7 +17,7 @@
     <span ng-show="st_status == 'abandoned'"> This trial was {{st_status}}.</span><span ng-show="st_reason != ''">The reason for abandoning was <i>'{{st_reason}}'</i>.</span>
 
     <!-- Message while results are being processed -->
-    <div ng-show="!ready">
+    <div ng-show="st_status == 'ended' && !ready">
         <p class="assertive">Your data is being proccessed and your result will be available soon.</p>
     </div>
 
@@ -32,6 +32,16 @@
                 <!-- {{key}}  -->
                 <b><label >{{view_title}}</label></b>
             </div>
+
+            <!-- Legend for the vis  -->
+<!--             <svg height="20" width="100%">
+              <circle cx="50" cy="9" r="9" fill="#FFA70F" />
+              <text x="65" y="15">: {{trig}} days</text>
+              <circle cx="180" cy="9" r="9" fill="#0F85FF" />
+              <text x="195" y="15">: No {{trig}} days</text>
+            </svg>
+ -->
+            <!-- Result Vis -->
             <result-vis result-data="value" on-click="d3OnClick(data_pt)" label="d3Label" control="resultVisControl"> </result-vis>
             <div class="divcenter">
                 <button class="button button-small button-royal small-text" ng-click="resultVisControl.updateVis();">&nbsp&nbsp Timeline view &nbsp&nbsp </button> &nbsp&nbsp &nbsp&nbsp 

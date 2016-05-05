@@ -181,7 +181,6 @@
                         } else if(cur.reports[day_pos].lunch_compliance == false){
                             lcomp_msg = '<span class="positive">You reported that you <b> did </b> eat something between your breakfast and symptom report.</span>';
                         }                  
-                        console.log('l rep is ' + cur.reports[day_pos].lunch_compliance + ' msg is ' + lcomp_msg);
                     }
 
                     var report_msg = "You reported ", temp_msg, sym_len;
@@ -362,10 +361,8 @@
                         //
                         $state.go($state.current, {}, { reload: true });
                     });                
-                   console.log('Confirm submission');
                  } else {
                     //do nothing
-                   console.log('Confirm cancellation');
                  }
                });
             };

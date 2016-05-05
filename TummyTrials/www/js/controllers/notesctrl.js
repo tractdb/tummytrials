@@ -42,7 +42,6 @@
                 var note = $scope.tm.note;
                 rep.note_time = Math.floor(TDate.now() / 1000);
                 rep.note = note;
-                console.log("note " + note);
                 return Experiments.put_report_p(cur.id, rep)
                     .then(function(_){
                         var alertPopup = $ionicPopup.alert({
@@ -51,6 +50,7 @@
                         });
 
                        alertPopup.then(function(res) {
+                            $state.go('notes'); //doesn't work
                          // console.log('Thank you for not eating my delicious ice cream cone');
                        });
                     });
