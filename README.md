@@ -33,3 +33,36 @@ Try using Ionic components for all UI elements: http://ionicframework.com/docs/
 For making changes to the Ionic theme use SASS: http://learn.ionicframework.com/formulas/working-with-sass/
 
 Try to follow the recommended style guide here: https://github.com/mgechev/angularjs-style-guide
+
+####################################################################################################################################
+
+Current version info:
+
+Check version for ngCordova lib and cordova platform using
+
+    bower ngCordova -v
+    cordova -v
+    cordova platform list
+
+Versions should look like following. Make sure cordova ios platform version is not 4+
+
+    ngCordova 1.6.5
+    cordova 6.0.0
+    cordova ios platform 3.9.2
+
+TO check versions of various cordova plugins use
+    
+    cordova plugin help 
+    
+Current versions are below
+
+    com.couchbase.lite.phonegap 1.1.1 "Couchbase Lite"
+    cordova-plugin-app-event 1.1.0 "Application Events"
+    cordova-plugin-console 1.0.2 "Console"
+    cordova-plugin-datepicker 0.9.3 "DatePicker"
+    cordova-plugin-device 1.1.0 "Device"
+    cordova-plugin-statusbar 2.0.0 "StatusBar"
+    de.appplant.cordova.common.registerusernotificationsettings 1.0.1 "RegisterUserNotificationSettings"
+    de.appplant.cordova.plugin.badge 0.7.1 "Cordova Badge Plugin"
+    de.appplant.cordova.plugin.local-notification 0.8.4 "LocalNotification"
+    ionic-plugin-keyboard 1.0.8 "Keyboard"
