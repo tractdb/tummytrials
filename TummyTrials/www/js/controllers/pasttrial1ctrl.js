@@ -61,7 +61,8 @@
         $scope.st_trigger = study.trigger;
         $scope.st_symptom = study.symptoms;
         $scope.st_status = study.status;
-        $scope.st_comment = study.comment;
+        $scope.st_comment = study.comment; // Free form comment (unused)
+        $scope.st_reason = study.reason;   // Reason for abandoning trial
 
 
         // injecting Vis service

@@ -49,7 +49,8 @@ function by_time(a, b)
  *     trigger:      Trigger (string)
  *     remdescrs:    Reminder descriptors (array of object, see reminders.js)
  *     reports:      User reports (array of object, below)
- *     comment:      Free form comment (string)
+ *     reason:       Reason for abandonment
+ *     comment:      Free form comment
  *     ttransform:   Time transform for accelerated testing (object, below)
  *
  * The id is managed by the CouchDB module, not supplied by callers. In
@@ -67,6 +68,8 @@ function by_time(a, b)
 /* A report might look something like this:
  *
  * { study_day:             day to which the report applies (number, 1 .. N)
+ *   morning_reminded:      (bool) responded to morning reminder (opened app)
+ *   morning_reminded_time: morning reminder response time (sec since 1970)
  *   breakfast_compliance:  (bool)
  *   breakfast_report_time: time of breakfast report (number, sec since 1970)
  *   breakfast_history:     array of former breakfast reports (see below)
@@ -76,6 +79,8 @@ function by_time(a, b)
  *   symptom_scores:        (array of { name: string, score: number })
  *   symptom_report_time:   time of symptom report (number, sec since 1970)
  *   symptom_history:       array of former symptom reports (see below)
+ *   confirmed:             (bool) confirmed reports for the day
+ *   confirmed_time:        time of daily report confirmation (sec since 1970)
  *   note:                  (string)
  *   note_time:             time of note (number, sec since 1970)
  *   note_history:          array of former note reports (see below)
@@ -87,20 +92,16 @@ function by_time(a, b)
  * however.)
  *
  * If lunch_compliance is absent or null, no lunch report has
- * been made. (More likely the report object simply won't exist,
- * however.)
+ * been made.
  *
  * If symptom_scores is absent, null, or empty, no symptom report has
- * been made. (This will be the usual case between the two report
- * times.)
+ * been made.
  *
- * If note is absent or null, no note has
- * been made. (More likely the report object simply won't exist,
- * however.)
+ * If note is absent or null, no note has been made.
  *
- * The user is allowed to change their breakfast, lunch, symptom, and note 
- * reports throughout the day until a cutoff time in the evening. Old reports
- * are retained for analysis.
+ * The user is allowed to change their breakfast, lunch, symptom, and
+ * note reports throughout the day until a cutoff time in the evening.
+ * Old reports are retained for analysis.
  *
  * breakfast_history is an array of previous breakfast reports for the
  * day. Each entry in the array looks like this:
@@ -109,8 +110,8 @@ function by_time(a, b)
  *   compliance: bool
  * }
  *
- * lunch_history is an array of previous lunch reports for the
- * day. Each entry in the array looks like this:
+ * lunch_history is an array of previous lunch reports for the day. Each
+ * entry in the array looks like this:
  *
  * { report_time: (sec since 1970),
  *   compliance: bool
@@ -250,6 +251,14 @@ function by_time(a, b)
         switch(repty) {
             case 'morning':
                 return !!rep.morning_reminded;
+            case 'breakfast':
+                return rep.breakfast_compliance === true ||
+                        rep.breakfast_compliance === false;
+            case 'symptomEntry':
+                return (rep.lunch_compliance === true ||
+                        rep.lunch_compliance === false) &&
+                        Array.isArray(rep.symptom_scores) &&
+                        rep.symptom.scores.length > 0;
             case 'evening':
                 return !!rep.confirmed;
         }
@@ -269,10 +278,18 @@ function by_time(a, b)
 
         var yestsd = Math.max(0, sd - 1);
         var morning = yestsd;
+        var breakfast = yestsd;
+        var symptomEntry = yestsd;
         var evening = yestsd;
 
         function tally() {
-            return { morning: morning, evening: evening, closeout: evening };
+            return {
+                morning: morning,
+                breakfast: breakfast,
+                symptomEntry: symptomEntry,
+                evening: evening,
+                closeout: evening
+            };
         }
 
         if (sd <= 0)
@@ -283,6 +300,8 @@ function by_time(a, b)
             // Study is over. All reports are deemed to have been made.
             //
             morning = dur;
+            breakfast = dur;
+            symptomEntry = dur;
             evening = dur;
             return tally();
         }
@@ -299,6 +318,8 @@ function by_time(a, b)
                 }
             if (closeout_rd && sec_after_midnight() >= closeout_rd.time) {
                 morning = sd;
+                breakfast = sd;
+                symptomEntry = sd;
                 evening = sd;
                 return tally();
             }
