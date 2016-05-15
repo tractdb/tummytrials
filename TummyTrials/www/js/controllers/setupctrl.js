@@ -93,7 +93,23 @@ function timesec_of_date(date)
 
         var trigger_selected = SetupData.trigger; 
         var trigger_num = text.setup4b.triggers.length; 
-        
+
+        // Get name of trigger to show in heading for on and off day meals
+        for(var i = 0; i < trigger_num; i++){
+            if(trigger_selected == i){ 
+                var trig_name = text.setup4b.triggers[i].trigger;
+            }
+        }
+        $scope.trig_name = trig_name;
+
+
+        // Placeholder text till the user chooses a breakfast and drink option.
+        $scope.bfst_on = text.setup4b.bfst_on_holder;
+        $scope.bfst_off = text.setup4b.bfst_off_holder;
+        $scope.drnk_on = text.setup4b.drnk_on_holder;
+        $scope.drnk_off = text.setup4b.drnk_off_holder;
+
+
         // var drink_selected = SetupData.drink_prefernce.drink;     
         var breakfast_on, breakfast_off, drink_on, drink_off;
 
@@ -308,7 +324,7 @@ function timesec_of_date(date)
                                         exper.end_time, {});
             })
             .then(function(_) {
-                $state.go('mytrials');
+                $state.go('setup_6');
             });
         }
         $scope.begin_study = begin_study;
@@ -362,6 +378,42 @@ function timesec_of_date(date)
 
         // XXX test for valid reminder times
         $scope.chosen_reminder_times = studyfmt.reminderTimes();
+    });
+})
+
+
+.controller('Setup6Ctrl', function($scope, Text, SetupData) {
+    Text.all_p()
+    .then(function(text) {
+        $scope.text = text;
+        $scope.setupdata = SetupData;
+
+        var subtitle = text.setup6.subtitle;
+        var duration = Number(SetupData.duration || 0);
+        var breakfast_pref =  SetupData.breakfast_preference.breakfast;
+        var drink_pref = SetupData.drink_preference.drink;
+
+        subtitle = subtitle.replace("{{12}}", duration);
+        subtitle = subtitle.replace("{{breakfast}}", breakfast_pref);
+        subtitle = subtitle.replace("{{drink}}", drink_pref);
+        $scope.subtitle = subtitle;
+
+        for(var i = 0; i < text.setup4b.triggers.length; i++){
+            if(SetupData.trigger == i){ 
+                var trig_name = text.setup4b.triggers[i].trigger;
+                $scope.trig_name = trig_name;                
+                var on_meals = text.setup4b.triggers[i].condition[0];
+                $scope.breakfast_on_prompt = on_meals[SetupData.breakfast_preference.breakfast];
+                $scope.drink_on_prompt = on_meals[SetupData.drink_preference.drink];
+                var off_meals = text.setup4b.triggers[i].condition[1];
+                $scope.breakfast_off_prompt = off_meals[SetupData.breakfast_preference.breakfast];
+                $scope.drink_off_prompt = off_meals[SetupData.drink_preference.drink];
+            }
+        }
+
+        //Help toggle
+        $scope.help = false;
+
     });
 })
 

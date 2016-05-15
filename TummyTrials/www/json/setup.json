@@ -246,11 +246,11 @@
 	},
 	"setup": {
 		"title": "Setup a new trial",
-		"content": "This setup will guide you through the steps to create your own self trial. The trial will help you figure out whether certain foods are affecting your symptoms for IBS or not. During the trial, you will be asked to eat certain foods on some days and avoid that food on other days. We will aslo help you track your symptoms by sending you daily reminders to log them.",
+		"content": "This setup will guide you through the steps to create your own self trial. A trial helps you figure out whether a nutrient affects your symptoms for IBS. \n\nDuring the trial, you will be asked to eat certain nutrients on some mornings and avoid that nutrient on other mornings. \n\nWe will help you track your progress and symptoms by sending you daily reminders. ",
 		"button": "Let's Begin!"
 	},
 	"setup2": {
-		"title": "1. Choose the symptoms you are experiencing",
+		"title": "1. Which symptoms are you experiencing?",
 		"symptoms": [{
 			"symptom": "Abdominal Pain"
 		}, {
@@ -272,22 +272,22 @@
 		"title": "2. Choose a possible cause",
 		"subtitle": "Which of the following food items is a likely cause for your symptoms?",
 		"triggers": [{
-			"trigger": "Eating Sorbitol / Artificial Sweeteners",
+			"trigger": "Sorbitol / Artificial Sweeteners",
 			"uisref": "setup_3_1",
 			"phrase_plus": "eat at least 5g Sorbitol",
 			"phrase_minus": "eat less than 0.5g Sorbitol"
 		}, {
-			"trigger": "Eating Lactose / Dairy",
+			"trigger": "Lactose / Dairy",
 			"uisref": "setup_3_2",
 			"phrase_plus": "eat at least 8 grams of lactose",
 			"phrase_minus": "avoid eating any lactose"
 		}, {
-			"trigger": "Drinking Caffeine",
+			"trigger": "Caffeine",
 			"uisref": "setup_3_3",
 			"phrase_plus": "drink caffeine",
 			"phrase_minus": "avoid drinking any caffeine"
 		}, {
-			"trigger": "Eating Gluten",
+			"trigger": "Gluten",
 			"uisref": "setup_3_4",
 			"phrase_plus": "eat gluten",
 			"phrase_minus": "avoid eating any gluten"
@@ -352,7 +352,7 @@
 	},
 	"setup4b": {
 		"title": "4. Set Food Preferences",
-		"breakfast_text": "Select a breakfast food and drink which you are likely to consume for the duration of the trial. You will have access to the recommended meals every day during the trial.",
+		"breakfast_text": "Select a breakfast food and drink you can consistently eat for the duration of the trial. You must have access to the recommended meals for every day of the trial.",
 		"breakfast": [{
 			"breakfast": "Cereal"
 		}, {
@@ -383,7 +383,7 @@
 			"drink": "Water"
 		}],
 		"triggers": [{
-			"trigger": "Eating Sorbitol / Artificial Sweeteners",
+			"trigger": "Sorbitol / Artificial Sweeteners",
 			"condition": [{
 				"condition": "on",
 				"Cereal": "Have your usual bowl of cereal your usual way and add at least one of the following: \n - 10 prunes (5 g) \n - Four sugar-free candies like lifesavers or mints (> 5 g) \n - Two pieces of sugar-free gum (4 g) \n - A glass of apple juice (3 g and equivalent amounts of fructose and glucose)",
@@ -417,7 +417,7 @@
 			}],
 			"uisref": "#"
 		}, {
-			"trigger": "Eating Lactose / Dairy",
+			"trigger": "Lactose / Dairy",
 			"condition": [{
 				"condition": "on",
 				"Cereal": "Use at least 6 oz of cow's milk with your bowl of cereal.",
@@ -451,7 +451,7 @@
 			}],
 			"uisref": "#"
 		}, {
-			"trigger": "Drinking Caffeine",
+			"trigger": "Caffeine",
 			"condition": [{
 				"condition": "on",
 				"Cereal": "Eat your usual breakfast.",
@@ -485,7 +485,7 @@
 			}],
 			"uisref": "#"
 		}, {
-			"trigger": "Eating Gluten",
+			"trigger": "Gluten",
 			"condition": [{
 				"condition": "on",
 				"Cereal": "Have your regular portion of gluten-containing cereal such as:\n - Mini Wheats (any variety)\n - Raisin Bran\n - Honey Bunches of Oats",
@@ -520,6 +520,10 @@
 			"uisref": "#"
 		}],
 		"uisref": "#",
+		"bfst_on_holder": "Select a breakfast option to view suggestion.",
+		"bfst_off_holder": "Select a breakfast option to view suggestion.",		
+		"drnk_on_holder": "Select a drink option to view suggestion.",
+		"drnk_off_holder": "Select a drink option to view suggestion.",
 		"button": "Continue "
 	},
 	"setup5": {
@@ -554,6 +558,13 @@
 		"drink_pref":"Drink preference",
                 "closeout_reminder_title": "End of Symtom Entry Period",
                 "closeout_reminder_text": "The time for reporting symptom severities has ended for today."
+	},
+	"setup6": {
+		"title": "Trial scheduled!",
+		"subtitle": "Great. You are all set. Remember, during the {{12}} days of your trial, you will need to have ingredients for {{breakfast}} and {{drink}}",
+		"para1": "You will see instructions regarding your trial on the 'Current Trial' tab.",
+		"help": "View details regarding food choice.",
+		"button":"Current Trial"
 	},
 	"loginfo": {
 		"header": "Tummy Trials Login",

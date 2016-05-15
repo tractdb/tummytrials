@@ -1,4 +1,5 @@
 // Current data scructure being passed for the result + result vis
+// Values are for example purpose
 // {
 //     "index":1,
 //     "condition":0,
