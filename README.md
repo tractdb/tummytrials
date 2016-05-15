@@ -50,7 +50,7 @@ Versions should look like following. Make sure cordova ios platform version is n
     cordova 6.0.0
     cordova ios platform 3.9.2
 
-TO check versions of various cordova plugins use
+To check versions of various cordova plugins use
     
     cordova plugin help 
     
