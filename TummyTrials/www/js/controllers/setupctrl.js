@@ -218,13 +218,13 @@ function timesec_of_date(date)
               bodies: morning_bodies(text, exper.abstring)
             },
             { type: 'breakfast',
-              reminderonly: true,
+              // reminderonly: true,
               time: timesec_of_date(SetupData.breakfast_time),
               heads: reminder_heads(text.setup5.breakfast_reminder_title),
               bodies: [text.setup5.breakfast_reminder_text]
             },
             { type: 'symptomEntry',
-              reminderonly: true,
+              // reminderonly: true,
               time: timesec_of_date(SetupData.symptom_time),
               heads: reminder_heads(text.setup5.symptomEntry_reminder_title),
               bodies: [text.setup5.symptomEntry_reminder_text]
@@ -256,7 +256,7 @@ function timesec_of_date(date)
             }
         }
         exper.reports = [];
-        exper.reason = [];
+        exper.reason = "";
 
         return exper;
     }
