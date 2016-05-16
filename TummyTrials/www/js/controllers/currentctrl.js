@@ -214,6 +214,17 @@
                     }   
                 }
             }
+            $scope.bfst_comp_state = bfst_comp_state;
+            $scope.sym_score_state = sym_score_state;
+
+            // calculating lunch reminder time for card
+            // assuming that symptom entry reminder is the 3rd one in the list
+            var bfst_rem = cur.remdescrs[1].time;
+            $scope.bfst_rem = bfst_rem/3600;
+            var sym_rem = cur.remdescrs[2].time;
+            $scope.sym_rem = sym_rem/3600; 
+
+
 
             var rep_tally = Experiments.report_tally(cur);
 
@@ -275,9 +286,9 @@
 
             // Title of the study
             if(typeof(cur.trigger) == "string"){
-                $scope.title = cur.trigger + " Study";    //add this to all child pages of current. conditioning not required since not accessible unless study is going on
+                $scope.title = cur.trigger + " Trial";    //add this to all child pages of current. conditioning not required since not accessible unless study is going on
             } else {
-                $scope.title = "Current Study";
+                $scope.title = "Current Trial";
             }            
 
             // checking if the last day of study has passed
