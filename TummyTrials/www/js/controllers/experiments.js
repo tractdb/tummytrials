@@ -283,13 +283,15 @@ function by_time(a, b)
         var evening = yestsd;
 
         function tally() {
-            return {
+            var res = {
                 morning: morning,
                 breakfast: breakfast,
                 symptomEntry: symptomEntry,
                 evening: evening,
                 closeout: evening
             };
+console.log('tally returning', JSON.stringify(res)); // TEMP
+            return res;
         }
 
         if (sd <= 0)
@@ -332,6 +334,10 @@ function by_time(a, b)
 
         if (report_made(r, 'morning'))
             morning = sd;
+        if (report_made(r, 'breakfast'))
+            breakfast = sd;
+        if (report_made(r, 'symptomEntry'))
+            symptomEntry = sd;
         if (report_made(r, 'evening'))
             evening = sd;
 
