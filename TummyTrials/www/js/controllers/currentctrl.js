@@ -225,9 +225,6 @@
 
             // calculating lunch reminder time for card
             // assuming that symptom entry reminder is the 3rd one in the list
-            
-            // $scope.chosen_reminder_times = studyfmt.reminderTimes();
-
             var bfst_rem = cur.remdescrs[1].time;
             $scope.bfst_rem = LC.timestr(bfst_rem);
 
@@ -455,10 +452,15 @@
                 var day = new Date((cur.start_time + (86400 * i)) * 1000);  //86400 adds 1 day
                 var dt = LC.dateonly(day);
                 var dtr = LC.datestrfull(day);
-                var scr_val, scr_txt, scr_arr = [], score = {};
+                var scr_val, scr_txt, scr_arr = [], score = {}, note_txt;
                 d.push(dt);
                 d.push(rand[i]);
 
+                if(cur.reports[i] != null && cur.reports[i].hasOwnProperty('note')){
+                    note_txt = cur.reports[i].note;
+                } else {
+                    note_txt = "No note.";
+                }
 
                 // no report object = nothing
                 // report object = ?
@@ -492,13 +494,15 @@
                     // }
 
                     if(typeof(cur.reports[i].breakfast_compliance) == "boolean"){
+                        
                         // can log second compliance only after first one
-                            if(cur.reports[i].breakfast_compliance == true){
-                                bcomp = true;
-                            }
-                            else {
-                                bcomp = false;
-                            }
+                        if(cur.reports[i].breakfast_compliance == true){
+                            bcomp = true;
+                        }
+                        else {
+                            bcomp = false;
+                        }
+
                         if(typeof(cur.reports[i].lunch_compliance) == "boolean"){
                             // can log symptoms only after second compliance
                             if(cur.reports[i].lunch_compliance == true){
@@ -526,7 +530,7 @@
                                     Calendar.state = "a.o.k.";
                                     Calendar.lcomp = lcomp;
                                     Calendar.bcomp = bcomp;
-
+                                    Calendar.note = note_txt;
                                 }
                                 d.push(score);
                             } else {
@@ -538,6 +542,7 @@
                                     Calendar.state = "eh.o.k.";
                                     Calendar.lcomp = lcomp;
                                     Calendar.bcomp = bcomp;
+                                    Calendar.note = note_txt;
                                 }
                                 d.push(score);
                             } // end report 
@@ -550,6 +555,7 @@
                                 Calendar.condition = rand[i];
                                 Calendar.state = "missing compliance";  
                                 Calendar.bcomp = bcomp;
+                                Calendar.note = note_txt;
                             } 
                             d.push(score);
                         } //end lunch comp
@@ -569,6 +575,7 @@
                             score["missing compliance"] = "can't report";
                             Calendar.condition = rand[i];
                             Calendar.state = "missing compliance";  
+                            Calendar.note = note_txt;
                         } 
                         d.push(score);
                     }//end bfst comp

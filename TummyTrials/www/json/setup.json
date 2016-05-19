@@ -109,7 +109,7 @@
 		"subtitle": "No ongoing study. Setup a new study.",
 		"button": "Let's Begin!",
 		"currenttrialtitle": "Current Trial",
-		"pasttrialtitle": "Past Trials' Results"
+		"pasttrialtitle": "Past Trial Results"
 	},
 	"pasttrial": {
 		"title": "Eating Lactose Study Finding",
@@ -248,12 +248,12 @@
 		"demo_explanation": "This will begin an accelerated demo of the most recently created trial. This is for demonstration purposes only. Do not do this for a genuine trial!"
 	},
 	"setup": {
-		"title": "Setup a new trial",
-		"content": "This setup will guide you through the steps to create your own self trial. A trial helps you figure out whether a nutrient affects your symptoms for IBS. \n\nDuring the trial, you will be asked to eat certain nutrients on some mornings and avoid that nutrient on other mornings. \n\nWe will help you track your progress and symptoms by sending you daily reminders. ",
-		"button": "Let's Begin!"
+		"title": "Setup a New Trial",
+		"content": "This setup will guide you through the steps to create your own self trial. A trial helps you figure out whether a nutrient affects your symptoms for IBS. \n\nDuring the trial, you will be asked to eat certain nutrients on some mornings and to avoid that nutrient on other mornings. \n\nWe will help you track your progress and symptoms by giving daily reminders. ",
+		"button": "Begin Setup"
 	},
 	"setup2": {
-		"title": "1. Which symptoms are you experiencing?",
+		"title": "Which Symptoms Do You Want To Test?",
 		"symptoms": [{
 			"symptom": "Abdominal Pain"
 		}, {
@@ -272,7 +272,7 @@
 		"button": "Continue "
 	},
 	"setup3": {
-		"title": "2. Choose a possible cause",
+		"title": "2. Choose A Possible Cause",
 		"subtitle": "Which of the following food items is a likely cause for your symptoms?",
 		"triggers": [{
 			"trigger": "Sorbitol / Artificial Sweeteners",
@@ -334,7 +334,7 @@
 		"list3": "A bowl of yogurt (5 oz)"
 	},
 	"setup4": {
-		"title": "3. Set start date and reminders",
+		"title": "3. Set Start Date And Reminders",
 		"subtitle": "When do you want to begin the study and when do you want to receive reminder notifications?",
 		"morning_title": "Morning Reminder",
 		"morning_text": "You will be sent a reminder to follow the study schedule for each day. Choose a time, perhaps a little before breakfast.",
@@ -347,7 +347,7 @@
 		"time": "Time",
 		"date": "Date",
 		"study_length_title": "Study Length",
-		"study_length_text": "A longer study will produce results that are more likely to be accurate.",
+		"study_length_text": "A longer study will produce results that are more likely to be reliable.",
 		"days": "Days",
 		"start_date_title": "Start Date",
 		"start_date_text": "Select the date on which you would like to begin your trial. Remember, you will be asked to follow a specific breakfast for the duration of the trial. ",
@@ -550,7 +550,7 @@
 		"symptom_reminder": "1:00 pm",
 		"evening_reminder_title": "End of Day Reminder",
 		"evening_reminder": "6:00 pm",
-		"button": "Begin Study!",
+		"button": "Begin The Trial",
 		"day_counter": "(Day {DAY})",
 		"morning_reminder_text": "Today is a day to {AORB}.",
 		"breakfast_reminder_text": "Please log your breakfast compliance.",
@@ -563,7 +563,7 @@
                 "closeout_reminder_text": "The time for reporting symptom severities has ended for today."
 	},
 	"setup6": {
-		"title": "Trial scheduled!",
+		"title": "Trial Scheduled!",
 		"subtitle": "Great. You are all set. Remember, during the {{12}} days of your trial, you will need to have ingredients for {{breakfast}} and {{drink}}",
 		"para1": "You will see instructions regarding your trial on the 'Current Trial' tab.",
 		"help": "View details regarding food choice.",
