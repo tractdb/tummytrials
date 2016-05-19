@@ -258,7 +258,7 @@ function by_time(a, b)
                 return (rep.lunch_compliance === true ||
                         rep.lunch_compliance === false) &&
                         Array.isArray(rep.symptom_scores) &&
-                        rep.symptom.scores.length > 0;
+                        rep.symptom_scores.length > 0;
             case 'evening':
                 return !!rep.confirmed;
         }
