@@ -24,7 +24,7 @@
                   'tummytrials.experiments', 'ionic', 'tummytrials.calendar',
                   'ngSanitize' ])
 
-.controller('CurrentCtrl', function($scope, $state, LC, Text, TDate,
+.controller('CurrentCtrl', function($scope, $state, LC, Text, TDate, StudyFmt,
                                     Reminders, Experiments, $window,
                                     $ionicPopup, $timeout, Calendar) {
 
@@ -225,10 +225,14 @@
 
             // calculating lunch reminder time for card
             // assuming that symptom entry reminder is the 3rd one in the list
+            
+            // $scope.chosen_reminder_times = studyfmt.reminderTimes();
+
             var bfst_rem = cur.remdescrs[1].time;
-            $scope.bfst_rem = bfst_rem/3600;
+            $scope.bfst_rem = LC.timestr(bfst_rem);
+
             var sym_rem = cur.remdescrs[2].time;
-            $scope.sym_rem = sym_rem/3600; 
+            $scope.sym_rem = LC.timestr(sym_rem);
 
 
 

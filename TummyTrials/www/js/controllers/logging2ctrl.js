@@ -58,6 +58,17 @@
     })
     .then(function(_) {
         var cur = $scope.study_current;
+        
+        var bfst_rem = cur.remdescrs[1].time;
+        bfst_rem = LC.timestr(bfst_rem);
+
+        var sym_rem = cur.remdescrs[2].time;
+        sym_rem = LC.timestr(sym_rem);
+
+        var sub_txt = text.sec_comp.subtitle1;
+        sub_txt = sub_txt.replace("{{breakfast}}", bfst_rem);
+        sub_txt = sub_txt.replace("{{now}}", sym_rem);
+        $scope.rem_txt = sub_txt;
 
         if (!cur) {
             // This should not be possible. If caller screwed up, the

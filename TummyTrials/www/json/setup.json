@@ -54,7 +54,7 @@
 	},
 	"sec_comp": {
 		"title": "Second compliance",
-		"subtitle1": "Between breakfast and now, did you:",
+		"subtitle1": "Between {{breakfast}} and {{now}}, did you:",
 		"subtitle2":"avoid eating or drinking anything?",
 		"today": "Today",
 		"button1": "Yes",
