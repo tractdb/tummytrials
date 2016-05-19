@@ -464,9 +464,6 @@
 
                 var bcomp = null, lcomp = null;
 
-                console.log("day log " + i + " day " + cur.reports);
-
-
                 if(cur.reports[i] == null){
                     if(dt == Calendar.button){
                         score["no report"] = "n/a";
@@ -553,11 +550,13 @@
                             d.push(score);
                         } //end lunch comp
 
-                        if(typeof(cur.reports[i].note) == "string"){
-                            Calendar.note = cur.reports[i].note;
-                        }else{
-                            Calendar.note = "No note.";
-                        }
+                        // if(typeof(cur.reports[i].note) == "string"){
+                        //     console.log("day "+ i + " is string");
+                        //     Calendar.note = cur.reports[i].note;
+                        // }else{
+                        //     console.log("day "+ i + " is NOT string");
+                        //     Calendar.note = "No note.";
+                        // }
 
                     } else {
                         // no bfst compliance

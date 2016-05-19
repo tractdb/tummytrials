@@ -367,7 +367,7 @@
             var severity_text = null;
                var mapper = {
                   0 : "Negative compliance",
-                  1 : "Missing data",
+                  1 : "No reports",
                   2 : "Not at all",
                   3 : "Slightly",        
                   4 : "Mildly",
