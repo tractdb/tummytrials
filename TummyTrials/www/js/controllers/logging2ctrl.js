@@ -23,9 +23,9 @@
             if (!report)
                 report = Experiments.report_new(logday);
             if(resp == 'yes'){
-                report.lunch_compliance = false;    
+                report.lunch_compliance = true;    
             } else if(resp == 'no'){
-                report.lunch_compliance = true;
+                report.lunch_compliance = false;
             }
             report.lunch_report_time = Math.floor(TDate.now() / 1000);
             return Experiments.put_report_p(cur.id, report);

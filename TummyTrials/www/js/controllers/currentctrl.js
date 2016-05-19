@@ -161,13 +161,15 @@
             // Preparing messages to display when reports are present. 
             // Reported value for breakfast compliance 
             var bfst_comp_msg, bfst_comp_state = false, sym_score_state = false, 
-                scr_val, scr_txt, scr_arr = [], sym_report_msg, lcomp_sate = false, lcomp_msg, lunch_comp = false;
+                scr_val, scr_txt, scr_arr = [], sym_report_msg, 
+                lcomp_sate = false, lcomp_msg, lunch_comp = false,
+                sym_submit = false;
             if(typeof(cur.reports[day_pos]) == "object"){
                 if(cur.reports[day_pos].breakfast_compliance == false){
-                    bfst_comp_msg = '<span class="positive">You reported that you <b> did not </b>' + day_cond +'</span>'; 
+                    bfst_comp_msg = '<span class="positive">You <b> did not </b>' + day_cond +'.</span><br/><br/>'; 
                     bfst_comp_state = true;
                 } else if(cur.reports[day_pos].breakfast_compliance == true){
-                    bfst_comp_msg = "You reported that you <b> did </b>" + day_cond;
+                    bfst_comp_msg = "You <b> did </b>" + day_cond + ".<br/><br/>";
                     bfst_comp_state = true;
                 }
 
@@ -177,13 +179,13 @@
                     if(typeof(cur.reports[day_pos].lunch_compliance) == "boolean"){
                         lcomp_sate = true;
                         if(cur.reports[day_pos].lunch_compliance == true){
-                            lcomp_msg = 'You reported that you <b> did not </b> eat something between your breakfast and symptom report.';
+                            lcomp_msg = 'You <b> did not </b> eat something between your breakfast and symptom report.';
                         } else if(cur.reports[day_pos].lunch_compliance == false){
-                            lcomp_msg = '<span class="positive">You reported that you <b> did </b> eat something between your breakfast and symptom report.</span>';
+                            lcomp_msg = '<span class="positive">You <b> did </b> eat something between your breakfast and symptom report.</span>';
                         }                  
                     }
 
-                    var report_msg = "You reported ", temp_msg, sym_len;
+                    var report_msg = "", temp_msg, sym_len;
                     for(var l = 0; l < cur.reports[day_pos].symptom_scores.length; l++){
                         scr_val = cur.reports[day_pos].symptom_scores[l].score;
                         scr_txt = cur.reports[day_pos].symptom_scores[l].name;
@@ -197,7 +199,7 @@
                                 temp_msg = "<b>" + scr_txt + "</b> impacted you " + "<b>" + scr_val + "</b> and ";
                             } else if(l == (sym_len - 1)){
                                 // last symptom in the array 
-                                temp_msg = "<b>" + scr_txt + "</b> impacted you " +  "<b>" + scr_val + "</b>.<br/>";
+                                temp_msg = "<b>" + scr_txt + "</b> impacted you " +  "<b>" + scr_val + "</b>.<br/><br/>";
                             }
                         } else if(sym_len > 2){
                             if(l < (sym_len - 1)){
@@ -206,16 +208,20 @@
                                 temp_msg = "<b>" + scr_txt + "</b> impacted you " + "<b>" + scr_val + "</b> and ";
                             } else if(l == (sym_len - 1)){
                                 // last symptom in the array 
-                                temp_msg = "<b>" + scr_txt + "</b> impacted you " + "<b>" + scr_val + "</b>.<br/>";
+                                temp_msg = "<b>" + scr_txt + "</b> impacted you " + "<b>" + scr_val + "</b>.<br/><br/>";
                             }
                         }
                         report_msg = report_msg.concat(temp_msg);
                         sym_score_state = true;
                     }   
                 }
+                if(cur.reports[day_pos].confirmed == true){
+                    sym_submit = true;
+                }
             }
             $scope.bfst_comp_state = bfst_comp_state;
             $scope.sym_score_state = sym_score_state;
+            $scope.sym_submit = sym_submit;
 
             // calculating lunch reminder time for card
             // assuming that symptom entry reminder is the 3rd one in the list
@@ -458,18 +464,31 @@
 
                 var bcomp = null, lcomp = null;
 
-                if(typeof(cur.reports[i]) == "object"){ // typeof(null) = object
+                console.log("day log " + i + " day " + cur.reports);
+
+
+                if(cur.reports[i] == null){
+                    if(dt == Calendar.button){
+                        score["no report"] = "n/a";
+                        Calendar.date = dtr;
+                        Calendar.condition = rand[i];
+                        Calendar.state = "no report";
+                    } 
+                    //print no report 
+                    d.push(score);
+                }
+                else if(typeof(cur.reports[i]) == "object"){ // typeof(null) = object
                     // report is null when user did not report anything and day elapsed
-                    if(cur.reports[i] == null){
-                        if(dt == Calendar.button){
-                            score["no report"] = "n/a";
-                            Calendar.date = dtr;
-                            Calendar.condition = rand[i];
-                            Calendar.state = "no report";
-                        } 
-                        //print no report 
-                        d.push(score);
-                    }
+                    // if(cur.reports[i] == null){
+                    //     if(dt == Calendar.button){
+                    //         score["no report"] = "n/a";
+                    //         Calendar.date = dtr;
+                    //         Calendar.condition = rand[i];
+                    //         Calendar.state = "no report";
+                    //     } 
+                    //     //print no report 
+                    //     d.push(score);
+                    // }
 
                     if(typeof(cur.reports[i].breakfast_compliance) == "boolean"){
                         // can log second compliance only after first one
@@ -521,7 +540,6 @@
                                 }
                                 d.push(score);
                             } // end report 
-
                         } else {
                             // no lunch compliance
                             console.log("this will be an issue with old schema which does not have lunch compliance");
@@ -534,6 +552,13 @@
                             } 
                             d.push(score);
                         } //end lunch comp
+
+                        if(typeof(cur.reports[i].note) == "string"){
+                            Calendar.note = cur.reports[i].note;
+                        }else{
+                            Calendar.note = "No note.";
+                        }
+
                     } else {
                         // no bfst compliance
                         if(dt == Calendar.button){
@@ -597,6 +622,7 @@
                 }
             } 
             
+            $scope.note = Calendar.note;
             $scope.cal_bcomp = Calendar.bcomp;
             $scope.cal_lcomp = Calendar.lcomp;
             $scope.cal_btn = Calendar.button;

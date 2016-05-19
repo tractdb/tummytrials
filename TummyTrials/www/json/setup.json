@@ -7,7 +7,7 @@
 		"rem1": "Your first reminder is set for 7 am.",
 		"rem2": "Your breakfast reminder is set for 9 am.",
 		"rem3": "Your symptom entry reminder is set for 12 pm.",
-		"note": "You can note down specifics of your diet, symptoms, or othere relevant information for the day for later reviewing. Would you like to add an optional note?",
+		"note": "You can note specifics of your diet, symptoms, or other information for the day to review later.",
 		"note2": "You can edit your current note (seen below).",
 		"button1": "Log Breakfast Compliance",
 		"button2": "Log Symptom Level",
@@ -20,9 +20,9 @@
 		"breakfast_reminder_logmsg": " Breakfast Compliance",
 		"symptomEntry_reminder_logmsg": " Symptom Level",
 		"reminder_title":"Reminders for today:",
-		"submit_button":"Submit",
+		"submit_button":"Confirm",
 		"submit_cant":"Please enter breakfast compliance and symptom report(s) before submitting the daily report.",
-		"submit_text":"Submit compliance and symptom reports for the day.",
+		"submit_text":"Submit compliance and symptom report.",
 		"submitted_text":"You have submitted your reports for the day. You will not receive any further alerts for the day.",
 		"report_sum_title":"Report for the day:"
 	},
@@ -46,14 +46,16 @@
 	},
 	"during": {
 		"title": "Breakfast Compliance for {DAY}",
-		"subtitle": "Did you {PHRASE} during your breakfast?",
+		"subtitle1": "For breakfast today, did you:",
+		"subtitle": "{PHRASE}?",
 		"today": "Today",
 		"button1": "Yes",
 		"button2": "No"
 	},
 	"sec_comp": {
 		"title": "Second compliance",
-		"subtitle": "Did you eat anything between your breakfast and now?",
+		"subtitle1": "Between breakfast and now, did you:",
+		"subtitle2":"avoid eating or drinking anything?",
 		"today": "Today",
 		"button1": "Yes",
 		"button2": "No"
@@ -68,11 +70,12 @@
 	},
 	"post": {
 		"title": "Symptom Level for {DAY}",
-		"subtitle": "At its worst, how much has your {SYMPTOM} impacted your day since you last ate?",
+		"subtitle1": "Between breakfast and now:",
+		"subtitle": "At its worst, how much has {SYMPTOM} impacted your day?",
 		"today": "Today",
 		"cancel": "Cancel",
 		"next": "Next",
-		"submit": "Submit",
+		"submit": "Confirm",
 		"likertlabels": [{
 			"label": "Not at all",
 			"detail": "no symptom"
