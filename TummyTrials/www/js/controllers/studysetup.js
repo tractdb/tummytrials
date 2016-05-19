@@ -93,6 +93,15 @@
           controller: 'Setup5Ctrl'
         }
       }
+    }) 
+    .state('setup_6', {
+      url: 'mytrials/setup_6',
+      views: {
+        mytrials : {
+          templateUrl: 'templates/study_setup/setup_6.html',
+          controller: 'Setup6Ctrl'
+        }
+      }
     })  
   })
 

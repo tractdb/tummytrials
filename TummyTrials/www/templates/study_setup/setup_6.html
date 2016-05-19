@@ -1,0 +1,36 @@
+<ion-view title="Trial Setup">
+  <ion-pane>
+    <ion-content class="padding">
+		
+    <div class="card padding">
+      <h4 class="title">{{text.setup6.title}}</h4>
+  		<br/>
+  		<p>{{subtitle}}</p> <br/>
+
+
+      <p><a style="text-decoration: underline; color:royal" ng-click="help = help ? false : true">{{text.setup6.help}}</a></p> 
+      <div class="card" ng-show="help">
+        <div class="item item-text-wrap list_text">
+          <b>Breakfast:</b><br/>
+          On days with {{trig_name}}: <span class="new_line">{{breakfast_on_prompt}}</span><br/><br/>
+          On days without {{trig_name}}: <span class="new_line">{{breakfast_off_prompt}}</span><br/><br/>
+          <b>Drink:</b><br/>
+          On days with {{trig_name}}: <span class="new_line">{{drink_on_prompt}}</span><br/><br/>
+          On days without {{trig_name}}: <span class="new_line">{{drink_off_prompt}}</span><br/><br/>
+        </div>
+      </div>
+      <br/>
+      
+      <p>{{text.setup6.para1}}</p>
+      <br/>
+
+    </div>
+
+
+
+		<a class="button button-block button-royal" ui-sref="current">
+            {{text.setup6.button}}
+        </a>
+    </ion-content>  
+  </ion-pane>
+</ion-view>

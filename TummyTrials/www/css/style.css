@@ -44,6 +44,21 @@
      display: none !important;
 }
 
+.twelve{
+	font-size: 12px;
+}
+
+/*Positioning for the circle highlighting current day in calendar widget*/
+.on-top{
+	z-index: 10;
+}
+
+.not-on-top{
+	position:absolute; 
+	left:9px;
+	z-index: 1;
+}
+
 /*New line when fetching text from json : see study setup page with food prefs*/
 .new_line{
 	white-space: pre-wrap;

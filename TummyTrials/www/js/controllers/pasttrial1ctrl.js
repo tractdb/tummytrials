@@ -1,20 +1,27 @@
-// Proposed data structure for consumption by the vis:
-// "symptoms": [{
-//     "symptom": name of symptom,
-//     "date": readable date,
-//     "condition": A/B + text,
-//     "severity": num/missing,
-//     "compliance": yes/no
-// }, ...
-// ]
-// on second thought, use severity to overload compliance. 
-// if, complied, then a positive number, else -2, if complied and no score, -1
-// if compliance is true, but no score reported, does that mean no compliance?
-// "symptoms": [{
-//     "symptom": name of symptom,
-//          "date": [condition, score]    
-// }, ...
-// ]
+// Current data scructure being passed for the result + result vis
+// Values are for example purpose
+// {
+//     "index":1,
+//     "condition":0,
+//     "note":"No note.",
+//     "severity":5,
+//     "real_severity":5,
+//     "bcomp":true,
+//     "lcomp":true,
+//     "date":"Tue, Apr 26 2016",
+//     "summary":"Based on the trial, there is strong evidence that your Abdominal Pain gets worse when you consume Caffeine",
+//     "a_avg":3,
+//     "b_avg":0,
+//     "a_void":0,
+//     "b_void":0,
+//     "p_val":"0.045",
+//     "a_void_flag":false,
+//     "b_void_flag":false,
+//     "trigger":"Caffeine",
+//     "a_res_text":"Moderately",
+//     "b_res_text":"Mildly"
+// }
+
 
 // Things needed for the results summary
 // Evidence : categorization of p-value into no evidence, possible evidence, or strong evidence
@@ -227,6 +234,7 @@
                     sym_data["p_val"] = p_val[a];
                     sym_data["a_void_flag"] = a_void_flag;
                     sym_data["b_void_flag"] = b_void_flag;
+                    sym_data["trigger"] = trig;
 
                     sym_sym.push(sym_data);
                     d = [];
@@ -359,7 +367,7 @@
             var severity_text = null;
                var mapper = {
                   0 : "Negative compliance",
-                  1 : "Missing data",
+                  1 : "No reports",
                   2 : "Not at all",
                   3 : "Slightly",        
                   4 : "Mildly",
