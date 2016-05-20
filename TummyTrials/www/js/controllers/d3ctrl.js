@@ -50,8 +50,13 @@
         var A_text = 'Have ' + scope.data[0].trigger;
         var B_text = 'Avoid ' + scope.data[0].trigger;
 
-        // console.log(A_text + ' and ' + B_text);
-        // console.log('on ' + scope.data[0].trigger + ' and off ' +  scope.data[0].trigger );
+        // get flag for missing data / neg comp
+        var d_len = scope.data.length, bot_row;
+        if(scope.data[d_len - 1].a_void > 0 || scope.data[d_len - 1].b_void > 0){
+          bot_row = true;
+        }else{
+          bot_row = false;
+        }
 
         d3Service.d3().then(function(d3) {
           // counter for number of datapoints
@@ -73,9 +78,52 @@
 
           var circleR = 9;
 
-          var yscale = d3.scale.linear()
-                          .domain([0,8])
+          if(bot_row == true){
+              var yscale = d3.scale.linear()
+                              .domain([0,8])
+                              .range([height,0]);
+
+              var yAxis = d3.svg.axis()
+                  .scale(yscale)
+                  .orient("left")
+                  .ticks(9)
+                  .tickFormat(function (d) {
+                    var mapper = {
+                      0 : "Negative compliance",
+                      1 : "No report",
+                      2 : "Not at all",
+                      3 : "Slightly",        
+                      4 : "Mildly",
+                      5 : "Moderately",
+                      6 : "Severely",
+                      7 : "Very severely",
+                      8 : "Extremely"
+                    }
+                    return mapper[d]
+                  });
+          } else {
+              var yscale = d3.scale.linear()
+                          .domain([2,8])
                           .range([height,0]);
+
+              var yAxis = d3.svg.axis()
+                  .scale(yscale)
+                  .orient("left")
+                  .ticks(7)
+                  .tickFormat(function (d) {
+                    var mapper = {
+                      2 : "Not at all",
+                      3 : "Slightly",        
+                      4 : "Mildly",
+                      5 : "Moderately",
+                      6 : "Severely",
+                      7 : "Very severely",
+                      8 : "Extremely"
+                    }
+                    return mapper[d]
+                  });
+          }
+
           var xscale = d3.scale.ordinal()
                           .domain(scope.data.map(function(d) { return d.condition; }))
                           .rangeRoundBands([0,width]);
@@ -93,24 +141,6 @@
                 return mapper[d]
               });
 
-          var yAxis = d3.svg.axis()
-              .scale(yscale)
-              .orient("left")
-              .ticks(9)
-              .tickFormat(function (d) {
-                var mapper = {
-                  0 : "Negative compliance",
-                  1 : "Missing data",
-                  2 : "Not at all",
-                  3 : "Slightly",        
-                  4 : "Mildly",
-                  5 : "Moderately",
-                  6 : "Severely",
-                  7 : "Very severely",
-                  8 : "Extremely"
-                }
-                return mapper[d]
-              });
 
           // Add the svg canvas
           var svg = d3.select(element[0])
@@ -151,9 +181,29 @@
               .attr("y", 20)
               .style("font-size", "14px");
 
-          // remove the line for x axis since we're drawing a line above no reports
-          svg.select(".domain")
-              .remove();
+          if(bot_row == true){
+              // remove the line for x axis since we're drawing a line above no reports
+              svg.select(".domain")
+                  .remove();
+
+              // replacement for the x axis
+              svg.append("line")
+                  .attr("x1",0)
+                  .attr("y1",187.5)
+                  .attr("x2",width)
+                  .attr("y2",187.5)
+                  .attr("stroke-width", 1)
+                  .attr("stroke", "black");
+
+              svg.append("rect")
+                .attr("x", 0)
+                .attr("y", 187.5)
+                .attr("width", width)
+                .attr("height", 63)
+                .attr("fill", "#e2fff8");
+          } else {
+              // do nothing
+          }
 
           // Add the Y Axis
           svg.append("g")
@@ -164,22 +214,6 @@
               .attr("x", -7)
               .attr("y", -7)
               .style("text-anchor", "end");
-
-          // replacement for the x axis
-          svg.append("line")
-              .attr("x1",0)
-              .attr("y1",187.5)
-              .attr("x2",width)
-              .attr("y2",187.5)
-              .attr("stroke-width", 1)
-              .attr("stroke", "black");
-
-          svg.append("rect")
-            .attr("x", 0)
-            .attr("y", 187.5)
-            .attr("width", width)
-            .attr("height", 63)
-            .attr("fill", "#e2fff8");
 
           svg.selectAll("circle").data(scope.data)
           .enter()
@@ -227,8 +261,12 @@
               .attr("y", 10)
               .style("text-anchor", "end");
 
-            svg.select(".domain")
-              .remove();
+            if(bot_row == true){
+              // remove the line for x axis since we're drawing a line above no reports
+              svg.select(".domain")
+                  .remove();
+            }
+
 
             svg.selectAll("circle")
                     .transition()
@@ -271,8 +309,12 @@
               .attr("y", 20)
               .style("font-size", "14px");
 
-            svg.select(".domain")
-              .remove();
+            if(bot_row == true){
+              // remove the line for x axis since we're drawing a line above no reports
+              svg.select(".domain")
+                  .remove();
+            }
+
 
             svg.selectAll("circle")
                 .transition()
