@@ -31,6 +31,15 @@
         }
       }
     })    
+    .state('setup_3_0', {
+      url: 'mytrials/setup_3/setup_3_0',
+      views: {
+        mytrials : {
+          templateUrl: 'templates/study_setup/setup_3_0.html',
+          controller: 'setupcontroller'
+        }
+      }
+    })
     .state('setup_3_1', {
       url: 'mytrials/setup_3/setup_3_1',
       views: {
