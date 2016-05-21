@@ -24,22 +24,18 @@
                   'tummytrials.experiments', 'ionic', 'tummytrials.calendar',
                   'ngSanitize' ])
 
-.controller('CurrentCtrl', function($scope, $state, LC, Text, TDate, StudyFmt,
-                                    Reminders, Experiments, $window,
-                                    $ionicPopup, $timeout, Calendar) {
-
-    Text.all_p()
-        .then(function(text) {
-            $scope.text = text;
-            return Experiments.publish_p($scope);
-        })
-        .then(function(_) {
+.controller('CurrentCtrl', function($scope, $state, LC, TextR, TDate, StudyFmt,
+                                    Reminders, Experiments, ExperimentsR,
+                                    $window, $ionicPopup, $timeout, Calendar) {
+        $scope.text = TextR;
+        Experiments.set_study_context($scope, ExperimentsR);
 
         //service data object
         $scope.calendardata = Calendar;
 
-        var text = $scope.text;
+        var text = TextR;
         var cur = $scope.study_current;
+        
         $scope.study_reminders = [];
         if (cur && cur.remdescrs) {
             // Info for reminders.
@@ -82,7 +78,7 @@
             } else if($scope.duration_readable > 8){
                 $scope.row_length = ($scope.duration_readable/2);
             }
-                
+
             // Returns an array of the calendar for the study [day, condition] eg. [[13,"A"],[14,"B"], ... ]
             var act_day = []; //Array for storing the condition of the day
             var days = []; // Array for filling the calendar widget 
@@ -386,15 +382,11 @@
             };
 
             // Toggle for disabling logging buttons once report is submitted
-            if(typeof(cur.reports[day_pos].confirmed) == "boolean" ){
-                if(cur.reports[day_pos].confirmed == true){
-                    $scope.sbmtd = true;
-                } else {
-                    $scope.sbmtd = false;
-                }
-            } else {
-                $scope.sbmtd = false;
-            }
+            $scope.sbmtd = false;
+            if (cur.reports && cur.reports[day_pos] && 
+                    cur.reports[day_pos].confirmed === true)
+                $scope.sbmtd = true;
+
             $scope.sym_scr_st = sym_score_state;
 
             // For detecting accelerated demo
@@ -409,7 +401,9 @@
             // Note button. Toggle add/edit and display note when available.
             var nt_btn = text.current.button3;
             $scope.nt_btn_txt = nt_btn;
-            if(cur.reports[day_pos].note != null){
+            if(cur.reports &&
+               cur.reports[day_pos] &&
+               cur.reports[day_pos].note) {
                 $scope.note = cur.reports[day_pos].note;
                 $scope.nt_fg = true;
                 nt_btn = nt_btn.replace('Add', 'Edit');
@@ -418,7 +412,6 @@
 
             $scope.exp_id = cur.id;
         }
-    });
 })
 
 

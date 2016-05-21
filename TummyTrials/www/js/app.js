@@ -173,6 +173,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
       views: {
         current : {
           templateUrl: 'templates/current.html',
+          resolve: {
+            TextR:
+                function(Text) { return Text.all_p(); },
+            ExperimentsR:
+                function(Experiments) { return Experiments.all(); }
+          },
           controller: 'CurrentCtrl'
         }
       }
@@ -182,6 +188,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
       views: {
         mytrials : {
           templateUrl: 'templates/mytrials.html',
+          resolve: {
+            TextR:
+                function(Text) { return Text.all_p(); },
+            ExperimentsR:
+                function(Experiments) { return Experiments.all(); }
+          },
           controller: 'MyTrialsCtrl'
         }
       }
@@ -200,6 +212,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
       views: {
         mytrials : {
           templateUrl: 'templates/mytrials/current_trial.html',
+          resolve: {
+            TextR:
+                function(Text) { return Text.all_p(); },
+            ExperimentsR:
+                function(Experiments) { return Experiments.all(); }
+          },
           controller: 'MyCrntTrialsCtrl'
         }
       }

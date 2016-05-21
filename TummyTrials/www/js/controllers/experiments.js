@@ -65,7 +65,7 @@ function by_time(a, b)
  * caffeine is not consumed.
  */
 
-/* A report might look something like this:
+/* A report currently looks like this:
  *
  * { study_day:             day to which the report applies (number, 1 .. N)
  *   morning_reminded:      (bool) responded to morning reminder (opened app)
@@ -265,6 +265,41 @@ function by_time(a, b)
         return false;
     }
 
+
+    function publish(scope, studies)
+    {
+        // Publish current study information into the given scope. This
+        // provides a standard set of variable names for use in page
+        // templates.
+        //
+        // study_current       Current study (object or null)
+        // study_previous      Previous studies (array of object)
+        //
+        // Callers must realize that this function modifies the given
+        // array of studies.
+        //
+
+        // We want reminders to be listed in chronological order in the
+        // UI.
+        //
+        studies.forEach(function(study) {
+            if (!study.remdescrs)
+                return;
+            study.remdescrs.sort(by_time);
+        });
+
+        // Separate out current study (if any) from previous studies.
+        //
+        var cix = current_ix(studies);
+        if (cix < 0) {
+            scope.study_current = null;
+        } else {
+            scope.study_current = studies[cix];
+            studies.splice(cix, 1);
+        }
+        scope.study_previous = studies;
+    }
+
     function report_tally(exper)
     {
         // Figure out how many reports have been made of each type as of
@@ -290,7 +325,6 @@ function by_time(a, b)
                 evening: evening,
                 closeout: evening
             };
-console.log('tally returning', JSON.stringify(res)); // TEMP
             return res;
         }
 
@@ -456,6 +490,19 @@ console.log('tally returning', JSON.stringify(res)); // TEMP
 
         // Useful services for controllers.
         //
+        set_study_context(scope, studies) {
+            // Set the context for the current set of studies:
+            //
+            // A. Publish study objects into the given scope under
+            //    standard names (for use by page templates).
+            //
+            // B. If there is a current study, initialize its
+            //    accelerated time transform (if any).
+            //
+            publish(scope, studies);
+            set_transform(scope.study_current);
+        },
+
         publish_p: function(scope) {
             // Return a promise to publish current experiment
             // information into the given scope. This provides a
@@ -466,28 +513,9 @@ console.log('tally returning', JSON.stringify(res)); // TEMP
             // study_previous      Previous studies (array of object)
             //
             return get_all_p()
-            .then(function(expers) {
-                // (We want reminders to be listed in chronological
-                // order in the UI.)
-                //
-                expers.forEach(function(exper) {
-                    if (!exper.remdescrs)
-                        return;
-                    exper.remdescrs.sort(by_time);
-                });
-
-                // Separate out current study (if any) from previous
-                // studies.
-                //
-                var cix = current_ix(expers);
-                if (cix < 0) {
-                    scope.study_current = null;
-                } else {
-                    scope.study_current = expers[cix];
-                    expers.splice(cix, 1);
-                    set_transform(scope.study_current);
-                }
-                scope.study_previous = expers;
+            .then(function(studies) {
+                publish(scope, studies);
+                set_transform(scope.study_current);
                 return null;
             });
         },

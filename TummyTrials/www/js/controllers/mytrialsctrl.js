@@ -8,16 +8,12 @@
 (angular.module('tummytrials.mytrialsctrl',
                 ['tummytrials.lc','tummytrials.text', 'ionic', 'tummytrials.experiments'])
 
-.controller('MyTrialsCtrl', function($scope, $state, $timeout, Text, LC, $ionicPopup, Experiments) {
-
-    Text.all_p()
-    .then(function(text) {
-        $scope.text = text;
-        return Experiments.publish_p($scope);
-    });
+.controller('MyTrialsCtrl', function($scope, $state, $timeout, TextR, LC, $ionicPopup, Experiments, ExperimentsR) {
+    $scope.text = TextR;
+    Experiments.set_study_context($scope, ExperimentsR);
 })
 
-.controller('MyCrntTrialsCtrl', function($scope, $state, $timeout, Text, LC, $ionicPopup, Experiments) {
+.controller('MyCrntTrialsCtrl', function($scope, $state, $timeout, TextR, LC, $ionicPopup, Experiments, ExperimentsR) {
 
   // An elaborate, custom popup to abandon ongoing trial
     $scope.abandon_trial = function(){
@@ -79,12 +75,8 @@
         }
     };
 
-    Text.all_p()
-    .then(function(text) {
-        $scope.text = text;
-        return Experiments.publish_p($scope);
-    })
-    .then(function(_){
+    $scope.text = TextR;
+    Experiments.set_study_context($scope, ExperimentsR);
       var cur =  $scope.study_current;
 
       //end_time is the last day + 1
@@ -117,7 +109,6 @@
       $scope.comp = complete;
       $scope.abdn = abandon;
 
-    });
 })
 
 );
