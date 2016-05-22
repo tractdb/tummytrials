@@ -49,10 +49,10 @@
                             template: 'Your note has been succcessfully added to today\'s report.'
                         });
 
-                       alertPopup.then(function(res) {
-                            $state.go('notes'); //doesn't work
+                        alertPopup.then(function(res) {
+                            $state.go('current'); //doesn't work
                          // console.log('Thank you for not eating my delicious ice cream cone');
-                       });
+                        });
                     });
             };
 

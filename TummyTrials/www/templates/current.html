@@ -29,7 +29,8 @@ Page Hierarchy:
           <!-- <i class="ion-stop energized" style="font-size: 150%;"></i> Current day <br/> -->
         </div>
       </div>
-      <div class="divcenter">
+      <!-- the padding is a patch fix for study. will break for trial past 14 days -->
+      <div class="divcenter" style="padding-left:11px;">
         <div class="button-bar"> 
           <div ng-repeat="day in schedule">
             <a class="button" ng-if="day[0] != today_readable" ng-show="$index < row_length"  ng-class="day[1] == 'A' ? 'button-positive' : 'button-balanced'" ng-click="calendardata.button = day[0]" ui-sref="calendar">{{day[0]}}</a>
@@ -123,7 +124,7 @@ Page Hierarchy:
           <!-- Condition 4 of 4: done4day -->
           <div class="card padding" ng-hide="!sym_submit">
             <h4 class="title">Done for the day!</h4>
-            <p> You have no more tasks for the day. You can review your submitted report for the day below. You can still add/edit your note for today's report.</p>
+            <p> You have no more tasks for the day. You can view your submitted report below. You can still add/edit your note for today's report.</p>
           </div>
 
 
@@ -153,7 +154,7 @@ Page Hierarchy:
           <div class="card padding" ng-show="sbmtd">
             <h4>{{text.current.report_sum_title}}</h4>
             <div ng-repeat="rem in study_reminders">
-              <em class="balanced" ng-bind-html="rem.reportmsg"></em>
+              <span class="balanced" ng-bind-html="rem.reportmsg"></span>
             </div><br/>
             <p>{{text.current.submitted_text}}</p>
           </div>
