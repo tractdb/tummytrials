@@ -10,11 +10,11 @@
 		<div class="list">
 
 		<div ng-repeat="title in text.faqs.topics">
-		  <div class="item item-divider">
+		  <div class="item item-divider  item-text-wrap">
 		    {{title.title}}
 		  </div>
 		  <div ng-repeat="faq in title.list">
-			  <a class="item" ui-sref="{{faq.uisref}}" >
+			  <a class="item item-text-wrap" ui-sref="{{faq.uisref}}" >
 			    {{faq.faq}}
 			  </a>
 		  </div>

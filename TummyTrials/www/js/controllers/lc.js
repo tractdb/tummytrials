@@ -17,6 +17,14 @@
                         d.getDate();
             },
 
+            dayonly: function(d) {
+                // Return a string for the date (or tdate). It looks
+                // like "Tue".
+                //
+                var days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+                return days[d.getDay()];
+            },
+
             datemd: function(d) {
                 // Return a string for the date (or tdate). It looks
                 // like "Nov 3".

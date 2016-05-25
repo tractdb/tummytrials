@@ -19,40 +19,62 @@ Page Hierarchy:
     <div class="calendar" ng-show="(study_current && !exp_bool && !is_past)">
       <br/>
       <div class="row"> 
-        <div class="col">
+        <div class="col col-33">
           <h5>Day {{day_num}} of {{duration_readable}}</h5>
         </div>
         <!-- Legend for the calendar -->
-        <div class="col col-75">
-          <i class="ion-stop positive twelve" style="font-size: 100%;"></i> {{A_text}} <br/>
-          <i class="ion-stop balanced twelve" style="font-size: 100%;"></i> {{B_text}} <br/>
+        <div class="col">
+          <i class="ion-stop positive twelve" style="font-size: 100%;"></i> {{legend_A_text}} <br/>
+          <i class="ion-stop balanced twelve" style="font-size: 100%;"></i> {{legend_B_text}} <br/>
           <!-- <i class="ion-stop energized" style="font-size: 150%;"></i> Current day <br/> -->
         </div>
       </div>
-      <!-- the padding is a patch fix for study. will break for trial past 14 days -->
-      <div class="divcenter" style="padding-left:11px;">
-        <div class="button-bar"> 
-          <div ng-repeat="day in schedule">
-            <a class="button" ng-if="day[0] != today_readable" ng-show="$index < row_length"  ng-class="day[1] == 'A' ? 'button-positive' : 'button-balanced'" ng-click="calendardata.button = day[0]" ui-sref="calendar">{{day[0]}}</a>
-            <a class="button" ng-if="day[0] == today_readable" ng-show="$index < row_length" ng-class="day[1] == 'A' ? 'button-positive' : 'button-balanced'" ng-click="calendardata.button = day[0]" ui-sref="calendar">
-              <span class="not-on-top"> <i class="ion-android-radio-button-off energized" style="font-size: 250%;"></i> </span>
-              <span class="on-top">{{day[0]}}</span>
-            </a>
-          </div>
+
+      <div>
+        <!-- row for day name labels -->
+        <div class="row">
+          <div class="col" ng-repeat="day in day_names">{{day}}</div>
         </div>
 
-        <div class="button-bar">
-          <div ng-repeat="day in schedule">
-            <a class="button" ng-if="day[0] != today_readable" ng-show="$index >= row_length" ng-class="day[1] == 'A' ? 'button-positive' : 'button-balanced'" ng-click="calendardata.button = day[0]" ui-sref="calendar">{{day[0]}}</a>
-            <a class="button" ng-if="day[0] == today_readable" ng-show="$index >= row_length" ng-class="day[1] == 'A' ? 'button-positive' : 'button-balanced'" ng-click="calendardata.button = day[0]" ui-sref="calendar">
-              <span class="not-on-top"> <i class="ion-android-radio-button-off energized" style="font-size: 250%;"></i> </span>
-              <span class="on-top">{{day[0]}}</span>
-            </a>
+        <!-- first row -->
+        <div class="row">
+          <div class="button-bar">
+            <div ng-repeat="c_day in cal_days">
+              <a class="button btn-lh" ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_0'" ng-class="c_day[1] == 'A' ? 'button-positive' : '' || c_day[1] == 'B' ? 'button-balanced' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">{{c_day[0]}}</a>
+              <a class="button btn-lh" ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_0'" ng-class="c_day[1] == 'A' ? 'button-positive' : '' || c_day[1] == 'B' ? 'button-balanced' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">
+                <span class="not-on-top"> <i class="ion-android-radio-button-off energized" style="font-size: 300%;"></i> </span>
+                <span class="on-top">{{c_day[0]}}</span>
+              </a>
+            </div>
           </div>
         </div>
+        <!-- second row -->
+        <div class="row">
+          <div class="button-bar">
+            <div ng-repeat="c_day in cal_days">
+             <a class="button btn-lh" ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_1'" ng-class="c_day[1] == 'A' ? 'button-positive' : '' || c_day[1] == 'B' ? 'button-balanced' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">{{c_day[0]}}</a>
+              <a class="button btn-lh" ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_1'" ng-class="c_day[1] == 'A' ? 'button-positive' : '' || c_day[1] == 'B' ? 'button-balanced' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">
+                <span class="not-on-top"> <i class="ion-android-radio-button-off energized" style="font-size: 300%;"></i> </span>
+                <span class="on-top">{{c_day[0]}}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- third row -->
+        <div class="row">
+          <div class="button-bar">
+            <div ng-repeat="c_day in cal_days">
+             <a class="button btn-lh" ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_2'" ng-class="c_day[1] == 'A' ? 'button-positive' : '' || c_day[1] == 'B' ? 'button-balanced' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">{{c_day[0]}}</a>
+              <a class="button btn-lh" ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_2'" ng-class="c_day[1] == 'A' ? 'button-positive' : '' || c_day[1] == 'B' ? 'button-balanced' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">
+                <span class="not-on-top"> <i class="ion-android-radio-button-off energized" style="font-size: 300%;"></i> </span>
+                <span class="on-top">{{c_day[0]}}</span>
+              </a>
+            </div>
+          </div>
+        </div>              
       </div>
-      <br/>
 
+      <br/>
       <br/>
     </div>
 
@@ -103,7 +125,7 @@ Page Hierarchy:
           </div>
           <!-- Condition 2 of 4: bfst complied -->
           <div class="card padding" ng-hide="!bfst_comp_state || sym_score_state">
-            <h4 class="title">Breakfast complied</h4>
+            <h4 class="title">Fasting Period</h4>
             <p>Between {{bfst_rem}} and {{sym_rem}}:<br/>
                 <b>Do not eat or drink.</b></p>
             <p><a style="text-decoration: underline; color:royal" ng-click="help = help ? false : true">{{text.current.para1}}</a></p> 
@@ -118,12 +140,12 @@ Page Hierarchy:
           </div>
           <!-- Condition 3 of 4: symptom reported -->
           <div class="card padding" ng-hide="!sym_score_state || sym_submit">
-            <h4 class="title">Symptom reported</h4>
+            <h4 class="title">Submit Report</h4>
             <p> Submit your report for the day by clicking on the confirm button below the reminders.</p>
           </div>
           <!-- Condition 4 of 4: done4day -->
           <div class="card padding" ng-hide="!sym_submit">
-            <h4 class="title">Done for the day!</h4>
+            <h4 class="title">Done For The Day!</h4>
             <p> You have no more tasks for the day. You can view your submitted report below. You can still add/edit your note for today's report.</p>
           </div>
 
@@ -131,22 +153,33 @@ Page Hierarchy:
           <div class="card padding" ng-hide="sbmtd">   
             <h4>{{text.current.reminder_title}}</h4>
                 <div ng-repeat="rem in study_reminders">
-                    <p>
-                    <i class="ion-ios-checkmark" ng-hide="rem.reportdue" style="font-size: 120%;"></i>
-                    <i class="ion-ios-circle-outline" ng-show="rem.reportdue" style="font-size: 120%;"></i>
-                    {{rem.schedmsg}} <br/>
-                    <div style="padding-left:18px;"> <span class="balanced" ng-bind-html="rem.reportmsg"></span> </div> 
-                    <div class="divcenter" ng-show="!!rem.logmsg">
-                        <a class="button button-small button-royal small-text" ui-sref="{{rem.logstate}}" ng-disabled="sbmtd || rem.disabled">
-                            &nbsp&nbsp {{rem.logmsg}} &nbsp&nbsp
-                        </a>
+                  <div class="row">
+                    <div class="neg-padding">
+                      <i class="ion-ios-checkmark" ng-hide="rem.reportdue" style="font-size: 120%;"></i>
+                      <i class="ion-ios-circle-outline" ng-show="rem.reportdue" style="font-size: 120%;"></i>
                     </div>
-                    </p>
+                    <div class="rem-padding">
+                      {{rem.schedmsg}} 
+                    </div>
+                  </div>
+                  <div class="row" ng-show="!!rem.logmsg">
+                    <div class="neg-padding">
+                      &nbsp&nbsp&nbsp
+                    </div>
+                    <div class="rem-padding">
+                      <span class="balanced" ng-bind-html="rem.reportmsg"></span>
+                      <div >
+                          <a class="button button-block button-royal small-text" ui-sref="{{rem.logstate}}" ng-disabled="sbmtd || rem.disabled">
+                              &nbsp&nbsp {{rem.logmsg}} &nbsp&nbsp
+                          </a>
+                      </div>                    
+                    </div>
+                  </div>
                 </div>
-                <div class="card padding divcenter submit-card">
+                <div class="card padding submit-card">
                   <p ng-show="sym_scr_st">{{text.current.submit_text}}</p>
                   <p ng-show="!sym_scr_st">{{text.current.submit_cant}}</p>
-                  <a class="button button-royal" ng-click="submit_for_day()" ng-disabled="sbmtd || !sym_scr_st" > &nbsp&nbsp {{text.current.submit_button}} &nbsp&nbsp </a>
+                  <a class="button button-block button-royal" ng-click="submit_for_day()" ng-disabled="sbmtd || !sym_scr_st" > &nbsp&nbsp {{text.current.submit_button}} &nbsp&nbsp </a>
                 </div>
           </div>
 
@@ -165,11 +198,9 @@ Page Hierarchy:
                 <span ng-hide="nt_fg">{{text.current.note}}</span>
                 <span ng-show="nt_fg">{{text.current.note2}}</span> <br/>
                 <span ng-show="nt_fg" class="balanced">{{note}}</span>
-                <div class="divcenter">
-                  <a class="button button-royal" ui-sref="notes">
+                  <a class="button button-block button-royal" ui-sref="notes">
                     {{nt_btn_txt}}
                   </a>
-                </div>
               </p>
           </div> 
         </div>

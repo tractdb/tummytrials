@@ -1,8 +1,15 @@
       <ion-view title="Trial Setup (4 of 5)">
           <ion-pane>
           <ion-content>   
-            <div class="padding">      
-              <h4 class="title">{{text.setup4b.title}}</h4>
+            <div class="padding"> 
+              <div class="row">
+                <div class="neg-padding">
+                  <h4>4.</h4>
+                </div>
+                <div class="setup-padding">
+                  <h4 class="title">{{text.setup4b.title}}</h4>
+                </div>
+              </div>     
               <p>{{text.setup4b.breakfast_text}}</p>
               
               <div class="list">
@@ -32,30 +39,30 @@
               
               <div class="card">
                 <div class="item item-text-wrap item-divider">
-                  On days when you are supposed to consume {{trig_name}}
+                  On days : Consume {{trig_name}}
                 </div>
                 <div class="item item-text-wrap">
-                  <h3>For breakfast:</h3>
+                  <h3>To eat:</h3>
                   <span class="new_line list_text">{{bfst_on}}</span><br/><br/>
-                  <h3>For drink:</h3>
+                  <h3>To drink:</h3>
                   <span class="new_line list_text">{{drnk_on}}</span>
                 </div>
               </div>
 
               <div class="card">
                 <div class="item item-text-wrap item-divider">
-                  On days when you are supposed to avoid {{trig_name}}
+                  Off days : Avoid {{trig_name}}
                 </div>
                 <div class="item item-text-wrap">
-                  <h3>For breakfast:</h3>
+                  <h3>To eat:</h3>
                   <span class="new_line list_text">{{bfst_off}}</span><br/><br/>
-                  <h3>For drink:</h3>
+                  <h3>To drink:</h3>
                   <span class="new_line list_text">{{drnk_off}}</span>
                 </div>
               </div>
 
           <a class="button button-block button-royal" ui-sref="setup_5">
-            {{text.setup4b.button}} &nbsp; <i class="ion-chevron-right"></i>
+            {{text.setup4b.button}}
           </a>
 
           </div>

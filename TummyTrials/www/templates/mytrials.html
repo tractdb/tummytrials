@@ -35,7 +35,7 @@
 		  <div class="item item-divider">
 		    {{text.mytrials.pasttrialtitle}}
 		  </div>
-                <a class="item" ng-repeat="study in study_previous" ui-sref="past_trial_1({studyIndex: $index})" ng-hide="study_previous.length<1">
+                <a class="item item-text-wrap" ng-repeat="study in study_previous" ui-sref="past_trial_1({studyIndex: $index})" ng-hide="study_previous.length<1">
                   <!-- #66cc33 is balanced/green and #ef4e3a is assertive/red -->
 		  		  <h2 ng-style="{'color': '{{study.status}}' == 'ended' ? '#66cc33' : '#ef4e3a'}">{{study.trigger}} Trial</h2><!--  <h5>{{start_date_md}}-{{end_date_md}}</h5> -->
 		  		</a>

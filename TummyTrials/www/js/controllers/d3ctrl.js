@@ -47,10 +47,11 @@
         scope.visdata = Vis;
         // var A_text = scope.visdata.A_text;
         // var B_text = scope.visdata.B_text;
-        var A_text = 'Have ' + scope.data[0].trigger;
+        var A_text = 'Consume ' + scope.data[0].trigger;
         var B_text = 'Avoid ' + scope.data[0].trigger;
 
         // get flag for missing data / neg comp
+        // if there is no missing/neg data point, then remove the bottom two rows from the vis
         var d_len = scope.data.length, bot_row;
         if(scope.data[d_len - 1].a_void > 0 || scope.data[d_len - 1].b_void > 0){
           bot_row = true;
@@ -68,9 +69,11 @@
             xcount += 1;
           });
 
+          var cw = window.innerWidth;
+
           var margin = {top: 20, right: 20, bottom: 50, left: 60},
-              width = 350 - margin.left - margin.right,
-              height = 320 - margin.top - margin.bottom;
+              width = cw - margin.left - margin.right,
+              height = 340 - margin.top - margin.bottom;
 
           var color = d3.scale.ordinal()
                         .domain([0,1])
@@ -79,9 +82,10 @@
           var circleR = 9;
 
           if(bot_row == true){
+            // draw the negative compliance and no report rows
               var yscale = d3.scale.linear()
                               .domain([0,8])
-                              .range([height,0]);
+                              .range([height,20]); // range starts at 20 px offset from top to display title
 
               var yAxis = d3.svg.axis()
                   .scale(yscale)
@@ -102,9 +106,10 @@
                     return mapper[d]
                   });
           } else {
+            // hide the negative compliance and no report rows
               var yscale = d3.scale.linear()
                           .domain([2,8])
-                          .range([height,0]);
+                          .range([height,20]); // range starts at 20 px offset from top to display title
 
               var yAxis = d3.svg.axis()
                   .scale(yscale)
@@ -125,8 +130,15 @@
           }
 
           var xscale = d3.scale.ordinal()
-                          .domain(scope.data.map(function(d) { return d.condition; }))
-                          .rangeRoundBands([0,width]);
+                          .domain(scope.data.map(function(d) {
+                            // var mapper = {
+                            //   0 : A_text,
+                            //   1 : B_text
+                            // }
+                            // console.log(mapper[d.condition]); 
+                            return d.condition; 
+                          }))
+                          .rangeRoundBands([0,width - 10]); // the -10 is for preventing the last data point to go offscreen
 
           // Define the axes
           // 0 is consume trigger and 1 is avoid trigger
@@ -171,22 +183,31 @@
               datum.offset = datum.groupIndex - ((groups[ref] - 1) / 2);
           });
 
+          // // title for the vis
+          // svg.append("text")
+          //     .attr("class", "title")
+          //     .attr("x", 0)
+          //     .attr("y", -10)
+          //     .text("Lengend?");
+
           // Add the X Axis
           svg.append("g")
               .attr("class", "x axis")
               .attr("transform", "translate(0," + height + ")")
               .call(xAxis)
-            .selectAll("text")
+            .selectAll(".tick text")
               .attr("x", 0)
-              .attr("y", 20)
-              .style("font-size", "14px");
+              .attr("y", 20);
+              // .style("font-size", "14px");
+              // .call(wrap, xscale.rangeBand());
+              // .call(d3.util.wrap(xscale.rangeBand()));
 
           if(bot_row == true){
               // remove the line for x axis since we're drawing a line above no reports
               svg.select(".domain")
                   .remove();
 
-              // replacement for the x axis
+              // replacement for the X axis
               svg.append("line")
                   .attr("x1",0)
                   .attr("y1",187.5)
@@ -233,15 +254,13 @@
               })
           .on("click", function(d, i){return scope.onClick({data_pt: d});});
 
-
-
           // Animating the vis for the time line view
           scope.control.updateVis = function(){
 
             Vis.view_title = "Time Line View";
             
             var xscale = d3.time.scale()
-                            .range([0, width])
+                            .range([0, width - 10])
                             .domain(d3.extent(scope.data, function(d) { return d.date; }));
 
             var xAxis = d3.svg.axis()
@@ -285,7 +304,7 @@
 
             var xscale = d3.scale.ordinal()
                             .domain([0,1])
-                            .rangeRoundBands([0,width]);
+                            .rangeRoundBands([0,width - 10]);
 
             var xAxis = d3.svg.axis()
                           .scale(xscale)
@@ -326,6 +345,88 @@
           };  
         // end d3 service
         });
+  
+        function wrap(text, width) {
+            console.log("text below");
+            text[0][0]["__data__"] = A_text;
+            text[0][1]["__data__"] = B_text;
+            console.log(text);
+            text.each(function() {
+              var text = d3.select(this),
+                  words = text.text().split(/\s+/).reverse(),
+                  word,
+                  line = [],
+                  lineNumber = 0,
+                  lineHeight = 1.1, // ems
+                  y = text.attr("y"),
+                  dx = parseFloat(text.attr('dx') || 0), 
+                  dy = parseFloat(text.attr("dy") || 0),
+                  tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+                  console.log("text " + text[0][0]["__data__"]);
+                  console.log("tspan "  + tspan);
+              while (word = words.pop()) {
+                line.push(word);
+                tspan.text(line.join(" "));
+                console.log("tspan w " + tspan.node().getComputedTextLength());
+                console.log("width " + width);
+                // console.log("data is " + tspan.node.__data__);
+                if (tspan.node().getComputedTextLength() > width) {
+                  line.pop();
+                  tspan.text(line.join(" "));
+                  line = [word];
+                  tspan = text.append("tspan").attr("x", 0).attr("y", y).attr('dx', dx).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+                }
+              }
+            });
+          }
+
+          d3.util = d3.util || {};
+
+          d3.util.wrap = function(_wrapW){ 
+              return function(d, i){
+                  var that = this;
+
+                  function tspanify(){ 
+                      var lineH = this.node().getBBox().height;
+                      this.text('')
+                          .selectAll('tspan')
+                          .data(lineArray)
+                          .enter().append('tspan')
+                          .attr({
+                              x: 0,
+                              y: function(d, i){ return (i + 1) * lineH; } 
+                          })
+                          .text(function(d, i){ return d.join(' '); })
+                  }   
+
+                  function checkW(_text){ 
+                      var textTmp = that
+                          .style({visibility: 'hidden'})
+                          .text(_text);
+                      var textW = textTmp.node().getBBox().width;
+                      that.style({visibility: 'visible'}).text(text);
+                      return textW; 
+                  }
+
+                  var text = this.text();
+                  var parentNode = this.node().parentNode;
+                  var textSplitted = text.split(' ');
+                  var lineArray = [[]];
+                  var count = 0;
+                  textSplitted.forEach(function(d, i){ 
+                      if(checkW(lineArray[count].concat(d).join(' '), parentNode) >= _wrapW){
+                          count++;
+                          lineArray[count] = [];
+                      }
+                      lineArray[count].push(d)
+                  });
+
+                  this.call(tspanify)
+              }
+          };
+
+                
+
       // end link
       }
       }

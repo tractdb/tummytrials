@@ -9,6 +9,12 @@
       views: {
         current : {
           templateUrl: 'templates/currenttrial/calendar.html',
+          resolve: {
+            TextR:
+                function(Text) { return Text.all_p(); },
+            ExperimentsR:
+                function(Experiments) { return Experiments.all(); }
+          },
           controller: 'WidgetCtrl'
         }
       }

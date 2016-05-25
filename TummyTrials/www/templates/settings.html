@@ -4,21 +4,17 @@
         <br/>
         <div class="card">
           <div class="item item-text-wrap">
-            <div class="divcenter">
-              <button class="button button-assertive" ng-click="clear_credentials()" ng-disabled="!have_credentials">
+              <button class="button button-block button-assertive" ng-click="clear_credentials()" ng-disabled="!have_credentials">
                 {{text.settings.clear_creds}}
               </button>
-            </div>
             <p>{{text.settings.clear_explanation}}</p>
           </div>
         </div>
         <div class="card">
           <div class="item item-text-wrap ">
-            <div class="divcenter">
-              <button class="button button-assertive" ng-click="begin_demo()" ng-disabled="!demo_is_possible">
+              <button class="button button-block button-assertive" ng-click="begin_demo()" ng-disabled="!demo_is_possible">
                   {{text.settings.accelerated_demo}}
               </button>
-            </div>
           <p>{{text.settings.demo_explanation}}</p>
           </div>
         </div>

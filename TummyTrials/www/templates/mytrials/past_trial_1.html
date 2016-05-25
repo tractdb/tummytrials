@@ -43,21 +43,18 @@
  -->
             <!-- Result Vis -->
             <result-vis result-data="value" on-click="d3OnClick(data_pt)" label="d3Label" control="resultVisControl"> </result-vis>
-            <div class="divcenter">
-                <button class="button button-small button-royal small-text" ng-click="resultVisControl.updateVis();">&nbsp&nbsp Timeline view &nbsp&nbsp </button> &nbsp&nbsp &nbsp&nbsp 
-                <button class="button button-small button-royal small-text" ng-click="resultVisControl.revertVis();">&nbsp&nbsp Trend view &nbsp&nbsp </button>
+            <div class="button-bar">
+                <button class="button button-block button-royal small-text" ng-click="resultVisControl.updateVis();">&nbsp&nbsp Timeline view &nbsp&nbsp </button> &nbsp&nbsp
+                <button class="button button-block button-royal small-text" ng-click="resultVisControl.revertVis();">&nbsp&nbsp Trend view &nbsp&nbsp </button>
             </div>
             <br/><br/>
             <div>
-<!--                 Average {{key}} severity on days with {{trig}} was 
-                {{value[duration_readable - 1].a_avg / ((duration_readable / 2) - value[0].a_void)}} 
-                and on days without {{trig}} was 
-                {{value[duration_readable - 1].b_avg / ((duration_readable / 2) - value[0].b_void)}} <br/> -->
 
-                Average {{key}} severity on days with {{trig}} was 
+            <!-- Decided not to show averages -->
+            <!-- Average {{key}} severity on days with {{trig}} was 
                 {{value[0].a_res_text}} 
                 and on days without {{trig}} was 
-                {{value[0].b_res_text}}. <br/><br/>
+                {{value[0].b_res_text}}. <br/><br/> -->
 
                 <span ng-show="value[duration_readable - 1].a_void > 0 || value[duration_readable - 1].b_void > 0">There were one or more days when no symptoms were recorded which may affect the averages shown above. Missing data is shown in grey circles in the visualization.</span>
 

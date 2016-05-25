@@ -136,9 +136,11 @@
         for (var i = 0; i < text.setup3.triggers.length; i++)
             if (text.setup3.triggers[i].trigger == trigger) {
                 if (plusday)
-                    phrase = text.setup3.triggers[i].phrase_plus;
+                    phrase = "Consume " + cur.trigger;
+                    // phrase = text.setup3.triggers[i].phrase_plus;
                 else
-                    phrase = text.setup3.triggers[i].phrase_minus;
+                    phrase = "Avoid " + cur.trigger;
+                    // phrase = text.setup3.triggers[i].phrase_minus;
                 break;
             }
 

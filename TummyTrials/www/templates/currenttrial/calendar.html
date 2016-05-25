@@ -3,54 +3,114 @@
     <ion-content>
 
         <!-- Content to display on valid days (ones with records) -->
-        <div ng-if="cal_display === 'yes'" class="padding card">
-        	<h4>{{text.calendar.title}} {{cal_day}}</h4>
-        	<p> {{text.calendar.field_1}} <b>{{cal_cond}}</b></p>
-        	<p> {{text.calendar.field_2}} <b>{{cal_bcomp}}</b></p> 
-            <p> {{text.calendar.field_4}} <b>{{cal_lcomp}}</b></p> 
-            <p> {{text.calendar.field_3}} <br/>
-            <p> Note : {{note}} <br/><br/>
-            <ul class="list">
-                <li class="item item-text-wrap list_text" ng-repeat="(key,value) in cal_scr">
-                    <b>{{key}}</b><br/> {{value}} 
-                </li>
-            </ul>
+        <div ng-if="cal_display === 'yes'" class="padding">
+        	<h4 class="padding">{{text.calendar.title}} {{cal_day}}</h4>
+        	
+            <div class="card padding">  
+                <h5 class="title">{{text.calendar.field_1}}</h5>
+                <p class="grey-text">{{cal_cond}}</p> 
+            </div>
+
+        	<div class="card padding"> 
+                <h5 class="title">{{text.calendar.field_2}}</h5>
+                <p ng-bind-html="cal_bcomp"></p>
+                <p ng-bind-html="cal_lcomp"></p>
+                <p>{{text.calendar.field_3}}</p>
+                <ul class="list">
+                    <li class="item item-text-wrap list_text" ng-repeat="(key,value) in cal_scr">
+                        <b>{{key}}</b><br/> {{value}} 
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card padding"> 
+                <h5 class="title">Note:</h5>
+                <p class="grey-text"> {{note}} </p>
+            </div>
+
         </div>
 
         <!-- Content to display on days with compliance but no symptom reports -->
-        <div ng-if="cal_display === 'guess'" class="padding card">
-            <h4>{{text.calendar.title}} {{cal_day}}</h4>
-            <p> {{text.calendar.field_1}} <b>{{cal_cond}}</b></p>
-            <p> {{text.calendar.field_2}} <b>{{cal_bcomp}}</b></p>           <p> {{text.calendar.field_4}} <b>{{cal_lcomp}}</b></p> 
-            <p> {{text.calendar.guess}} <br/><br/>
+        <div ng-if="cal_display === 'guess'" class="padding">
+            <h4 class="padding">{{text.calendar.title}} {{cal_day}}</h4>
+
+            <div class="card padding">  
+                <h5 class="title">{{text.calendar.field_1}}</h5>
+                <p class="grey-text">{{cal_cond}}</p> 
+            </div>
+
+            <div class="card padding"> 
+                <h5 class="title">{{text.calendar.field_2}}</h5>
+                <p ng-bind-html="cal_bcomp"></p>
+                <p ng-bind-html="cal_lcomp"></p>
+                <b> {{text.calendar.guess}} </b>
+            </div>
+
+            <div class="card padding"> 
+                <h5 class="title">Note:</h5>
+                <p class="grey-text"> {{note}} </p>
+            </div>
+
         </div>
 
 
         <!-- Content to display on invalid days (days in the future) -->
-        <div ng-if="cal_display === 'no'" class="padding card">
-            <h4>{{text.calendar.title}} {{cal_btn}}</h4>
-            <p> {{text.calendar.future}}</p>
+        <div ng-if="cal_display === 'no'" class="padding">
+            <h4 class="padding">{{text.calendar.title}} {{cal_btn}}</h4>
+            
+            <div class="card padding"> 
+                <p> {{text.calendar.future}}</p>
+            </div>
         </div>
 
         <!-- Content to display for today -->
-        <div ng-if="cal_display === 'today'" class="padding card">
-            <h4>{{text.calendar.title}} {{cal_btn}}</h4>
-            <p> {{text.calendar.today}}</p>
+        <div ng-if="cal_display === 'today'" class="padding">
+            <h4 class="padding">{{text.calendar.title}} {{cal_btn}}</h4>
+            
+            <div class="card padding"> 
+                <p> {{text.calendar.today}}</p>
+            </div>
         </div>
 
         <!-- Content to display for missing compliance -->
-        <div ng-if="cal_display === 'miss'" class="padding card">
-            <h4>{{text.calendar.title}} {{cal_btn}}</h4>
-            <p> {{text.calendar.field_1}} <b>{{cal_cond}}</b></p>
-            <!-- <p> {{text.calendar.field_2}} <b>{{cal_bcomp}}</b></p> -->
-            <p> {{text.calendar.field_3}} <b>{{text.calendar.miss}}</b></p>
+        <div ng-if="cal_display === 'miss'" class="padding">
+            <h4 class="padding">{{text.calendar.title}} {{cal_btn}}</h4>
+            
+            <div class="card padding">  
+                <h5 class="title">{{text.calendar.field_1}}</h5>
+                <p class="grey-text">{{cal_cond}}</p> 
+            </div>
+
+            <div class="card padding">  
+                <h5 class="title">{{text.calendar.field_2}}</h5>
+                <p> {{text.calendar.field_3}} <b>{{text.calendar.miss}}</b></p>
+            </div>
+
+            <div class="card padding"> 
+                <h5 class="title">Note:</h5>
+                <p class="grey-text"> {{note}} </p>
+            </div>            
+
         </div>
 
         <!-- Content to display for missing report -->
-        <div ng-if="cal_display === 'null'" class="padding card">
-            <h4>{{text.calendar.title}} {{cal_btn}}</h4>
-            <p> {{text.calendar.field_1}} <b>{{cal_cond}}</b></p>
-            <p> {{text.calendar.noreport}}</p>
+        <div ng-if="cal_display === 'null'" class="padding">
+            <h4 class="padding">{{text.calendar.title}} {{cal_btn}}</h4>
+
+            <div class="card padding">  
+                <h5 class="title">{{text.calendar.field_1}}</h5>
+                <p class="grey-text">{{cal_cond}}</p> 
+            </div>
+
+            <div class="card padding">  
+                <h5 class="title">{{text.calendar.field_2}}</h5>
+                <b> {{text.calendar.noreport}}</b>
+            </div>
+
+            <div class="card padding"> 
+                <h5 class="title">Note:</h5>
+                <p class="grey-text"> {{note}} </p>
+            </div>
         </div>
         
         <div class=" padding divcenter">

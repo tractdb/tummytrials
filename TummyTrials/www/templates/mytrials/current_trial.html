@@ -8,10 +8,13 @@
 	     </div> -->
        
 		<div class="card padding">
-	        Name : {{study_current.name}} <br/> 
-	        Breakfast preference : {{study_current.breakfast_pref}} <br/> 
-	        Drink preference : {{study_current.drink_pref}} <br/> 
-	        Status : {{study_current.status}}  <br/>
+      <h4>Trial Summary:</h4>
+	        Name : {{study_current.trigger}} Trial<br/> 
+          Date Started : {{start_day}} <br/>
+          Symptoms : <span ng-repeat="s in sym"> {{s}} <br/></span>
+          Trigger : {{study_current.trigger}}<br/>
+	        Breakfast Preference : {{study_current.breakfast_pref}} <br/> 
+	        Drink Preference : {{study_current.drink_pref}} <br/> 
 	  </div>
 
         <!-- 

@@ -26,8 +26,8 @@ angular.module('starter', ['ionic'])
 var app = angular.module('tummytrials',
             ['ionic', 'ngSanitize', 'ngCordova',
             'tractdb.tdate', 'tractdb.lifecycle',
-            'tractdb.touchtrack',
-            'tummytrials.replicator',
+            'tractdb.touchtrack', 
+            'tummytrials.replicator', 'tummytrials.faqspagectrl',
             'tummytrials.login', 'tummytrials.currentstudy',
             'tummytrials.studysetup', 'tummytrials.faqcontroller',
             'tummytrials.morning', 'tummytrials.notesctrl',
@@ -240,7 +240,19 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
-
+    .state('faqs_page', {
+      url: '/faqs/:faqsection/:faqitem',
+      views: {
+        faqs : {
+          templateUrl: 'templates/faqs/faqs_page.html',
+          resolve: {
+            TextR:
+                function(Text) { return Text.all_p(); }
+          },
+          controller: 'FaqsPageCtrl'
+        }
+      }
+    })
 })
 
 app.controller("setupcontroller", function($scope, $http, $sce, Text, Experiments, Calander) {

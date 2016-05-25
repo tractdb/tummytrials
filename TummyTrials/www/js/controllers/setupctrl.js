@@ -109,42 +109,44 @@ function timesec_of_date(date)
         $scope.drnk_on = text.setup4b.drnk_on_holder;
         $scope.drnk_off = text.setup4b.drnk_off_holder;
 
-
         // var drink_selected = SetupData.drink_prefernce.drink;     
         var breakfast_on, breakfast_off, drink_on, drink_off;
-
         $scope.$watch(function(scope) { return SetupData.breakfast_preference},
               function() {
-                var breakfast_selected = SetupData.breakfast_preference.breakfast;
-                //loop over the trigger json array for matching the selection
-                for(var i = 0; i < trigger_num; i++){
-                    if(trigger_selected == i){ 
-                        var on_meals = text.setup4b.triggers[i].condition[0];
-                        breakfast_on = on_meals[breakfast_selected];
-                        var off_meals = text.setup4b.triggers[i].condition[1];
-                        breakfast_off = off_meals[breakfast_selected];
+                if(SetupData.hasOwnProperty('breakfast_preference')){
+                    var breakfast_selected = SetupData.breakfast_preference.breakfast;
+                    //loop over the trigger json array for matching the selection
+                    for(var i = 0; i < trigger_num; i++){
+                        if(trigger_selected == i){ 
+                            var on_meals = text.setup4b.triggers[i].condition[0];
+                            breakfast_on = on_meals[breakfast_selected];
+                            var off_meals = text.setup4b.triggers[i].condition[1];
+                            breakfast_off = off_meals[breakfast_selected];
+                        }
                     }
+                    $scope.bfst_slc = breakfast_selected;
+                    $scope.bfst_on = breakfast_on;
+                    $scope.bfst_off = breakfast_off;
                 }
-                $scope.bfst_slc = breakfast_selected;
-                $scope.bfst_on = breakfast_on;
-                $scope.bfst_off = breakfast_off;
         });
 
         $scope.$watch(function(scope) { return SetupData.drink_preference},
               function() {
-                var drink_selected = SetupData.drink_preference.drink;
-                //loop over the trigger json array for matching the selection
-                for(var i = 0; i < trigger_num; i++){
-                    if(trigger_selected == i){ 
-                        var on_meals = text.setup4b.triggers[i].condition[0];
-                        drink_on = on_meals[drink_selected];
-                        var off_meals = text.setup4b.triggers[i].condition[1];
-                        drink_off = off_meals[drink_selected];
+                if(SetupData.hasOwnProperty('drink_preference')){
+                    var drink_selected = SetupData.drink_preference.drink;
+                    //loop over the trigger json array for matching the selection
+                    for(var i = 0; i < trigger_num; i++){
+                        if(trigger_selected == i){ 
+                            var on_meals = text.setup4b.triggers[i].condition[0];
+                            drink_on = on_meals[drink_selected];
+                            var off_meals = text.setup4b.triggers[i].condition[1];
+                            drink_off = off_meals[drink_selected];
+                        }
                     }
+                    $scope.drnk_slc = drink_selected;
+                    $scope.drnk_on = drink_on;
+                    $scope.drnk_off = drink_off;
                 }
-                $scope.drnk_slc = drink_selected;
-                $scope.drnk_on = drink_on;
-                $scope.drnk_off = drink_off;
         });
 
 
@@ -259,16 +261,26 @@ function timesec_of_date(date)
               bodies: [text.setup5.closeout_reminder_text]
             }
         ];
-        exper.breakfast_pref =  SetupData.breakfast_preference.breakfast;
-        exper.drink_pref = SetupData.drink_preference.drink;
-        for(var i = 0; i < text.setup4b.triggers.length; i++){
-            if(SetupData.trigger == i){ 
-                var on_meals = text.setup4b.triggers[i].condition[0];
-                exper.breakfast_on_prompt = on_meals[SetupData.breakfast_preference.breakfast];
-                exper.drink_on_prompt = on_meals[SetupData.drink_preference.drink];
-                var off_meals = text.setup4b.triggers[i].condition[1];
-                exper.breakfast_off_prompt = off_meals[SetupData.breakfast_preference.breakfast];
-                exper.drink_off_prompt = off_meals[SetupData.drink_preference.drink];
+        if(SetupData.hasOwnProperty('breakfast_preference')){
+            exper.breakfast_pref =  SetupData.breakfast_preference.breakfast;
+            for(var i = 0; i < text.setup4b.triggers.length; i++){
+                if(SetupData.trigger == i){ 
+                    var on_meals = text.setup4b.triggers[i].condition[0];
+                    exper.drink_on_prompt = on_meals[SetupData.drink_preference.drink];
+                    var off_meals = text.setup4b.triggers[i].condition[1];
+                    exper.breakfast_off_prompt = off_meals[SetupData.breakfast_preference.breakfast];
+                }
+            }
+        }
+        if(SetupData.hasOwnProperty('drink_preference')){
+            exper.drink_pref = SetupData.drink_preference.drink;
+            for(var i = 0; i < text.setup4b.triggers.length; i++){
+                if(SetupData.trigger == i){ 
+                    var on_meals = text.setup4b.triggers[i].condition[0];
+                    exper.drink_on_prompt = on_meals[SetupData.drink_preference.drink];
+                    var off_meals = text.setup4b.triggers[i].condition[1];
+                    exper.drink_off_prompt = off_meals[SetupData.drink_preference.drink];
+                }
             }
         }
         exper.reports = [];
@@ -363,17 +375,28 @@ function timesec_of_date(date)
             $scope.study_data_complete = false;
         }
 
-        $scope.breakfast_pref =  SetupData.breakfast_preference.breakfast;
-        $scope.drink_pref = SetupData.drink_preference.drink;
-        for(var i = 0; i < text.setup4b.triggers.length; i++){
-            if(SetupData.trigger == i){ 
-                var on_meals = text.setup4b.triggers[i].condition[0];
-                $scope.breakfast_on_prompt = on_meals[SetupData.breakfast_preference.breakfast];
-                $scope.drink_on_prompt = on_meals[SetupData.drink_preference.drink];
-                var off_meals = text.setup4b.triggers[i].condition[1];
-                $scope.breakfast_off_prompt = off_meals[SetupData.breakfast_preference.breakfast];
-                $scope.drink_off_prompt = off_meals[SetupData.drink_preference.drink];
-            }
+        if(SetupData.hasOwnProperty('breakfast_preference')){
+            $scope.breakfast_pref =  SetupData.breakfast_preference.breakfast;
+        } else {
+            $scope.breakfast_pref = text.setup5.no_food;
+            $scope.study_data_complete = false;
+        }
+
+        if(SetupData.hasOwnProperty('drink_preference')){
+            $scope.drink_pref = SetupData.drink_preference.drink;
+            // for(var i = 0; i < text.setup4b.triggers.length; i++){
+            //     if(SetupData.trigger == i){ 
+            //         var on_meals = text.setup4b.triggers[i].condition[0];
+            //         $scope.breakfast_on_prompt = on_meals[SetupData.breakfast_preference.breakfast];
+            //         $scope.drink_on_prompt = on_meals[SetupData.drink_preference.drink];
+            //         var off_meals = text.setup4b.triggers[i].condition[1];
+            //         $scope.breakfast_off_prompt = off_meals[SetupData.breakfast_preference.breakfast];
+            //         $scope.drink_off_prompt = off_meals[SetupData.drink_preference.drink];
+            //     }
+            // }
+        } else {
+            $scope.drink_pref = text.setup5.no_drink;
+            $scope.study_data_complete = false;
         }
 
         // XXX test for valid reminder times

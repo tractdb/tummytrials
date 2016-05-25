@@ -55,10 +55,12 @@
             $scope.start_date = new Date(cur.start_time * 1000);
             $scope.start_date_dtonly = LC.dateonly($scope.start_date);
             $scope.start_date_full = LC.datestrfull($scope.start_date);
+            $scope.start_date_sday = LC.dayonly($scope.start_date);
 
             $scope.end_date = new Date(cur.end_time * 1000); // This is first day *after* the trial
             $scope.end_date.setDate($scope.end_date.getDate() - 1); // This is last day of the trial
-            $scope.end_date_readable = LC.dateonly($scope.end_date);               
+            $scope.end_date_readable = LC.dateonly($scope.end_date);   
+            $scope.end_date_sday = LC.dayonly($scope.end_date);
 
             //Figure out if experiment has started
             if($scope.today < $scope.start_date){
@@ -79,17 +81,27 @@
                 $scope.row_length = ($scope.duration_readable/2);
             }
 
-            // Returns an array of the calendar for the study [day, condition] eg. [[13,"A"],[14,"B"], ... ]
+            // btn id
+            // btn status : active/inactive
+            // cond : A/B
+            // date : num
+
+            // Returns an array of the calendar for the study [day, condition] eg. [[15,"A","Sun",true],[16,"Mon","A",true],...
             var act_day = []; //Array for storing the condition of the day
             var days = []; // Array for filling the calendar widget 
             var d = []; // Temp array 
             var rand = cur.abstring.split(''); // Array for the randomization of conditions
+            var day, dt, dy, btn_status = false;
             //Take the starting day, and keep adding one day till the end of study
             for (i = 0; i < $scope.duration_readable; i++ ){
-                var day = new Date((cur.start_time + (86400 * i)) * 1000);  //86400 adds 1 day
-                var dt = LC.dateonly(day);
+                day = new Date((cur.start_time + (86400 * i)) * 1000);  //86400 adds 1 day
+                dt = LC.dateonly(day);
+                dy = LC.dayonly(day);
+                btn_status = true;
                 d.push(dt);
                 d.push(rand[i]);
+                d.push(dy);
+                d.push(btn_status);
                 days.push(d);
                 if($scope.today_readable == dt){ //check the condition of the day (today)
                     act_day.splice(0,0,rand[i]);
@@ -97,6 +109,90 @@
                 d = [];
             }
             $scope.schedule = days; 
+            // console.log(days);
+
+            // since days array is used in other calculations
+            var cal_days = days;
+
+            //find out how many buttons to append in first row. 
+            var day_names = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+            $scope.day_names = day_names;
+            var d, d_l = day_names.length;
+            var st_dy, ed_dy;
+
+            // Get the start day. Duration is available too.
+            for(d = 0; d < d_l; d++){
+                if($scope.start_date_sday == day_names[d]){
+                    // d shows how many empty buttons need to be added in the first row
+                    st_dy = d;
+                }
+            }
+
+            // add all empty buttons
+            // this happens whenever the first day is not a sunday
+            var e, e_btn, row_num, btn_id = 0;
+            for(e = 0; e < st_dy; e++){
+                // [[date, day, cond, btn_status, row_num, btn_id]]
+                // this should only be the first row
+                row_num = 0;
+                e_btn = [null, null, day_names[e], false, row_num, btn_id]
+                cal_days.splice(e, 0, e_btn);
+                btn_id++;
+            }
+
+            var cal_row_num;
+            if($scope.duration_readable < 9){
+                cal_row_num = 2;
+            } else if ($scope.duration_readable >= 9 && $scope.duration_readable <= 15) {
+                cal_row_num = 3;
+            } else if ($scope.duration_readable >=16 && $scope.duration_readable <= 22) {
+                cal_row_num = 4;
+            }
+
+            // Over rides above calculation
+            // if a 12 day trial starts on Sunday or Monday is ends within the next week
+            if($scope.start_date_sday == "Sun" || $scope.start_date_sday == "Mon"){
+                cal_row_num = 2;
+            }
+
+            // add all study buttons
+            var d, s_l = cal_days.length;
+            for(d = 0; d < s_l; d++){
+                // cal_days[0] is [15,"A","Sun",true]
+                // becomes [15, "A", "Sun", true, row_0, 0]
+                if(btn_id < 7){
+                    row_num = "row_" + 0;
+                } else if(btn_id >= 7 && btn_id < 14){
+                    row_num = "row_" + 1;
+                } else if(btn_id >= 14 && btn_id < 20){
+                    row_num = "row_" + 2;
+                }
+
+                cal_days[d].push(row_num, btn_id);
+                btn_id++
+            }
+            // console.log("study buttons" + cal_days);
+
+            // btn_id should be > 11 for a 12 day study.
+            // row_num should be final above. no more rows needed. 
+            var n;
+            if(row_num == "row_1"){
+                // for 2 rows max num of buttons is 14
+                for(n = btn_id; n < 14; n++){
+                    e_btn = [null, null, day_names[n - 7], false, row_num, btn_id]
+                    cal_days.splice(n, 0, e_btn);
+                    btn_id++;
+                }                
+            } else if(row_num == "row_2"){
+                // for 3 rows max num of buttons is 21
+                for(n = btn_id; n < 21; n++){
+                    e_btn = [null, null, day_names[n - 14], false, row_num, btn_id]
+                    cal_days.splice(n, 0, e_btn);
+                    btn_id++;
+                }
+            }
+            $scope.cal_days = cal_days;
+
 
             //Figuring out the message for the day (avoid/consume the trigger)
             var A_text, B_text, h_URL;
@@ -109,6 +205,9 @@
                     h_URL = text_loc[i].uisref; // URL for help deciding what to eat for the condition
                 }
             }
+
+            $scope.legend_A_text = "Consume " + cur.trigger;
+            $scope.legend_B_text = "Avoid " + cur.trigger;
             $scope.A_text = A_text;
             $scope.B_text = B_text;
             $scope.help_URL = h_URL;
@@ -119,11 +218,11 @@
 
             //Changes the text prompt based on the condition for the day
             if(act_day[0] == "A"){
-                $scope.active_text = A_text;
+                $scope.active_text = $scope.legend_A_text;
                 $scope.active_bfst = cur.breakfast_on_prompt;
                 $scope.active_drnk = cur.drink_on_prompt;
             } else if(act_day[0] == "B"){
-                $scope.active_text = B_text;
+                $scope.active_text = $scope.legend_B_text;
                 $scope.active_bfst = cur.breakfast_off_prompt;
                 $scope.active_drnk = cur.drink_off_prompt;
             }
@@ -147,9 +246,9 @@
                     day_pos = i;
                     // get text for the condition of the day
                     if(days[i][1] == "A"){
-                        day_cond = A_text;
+                        day_cond = $scope.legend_A_text;
                     } else if(days[i][1] == "B"){
-                        day_cond = B_text;
+                        day_cond = $scope.legend_B_text;
                     } 
                 }
             }
@@ -162,10 +261,10 @@
                 sym_submit = false;
             if(typeof(cur.reports[day_pos]) == "object"){
                 if(cur.reports[day_pos].breakfast_compliance == false){
-                    bfst_comp_msg = '<span class="positive">You <b> did not </b>' + day_cond +'.</span><br/><br/>'; 
+                    bfst_comp_msg = '<span class="positive">You <b> did not </b>' + day_cond +'.</span><br/>'; 
                     bfst_comp_state = true;
                 } else if(cur.reports[day_pos].breakfast_compliance == true){
-                    bfst_comp_msg = "You <b> did </b>" + day_cond + ".<br/><br/>";
+                    bfst_comp_msg = "You <b> did </b>" + day_cond + ".<br/>";
                     bfst_comp_state = true;
                 }
 
@@ -195,7 +294,7 @@
                                 temp_msg = "<b>" + scr_txt + "</b> impacted you " + "<b>" + scr_val + "</b> and ";
                             } else if(l == (sym_len - 1)){
                                 // last symptom in the array 
-                                temp_msg = "<b>" + scr_txt + "</b> impacted you " +  "<b>" + scr_val + "</b>.<br/><br/>";
+                                temp_msg = "<b>" + scr_txt + "</b> impacted you " +  "<b>" + scr_val + "</b>.<br/>";
                             }
                         } else if(sym_len > 2){
                             if(l < (sym_len - 1)){
@@ -204,7 +303,7 @@
                                 temp_msg = "<b>" + scr_txt + "</b> impacted you " + "<b>" + scr_val + "</b> and ";
                             } else if(l == (sym_len - 1)){
                                 // last symptom in the array 
-                                temp_msg = "<b>" + scr_txt + "</b> impacted you " + "<b>" + scr_val + "</b>.<br/><br/>";
+                                temp_msg = "<b>" + scr_txt + "</b> impacted you " + "<b>" + scr_val + "</b>.<br/>";
                             }
                         }
                         report_msg = report_msg.concat(temp_msg);
@@ -416,15 +515,23 @@
 
 
 //controller for calendar widget buttons
-.controller('WidgetCtrl', function($scope, $stateParams, Calendar,
+.controller('WidgetCtrl', function($scope, $stateParams, Calendar, TextR, ExperimentsR,
                         Text, Experiments, LC, StudyFmt){
-    Text.all_p()
-    .then(function(text) {
-        $scope.text = text;
-        return Experiments.publish_p($scope);
-    })
-    .then(function(_) {
-        var text = $scope.text;
+    // Text.all_p()
+    // .then(function(text) {
+    //     $scope.text = text;
+    //     return Experiments.publish_p($scope);
+    // })
+    // .then(function(_) {
+
+        $scope.text = TextR;
+        Experiments.set_study_context($scope, ExperimentsR);
+
+        //service data object
+        $scope.calendardata = Calendar;
+
+        var text = TextR;
+
         var cur = $scope.study_current;
         $scope.duration_readable = Experiments.study_duration(cur);
         $scope.calendardata = Calendar;
@@ -625,15 +732,40 @@
                 }
             } 
             
+            Calendar.A_text = "Consume " + cur.trigger;
+            Calendar.B_text = "Avoid " + cur.trigger;
+
             $scope.note = Calendar.note;
-            $scope.cal_bcomp = Calendar.bcomp;
-            $scope.cal_lcomp = Calendar.lcomp;
+            // $scope.cal_bcomp = Calendar.bcomp;
+            // $scope.cal_lcomp = Calendar.lcomp;
             $scope.cal_btn = Calendar.button;
             $scope.cal_day = Calendar.date;
             if(Calendar.condition == "A"){
                 $scope.cal_cond = Calendar.A_text;
+                if(Calendar.bcomp){
+                    $scope.cal_bcomp = "<span class='balanced'>You <b>did</b> " + Calendar.A_text + "</span>";
+                } else {
+                    $scope.cal_bcomp = "<span class='positive'>You <b>did not</b> " + Calendar.A_text + "</span>";
+                }
+
+                if(Calendar.lcomp){
+                    $scope.cal_lcomp = "<span class='balanced'>You <b>did not</b> eat something between your breakfast and symptom report.</span>"
+                } else {
+                    $scope.cal_lcomp = '<span class="positive">You <b>did</b> eat something between your breakfast and symptom report.</span>'
+                }
             } else if(Calendar.condition == "B"){
                 $scope.cal_cond = Calendar.B_text;
+                if(Calendar.bcomp){
+                    $scope.cal_bcomp = "<span class='balanced'>You <b>did</b> " + Calendar.B_text + "</span>";
+                } else {
+                    $scope.cal_bcomp = "<span class='positive'>You <b>did not</b> " + Calendar.B_text + "</span>";
+                }
+
+                if(Calendar.lcomp){
+                    $scope.cal_lcomp = "<span class='balanced'>You <b>did not</b> eat something between your breakfast and symptom report.</span>"
+                } else {
+                    $scope.cal_lcomp = '<span class="positive">You <b>did</b> eat something between your breakfast and symptom report.</span>'
+                }
             }
             //Figuring out text for the symptom score
             var text_loc = text.post.likertlabels; //Getting the text from JSON for each likert value
@@ -651,7 +783,6 @@
 
            $scope.cal_display = display;
 
-    });
 })
 
 //module end

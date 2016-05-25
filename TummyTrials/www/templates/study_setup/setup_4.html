@@ -2,7 +2,15 @@
           <ion-pane>
           <ion-content>   
             <div class="padding">      
-              <h4 class="title">{{text.setup4.title}}</h4>
+            
+              <div class="row">
+                <div class="neg-padding">
+                  <h4>3.</h4>
+                </div>
+                <div class="setup-padding">
+                  <h4 class="title">{{text.setup4.title}}</h4>
+                </div>
+              </div>
               <p>{{text.setup4.subtitle}}</p>
 
             <div class="list">
@@ -14,25 +22,26 @@
                 <p>{{text.setup4.start_date_text}}</p>
                 <label class="item item-input">
                   <span class="input-label">{{text.setup4.date}}</span>
-                  <input type="date" ng-model="setupdata.startdate">
+                  <input type="date" style="text-align:right;" ng-model="setupdata.startdate">
                 </label>
               </div> 
 
               <div class="item item-text-wrap rem_bkg">
                 <h3>{{text.setup4.study_length_title}}</h3>
-                <p>{{text.setup4.study_length_text}}</p>
+                <!-- <p>{{text.setup4.study_length_text}}</p> -->
+                <p> {{text.setup4.study_length_alt_text}} </p>
                 <label class="item item-input item-select">
                   <div class="input-label">
                     {{text.setup4.days}}
                   </div>
                   <select ng-model="setupdata.duration">
-                    <option value="8">8</option>
-                    <option value="10">10</option>
+                    <!-- <option value="8">8</option>
+                    <option value="10">10</option> -->
                     <option value="12">12</option>
-                    <option value="14">14</option>
+                    <!-- <option value="14">14</option>
                     <option value="16">16</option>
                     <option value="18">18</option>
-                    <!-- <option value="20">20</option>
+                    <option value="20">20</option>
                     <option value="22">22</option>
                     <option value="24">24</option>
                     <option value="26">26</option>
@@ -53,7 +62,7 @@
                 <p>{{text.setup4.morning_text}}</p>
                 <label class="item item-input">
                   <span class="input-label">{{text.setup4.time}}</span>
-                  <input type="time" ng-model="setupdata.morning_time">
+                  <input type="time" style="text-align:right;" ng-model="setupdata.morning_time">
                 </label>
               </div>      
 
@@ -62,7 +71,7 @@
                 <p>{{text.setup4.breakfast_text}}</p>
                 <label class="item item-input">
                   <span class="input-label">{{text.setup4.time}}</span>
-                  <input type="time" ng-model="setupdata.breakfast_time">
+                  <input type="time" style="text-align:right;" ng-model="setupdata.breakfast_time">
                 </label>
               </div>      
 
@@ -71,7 +80,7 @@
                 <p>{{text.setup4.symptom_text}}</p>
                 <label class="item item-input"> 
                   <span class="input-label">{{text.setup4.time}}</span> 
-                  <input type="time" ng-model="setupdata.symptom_time">
+                  <input type="time" style="text-align:right;" ng-model="setupdata.symptom_time">
                 </label>
               </div>  
 
@@ -80,12 +89,12 @@
                 <p>{{text.setup4.evening_text}}</p>
                 <label class="item item-input"> 
                   <span class="input-label">{{text.setup4.time}}</span> 
-                  <input type="time" ng-model="setupdata.evening_time">
+                  <input type="time" style="text-align:right;" ng-model="setupdata.evening_time">
                 </label>
               </div> 
               <br/>
               <a class="button button-block button-royal" ui-sref="setup_4b">
-                {{text.setup4.button}} &nbsp; <i class="ion-chevron-right"></i>
+                {{text.setup4.button}}
               </a>
             </div>
 

@@ -6,31 +6,33 @@
 		"para1": "Need help?",
 		"rem1": "Your first reminder is set for 7 am.",
 		"rem2": "Your breakfast reminder is set for 9 am.",
-		"rem3": "Your symptom entry reminder is set for 12 pm.",
+		"rem3": "Your symptom report reminder is set for 12 pm.",
 		"note": "You can note specifics of your diet, symptoms, or other information for the day to review later.",
 		"note2": "You can edit your current note (seen below).",
 		"button1": "Log Breakfast Compliance",
 		"button2": "Log Symptom Level",
 		"button3": "Add Note",
 		"abandon_text": "You can abandon the ongoing/scheduled trial anytime you wish. Please note that upon doing so, if you wish to remain in the study you will have to setup a new trial and reschedule your exit interview date.",
-		"reminder_schedule_template": "Your {NAME} reminder is set to {WHEN}.",
-		"morning_reminder_name": "morning",
-		"breakfast_reminder_name": "breakfast",
-		"symptomEntry_reminder_name": "symptom entry",
+		"reminder_schedule_template": "{NAME} reminder is set to {WHEN}.",
+		"morning_reminder_name": "Morning",
+		"breakfast_reminder_name": "Breakfast compliance report",
+		"symptomEntry_reminder_name": "Symptom level report",
+		"evening_reminder_name": "Evening",
+		"closeout_reminder_name": "Closeout",
 		"breakfast_reminder_logmsg": " Breakfast Compliance",
 		"symptomEntry_reminder_logmsg": " Symptom Level",
-		"reminder_title":"Reminders for today:",
+		"reminder_title":"Daily Report:",
 		"submit_button":"Confirm",
-		"submit_cant":"Please enter breakfast compliance and symptom report(s) before submitting the daily report.",
+		"submit_cant":"Please enter breakfast compliance and symptom level report(s) before submitting the daily report.",
 		"submit_text":"Submit compliance and symptom report.",
-		"submitted_text":"You have submitted your reports for the day. You will not receive any further alerts for the day.",
-		"report_sum_title":"Report for the day:"
+		"submitted_text":"You have submitted your report for the day. You will not receive any further reminders today.",
+		"report_sum_title":"Report For The Day:"
 	},
 	"calendar": {
-		"title": "Log entry for day:",
+		"title": "Report for:",
 		"field_1": "Prompt for the day was to:",
-		"field_2": "Compliance with the breakfast prompt was:",
-		"field_3": "Symptom level reported for the day was:",
+		"field_2": "Report for the day:",
+		"field_3": "Symptom level(s) reported for the day:",
 		"field_4": "Did you eat anything between breafast and symptom report?",
 		"future": "Looking for some tea leaves and crystal balls, eh?",
 		"today": "This is the ongoing day.",
@@ -133,58 +135,62 @@
 			"title": "Irritable Bowel Syndrome",
 			"list": [{
 				"faq": "What is Irritable Bowel Syndrome (IBS)?",
-				"uisref": "#"
+				"uisref": "faqs_page({faqsection: 0, faqitem: $index})",
+				"content": "Irritable Bowel Syndrome (IBS) is a common digestive disorder that affects up to 20% of both men and women in the US. People with IBS experience a variety of symptoms that vary from person to person and from day to day. Symptoms are varying combinations of abdominal pain/discomfort associated with diarrhea (frequent or loose stools) and/or constipation (infrequent or hard stools). Symptoms also can include excessive gas, bloating and urgency (urgent need to defecate)."
 			}, {
-				"faq": "What are triggers for IBS?",
-				"uisref": "#"
+				"faq": "What are common triggers for IBS?",
+				"uisref": "faqs_page({faqsection: 0, faqitem: $index})",
+				"content": "There are many things that can “trigger” a flare-up in IBS symptoms. The most common triggers are certain foods and stress. Other triggers include sleep, exercise, and menstrual cycles (for women). These triggers can vary from person to person: what might bother one person may not bother someone else."
 			}, {
-				"faq": "What are various symptoms for IBS?",
-				"uisref": "#"
+				"faq": "What are various symptoms of IBS?",
+				"uisref": "faqs_page({faqsection: 0, faqitem: $index})",
+				"content": "People with IBS experience a variety of symptoms that vary from person to person and from day to day. Symptoms are varying combinations of abdominal pain/discomfort associated with diarrhea (frequent or loose stools) and/or constipation (infrequent or hard stools). Symptoms also can include excessive gas, bloating and urgency (urgent need to defecate)."
 			}]
 		}, {
-			"title": "Trial / Study",
+			"title": "Symptom Definitions",
 			"list": [{
-				"faq": "What is a self-experiment?",
-				"uisref": "#"
+				"faq": "Abdominal Pain",
+				"uisref": "faqs_page({faqsection: 1, faqitem: $index})",
+				"content": "Abdominal pain is a pain that you feel anywhere between your chest and groin. It can be sharp or dull. It may be continuous or come and go. It can be short-lived (acute) or occur over weeks and months (chronic)."
 			}, {
-				"faq": "How to choose a trigger to test?",
-				"uisref": "triggerchoice"
+				"faq": "Bloating or Gas",
+				"uisref": "faqs_page({faqsection: 1, faqitem: $index})",
+				"content": "Abdominal bloating is a condition in which the belly (abdomen) feels tight and full of gas. Your abdomen may even look swollen (distended). This build of gas can cause abdominal discomfort/pain. It can result in increased belching and burping or passing gas, which can be socially embarrassing."
 			}, {
-				"faq": "What is the symptom severity scale?",
-				"uisref": "#"
+				"faq": "Bowel Urgency",
+				"uisref": "faqs_page({faqsection: 1, faqitem: $index})",
+				"content": "Bowel urgency is the urgent sensation that you need to have a bowel movement (or defecate). People suffering from this symptom often describe the need to “run to the bathroom” to avoid soiling themselves."
 			}, {
-				"faq": "How is the result calculated?",
-				"uisref": "#"
+				"faq": "Diarrhea",
+				"uisref": "faqs_page({faqsection: 1, faqitem: $index})",
+				"content": "Diarrhea is the condition of frequent and/or loose stools."
 			}, {
-				"faq": "How do we define Abdominal Pain?",
-				"uisref": "abdominalpain"
-			}, {
-				"faq": "How do we define Bloating/Gas?",
-				"uisref": "bloating"
-			}, {
-				"faq": "How do we define Bowel Urgency?",
-				"uisref": "urgency"
-			}, {
-				"faq": "How do we define Diarrhea?",
-				"uisref": "diarrhea"
-			}, {
-				"faq": "How do we define Constipation?",
-				"uisref": "constipation"
+				"faq": "Constipation",
+				"uisref": "faqs_page({faqsection: 1, faqitem: $index})",
+				"content": "Constipation is the condition of infrequent and/or hard stools.  It can also be described as the difficult passage of stool."
 			}]
 		}, {
 			"title": "Food Guide",
 			"list": [{
-				"faq": "Need help deciding what to eat?",
-				"uisref": "#"
-			}]
-		}, {
-			"title": "Miscellaneous",
-			"list": [{
-				"faq": "What is the meaning of life?",
-				"uisref": "#"
+				"faq": "Need help deciding on which food triggers to test?",
+				"uisref": "faqs_page({faqsection: 2, faqitem: $index})",
+				"content": "In this app, we offer a selection of IBS trigger foods for self-experimentation. We chose these trigger foods based on IBS research studies and patient surveys. We realize that these may not include the trigger foods you have read about or would want to test right now but this is still work in progress. We appreciate your patience and welcome your suggestions for future IBS trigger foods to test. \nOver time, many people with IBS may have already discovered some of their IBS trigger foods, either through trial-and-error or with the help of a dietitian or their physician. If you already know that certain food trigger your IBS symptoms, we do not recommend selecting that food group for self-experimentation. Similarly, if you already know certain “safe foods” (foods that do not trigger your IBS symptoms), we do not recommend selecting that food group for self-experimentation. Instead, we recommend using the self-experimentation process to test foods that you are unsure of as one of your trigger or safe foods.\nSince things are always changing inside our body and environment, a food you once thought was a “safe food” may come into question in the future. In this situation, it may be appropriate to re-test it to determine if it is still a “safe food.” Similarly, a food you once thought was a “trigger food” may come into question in the future. In this situation, it may be appropriate to re-test it to determine if it is still a 'trigger food.'"
 			}, {
-				"faq": "What is a p-value?",
-				"uisref": "pvalue"
+				"faq": "Lactose Containing Foods",
+				"uisref": "faqs_page({faqsection: 1, faqitem: $index})",
+				"content": "Lactose is a type of sugar, commonly found in dairy products.  The most common high-lactose foods include milk, yogurt, ice cream, cream soups and soft cheeses."
+			}, {
+				"faq": "Artificial Sweetener: Sorbitol",
+				"uisref": "faqs_page({faqsection: 1, faqitem: $index})",
+				"content": "Sorbitol is a type of synthetic sugar, commonly used as an artificial sweetener in sugar-free gums and candies and diet drinks. However, it can also naturally found in some fruits (e.g. stone fruits such as apples, apricot, figs, peaches)."
+			}, {
+				"faq": "High Fructose Foods",
+				"uisref": "faqs_page({faqsection: 1, faqitem: $index})",
+				"content": "Fructose is a type of sugar. Many healthy foods contain fructose (e.g., honey, berries, apples, dates, pears).  In the United States though, the most common high-fructose foods are snacks and soft drinks. These food products include high fructose corn syrup as a sweetener."
+			}, {
+				"faq": "Caffeine",
+				"uisref": "faqs_page({faqsection: 1, faqitem: $index})",
+				"content": "Caffeine is a substance commonly found in coffee and tea plants."
 			}]
 		}]
 	},
@@ -249,11 +255,12 @@
 	},
 	"setup": {
 		"title": "Setup a New Trial",
-		"content": "This setup will guide you through the steps to create your own self trial. A trial helps you figure out whether a nutrient affects your symptoms for IBS. \n\nDuring the trial, you will be asked to eat certain nutrients on some mornings and to avoid that nutrient on other mornings. \n\nWe will help you track your progress and symptoms by giving daily reminders. ",
+		"content": "This setup will guide you through the steps to create your self trial. A trial helps you decide whether certain food affects your symptoms. \n\nDuring the trial, you will be asked to eat your trial food on some mornings and to avoid that on other mornings. \n\nWe will help you track your progress and symptom levels by giving you daily reminders.",
 		"button": "Begin Setup"
 	},
 	"setup2": {
-		"title": "Which Symptoms Do You Want To Test?",
+		"title": "Choose Symptom(s) To Track",
+		"subtitle": "Which of the following symptoms do you want to test?",
 		"symptoms": [{
 			"symptom": "Abdominal Pain"
 		}, {
@@ -267,20 +274,20 @@
 		}, {
 			"symptom": "Frequent Bowel Movements"
 		}, {
-			"symptom": "Urgency"
+			"symptom": "Bowel Urgency"
 		}],
 		"button": "Continue "
 	},
 	"setup3": {
-		"title": "2. Choose A Possible Cause",
-		"subtitle": "Which of the following food items is a likely cause for your symptoms?",
+		"title": "Choose a Possible Trigger",
+		"subtitle": "Which of the following food is a likely trigger for your symptom(s)?",
 		"triggers": [{
-			"trigger": "Sorbitol / Artificial Sweeteners",
+			"trigger": "Sorbitol (Artificial Sweeteners)",
 			"uisref": "setup_3_1",
 			"phrase_plus": "eat at least 5g Sorbitol",
 			"phrase_minus": "eat less than 0.5g Sorbitol"
 		}, {
-			"trigger": "Lactose / Dairy",
+			"trigger": "Lactose (Dairy)",
 			"uisref": "setup_3_2",
 			"phrase_plus": "eat at least 8 grams of lactose",
 			"phrase_minus": "avoid eating any lactose"
@@ -298,7 +305,7 @@
 		"button": "Continue "
 	},
 	"setup3_1": {
-		"title": "2.1 Testing impact of Sorbitol / Artificial Sweeteners",
+		"title": "2.1 Testing impact of Sorbitol (Artificial Sweeteners)",
 		"para1": "On select days you will be asked to eat at least 5 grams of sorbitol during your breakfast. It is ok to eat more than 5 grams on these days.",
 		"para2": "On select days you will be asked not to eat sorbitol during your breakfast. It is ok if you eat less than 0.5 gram on these days",
 		"para3": "Some examples of 8 grams of lactose are:",
@@ -307,7 +314,7 @@
 		"list3": "A bowl of yogurt (5 oz)"
 	},
 	"setup3_2": {
-		"title": "2.2 Testing Lactose / Dairy Consumption",
+		"title": "2.2 Testing Lactose (Dairy Consumption)",
 		"para1": "On randomly pre-assinged days you will be asked to eat at least 8 grams of lactose during your breakfast. It is ok to eat more than 8 grams on these days.",
 		"para2": "On other pre-assigned days you will be asked not to eat lactose during your first meal. You can eat lactose after logging your symptoms 4 hours after the meal.",
 		"para3": "Some examples of 8 grams of lactose are:",
@@ -334,28 +341,29 @@
 		"list3": "A bowl of yogurt (5 oz)"
 	},
 	"setup4": {
-		"title": "3. Set Start Date And Reminders",
-		"subtitle": "When do you want to begin the study and when do you want to receive reminder notifications?",
+		"title": "Set Start Date And Reminders",
+		"subtitle": "When do you want to begin the trial and when do you want to receive reminder notifications?",
 		"morning_title": "Morning Reminder",
-		"morning_text": "You will be sent a reminder to follow the study schedule for each day. Choose a time, perhaps a little before breakfast.",
-		"breakfast_title": "Breakfast Entry",
-		"breakfast_text": "You will be sent a reminder to log whether you followed the study schedule correctly during your breakfast meal. Choose a time a little after breakfast.",
-		"symptom_title": "Symptom Entry",
-		"symptom_text": "Later, you will be sent a reminder to log the severity of your symptoms. Choose a time at least 3 hours after breakfast but before lunch.",
+		"morning_text": "You will be sent a reminder to follow the trial schedule for each day. Choose a time, perhaps a little before breakfast.",
+		"breakfast_title": "Breakfast Compliance Report",
+		"breakfast_text": "You will be sent a reminder to log whether you followed the trial schedule correctly during your breakfast meal. Choose a time a little after breakfast.",
+		"symptom_title": "Symptom Level Report",
+		"symptom_text": "Later, you will be sent a reminder to log the severity of your symptom(s). Choose a time approximately 3 hours after breakfast but before lunch.",
 		"evening_title":"Evening Reminder",
-		"evening_text":"You will receive one final reminder for the day to make changes to any of your responses. Choose a time in the evening, preferably before your dinner.",
+		"evening_text":"You will receive one final reminder for the day to make changes to your report. Choose a time in the evening, preferably before your dinner.",
 		"time": "Time",
 		"date": "Date",
-		"study_length_title": "Study Length",
-		"study_length_text": "A longer study will produce results that are more likely to be reliable.",
+		"study_length_title": "Trial Length",
+		"study_length_text": "A longer trial will produce results that are more likely to be reliable.",
+		"study_length_alt_text": "The trial will last for 12 days.",
 		"days": "Days",
 		"start_date_title": "Start Date",
 		"start_date_text": "Select the date on which you would like to begin your trial. Remember, you will be asked to follow a specific breakfast for the duration of the trial. ",
 		"button": "Continue"
 	},
 	"setup4b": {
-		"title": "4. Set Food Preferences",
-		"breakfast_text": "Select a breakfast food and drink you can consistently eat for the duration of the trial. You must have access to the recommended meals for every day of the trial.",
+		"title": "Set Food Preferences",
+		"breakfast_text": "Select a breakfast food and drink you can consistently eat for the duration of the trial.",
 		"breakfast": [{
 			"breakfast": "Cereal"
 		}, {
@@ -386,7 +394,7 @@
 			"drink": "Water"
 		}],
 		"triggers": [{
-			"trigger": "Sorbitol / Artificial Sweeteners",
+			"trigger": "Sorbitol (Artificial Sweeteners)",
 			"condition": [{
 				"condition": "on",
 				"Cereal": "Have your usual bowl of cereal your usual way and add at least one of the following: \n - 10 prunes (5 g) \n - Four sugar-free candies like lifesavers or mints (> 5 g) \n - Two pieces of sugar-free gum (4 g) \n - A glass of apple juice (3 g and equivalent amounts of fructose and glucose)",
@@ -420,7 +428,7 @@
 			}],
 			"uisref": "#"
 		}, {
-			"trigger": "Lactose / Dairy",
+			"trigger": "Lactose (Dairy)",
 			"condition": [{
 				"condition": "on",
 				"Cereal": "Use at least 6 oz of cow's milk with your bowl of cereal.",
@@ -530,7 +538,7 @@
 		"button": "Continue "
 	},
 	"setup5": {
-		"title": "5. Review Trial Details",
+		"title": "Review Trial Details",
 		"topic_title": "Trial Topic",
 		"notopic": "(Please select trigger on screen 2.)",
 		"topic": "Does {TRIGGER} affect my symptoms?",
@@ -543,24 +551,26 @@
 		"start_date": "Tue Mar 27th",
 		"end_date": "Tue Apr 4th",
 		"reminder_times_title": "Reminder Times",
-		"morning_reminder_title": "Morning Reminder",
+		"morning_reminder_title": "Morning",
 		"morning_reminder": "9:00 am",
-		"breakfast_reminder_title": "Breakfast Reminder",
-		"symptomEntry_reminder_title": "Symptom Entry Reminder",
+		"breakfast_reminder_title": "Breakfast Compliance Report",
+		"symptomEntry_reminder_title": "Symptom Level Report",
 		"symptom_reminder": "1:00 pm",
-		"evening_reminder_title": "End of Day Reminder",
+		"evening_reminder_title": "End of Day",
 		"evening_reminder": "6:00 pm",
 		"button": "Begin The Trial",
 		"day_counter": "(Day {DAY})",
 		"morning_reminder_text": "Today is a day to {AORB}.",
-		"breakfast_reminder_text": "Please log your breakfast compliance.",
-		"symptomEntry_reminder_text": "Please log your symptom levels.",
+		"breakfast_reminder_text": "Please report your breakfast compliance.",
+		"symptomEntry_reminder_text": "Please report your symptom level(s).",
 		"evening_reminder_text": "Please update symptom levels if necessary.",
 		"food_pref_title":"Food preferences",
 		"breakfast_pref":"Breakfast preference",
+		"no_food": "(Please select a breakfast food preference on screen 4.)",
+		"no_drink": "(Please select a breakfast drink preference on screen 4.)",
 		"drink_pref":"Drink preference",
-                "closeout_reminder_title": "End of Symtom Entry Period",
-                "closeout_reminder_text": "The time for reporting symptom severities has ended for today."
+        "closeout_reminder_title": "End of Symptom Report Period",
+        "closeout_reminder_text": "The time for reporting symptom severities has ended for today."
 	},
 	"setup6": {
 		"title": "Trial Scheduled!",

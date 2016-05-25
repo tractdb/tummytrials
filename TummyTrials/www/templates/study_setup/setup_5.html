@@ -1,31 +1,47 @@
       <ion-view title="Trial Setup (5 of 5)">
           <ion-pane>
           <ion-content>   
-            <div class="padding">      
-              <h4 class="title">{{text.setup5.title}}</h4> <br/>
-              <h5 class="title">{{text.setup5.topic_title}}</h5>
-              <p>{{chosen_topic}}</p>
-              <br/>
+            <div class="padding">  
 
-              <h5 class="title">{{text.setup5.symptoms_title}}</h5>
-              <p ng-repeat="symptom in chosen_symptoms">{{symptom}}</p>
-              <br/>
+              <div class="row">
+                <div class="neg-padding">
+                  <h4>5.</h4>
+                </div>
+                <div class="setup-padding">
+                  <h4 class="title">{{text.setup5.title}}</h4>
+                </div>
+              </div>
 
-              <h5 class="title">{{text.setup5.study_length}}</h5>
-              <p>{{chosen_date_range}}</p>              
-              <br/>
+              <div class="padding card">
+                <h5 class="title">{{text.setup5.topic_title}}</h5>
+                <p class="grey-text">{{chosen_topic}}</p>
+              </div>
 
-              <h5 class="title">{{text.setup5.reminder_times_title}}</h5>
-              <div class="row" ng-repeat="remdesc in study.remdescrs">
-                <div class="col">{{text.setup5[remdesc.type + '_reminder_title'] || remdesc.type}}</div>
-                <div class="col">{{chosen_reminder_times[remdesc.type]}}</div>
+              <div class="padding card">
+                <h5 class="title">{{text.setup5.symptoms_title}}</h5>
+                <p class="grey-text" ng-repeat="symptom in chosen_symptoms">{{symptom}}</p>
               </div>
               
-              <h5 class="title">{{text.setup5.food_pref_title}}</h5>
-              <p>{{text.setup5.breakfast_pref}}: {{breakfast_pref}}</p>
-              <p>{{text.setup5.drink_pref}}: {{drink_pref}}</p>              
-              <br/>
-<!--               Test: {{breakfast_on_prompt}}<br/>
+              <div class="padding card">
+                <h5 class="title">{{text.setup5.study_length}}</h5>
+                <p class="grey-text">{{chosen_date_range}}</p>              
+              </div>
+
+              <div class="padding card">
+                <h5 class="title">{{text.setup5.reminder_times_title}}</h5>
+                <div class="row" ng-repeat="remdesc in study.remdescrs">
+                  <div class="col col-75 grey-text">{{text.setup5[remdesc.type + '_reminder_title'] || remdesc.type}}</div>
+                  <div class="col grey-text">{{chosen_reminder_times[remdesc.type]}}</div>
+                </div>
+              </div>
+              
+              
+              <div class="padding card">
+                <h5 class="title">{{text.setup5.food_pref_title}}</h5>
+                <p class="grey-text">{{text.setup5.breakfast_pref}}: {{breakfast_pref}}</p>
+                <p class="grey-text">{{text.setup5.drink_pref}}: {{drink_pref}}</p>              
+              </div>
+              <!-- Test: {{breakfast_on_prompt}}<br/>
               Test2: {{breakfast_off_prompt}}<br/>
               Test3: {{drink_on_prompt}}<br/>
               Test4: {{drink_off_prompt}} -->

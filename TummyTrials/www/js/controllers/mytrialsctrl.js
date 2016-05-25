@@ -79,6 +79,11 @@
     Experiments.set_study_context($scope, ExperimentsR);
       var cur =  $scope.study_current;
 
+      var start_day = cur.name;
+      $scope.start_day = start_day.replace("Trial beginning ", "");
+
+      $scope.sym = cur.symptoms;
+
       //end_time is the last day + 1
       var not_end_date = cur.end_time;
       var end_date = not_end_date - 86400;

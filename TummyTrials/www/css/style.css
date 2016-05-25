@@ -8,6 +8,17 @@
 	/* background-color: #11c1f3; */
 }
 
+.grey-text{
+	color: #666666;
+}
+
+.btn_lh{
+    line-height: 42px !important;
+    font-size: 16px;
+    min-height: 40px !important;
+    text-align:center;
+}
+
 /* changing the text color of list headings to white */
 .item-divider{
 	background-color: #4b2e83;
@@ -39,6 +50,20 @@
 	color:grey;
 }
 
+/*css for 2nd column of reminders card*/
+.neg-padding {
+	margin-left: -5px;
+}
+
+.rem-padding{
+	padding-left: 10px;
+	width: 100%;
+}
+
+.setup-padding{
+	padding-left: 12px;
+}
+
 /*Attempt to fix delay in ng-if and ng-show/hide*/
 .ng-hide.ng-hide-animate{
      display: none !important;
@@ -55,7 +80,8 @@
 
 .not-on-top{
 	position:absolute; 
-	left:9px;
+	top:-2px;
+	left:5px;
 	z-index: 1;
 }
 
@@ -85,7 +111,7 @@ em,i{
 }
 
 .submit-card{
-	background-color: grey;
+	background-color: #c0c0c0;
 }
 
 /* css for the result vis */
