@@ -113,6 +113,7 @@
 
             // since days array is used in other calculations
             var cal_days = days;
+            console.log(days);
 
             //find out how many buttons to append in first row. 
             var day_names = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
@@ -130,15 +131,18 @@
 
             // add all empty buttons
             // this happens whenever the first day is not a sunday
+            console.log(st_dy);
             var e, e_btn, row_num, btn_id = 0;
             for(e = 0; e < st_dy; e++){
                 // [[date, day, cond, btn_status, row_num, btn_id]]
                 // this should only be the first row
-                row_num = 0;
-                e_btn = [null, null, day_names[e], false, row_num, btn_id]
+                row_num = "row_0";
+                e_btn = [null, null, day_names[e], false]
                 cal_days.splice(e, 0, e_btn);
-                btn_id++;
             }
+            console.log("button id " + btn_id);
+            console.log(cal_days);
+
 
             var cal_row_num;
             if($scope.duration_readable < 9){
@@ -171,7 +175,8 @@
                 cal_days[d].push(row_num, btn_id);
                 btn_id++
             }
-            // console.log("study buttons" + cal_days);
+            console.log("study buttons ");
+            console.log(cal_days);
 
             // btn_id should be > 11 for a 12 day study.
             // row_num should be final above. no more rows needed. 
@@ -192,7 +197,7 @@
                 }
             }
             $scope.cal_days = cal_days;
-
+            console.log(cal_days);
 
             //Figuring out the message for the day (avoid/consume the trigger)
             var A_text, B_text, h_URL;
