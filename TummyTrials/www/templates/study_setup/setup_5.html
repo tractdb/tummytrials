@@ -46,7 +46,7 @@
               Test3: {{drink_on_prompt}}<br/>
               Test4: {{drink_off_prompt}} -->
 
-              <a class="button button-block button-royal" ng-disabled="!study_data_complete" ng-click="begin_study()">
+              <a class="button button-block button-royal" ng-disabled="!study_data_complete || begin_study_called" ng-click="begin_study()">
                 {{text.setup5.button}}
               </a>
           </div>
