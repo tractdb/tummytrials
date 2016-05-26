@@ -318,6 +318,7 @@ function timesec_of_date(date)
         //
         function begin_study()
         {
+            $scope.begin_study_called = true;
             create_study_p(text)
             .then(function(experid) {
                 return Experiments.get(experid);
@@ -340,6 +341,7 @@ function timesec_of_date(date)
             });
         }
         $scope.begin_study = begin_study;
+        $scope.begin_study_called = false;
 
         // Set some values in the scope for the template to use:
         //
