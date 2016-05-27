@@ -257,7 +257,7 @@
           // Animating the vis for the time line view
           scope.control.updateVis = function(){
 
-            Vis.view_title = "Time Line View";
+            Vis.view_title = "'Time Line View'";
             
             var xscale = d3.time.scale()
                             .range([0, width - 10])
@@ -300,7 +300,7 @@
           // Animating the vis back to the original view
           scope.control.revertVis = function(){
             
-            Vis.view_title = "Trend View";
+            Vis.view_title = "'Trend View'";
 
             var xscale = d3.scale.ordinal()
                             .domain([0,1])
