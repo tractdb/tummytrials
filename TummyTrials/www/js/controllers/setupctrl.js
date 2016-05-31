@@ -102,6 +102,16 @@ function timesec_of_date(date)
         }
         $scope.trig_name = trig_name;
 
+        var desc_text = text.setup4b.breakfast_text;
+            desc_text = desc_text.replace("{{trigger}}",trig_name);
+            desc_text = desc_text.replace("{{trigger}}",trig_name); // lazy replacement. {{trigger}} appers twice in the sentence
+
+        if(typeof(trigger_selected) == "undefined"){
+            $scope.desc_text = "Please select a possible trigger on screen 2.";
+        } else {
+            $scope.desc_text = desc_text;
+        }
+ 
 
         // Placeholder text till the user chooses a breakfast and drink option.
         $scope.bfst_on = text.setup4b.bfst_on_holder;

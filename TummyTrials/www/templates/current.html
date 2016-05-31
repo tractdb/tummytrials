@@ -24,24 +24,26 @@ Page Hierarchy:
         </div>
         <!-- Legend for the calendar -->
         <div class="col">
-          <i class="ion-stop positive twelve" style="font-size: 100%;"></i> {{legend_A_text}} <br/>
-          <i class="ion-stop balanced twelve" style="font-size: 100%;"></i> {{legend_B_text}} <br/>
-          <!-- <i class="ion-stop energized" style="font-size: 150%;"></i> Current day <br/> -->
+          <div style="float:right;">
+            <i class="ion-stop royal twelve" style="font-size: 100%;"></i> {{legend_A_text}} <br/>
+            <i class="ion-stop twelve" style="font-size: 100%; color:#a596c1;"></i> {{legend_B_text}} <br/>
+            <!-- <i class="ion-stop energized" style="font-size: 150%;"></i> Current day <br/> -->
+          </div>
         </div>
       </div>
 
       <div>
         <!-- row for day name labels -->
         <div class="row">
-          <div class="col" ng-repeat="day in day_names">{{day}}</div>
+          <div class="col divcenter" ng-repeat="day in day_names">{{day}}</div>
         </div>
 
         <!-- first row -->
         <div class="row">
           <div class="button-bar">
             <div ng-repeat="c_day in cal_days">
-              <a class="button btn-lh" ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_0'" ng-class="c_day[1] == 'A' ? 'button-positive' : '' || c_day[1] == 'B' ? 'button-balanced' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">{{c_day[0]}}</a>
-              <a class="button btn-lh" ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_0'" ng-class="c_day[1] == 'A' ? 'button-positive' : '' || c_day[1] == 'B' ? 'button-balanced' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">
+              <a class="button btn-lh" ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_0'" ng-class="c_day[1] == 'A' ? 'button-royal' : '' || c_day[1] == 'B' ? 'light-royal' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">{{c_day[0]}}</a>
+              <a class="button btn-lh" ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_0'" ng-class="c_day[1] == 'A' ? 'button-royal' : '' || c_day[1] == 'B' ? 'light-royal' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">
                 <span class="not-on-top"> <i class="ion-android-radio-button-off energized" style="font-size: 300%;"></i> </span>
                 <span class="on-top">{{c_day[0]}}</span>
               </a>
@@ -52,8 +54,8 @@ Page Hierarchy:
         <div class="row">
           <div class="button-bar">
             <div ng-repeat="c_day in cal_days">
-             <a class="button btn-lh" ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_1'" ng-class="c_day[1] == 'A' ? 'button-positive' : '' || c_day[1] == 'B' ? 'button-balanced' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">{{c_day[0]}}</a>
-              <a class="button btn-lh" ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_1'" ng-class="c_day[1] == 'A' ? 'button-positive' : '' || c_day[1] == 'B' ? 'button-balanced' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">
+             <a class="button btn-lh" ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_1'" ng-class="c_day[1] == 'A' ? 'button-royal' : '' || c_day[1] == 'B' ? 'light-royal' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">{{c_day[0]}}</a>
+              <a class="button btn-lh" ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_1'" ng-class="c_day[1] == 'A' ? 'button-royal' : '' || c_day[1] == 'B' ? 'light-royal' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">
                 <span class="not-on-top"> <i class="ion-android-radio-button-off energized" style="font-size: 300%;"></i> </span>
                 <span class="on-top">{{c_day[0]}}</span>
               </a>
@@ -64,8 +66,8 @@ Page Hierarchy:
         <div class="row">
           <div class="button-bar">
             <div ng-repeat="c_day in cal_days">
-             <a class="button btn-lh" ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_2'" ng-class="c_day[1] == 'A' ? 'button-positive' : '' || c_day[1] == 'B' ? 'button-balanced' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">{{c_day[0]}}</a>
-              <a class="button btn-lh" ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_2'" ng-class="c_day[1] == 'A' ? 'button-positive' : '' || c_day[1] == 'B' ? 'button-balanced' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">
+             <a class="button btn-lh" ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_2'" ng-class="c_day[1] == 'A' ? 'button-royal' : '' || c_day[1] == 'B' ? 'light-royal' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">{{c_day[0]}}</a>
+              <a class="button btn-lh" ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_2'" ng-class="c_day[1] == 'A' ? 'button-royal' : '' || c_day[1] == 'B' ? 'light-royal' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">
                 <span class="not-on-top"> <i class="ion-android-radio-button-off energized" style="font-size: 300%;"></i> </span>
                 <span class="on-top">{{c_day[0]}}</span>
               </a>
@@ -94,20 +96,20 @@ Page Hierarchy:
         <div ng-show="(!exp_bool && !is_past)">
         
           <!-- Card to display during accelerated trial -->
-          <div class="card padding" ng-show="accelerated">
+          <!-- <div class="card padding" ng-show="accelerated">
             <h4 class="assertive item-text-wrap">Accelerated Trial enabled!</h4>
               <b>The entire trial will be completed in one hour. </b><br/>
               Please note that certain features like date, breakfast preferences, and calendar widget will not be available during accelerated trial.
               You will be able to enter your daily compliance and symptom severity levels as expected.
             </p>
-          </div>
+          </div> -->
 
 
           <!-- Change content of card based on state of report
-          Initially, show condition for day and food pref help
-          Once bfst compliance entered, show 'do not eat message'
-          Once symptom reported, show 'submit for day' 
-          Once report submitted, show 'done for the day' -->
+          1. Initially, show condition for day and food pref help
+          2. Once bfst compliance entered, show 'do not eat message'
+          3. Once symptom reported, show 'submit for day' 
+          4. Once report submitted, show 'done for the day' -->
           <!-- Condition 1 of 4: initial -->
           <div class="card padding" ng-hide="bfst_comp_state" >
             <h4 class="title">{{text.current.title}} {{today_full}}</h4>
@@ -141,12 +143,12 @@ Page Hierarchy:
           <!-- Condition 3 of 4: symptom reported -->
           <div class="card padding" ng-hide="!sym_score_state || sym_submit">
             <h4 class="title">Submit Report</h4>
-            <p> Submit your report for the day by clicking on the confirm button below the reminders.</p>
+            <p>Submit your report for the day by clicking on the confirm button below the reminders.</p>
           </div>
           <!-- Condition 4 of 4: done4day -->
           <div class="card padding" ng-hide="!sym_submit">
             <h4 class="title">Done For The Day!</h4>
-            <p> You have no more tasks for the day. You can view your submitted report below. You can still add/edit your note for today's report.</p>
+            <p>You have no more reports to confirm for the day. You can view your submitted report below. You can still add/edit your note for today's report.</p>
           </div>
 
 
@@ -193,7 +195,7 @@ Page Hierarchy:
           </div>
 
           <div class="card padding">
-            <h4>Note:</h4>
+            <h4>Note</h4>
               <p>
                 <span ng-hide="nt_fg">{{text.current.note}}</span>
                 <span ng-show="nt_fg">{{text.current.note2}}</span> <br/>
@@ -207,8 +209,10 @@ Page Hierarchy:
         <!-- 
         Content to display when trial is underway but past the last day.
         -->         
-        <div ng-show="is_past">
-            Your <em>{{title}}</em> is past. Please <b>end</b> the trial to see the results.
+        <div ng-show="is_past" class="card padding">
+          <h4>Submit Trial</h4>
+            Your {{title}} is past. <br/>
+            To view the results <b>Complete Trial</b> by going to 'My Trials' tab and selecting {{title}} under 'Current Trial'.
         </div>
 
     </div>

@@ -12,10 +12,16 @@
 	color: #666666;
 }
 
+.light-royal{
+	background-color: #c9c0d9;
+}
+
 .btn_lh{
     line-height: 42px !important;
     font-size: 16px;
     min-height: 40px !important;
+    min-width: 44.28px;
+    /*min-width: unset !important;*/
     text-align:center;
 }
 
@@ -26,7 +32,7 @@
 }
 
 .calendar{
-	background-color: #c0c0c0;
+	background-color: #d9d9d9;
 }
 
 .calendar i{
@@ -111,7 +117,7 @@ em,i{
 }
 
 .submit-card{
-	background-color: #c0c0c0;
+	background-color: #d9d9d9;
 }
 
 /* css for the result vis */

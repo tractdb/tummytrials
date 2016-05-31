@@ -7,7 +7,7 @@
 		"rem1": "Your first reminder is set for 7 am.",
 		"rem2": "Your breakfast reminder is set for 9 am.",
 		"rem3": "Your symptom report reminder is set for 12 pm.",
-		"note": "You can note specifics of your diet, symptoms, or other information for the day to review later.",
+		"note": "For later review, you can note specifics of your diet, symptoms, or other information.",
 		"note2": "You can edit your current note (seen below).",
 		"button1": "Log Breakfast Compliance",
 		"button2": "Log Symptom Level",
@@ -21,12 +21,12 @@
 		"closeout_reminder_name": "Closeout",
 		"breakfast_reminder_logmsg": " Breakfast Compliance",
 		"symptomEntry_reminder_logmsg": " Symptom Level",
-		"reminder_title":"Daily Report:",
+		"reminder_title":"Daily Report",
 		"submit_button":"Confirm",
 		"submit_cant":"Please enter breakfast compliance and symptom level report(s) before submitting the daily report.",
 		"submit_text":"Submit compliance and symptom report.",
 		"submitted_text":"You have submitted your report for the day. You will not receive any further reminders today.",
-		"report_sum_title":"Report For The Day:"
+		"report_sum_title":"Report For The Day"
 	},
 	"calendar": {
 		"title": "Report for:",
@@ -34,7 +34,7 @@
 		"field_2": "Report for the day:",
 		"field_3": "Symptom level(s) reported for the day:",
 		"field_4": "Did you eat anything between breafast and symptom report?",
-		"future": "Looking for some tea leaves and crystal balls, eh?",
+		"future": "Future date. No report available.",
 		"today": "This is the ongoing day.",
 		"miss": "The compliance for this day was missing therefore, there is no symptom score for this day.",
 		"missing": "No symptom levels were reported for this day.",
@@ -64,11 +64,11 @@
 	},
 	"neg_compliance": {
 		"title": "Oh no!",
-		"text": "You can still finish your study - just be careful to follow the schedule for the remaining days. If you miss an additional day, you will have to restart the study."
+		"text": "You can still finish your trial. Be careful to follow the schedule for the remaining days. If you miss multiple days, you will have inconclusive results for the trial."
 	},
 	"pos_compliance": {
 		"title": "Great job!",
-		"text": "Remember, do not consume any food or beverage (other than water) for the next 3 hours. You will reminded to log your symptom severity level after 3 hours."
+		"text": "Remember, do not eat or drink for the next 3 hours. You will be reminded to report your symptom severity level after 3 hours."
 	},
 	"post": {
 		"title": "Symptom Level for {DAY}",
@@ -136,7 +136,7 @@
 			"list": [{
 				"faq": "What is Irritable Bowel Syndrome (IBS)?",
 				"uisref": "faqs_page({faqsection: 0, faqitem: $index})",
-				"content": "Irritable Bowel Syndrome (IBS) is a common digestive disorder that affects up to 20% of both men and women in the US. People with IBS experience a variety of symptoms that vary from person to person and from day to day. Symptoms are varying combinations of abdominal pain/discomfort associated with diarrhea (frequent or loose stools) and/or constipation (infrequent or hard stools). Symptoms also can include excessive gas, bloating and urgency (urgent need to defecate)."
+				"content": "Irritable Bowel Syndrome (IBS) is a common digestive disorder that affects up to 20% of both men and women in the US. \n\nPeople with IBS experience a variety of symptoms that vary from person to person and from day to day. Symptoms are varying combinations of abdominal pain/discomfort associated with diarrhea (frequent or loose stools) and/or constipation (infrequent or hard stools). Symptoms also can include excessive gas, bloating and urgency (urgent need to defecate)."
 			}, {
 				"faq": "What are common triggers for IBS?",
 				"uisref": "faqs_page({faqsection: 0, faqitem: $index})",
@@ -174,22 +174,22 @@
 			"list": [{
 				"faq": "Need help deciding on which food triggers to test?",
 				"uisref": "faqs_page({faqsection: 2, faqitem: $index})",
-				"content": "In this app, we offer a selection of IBS trigger foods for self-experimentation. We chose these trigger foods based on IBS research studies and patient surveys. We realize that these may not include the trigger foods you have read about or would want to test right now but this is still work in progress. We appreciate your patience and welcome your suggestions for future IBS trigger foods to test. \nOver time, many people with IBS may have already discovered some of their IBS trigger foods, either through trial-and-error or with the help of a dietitian or their physician. If you already know that certain food trigger your IBS symptoms, we do not recommend selecting that food group for self-experimentation. Similarly, if you already know certain “safe foods” (foods that do not trigger your IBS symptoms), we do not recommend selecting that food group for self-experimentation. Instead, we recommend using the self-experimentation process to test foods that you are unsure of as one of your trigger or safe foods.\nSince things are always changing inside our body and environment, a food you once thought was a “safe food” may come into question in the future. In this situation, it may be appropriate to re-test it to determine if it is still a “safe food.” Similarly, a food you once thought was a “trigger food” may come into question in the future. In this situation, it may be appropriate to re-test it to determine if it is still a 'trigger food.'"
+				"content": "In this app, we offer a selection of IBS trigger foods for self-experimentation. We chose these trigger foods based on IBS research studies and patient surveys. We realize that these may not include the trigger foods you have read about or would want to test right now but this is still work in progress. We appreciate your patience and welcome your suggestions for future IBS trigger foods to test. \n\nOver time, many people with IBS may have already discovered some of their IBS trigger foods, either through trial-and-error or with the help of a dietitian or their physician. If you already know that certain food trigger your IBS symptoms, we do not recommend selecting that food group for self-experimentation. Similarly, if you already know certain “safe foods” (foods that do not trigger your IBS symptoms), we do not recommend selecting that food group for self-experimentation. Instead, we recommend using the self-experimentation process to test foods that you are unsure of as one of your trigger or safe foods.\n\nSince things are always changing inside our body and environment, a food you once thought was a “safe food” may come into question in the future. In this situation, it may be appropriate to re-test it to determine if it is still a “safe food.” Similarly, a food you once thought was a “trigger food” may come into question in the future. In this situation, it may be appropriate to re-test it to determine if it is still a 'trigger food.'"
 			}, {
 				"faq": "Lactose Containing Foods",
-				"uisref": "faqs_page({faqsection: 1, faqitem: $index})",
+				"uisref": "faqs_page({faqsection: 2, faqitem: $index})",
 				"content": "Lactose is a type of sugar, commonly found in dairy products.  The most common high-lactose foods include milk, yogurt, ice cream, cream soups and soft cheeses."
 			}, {
 				"faq": "Artificial Sweetener: Sorbitol",
-				"uisref": "faqs_page({faqsection: 1, faqitem: $index})",
+				"uisref": "faqs_page({faqsection: 2, faqitem: $index})",
 				"content": "Sorbitol is a type of synthetic sugar, commonly used as an artificial sweetener in sugar-free gums and candies and diet drinks. However, it can also naturally found in some fruits (e.g. stone fruits such as apples, apricot, figs, peaches)."
 			}, {
 				"faq": "High Fructose Foods",
-				"uisref": "faqs_page({faqsection: 1, faqitem: $index})",
+				"uisref": "faqs_page({faqsection: 2, faqitem: $index})",
 				"content": "Fructose is a type of sugar. Many healthy foods contain fructose (e.g., honey, berries, apples, dates, pears).  In the United States though, the most common high-fructose foods are snacks and soft drinks. These food products include high fructose corn syrup as a sweetener."
 			}, {
 				"faq": "Caffeine",
-				"uisref": "faqs_page({faqsection: 1, faqitem: $index})",
+				"uisref": "faqs_page({faqsection: 2, faqitem: $index})",
 				"content": "Caffeine is a substance commonly found in coffee and tea plants."
 			}]
 		}]
@@ -363,7 +363,7 @@
 	},
 	"setup4b": {
 		"title": "Set Food Preferences",
-		"breakfast_text": "Select a breakfast food and drink you can consistently eat for the duration of the trial.",
+		"breakfast_text": "This trial will vary whether you consume {{trigger}}. It is important that you do not accidently vary other potential triggers. So we ask you to consume a consistent breakfast and drink for the duraiton of the study. Select your food preference below to receive suggestions regarding what to eat during the on and off {{trigger}} days.",
 		"breakfast": [{
 			"breakfast": "Cereal"
 		}, {
@@ -577,7 +577,7 @@
 		"subtitle": "Great. You are all set. Remember, during the {{12}} days of your trial, you will need to have ingredients for {{breakfast}} and {{drink}}",
 		"para1": "You will see instructions regarding your trial on the 'Current Trial' tab.",
 		"help": "View details regarding food choice.",
-		"button":"Current Trial"
+		"button":"Go To Current Trial"
 	},
 	"loginfo": {
 		"header": "Tummy Trials Login",

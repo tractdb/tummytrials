@@ -71,7 +71,7 @@
 
           var cw = window.innerWidth;
 
-          var margin = {top: 20, right: 20, bottom: 50, left: 60},
+          var margin = {top: 20, right: 30, bottom: 50, left: 60},
               width = cw - margin.left - margin.right,
               height = 340 - margin.top - margin.bottom;
 
@@ -79,6 +79,7 @@
                         .domain([0,1])
                         .range(['#FFA70F', '#0F85FF']);
 
+          // radius of the data point
           var circleR = 9;
 
           if(bot_row == true){
@@ -131,14 +132,9 @@
 
           var xscale = d3.scale.ordinal()
                           .domain(scope.data.map(function(d) {
-                            // var mapper = {
-                            //   0 : A_text,
-                            //   1 : B_text
-                            // }
-                            // console.log(mapper[d.condition]); 
                             return d.condition; 
                           }))
-                          .rangeRoundBands([0,width - 10]); // the -10 is for preventing the last data point to go offscreen
+                          .rangeRoundBands([0,width]);
 
           // Define the axes
           // 0 is consume trigger and 1 is avoid trigger
@@ -162,7 +158,7 @@
             .append("g")
               .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-          // remove all previous items before render
+          // remove all previous items before rendering
           svg.selectAll('*').remove();
 
           var groups = {};
@@ -183,24 +179,21 @@
               datum.offset = datum.groupIndex - ((groups[ref] - 1) / 2);
           });
 
-          // // title for the vis
-          // svg.append("text")
-          //     .attr("class", "title")
-          //     .attr("x", 0)
-          //     .attr("y", -10)
-          //     .text("Lengend?");
-
           // Add the X Axis
           svg.append("g")
               .attr("class", "x axis")
               .attr("transform", "translate(0," + height + ")")
               .call(xAxis)
-            .selectAll(".tick text")
-              .attr("x", 0)
-              .attr("y", 20);
-              // .style("font-size", "14px");
-              // .call(wrap, xscale.rangeBand());
-              // .call(d3.util.wrap(xscale.rangeBand()));
+            .selectAll(".tick text") // all formatting moved to the insertLinebreaks function
+              .each(function(d,i){ 
+                var mapper = {
+                  0 : A_text,
+                  1 : B_text
+                };
+                d = mapper[d];
+                insertLinebreaks(this, d, xscale.rangeBand() ); 
+              });
+             
 
           if(bot_row == true){
               // remove the line for x axis since we're drawing a line above no reports
@@ -210,18 +203,18 @@
               // replacement for the X axis
               svg.append("line")
                   .attr("x1",0)
-                  .attr("y1",187.5)
+                  .attr("y1",207.5)
                   .attr("x2",width)
-                  .attr("y2",187.5)
+                  .attr("y2",207.5)
                   .attr("stroke-width", 1)
                   .attr("stroke", "black");
 
               svg.append("rect")
                 .attr("x", 0)
-                .attr("y", 187.5)
+                .attr("y", 207.5)
                 .attr("width", width)
                 .attr("height", 63)
-                .attr("fill", "#e2fff8");
+                .attr("fill", "#e9e2f5");
           } else {
               // do nothing
           }
@@ -230,25 +223,52 @@
           svg.append("g")
               .attr("class", "y axis")
               .call(yAxis)
-            .selectAll("text")
-              .attr("transform", "rotate(-35)")
-              .attr("x", -7)
-              .attr("y", -7)
-              .style("text-anchor", "end");
+            .selectAll("text") // all formatting moved to the insertLinebreaks function
+              .each(function(d,i){ 
+                    var mapper = {
+                      0 : "Negative compliance",
+                      1 : "No report",
+                      2 : "Not at all",
+                      3 : "Slightly",        
+                      4 : "Mildly",
+                      5 : "Moderately",
+                      6 : "Severely",
+                      7 : "Very severely",
+                      8 : "Extremely"
+                    };
+                d = mapper[d];
+                insertYLinebreaks(this, d, 70 ); 
+              });
+
+          // manual hack till the offset issue is figured out
+          // for some reason the vis aligns all points for cond A or B on iphone 6, but offsets in 5s and 6p
+          var magic_num;
+          if(width == 230){ // iphone 5s
+            magic_num = -10;
+          } else if(width == 285){ // iphone 6
+            magic_num = 0;
+          } else if(width == 324){ // iphone 6 plus
+            magic_num = 13.5;
+          } else {
+            magic_num = 0;
+          }
 
           svg.selectAll("circle").data(scope.data)
           .enter()
           .append("circle")
-            .attr("cx", function(d) { return (margin.left + circleR/2 + 3)  + xscale(d.condition) + (d.offset * (circleR * 3)); }) // change the "3" to vary spacing between points. 2 is 0 spacing since diameter.
+            // change the "3" to vary spacing between points. 2 is 0 spacing since diameter.
+            .attr("cx", function(d) { 
+              return (margin.left + circleR/2 + 3 + magic_num)  + xscale(d.condition) + (d.offset * (circleR * 3)); 
+            }) 
             .attr("r", circleR)
             .attr("cy", function(d) { return d.discy; })
             .style ("fill", function(d) { 
                 if(d.severity > 1){
                   return color(d.condition); 
                 } else if(d.severity == 1){
-                  return "#cccccc";
+                  return "#b8b8b8";
                 } else if(d.severity == 0){
-                  return "#ef473a";
+                  return "#f69c95";
                 }
 
               })
@@ -257,10 +277,8 @@
           // Animating the vis for the time line view
           scope.control.updateVis = function(){
 
-            Vis.view_title = "'Time Line View'";
-            
             var xscale = d3.time.scale()
-                            .range([0, width - 10])
+                            .range([0, width])
                             .domain(d3.extent(scope.data, function(d) { return d.date; }));
 
             var xAxis = d3.svg.axis()
@@ -300,11 +318,9 @@
           // Animating the vis back to the original view
           scope.control.revertVis = function(){
             
-            Vis.view_title = "'Trend View'";
-
             var xscale = d3.scale.ordinal()
                             .domain([0,1])
-                            .rangeRoundBands([0,width - 10]);
+                            .rangeRoundBands([0,width]);
 
             var xAxis = d3.svg.axis()
                           .scale(xscale)
@@ -324,9 +340,17 @@
               .duration(750)
               .call(xAxis)
             .selectAll("text")
-              .attr("x", 0)
-              .attr("y", 20)
-              .style("font-size", "14px");
+              // .attr("x", 0)
+              // .attr("y", 20)
+              // .style("font-size", "14px")
+              .each(function(d,i){ 
+                var mapper = {
+                  0 : A_text,
+                  1 : B_text
+                };
+                d = mapper[d];
+                insertLinebreaks(this, d, xscale.rangeBand() ); 
+              });
 
             if(bot_row == true){
               // remove the line for x axis since we're drawing a line above no reports
@@ -338,95 +362,45 @@
             svg.selectAll("circle")
                 .transition()
                 .attr("cx", function(d){
-                   return (margin.left + circleR/2 + 3)  + xscale(d.condition) + (d.offset * (circleR * 3)); 
+                   return (margin.left + circleR/2 + 3)  + magic_num + xscale(d.condition) + (d.offset * (circleR * 3)); 
                 }) 
             .duration(750);
           // end revertVis function    
           };  
         // end d3 service
         });
-  
-        function wrap(text, width) {
-            console.log("text below");
-            text[0][0]["__data__"] = A_text;
-            text[0][1]["__data__"] = B_text;
-            console.log(text);
-            text.each(function() {
-              var text = d3.select(this),
-                  words = text.text().split(/\s+/).reverse(),
-                  word,
-                  line = [],
-                  lineNumber = 0,
-                  lineHeight = 1.1, // ems
-                  y = text.attr("y"),
-                  dx = parseFloat(text.attr('dx') || 0), 
-                  dy = parseFloat(text.attr("dy") || 0),
-                  tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
-                  console.log("text " + text[0][0]["__data__"]);
-                  console.log("tspan "  + tspan);
-              while (word = words.pop()) {
-                line.push(word);
-                tspan.text(line.join(" "));
-                console.log("tspan w " + tspan.node().getComputedTextLength());
-                console.log("width " + width);
-                // console.log("data is " + tspan.node.__data__);
-                if (tspan.node().getComputedTextLength() > width) {
-                  line.pop();
-                  tspan.text(line.join(" "));
-                  line = [word];
-                  tspan = text.append("tspan").attr("x", 0).attr("y", y).attr('dx', dx).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
-                }
-              }
-            });
-          }
 
-          d3.util = d3.util || {};
 
-          d3.util.wrap = function(_wrapW){ 
-              return function(d, i){
-                  var that = this;
+        function insertLinebreaks(t, d, width) {
+            var el = d3.select(t);
+            var p = d3.select(t.parentNode);
+            p.append("foreignObject")
+                .attr('x', -width/2)
+                .attr('y', 20)
+                .attr("width", width)
+                .attr("height", 200)
+                .style("font-size", "12px")
+              .append("xhtml:p")
+                .attr('style','word-wrap: break-word; text-align:center;')
+                .html(d);    
+            el.remove();
+        };      
 
-                  function tspanify(){ 
-                      var lineH = this.node().getBBox().height;
-                      this.text('')
-                          .selectAll('tspan')
-                          .data(lineArray)
-                          .enter().append('tspan')
-                          .attr({
-                              x: 0,
-                              y: function(d, i){ return (i + 1) * lineH; } 
-                          })
-                          .text(function(d, i){ return d.join(' '); })
-                  }   
-
-                  function checkW(_text){ 
-                      var textTmp = that
-                          .style({visibility: 'hidden'})
-                          .text(_text);
-                      var textW = textTmp.node().getBBox().width;
-                      that.style({visibility: 'visible'}).text(text);
-                      return textW; 
-                  }
-
-                  var text = this.text();
-                  var parentNode = this.node().parentNode;
-                  var textSplitted = text.split(' ');
-                  var lineArray = [[]];
-                  var count = 0;
-                  textSplitted.forEach(function(d, i){ 
-                      if(checkW(lineArray[count].concat(d).join(' '), parentNode) >= _wrapW){
-                          count++;
-                          lineArray[count] = [];
-                      }
-                      lineArray[count].push(d)
-                  });
-
-                  this.call(tspanify)
-              }
-          };
-
-                
-
+        function insertYLinebreaks(t, d, width) {
+            var el = d3.select(t);
+            var p = d3.select(t.parentNode);
+            p.append("foreignObject")
+                .attr("transform", "rotate(-35)")
+                .attr('x', -width+2) // + 2 is for counteracting the rotation. 
+                .attr('y', -21)
+                .attr("width", width)
+                .attr("height", 200)
+                .style("font-size", "10px")
+              .append("xhtml:p")
+                .attr('style','word-wrap: break-word; text-align:center; vertical-align:middle;')
+                .html(d);    
+            el.remove();
+        }; 
       // end link
       }
       }

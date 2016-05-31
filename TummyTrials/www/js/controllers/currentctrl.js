@@ -109,11 +109,9 @@
                 d = [];
             }
             $scope.schedule = days; 
-            // console.log(days);
 
             // since days array is used in other calculations
             var cal_days = days;
-            console.log(days);
 
             //find out how many buttons to append in first row. 
             var day_names = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
@@ -131,7 +129,6 @@
 
             // add all empty buttons
             // this happens whenever the first day is not a sunday
-            console.log(st_dy);
             var e, e_btn, row_num, btn_id = 0;
             for(e = 0; e < st_dy; e++){
                 // [[date, day, cond, btn_status, row_num, btn_id]]
@@ -140,8 +137,6 @@
                 e_btn = [null, null, day_names[e], false]
                 cal_days.splice(e, 0, e_btn);
             }
-            console.log("button id " + btn_id);
-            console.log(cal_days);
 
 
             var cal_row_num;
@@ -175,8 +170,6 @@
                 cal_days[d].push(row_num, btn_id);
                 btn_id++
             }
-            console.log("study buttons ");
-            console.log(cal_days);
 
             // btn_id should be > 11 for a 12 day study.
             // row_num should be final above. no more rows needed. 
@@ -197,7 +190,6 @@
                 }
             }
             $scope.cal_days = cal_days;
-            console.log(cal_days);
 
             //Figuring out the message for the day (avoid/consume the trigger)
             var A_text, B_text, h_URL;
@@ -393,17 +385,17 @@
 
             // Title of the study
             if(typeof(cur.trigger) == "string"){
-                $scope.title = cur.trigger + " Trial";    //add this to all child pages of current. conditioning not required since not accessible unless study is going on
+                $scope.title = cur.trigger + " Trial"; //add this to all child pages of current. conditioning not required since not accessible unless study is going on
             } else {
                 $scope.title = "Current Trial";
             }            
 
             // checking if the last day of study has passed
+            var dtemp = $scope.today;
+                dtemp = (dtemp.setDate(dtemp.getDate()) / 1000);
+            var past = false; //if trial ongoing then false
             if(cur){
-                var past = false; //if trial ongoing then false
-                var past_one = new Date((cur.end_time) * 1000);
-                var past_one_readable = LC.dateonly(past_one);
-                if($scope.today_readable == past_one_readable){
+                if(dtemp > cur.end_time){
                     past = true; //if past trial date then true
                 }
             }

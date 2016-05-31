@@ -1,22 +1,23 @@
 <ion-view title="Fasting Compliance" cache-view="false">
   <ion-pane>
     <ion-content class="padding">
-      	<br/>
-<!-- 		<h4 class="title">{{text.sec_comp.title}}</h4>
-		<br/> -->
-		<p>{{rem_txt}}</p>
-    <p><b>{{text.sec_comp.subtitle2}}</b></p>
+      <div class="card padding">
+      
+    		<p>{{rem_txt}}</p>
+        <p><b>{{text.sec_comp.subtitle2}}</b></p>
 
-		<br/>
+    		<br/>
 
-    <div class="button-bar">
-  		<a class="button button-block button-royal" ng-click="compliant_no()" ui-sref="post({symptomIndex:0})">
-              {{text.during.button2}}
-      </a> &nbsp;
-      <a class="button button-block button-royal" ng-click="compliant_yes()" ui-sref="post({symptomIndex:0})">
-              {{text.during.button1}}
-      </a>
-    </div>
+        <div class="button-bar">
+      		<a class="button button-block button-royal" ng-click="compliant_no()" ui-sref="post({symptomIndex:0})">
+                  {{text.during.button2}}
+          </a> &nbsp;
+          <a class="button button-block button-royal" ng-click="compliant_yes()" ui-sref="post({symptomIndex:0})">
+                  {{text.during.button1}}
+          </a>
+        </div>
+
+      </div>
     </ion-content>  
   </ion-pane>
 </ion-view>

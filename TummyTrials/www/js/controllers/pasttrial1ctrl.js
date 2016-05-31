@@ -131,71 +131,87 @@
                     } 
 
                     // Adding the note for the day to the data struct
-                    if(typeof(cur.reports[i].note) == "string"){
-                        sym_data["note"] = cur.reports[i].note;
-                    } else {
+                    if(cur.reports[i] == null){
                         sym_data["note"] = 'No note.';
+                        sym_data["bcomp"] = "No report.";
+                        sym_data["lcomp"] = "No report.";
+                        sym_data["severity"] = 1;
+                        sym_data["real_severity"] = 1;
+                        if(rand[i] == "A"){
+                            a_void = a_void + 1;
+                        }
+                        if(rand[i] == "B"){
+                            b_void = b_void + 1;
+                        }
                     }
+                    else {
+                        if(cur.reports[i].hasOwnProperty('note')){
+                            sym_data["note"] = cur.reports[i].note;
+                        } else {
+                            sym_data["note"] = 'No note.';
+                        }
+
+                    // } 
 
                     // for any missing or negative compliance days a_void/b_void are incremented
                     // for calculating the average for each condition
                     // take total of symptom severity (without +2 offset) and divide by num of days - void days
 
-                    if(typeof(cur.reports[i]) == "object"){
-                        // no report
-                        if(cur.reports[i] == null) {
-                            sym_data["severity"] = 1;
-                            sym_data["real_severity"] = 1;
-                            if(rand[i] == "A"){
-                                a_void = a_void + 1;
-                            }
-                            if(rand[i] == "B"){
-                                b_void = b_void + 1;
-                            }
-                        } 
+                        if(typeof(cur.reports[i]) == "object"){
+                            // // no report
+                            // if(cur.reports[i] == null) {
+                            //     sym_data["severity"] = 1;
+                            //     sym_data["real_severity"] = 1;
+                            //     if(rand[i] == "A"){
+                            //         a_void = a_void + 1;
+                            //     }
+                            //     if(rand[i] == "B"){
+                            //         b_void = b_void + 1;
+                            //     }
+                            // } 
 
-                        // real_severity is the measure being used for popup.
-                        // severity is the measure being used for visualization.
-                        if(typeof(cur.reports[i].symptom_scores) == "object"){
-                            if(cur.reports[i].breakfast_compliance == true && cur.reports[i].lunch_compliance == true){
-                                // both compliances are true and symptom score exists. valid score.
-                                score = cur.reports[i].symptom_scores[a].score;
-                                // offsetting the symptom score by 2 for the result vis.
-                                sym_data["severity"] = score + 2;
-                                sym_data["real_severity"] = score + 2;
-                                if(rand[i] == "A"){
-                                    a_avg = a_avg + score;
+                            // real_severity is the measure being used for popup.
+                            // severity is the measure being used for visualization.
+                            if(typeof(cur.reports[i].symptom_scores) == "object"){
+                                if(cur.reports[i].breakfast_compliance == true && cur.reports[i].lunch_compliance == true){
+                                    // both compliances are true and symptom score exists. valid score.
+                                    score = cur.reports[i].symptom_scores[a].score;
+                                    // offsetting the symptom score by 2 for the result vis.
+                                    sym_data["severity"] = score + 2;
+                                    sym_data["real_severity"] = score + 2;
+                                    if(rand[i] == "A"){
+                                        a_avg = a_avg + score;
+                                    }
+                                    if(rand[i] == "B"){
+                                        b_avg = b_avg + score;
+                                    }                                 
+                                } else {
+                                    // either compliance is false
+                                    score = cur.reports[i].symptom_scores[a].score;
+                                    sym_data["severity"] = 0;
+                                    sym_data["real_severity"] = score + 2;
+                                    if(rand[i] == "A"){
+                                        a_void = a_void + 1;
+                                    }
+                                    if(rand[i] == "B"){
+                                        b_void = b_void + 1;
+                                    }
                                 }
-                                if(rand[i] == "B"){
-                                    b_avg = b_avg + score;
-                                }                                 
                             } else {
-                                // either compliance is false
-                                score = cur.reports[i].symptom_scores[a].score;
-                                sym_data["severity"] = 0;
-                                sym_data["real_severity"] = score + 2;
+                                // symptom score not reported
+                                sym_data["severity"] = 1;
+                                sym_data["real_severity"] = 1;
                                 if(rand[i] == "A"){
                                     a_void = a_void + 1;
                                 }
                                 if(rand[i] == "B"){
                                     b_void = b_void + 1;
-                                }
+                                } 
                             }
-                        } else {
-                            // symptom score not reported
-                            sym_data["severity"] = 1;
-                            sym_data["real_severity"] = 1;
-                            if(rand[i] == "A"){
-                                a_void = a_void + 1;
-                            }
-                            if(rand[i] == "B"){
-                                b_void = b_void + 1;
-                            } 
                         }
+                        sym_data["bcomp"] = cur.reports[i].breakfast_compliance;
+                        sym_data["lcomp"] = cur.reports[i].lunch_compliance;
                     }
-
-                    sym_data["bcomp"] = cur.reports[i].breakfast_compliance;
-                    sym_data["lcomp"] = cur.reports[i].lunch_compliance;
 
                     // set void flag true for void days > 0
                     // void flag is used to toggle text alerting user about misleading averages
@@ -356,7 +372,7 @@
         // onclick function for the visualization
         $scope.d3OnClick = function(data_pt){
 
-            var cond_text = null;
+            var cond_text;
                 if(data_pt.condition == 0){
                     cond_text = A_text;
                 }
@@ -380,7 +396,9 @@
 
             var nt = data_pt.note;
             var bcomp = data_pt.bcomp;
+            if(bcomp == true){bcomp = "Yes"}else if(bcomp == false){bcomp="No"}
             var lcomp = data_pt.lcomp;
+            if(lcomp == true){lcomp = "Yes"}else if(lcomp == false){lcomp="No"}
 
             //trimming date to be more readable
             var date_trimmed = JSON.stringify(data_pt.date);
@@ -388,9 +406,13 @@
             date_trimmed = date_trimmed.replace('T07:00:00.000Z', '');
             date_trimmed = date_trimmed.replace(/"/g, '');
 
-            $scope.alert_message = "Condition : " + cond_text + "<br/>" + "Severity : " + severity_text + "<br/>" + 
-                                    "Note : " + nt + "<br/>" + "Date : " + date_trimmed + "<br/>" + 
-                                    "Breakfast Compliance : " + bcomp + "<br/>" + "Lunch Compliance : " + lcomp + "<br/>";
+            $scope.alert_message =  "Date : " + date_trimmed + "<br/>" + 
+                                    "Condition : " + cond_text + "<br/>" +
+                                    "Followed Breakfast Prompt : " + bcomp + "<br/>" + 
+                                    "Followed Fasting Prompt: " + lcomp + "<br/>" +
+                                    "Symptom Level : " + severity_text + "<br/>" + 
+                                    "Note : " + nt + "<br/>";
+
 
             $scope.alert_title = "Details for the day"
 
