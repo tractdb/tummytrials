@@ -147,6 +147,16 @@
                 }
             }
 
+            //Get the number of days into the experiment for calendar heading
+            var day_n = null;
+            for(var i = 0; i < $scope.duration_readable; i++){
+                day = days[i][0];  // days is an array of arrays [[4,'A'],[5,'B']...] of the experiment date and condition
+                if($scope.today_readable == day){
+                    day_n = i;
+                }
+            }
+            $scope.day_num = day_n + 1;
+
             // since days array is used in other calculations
             var cal_days = days;
 
@@ -256,9 +266,7 @@
                 scr_val, scr_txt, scr_arr = [], sym_report_msg, 
                 lcomp_sate = false, lcomp_msg, lunch_comp = false,
                 sym_submit = false;
-            console.log("day pos " + day_pos);
             if(typeof(cur.reports[day_pos]) == "object"){
-                console.log("inside report");
                 if(cur.reports[day_pos].breakfast_compliance == false){
                     bfst_comp_msg = '<span class="positive">You <b> did not </b>' + day_cond +'.</span><br/>'; 
                     bfst_comp_state = true;
@@ -266,7 +274,6 @@
                     bfst_comp_msg = "You <b> did </b>" + day_cond + ".<br/>";
                     bfst_comp_state = true;
                 }
-                console.log("bfst " + bfst_comp_msg );
 
                 // Reported value for symptoms. If multiple symptoms, it is displayed as a single sentence summary
                 if(typeof(cur.reports[day_pos].breakfast_compliance) != null && typeof(cur.reports[day_pos].symptom_scores) == "object"){
@@ -343,7 +350,6 @@
                 msg = msg.replace('{WHEN}', LC.timestr(rd.time || 0));
                 info.schedmsg = msg;
                 info.logmsg = text.current[rd.type + '_reminder_logmsg'];
-                console.log(rd.type);
                 switch(rd.type) {
                     case 'breakfast':
                         info.logstate = 'during';
@@ -353,7 +359,6 @@
                         } else {
                             info.logmsg = 'Log ' + info.logmsg;
                         }
-                        console.log('inside breakfast : logmsg ' + bfst_comp_msg);
                         break;
                     case 'symptomEntry':
                         info.logstate = 'sec_comp';
@@ -405,16 +410,6 @@
                 }
             }
             $scope.is_past = past;
-
-            //Get the number of days into the experiment for calendar heading
-            var day_n = null;
-            for(var i = 0; i < $scope.duration_readable; i++){
-                day = days[i][0];  // days is an array of arrays [[4,'A'],[5,'B']...] of the experiment date and condition
-                if($scope.today_readable == day){
-                    day_n = i;
-                }
-            }
-            $scope.day_num = day_n + 1;
 
             //Help toggle
             $scope.help = false;
