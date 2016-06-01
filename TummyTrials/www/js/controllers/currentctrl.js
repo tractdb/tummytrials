@@ -81,6 +81,28 @@
                 $scope.row_length = ($scope.duration_readable/2);
             }
 
+            //Figuring out the message for the day (avoid/consume the trigger)
+            var A_text, B_text, h_URL;
+            var text_loc = text.setup3.triggers; //Getting the text from JSON for each trigger
+
+            for(i = 0; i < text_loc.length; i ++){
+                if(cur.trigger == text_loc[i].trigger){ //Checking which trigger is being tested in the current experiment                    
+                    A_text = text_loc[i].phrase_plus;
+                    B_text = text_loc[i].phrase_minus;
+                    h_URL = text_loc[i].uisref; // URL for help deciding what to eat for the condition
+                }
+            }
+
+            $scope.legend_A_text = "Consume " + cur.trigger;
+            $scope.legend_B_text = "Avoid " + cur.trigger;
+            $scope.A_text = A_text;
+            $scope.B_text = B_text;
+            $scope.help_URL = h_URL;
+
+            //Assign both prompts to calendar object
+            Calendar.A_text = A_text;
+            Calendar.B_text = B_text;
+
             // btn id
             // btn status : active/inactive
             // cond : A/B
@@ -109,6 +131,21 @@
                 d = [];
             }
             $scope.schedule = days; 
+
+            // count the number of days into the study
+            // used for figuring out which report to check for current day
+            var day_pos, day_cond;
+            for(var i = 0; i < days.length; i++){
+                if($scope.today_readable == days[i][0]){
+                    day_pos = i;
+                    // get text for the condition of the day
+                    if(days[i][1] == "A"){
+                        day_cond = $scope.legend_A_text;
+                    } else if(days[i][1] == "B"){
+                        day_cond = $scope.legend_B_text;
+                    } 
+                }
+            }
 
             // since days array is used in other calculations
             var cal_days = days;
@@ -191,28 +228,6 @@
             }
             $scope.cal_days = cal_days;
 
-            //Figuring out the message for the day (avoid/consume the trigger)
-            var A_text, B_text, h_URL;
-            var text_loc = text.setup3.triggers; //Getting the text from JSON for each trigger
-
-            for(i = 0; i < text_loc.length; i ++){
-                if(cur.trigger == text_loc[i].trigger){ //Checking which trigger is being tested in the current experiment                    
-                    A_text = text_loc[i].phrase_plus;
-                    B_text = text_loc[i].phrase_minus;
-                    h_URL = text_loc[i].uisref; // URL for help deciding what to eat for the condition
-                }
-            }
-
-            $scope.legend_A_text = "Consume " + cur.trigger;
-            $scope.legend_B_text = "Avoid " + cur.trigger;
-            $scope.A_text = A_text;
-            $scope.B_text = B_text;
-            $scope.help_URL = h_URL;
-
-            //Assign both prompts to calendar object
-            Calendar.A_text = A_text;
-            Calendar.B_text = B_text;
-
             //Changes the text prompt based on the condition for the day
             if(act_day[0] == "A"){
                 $scope.active_text = $scope.legend_A_text;
@@ -235,28 +250,15 @@
                   6 : "Extremely"
             };
 
-            // count the number of days into the study
-            // used for figuring out which report to check for current day
-            var day_pos, day_cond;
-            for(var i = 0; i < days.length; i++){
-                if($scope.today_readable == days[i][0]){
-                    day_pos = i;
-                    // get text for the condition of the day
-                    if(days[i][1] == "A"){
-                        day_cond = $scope.legend_A_text;
-                    } else if(days[i][1] == "B"){
-                        day_cond = $scope.legend_B_text;
-                    } 
-                }
-            }
-
             // Preparing messages to display when reports are present. 
             // Reported value for breakfast compliance 
             var bfst_comp_msg, bfst_comp_state = false, sym_score_state = false, 
                 scr_val, scr_txt, scr_arr = [], sym_report_msg, 
                 lcomp_sate = false, lcomp_msg, lunch_comp = false,
                 sym_submit = false;
+            console.log("day pos " + day_pos);
             if(typeof(cur.reports[day_pos]) == "object"){
+                console.log("inside report");
                 if(cur.reports[day_pos].breakfast_compliance == false){
                     bfst_comp_msg = '<span class="positive">You <b> did not </b>' + day_cond +'.</span><br/>'; 
                     bfst_comp_state = true;
@@ -264,6 +266,7 @@
                     bfst_comp_msg = "You <b> did </b>" + day_cond + ".<br/>";
                     bfst_comp_state = true;
                 }
+                console.log("bfst " + bfst_comp_msg );
 
                 // Reported value for symptoms. If multiple symptoms, it is displayed as a single sentence summary
                 if(typeof(cur.reports[day_pos].breakfast_compliance) != null && typeof(cur.reports[day_pos].symptom_scores) == "object"){
@@ -340,6 +343,7 @@
                 msg = msg.replace('{WHEN}', LC.timestr(rd.time || 0));
                 info.schedmsg = msg;
                 info.logmsg = text.current[rd.type + '_reminder_logmsg'];
+                console.log(rd.type);
                 switch(rd.type) {
                     case 'breakfast':
                         info.logstate = 'during';
@@ -349,6 +353,7 @@
                         } else {
                             info.logmsg = 'Log ' + info.logmsg;
                         }
+                        console.log('inside breakfast : logmsg ' + bfst_comp_msg);
                         break;
                     case 'symptomEntry':
                         info.logstate = 'sec_comp';
