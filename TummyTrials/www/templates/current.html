@@ -111,7 +111,7 @@ Page Hierarchy:
           3. Once symptom reported, show 'submit for day' 
           4. Once report submitted, show 'done for the day' -->
           <!-- Condition 1 of 4: initial -->
-          <div class="card padding" ng-hide="bfst_comp_state" >
+          <!-- <div class="card padding" ng-hide="bfst_comp_state" >
             <h4 class="title">{{text.current.title}} {{today_full}}</h4>
             <p>{{text.current.subtitle}} <br/>
                 <b>{{active_text}}</b></p>
@@ -124,9 +124,9 @@ Page Hierarchy:
                    <span class="new_line">{{active_drnk}}</span>
                </div>
             </div>
-          </div>
+          </div> -->
           <!-- Condition 2 of 4: bfst complied -->
-          <div class="card padding" ng-hide="!bfst_comp_state || sym_score_state">
+          <!-- <div class="card padding" ng-hide="!bfst_comp_state || sym_score_state">
             <h4 class="title">Fasting Period</h4>
             <p>Between {{bfst_rem}} and {{sym_rem}}:<br/>
                 <b>Do not eat or drink.</b></p>
@@ -139,20 +139,164 @@ Page Hierarchy:
                    <span class="new_line">Okay to drink water</span>
                </div>
             </div>
-          </div>
+          </div> -->
           <!-- Condition 3 of 4: symptom reported -->
-          <div class="card padding" ng-hide="!sym_score_state || sym_submit">
+          <!-- <div class="card padding" ng-hide="!sym_score_state || sym_submit">
             <h4 class="title">Submit Report</h4>
             <p>Submit your report for the day by clicking on the confirm button below the reminders.</p>
-          </div>
+          </div> -->
           <!-- Condition 4 of 4: done4day -->
-          <div class="card padding" ng-hide="!sym_submit">
+          <!-- <div class="card padding" ng-hide="!sym_submit">
             <h4 class="title">Done For The Day!</h4>
             <p>You have no more reports to confirm for the day. You can view your submitted report below. You can still add/edit your note for today's report.</p>
+          </div> -->
+
+          <div class="card padding">
+            <div class="row">
+              <div class="col">
+                <h4>Today</h4>
+              </div>
+              <div class="col col-20">
+                <a class="button button-small button-royal" ui-sref="notes">&nbsp Note &nbsp</a>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <h5 style="margin-top:0px;">{{day_cond}}</h5>
+                <p><a style="text-decoration: underline; color:royal" ng-click="help = help ? false : true">{{text.current.para1}}
+                    <i class="ion-information-circled" style="font-size: 120%;"></i>
+                </a></p>
+                <div class="card" ng-show="help">
+                   <div class="item item-text-wrap list_text">
+                       <b>To eat:</b><br/>
+                       <span class="new_line">{{active_bfst}}</span><br/><br/>
+                       <b>To drink:</b><br/>
+                       <span class="new_line">{{active_drnk}}</span>
+                   </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Breakfast section -->
+            <div class="row">
+              <div class="neg-padding">
+                <i class="ion-android-arrow-dropright-circle" ng-hide="bfst_comp_state" style="font-size: 120%;"></i>
+                <i class="ion-ios-checkmark" ng-hide="!bfst_comp_state" style="font-size: 120%;"></i>
+              </div>
+
+              <div class="rem-padding" ng-hide="bfst_comp_state">
+                <h5 style="margin-top:0px; margin-bottom:0px;">Eat Breakfast</h5>
+                <div class="">
+                  <p>Before {{bfst_rem_time}}</p>
+                  <a class="button button-block button-royal small-text" ui-sref="during" ng-disabled="">
+                    &nbsp&nbsp Report Breakfast &nbsp&nbsp
+                  </a>
+                </div>
+              </div>
+
+              <div class="rem-padding" ng-hide="!bfst_comp_state">
+                <!-- h5 has a margin-top nad bottom of 10px -->
+                <h5 style="margin-top:0px; margin-bottom:0px;">Eat Breakfast</h5>
+                <!-- Row and column have padding of top and left of 5px, resetting that manully -->
+                <div class="row" style="margin-top:-5px; margin-left:-10px;">
+                  <div class="col">
+                    <p class="balanced" ng-bind-html="bfst_comp_msg"></p>
+                  </div>
+                  <div class="edit-padding">
+                    <a class="button button-small button-royal" ui-sref="during">
+                     &nbsp<i class="ion-edit" style="font-size: 120%;"></i>&nbsp
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Fasting section -->
+            <div class="row">
+              <div class="neg-padding">
+                <i class="ion-ios-circle-outline" ng-hide="bfst_comp_state" style="font-size: 120%;"></i>
+                <i class="ion-android-arrow-dropright-circle" ng-hide="!bfst_comp_state || lcomp_state" style="font-size: 120%;"></i>
+                <i class="ion-ios-checkmark" ng-hide="!lcomp_state" style="font-size: 120%;"></i>
+              </div>
+
+              <div class="rem-padding" ng-hide="lcomp_state">
+                <h5 style="margin-top:0px; margin-bottom:0px;">Fast</h5>
+                <div class="">
+                  <p>For 3 hours</p>
+                  <a class="button button-block button-royal small-text" ui-sref="sec_comp" ng-disabled="!bfst_comp_state">
+                    &nbsp&nbsp Report Fasting &nbsp&nbsp
+                  </a>
+                </div>
+              </div>
+
+              <div class="rem-padding" ng-hide="!lcomp_state">
+                <!-- h5 has a margin-top nad bottom of 10px -->
+                <h5 style="margin-top:0px; margin-bottom:0px;">Fast</h5>
+                <!-- Row and column have padding of top and left of 5px, resetting that manully -->
+                <div class="row" style="margin-top:-5px; margin-left:-10px;">
+                  <div class="col">
+                    <p class="balanced" ng-bind-html="lcomp_msg"></p>
+                  </div>
+                  <div class="edit-padding">
+                    <a class="button button-small button-royal" ui-sref="sec_comp">
+                     &nbsp<i class="ion-edit" style="font-size: 120%;"></i>&nbsp
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>   
+
+            <!-- Symptom score section -->
+            <div class="row">
+              <div class="neg-padding">
+                <i class="ion-ios-circle-outline" ng-hide="lcomp_state" style="font-size: 120%;"></i>
+                <i class="ion-android-arrow-dropright-circle" ng-hide="!lcomp_state || sym_score_state" style="font-size: 120%;"></i>
+                <i class="ion-ios-checkmark" ng-hide="!sym_score_state" style="font-size: 120%;"></i>
+              </div>
+
+              <div class="rem-padding" ng-hide="sym_score_state">
+                <h5 style="margin-top:0px; margin-bottom:0px;">Report Symptoms</h5>
+                <div class="">
+                  <!-- <p>Before 9 am</p> -->
+                  <a class="button button-block button-royal small-text" ui-sref="post({symptomIndex:0})" ng-disabled="!lcomp_state">
+                    &nbsp&nbsp Report Symptoms &nbsp&nbsp
+                  </a>
+                </div>
+              </div>
+
+              <div class="rem-padding" ng-hide="!sym_score_state">
+                <!-- h5 has a margin-top nad bottom of 10px -->
+                <h5 style="margin-top:0px; margin-bottom:0px;">Report Symptoms</h5>
+                <!-- Row and column have padding of top and left of 5px, resetting that manully -->
+                <div class="row" style="margin-top:-5px; margin-left:-10px;">
+                  <div class="col">
+                    <p class="balanced" ng-bind-html="report_msg"></p>
+                  </div>
+                  <div class="edit-padding">
+                    <a class="button button-small button-royal" ui-sref="sec_comp">
+                     &nbsp<i class="ion-edit" style="font-size: 120%;"></i>&nbsp
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div> 
+
+            <hr/>
+            <!-- Last section -->
+            <div class="row">
+              <div class="col">
+                <h5 ng-hide="!sym_score_state">Done for the day!</h5>
+                <p> Notes for Today: <span ng-class="nt_fg == true ? 'balanced' : '' ">{{note}}</span></p>
+                <p ng-bind="day_next_cond"></p>
+              </div>
+            </div>
+
+          </div>  
+
           </div>
 
 
-          <div class="card padding" ng-hide="sbmtd">   
+<!--           <div class="card padding" ng-hide="sbmtd">   
             <h4>{{text.current.reminder_title}}</h4>
                 <div ng-repeat="rem in study_reminders">
                   <div class="row">
@@ -183,18 +327,19 @@ Page Hierarchy:
                   <p ng-show="!sym_scr_st">{{text.current.submit_cant}}</p>
                   <a class="button button-block button-royal" ng-click="submit_for_day()" ng-disabled="sbmtd || !sym_scr_st" > &nbsp&nbsp {{text.current.submit_button}} &nbsp&nbsp </a>
                 </div>
-          </div>
+          </div> -->
 
           <!-- Card to show when the user submits the report for the day -->
-          <div class="card padding" ng-show="sbmtd">
+          <!-- <div class="card padding" ng-show="sbmtd">
             <h4>{{text.current.report_sum_title}}</h4>
             <div ng-repeat="rem in study_reminders">
               <span class="balanced" ng-bind-html="rem.reportmsg"></span>
             </div><br/>
             <p>{{text.current.submitted_text}}</p>
-          </div>
+          </div> -->
 
-          <div class="card padding">
+          <!-- Card entering notes -->
+          <!-- <div class="card padding">
             <h4>Note</h4>
               <p>
                 <span ng-hide="nt_fg">{{text.current.note}}</span>
@@ -204,7 +349,8 @@ Page Hierarchy:
                     {{nt_btn_txt}}
                   </a>
               </p>
-          </div> 
+          </div> --> 
+
         </div>
         <!-- 
         Content to display when trial is underway but past the last day.

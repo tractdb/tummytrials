@@ -37,7 +37,7 @@
         var cur = $scope.study_current;
         
         $scope.study_reminders = [];
-        if (cur && cur.remdescrs) {
+        if (cur) {
             // Info for reminders.
             //     reportdue  report is due (bool)
             //     schedmsg   ex: 'Your breakfast reminder is set for 9 am.'
@@ -45,7 +45,7 @@
             //     disabled   button should be disabled (bool)
             //     logstate   ex: 'during' (angular-ui state for logging)
             //
-            var rinfo = [];
+            // var rinfo = [];
 
             // Stuff dealing with the calendar widget
             $scope.today = new Date();
@@ -134,18 +134,36 @@
 
             // count the number of days into the study
             // used for figuring out which report to check for current day
-            var day_pos, day_cond;
+            var day_pos, day_next, day_cond;
             for(var i = 0; i < days.length; i++){
                 if($scope.today_readable == days[i][0]){
                     day_pos = i;
+                    day_next = i+1;
                     // get text for the condition of the day
                     if(days[i][1] == "A"){
                         day_cond = $scope.legend_A_text;
                     } else if(days[i][1] == "B"){
                         day_cond = $scope.legend_B_text;
                     } 
+
+                    if((i+1) != days.length){
+                        // get text for the condition of next day
+                        if(days[i+1][1] == "A"){
+                            day_next = "Tomorrow: " + $scope.legend_A_text;
+                        } else if(days[i+1][1] == "B"){
+                            day_next = "Tomorrow: " + $scope.legend_B_text;
+                        } 
+                    } else {
+                        day_next = "This is the last day of the trial!";
+                    }
+
                 }
             }
+            $scope.day_cond = day_cond;
+            $scope.day_next_cond = day_next;
+
+            // condition for next day
+
 
             //Get the number of days into the experiment for calendar heading
             var day_n = null;
@@ -264,29 +282,28 @@
             // Reported value for breakfast compliance 
             var bfst_comp_msg, bfst_comp_state = false, sym_score_state = false, 
                 scr_val, scr_txt, scr_arr = [], sym_report_msg, 
-                lcomp_sate = false, lcomp_msg, lunch_comp = false,
+                lcomp_state = false, lcomp_msg, lunch_comp = false,
                 sym_submit = false;
             if(typeof(cur.reports[day_pos]) == "object"){
                 if(cur.reports[day_pos].breakfast_compliance == false){
-                    bfst_comp_msg = '<span class="positive">You <b> did not </b>' + day_cond +'.</span><br/>'; 
+                    bfst_comp_msg = '<span class="positive"><b> Did not </b>' + day_cond +'.</span><br/>'; 
                     bfst_comp_state = true;
                 } else if(cur.reports[day_pos].breakfast_compliance == true){
-                    bfst_comp_msg = "You <b> did </b>" + day_cond + ".<br/>";
+                    bfst_comp_msg = "<b> Did </b>" + day_cond + ".<br/>";
                     bfst_comp_state = true;
                 }
 
-                // Reported value for symptoms. If multiple symptoms, it is displayed as a single sentence summary
-                if(typeof(cur.reports[day_pos].breakfast_compliance) != null && typeof(cur.reports[day_pos].symptom_scores) == "object"){
-                    // if symptoms exist and compliance is true/false
-                    if(typeof(cur.reports[day_pos].lunch_compliance) == "boolean"){
-                        lcomp_sate = true;
-                        if(cur.reports[day_pos].lunch_compliance == true){
-                            lcomp_msg = 'You <b> did not </b> eat something between your breakfast and symptom report.';
-                        } else if(cur.reports[day_pos].lunch_compliance == false){
-                            lcomp_msg = '<span class="positive">You <b> did </b> eat something between your breakfast and symptom report.</span>';
-                        }                  
-                    }
+                if(typeof(cur.reports[day_pos].lunch_compliance) == "boolean"){
+                    lcomp_state = true;
+                    if(cur.reports[day_pos].lunch_compliance == true){
+                        lcomp_msg = '<b>Did </b> fast.';
+                    } else if(cur.reports[day_pos].lunch_compliance == false){
+                        lcomp_msg = '<span class="positive"><b> Did not</b> fast.</span>';
+                    }                  
+                }
 
+                // Reported value for symptoms. If multiple symptoms, it is displayed as a single sentence summary
+                if(typeof(cur.reports[day_pos].symptom_scores) == "object"){
                     var report_msg = "", temp_msg, sym_len;
                     for(var l = 0; l < cur.reports[day_pos].symptom_scores.length; l++){
                         scr_val = cur.reports[day_pos].symptom_scores[l].score;
@@ -298,19 +315,19 @@
                         // Separate conditions for more or less than 2 symptoms
                         if(sym_len <= 2){
                             if(l < (sym_len - 1)){
-                                temp_msg = "<b>" + scr_txt + "</b> impacted you " + "<b>" + scr_val + "</b> and ";
+                                temp_msg = scr_txt + ":<b> <br/> &emsp;&emsp;" + scr_val + "</b> <br/>";
                             } else if(l == (sym_len - 1)){
                                 // last symptom in the array 
-                                temp_msg = "<b>" + scr_txt + "</b> impacted you " +  "<b>" + scr_val + "</b>.<br/>";
+                                temp_msg = scr_txt + ":<b> <br/> &emsp;&emsp;" + scr_val + "</b><br/>";
                             }
                         } else if(sym_len > 2){
                             if(l < (sym_len - 1)){
-                                temp_msg = "<b>" + scr_txt + "</b> impacted you " + "<b>" + scr_val + "</b>, ";
+                                temp_msg = scr_txt + ":<b> <br/> &emsp;&emsp;" + scr_val + "</b> <br/> ";
                             } else if(l == (sym_len - 2)){
-                                temp_msg = "<b>" + scr_txt + "</b> impacted you " + "<b>" + scr_val + "</b> and ";
+                                temp_msg = scr_txt + ":<b> <br/> &emsp;&emsp;" + scr_val + "</b> <br/>";
                             } else if(l == (sym_len - 1)){
                                 // last symptom in the array 
-                                temp_msg = "<b>" + scr_txt + "</b> impacted you " + "<b>" + scr_val + "</b>.<br/>";
+                                temp_msg = scr_txt + ":<b> <br/> &emsp;&emsp;" + scr_val + "</b><br/>";
                             }
                         }
                         report_msg = report_msg.concat(temp_msg);
@@ -322,7 +339,11 @@
                 }
             }
             $scope.bfst_comp_state = bfst_comp_state;
+            $scope.bfst_comp_msg = bfst_comp_msg;
+            $scope.lcomp_msg = lcomp_msg;
+            $scope.lcomp_state = lcomp_state;
             $scope.sym_score_state = sym_score_state;
+            $scope.report_msg = report_msg;
             $scope.sym_submit = sym_submit;
 
             // calculating lunch reminder time for card
@@ -333,65 +354,66 @@
             var sym_rem = cur.remdescrs[2].time;
             $scope.sym_rem = LC.timestr(sym_rem);
 
+            // get time for breakfast reminder
+            $scope.bfst_rem_time = LC.timestr(cur.remdescrs[1].time);
 
 
-            var rep_tally = Experiments.report_tally(cur);
-
-            cur.remdescrs.forEach(function(rd) {
-                var info = {};
-                info.reportdue =
-                    !rd.reminderonly &&
-                    rep_tally[rd.type] < Experiments.study_day_today(cur);
-                info.disabled = false;
-                var msg, name, reportmsg;
-                msg = text.current.reminder_schedule_template;
-                name = text.current[rd.type + '_reminder_name'] || rd.type; 
-                msg = msg.replace('{NAME}', name);
-                msg = msg.replace('{WHEN}', LC.timestr(rd.time || 0));
-                info.schedmsg = msg;
-                info.logmsg = text.current[rd.type + '_reminder_logmsg'];
-                switch(rd.type) {
-                    case 'breakfast':
-                        info.logstate = 'during';
-                        info.reportmsg = bfst_comp_msg;
-                        if (bfst_comp_state == true) {
-                            info.logmsg = 'Edit ' + info.logmsg;
-                        } else {
-                            info.logmsg = 'Log ' + info.logmsg;
-                        }
-                        break;
-                    case 'symptomEntry':
-                        info.logstate = 'sec_comp';
+            // var rep_tally = Experiments.report_tally(cur);
+            // cur.remdescrs.forEach(function(rd) {
+            //     var info = {};
+            //     info.reportdue =
+            //         !rd.reminderonly &&
+            //         rep_tally[rd.type] < Experiments.study_day_today(cur);
+            //     info.disabled = false;
+            //     var msg, name, reportmsg;
+            //     msg = text.current.reminder_schedule_template;
+            //     name = text.current[rd.type + '_reminder_name'] || rd.type; 
+            //     msg = msg.replace('{NAME}', name);
+            //     msg = msg.replace('{WHEN}', LC.timestr(rd.time || 0));
+            //     info.schedmsg = msg;
+            //     info.logmsg = text.current[rd.type + '_reminder_logmsg'];
+            //     switch(rd.type) {
+            //         case 'breakfast':
+            //             info.logstate = 'during';
+            //             info.reportmsg = bfst_comp_msg;
+            //             if (bfst_comp_state == true) {
+            //                 info.logmsg = 'Edit ' + info.logmsg;
+            //             } else {
+            //                 info.logmsg = 'Log ' + info.logmsg;
+            //             }
+            //             break;
+            //         case 'symptomEntry':
+            //             info.logstate = 'sec_comp';
                         
-                        // if breakfast compliance is reported pos/neg then the bfst_comp_state is true. Allow symptom logging.
-                        if(bfst_comp_state == true){
-                            info.disabled = false;
-                        }else{
-                            // else do not all symptom logging
-                            info.disabled = true;
-                        }
+            //             // if breakfast compliance is reported pos/neg then the bfst_comp_state is true. Allow symptom logging.
+            //             if(bfst_comp_state == true){
+            //                 info.disabled = false;
+            //             }else{
+            //                 // else do not all symptom logging
+            //                 info.disabled = true;
+            //             }
 
-                        if(lcomp_sate == true){
-                            info.reportmsg = lcomp_msg + '<br/><br/>' + report_msg;
-                        }
+            //             if(lcomp_state == true){
+            //                 info.reportmsg = lcomp_msg + '<br/><br/>' + report_msg;
+            //             }
 
 
-                        if (sym_score_state == true) {
-                            info.logmsg = 'Edit ' + info.logmsg;
-                        } else {
-                            info.logmsg = 'Log ' + info.logmsg;
-                        }
-                        break;
-                    default:
-                        info.logmsg = null;
-                        info.logstate = 'none';
-                        info.reportmsg = null;
-                        break;
-                }
-                rinfo.push(info);
-            });
+            //             if (sym_score_state == true) {
+            //                 info.logmsg = 'Edit ' + info.logmsg;
+            //             } else {
+            //                 info.logmsg = 'Log ' + info.logmsg;
+            //             }
+            //             break;
+            //         default:
+            //             info.logmsg = null;
+            //             info.logstate = 'none';
+            //             info.reportmsg = null;
+            //             break;
+            //     }
+            //     rinfo.push(info);
+            // });
 
-            $scope.study_reminders = rinfo;
+            // $scope.study_reminders = rinfo;
 
             // Title of the study
             if(typeof(cur.trigger) == "string"){
@@ -416,83 +438,83 @@
 
             // The function for the 'Submit' button.
             // A pop up is displayed to verify if the user wants to submit. If the user responds with 'no' nothing is done.
-            $scope.submit_for_day = function() {
-               var confirmPopup = $ionicPopup.confirm({
-                 title: '<h4>Confirm Submission<h4>',
-                 template: '<p>Are you sure you want to submit the report for the day? <br/>Once submitted, you will no longer be able to change your responses.</p>',
-                 buttons: [
-                        { 
-                            text: '<b>No</b>',
-                            onTap: function(e) { return false; } 
-                        },
-                        {
-                            text: '<b>Yes</b>',
-                            type: 'button-positive',
-                            onTap: function(e) { return true; } 
-                        }]
-               });
+            // $scope.submit_for_day = function() {
+            //    var confirmPopup = $ionicPopup.confirm({
+            //      title: '<h4>Confirm Submission<h4>',
+            //      template: '<p>Are you sure you want to submit the report for the day? <br/>Once submitted, you will no longer be able to change your responses.</p>',
+            //      buttons: [
+            //             { 
+            //                 text: '<b>No</b>',
+            //                 onTap: function(e) { return false; } 
+            //             },
+            //             {
+            //                 text: '<b>Yes</b>',
+            //                 type: 'button-positive',
+            //                 onTap: function(e) { return true; } 
+            //             }]
+            //    });
 
-               confirmPopup.then(function(res) {
-                 if(res) {
-                    var sd = Experiments.study_day_today(cur);
-                    var dur = Experiments.study_duration(cur);
-                    if (sd <= 0 || sd > dur)
-                        // Study not in progress. Nothing to submit.
-                        //
-                        return;
-                    var rep = null;
-                    if (Array.isArray(cur.reports))
-                        rep = cur.reports[sd - 1];
-                    if (!rep)
-                        rep = Experiments.report_new(sd);
-                    rep.confirmed = true;
-                    rep.confirmed_time = Math.floor(TDate.now() / 1000);
-                    Experiments.put_report_p(cur.id, rep)
-                    .then(function(_) {
-                        // Reload the modified experiment.
-                        //
-                        return Experiments.getCurrent();
-                    })
-                    .then(function(cur2) {
-                        // Resync the reminders.
-                        //
-                        if (!cur2)
-                            return null; // Shouldn't happen; but nothing to sync
-                        var rd = cur2.remdescrs;
-                        var st = cur2.start_time;
-                        var et = cur2.end_time;
-                        var rt = Experiments.report_tally(cur2);
-                        return Reminders.sync(rd, st, et, rt);
-                    })
-                    .then(function(_) {
-                        // variable for locking log buttons
-                        // submitted = true;
-                        // Reload current page.
-                        //
-                        $state.go($state.current, {}, { reload: true });
-                    });                
-                 } else {
-                    //do nothing
-                 }
-               });
-            };
+            //    confirmPopup.then(function(res) {
+            //      if(res) {
+            //         var sd = Experiments.study_day_today(cur);
+            //         var dur = Experiments.study_duration(cur);
+            //         if (sd <= 0 || sd > dur)
+            //             // Study not in progress. Nothing to submit.
+            //             //
+            //             return;
+            //         var rep = null;
+            //         if (Array.isArray(cur.reports))
+            //             rep = cur.reports[sd - 1];
+            //         if (!rep)
+            //             rep = Experiments.report_new(sd);
+            //         rep.confirmed = true;
+            //         rep.confirmed_time = Math.floor(TDate.now() / 1000);
+            //         Experiments.put_report_p(cur.id, rep)
+            //         .then(function(_) {
+            //             // Reload the modified experiment.
+            //             //
+            //             return Experiments.getCurrent();
+            //         })
+            //         .then(function(cur2) {
+            //             // Resync the reminders.
+            //             //
+            //             if (!cur2)
+            //                 return null; // Shouldn't happen; but nothing to sync
+            //             var rd = cur2.remdescrs;
+            //             var st = cur2.start_time;
+            //             var et = cur2.end_time;
+            //             var rt = Experiments.report_tally(cur2);
+            //             return Reminders.sync(rd, st, et, rt);
+            //         })
+            //         .then(function(_) {
+            //             // variable for locking log buttons
+            //             // submitted = true;
+            //             // Reload current page.
+            //             //
+            //             $state.go($state.current, {}, { reload: true });
+            //         });                
+            //      } else {
+            //         //do nothing
+            //      }
+            //    });
+            // };
 
-            // Toggle for disabling logging buttons once report is submitted
-            $scope.sbmtd = false;
-            if (cur.reports && cur.reports[day_pos] && 
-                    cur.reports[day_pos].confirmed === true)
-                $scope.sbmtd = true;
+            // // Toggle for disabling logging buttons once report is submitted
+            // $scope.sbmtd = false;
+            // if (cur.reports && cur.reports[day_pos] && 
+            //         cur.reports[day_pos].confirmed === true)
+            //     $scope.sbmtd = true;
 
-            $scope.sym_scr_st = sym_score_state;
+            // $scope.sym_scr_st = sym_score_state;
 
             // For detecting accelerated demo
             // If ttransform exists, then trail is being accelerated
-            if(typeof(cur.ttransform) == "object"){
-                $scope.accelerated = true;
-                $scope.exp_bool = false; // over-riding exp_bool to ignore date requirement
-            } else {
-                $scope.accelerated = false;
-            }
+            // if(typeof(cur.ttransform) == "object"){
+            //     $scope.accelerated = true;
+            //     $scope.exp_bool = false; // over-riding exp_bool to ignore date requirement
+            // } else {
+            //     $scope.accelerated = false;
+            // }
 
             // Note button. Toggle add/edit and display note when available.
             var nt_btn = text.current.button3;
@@ -504,6 +526,9 @@
                 $scope.nt_fg = true;
                 nt_btn = nt_btn.replace('Add', 'Edit');
                 $scope.nt_btn_txt = nt_btn;
+            } else {
+                $scope.note = "No note.";
+                $scope.nt_fg = false;
             }
 
             $scope.exp_id = cur.id;

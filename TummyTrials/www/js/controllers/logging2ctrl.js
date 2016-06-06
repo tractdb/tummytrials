@@ -43,6 +43,9 @@
             var et = curex.end_time;
             var rt = Experiments.report_tally(curex);
             return Reminders.sync(rd, st, et, rt);
+        })
+        .then(function(_){
+            $state.go('current', {}, { location: 'replace' });
         });
     }
 

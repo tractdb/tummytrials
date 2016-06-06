@@ -12,6 +12,10 @@
 	color: #666666;
 }
 
+.button-small{
+	max-height: 32px;
+}
+
 .btn_lh{
     line-height: 42px !important;
     font-size: 16px;
@@ -72,6 +76,12 @@
 .rem-padding{
 	padding-left: 10px;
 	width: 100%;
+}
+
+.edit-padding{
+	float:right;
+	text-align: right;
+	width: 30px;
 }
 
 .setup-padding{
