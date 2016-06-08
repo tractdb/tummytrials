@@ -24,6 +24,10 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 $royal:                           #4b2e83 !default;
 $stable:                          #d9d9d9 !default;
 
+// Adding custom font family
+@import url(https://fonts.googleapis.com/css?family=Lato:400,300,900);
+$font-family-base: "Lato", sans-serif !default;
+
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
