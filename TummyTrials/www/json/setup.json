@@ -136,7 +136,7 @@
 			"list": [{
 				"faq": "What is Irritable Bowel Syndrome (IBS)?",
 				"uisref": "faqs_page({faqsection: 0, faqitem: $index})",
-				"content": "Irritable Bowel Syndrome (IBS) is a common digestive disorder that affects up to 20% of both men and women in the US. \n\nPeople with IBS experience a variety of symptoms that vary from person to person and from day to day. Symptoms are varying combinations of abdominal pain/discomfort associated with diarrhea (frequent or loose stools) and/or constipation (infrequent or hard stools). Symptoms also can include excessive gas, bloating and urgency (urgent need to defecate)."
+				"content": "Irritable Bowel Syndrome (IBS) is a common digestive disorder affecting up to 20% of people in the US. People with IBS experience a variety of symptoms that vary from person to person and from day to day. Symptoms are varying combinations of abdominal pain, gas/bloating, bowel urgency, diarrhea (frequent or loose stools), and constipation (infrequent or hard stools)."
 			}, {
 				"faq": "What are common triggers for IBS?",
 				"uisref": "faqs_page({faqsection: 0, faqitem: $index})",
@@ -144,7 +144,7 @@
 			}, {
 				"faq": "What are various symptoms of IBS?",
 				"uisref": "faqs_page({faqsection: 0, faqitem: $index})",
-				"content": "People with IBS experience a variety of symptoms that vary from person to person and from day to day. Symptoms are varying combinations of abdominal pain/discomfort associated with diarrhea (frequent or loose stools) and/or constipation (infrequent or hard stools). Symptoms also can include excessive gas, bloating and urgency (urgent need to defecate)."
+				"content": "People with IBS experience a variety of symptoms that vary from person to person and from day to day. Symptoms are varying combinations of abdominal pain, gas/bloating, bowel urgency, diarrhea (frequent or loose stools), and constipation (infrequent or hard stools)."
 			}]
 		}, {
 			"title": "Symptom Definitions",
@@ -157,17 +157,25 @@
 				"uisref": "faqs_page({faqsection: 1, faqitem: $index})",
 				"content": "Abdominal bloating is a condition in which the belly (abdomen) feels tight and full of gas. Your abdomen may even look swollen (distended). This build of gas can cause abdominal discomfort/pain. It can result in increased belching and burping or passing gas, which can be socially embarrassing."
 			}, {
+				"faq": "Hard Passage of Stool",
+				"uisref": "faqs_page({faqsection: 1, faqitem: $index})",
+				"content": "Hard passage of stool includes hard, lumpy stools than can be hard to push out. Type 1 or type 2 from the chart below. <br/> <img style='width:100%;' src='json/bristol_stool_chart.jpg'>"
+			}, {
+				"faq": "Loose Passage of Stool",
+				"uisref": "faqs_page({faqsection: 1, faqitem: $index})",
+				"content": "Loose passage of stool includes mushy, non-solid, watery or liquid stools. Type 6 or type 7 from the chart below. <br/> <img style='width:100%;' src='json/bristol_stool_chart.jpg'>"
+			},  {
+				"faq": "Infrequent Bowel Movements",
+				"uisref": "faqs_page({faqsection: 1, faqitem: $index})",
+				"content": "Infrequent bowel movements is more than 3 bowel movements a day."
+			}, {
+				"faq": "Frequent Bowel Movements",
+				"uisref": "faqs_page({faqsection: 1, faqitem: $index})",
+				"content": "Frequent bowel movements is more than 3 bowel movements a day."
+			},{
 				"faq": "Bowel Urgency",
 				"uisref": "faqs_page({faqsection: 1, faqitem: $index})",
 				"content": "Bowel urgency is the urgent sensation that you need to have a bowel movement (or defecate). People suffering from this symptom often describe the need to “run to the bathroom” to avoid soiling themselves."
-			}, {
-				"faq": "Diarrhea",
-				"uisref": "faqs_page({faqsection: 1, faqitem: $index})",
-				"content": "Diarrhea is the condition of frequent and/or loose stools."
-			}, {
-				"faq": "Constipation",
-				"uisref": "faqs_page({faqsection: 1, faqitem: $index})",
-				"content": "Constipation is the condition of infrequent and/or hard stools.  It can also be described as the difficult passage of stool."
 			}]
 		}, {
 			"title": "Food Guide",
@@ -176,21 +184,21 @@
 				"uisref": "faqs_page({faqsection: 2, faqitem: $index})",
 				"content": "In this app, we offer a selection of IBS trigger foods for self-experimentation. We chose these trigger foods based on IBS research studies and patient surveys. We realize that these may not include the trigger foods you have read about or would want to test right now but this is still work in progress. We appreciate your patience and welcome your suggestions for future IBS trigger foods to test. \n\nOver time, many people with IBS may have already discovered some of their IBS trigger foods, either through trial-and-error or with the help of a dietitian or their physician. If you already know that certain food trigger your IBS symptoms, we do not recommend selecting that food group for self-experimentation. Similarly, if you already know certain “safe foods” (foods that do not trigger your IBS symptoms), we do not recommend selecting that food group for self-experimentation. Instead, we recommend using the self-experimentation process to test foods that you are unsure of as one of your trigger or safe foods.\n\nSince things are always changing inside our body and environment, a food you once thought was a “safe food” may come into question in the future. In this situation, it may be appropriate to re-test it to determine if it is still a “safe food.” Similarly, a food you once thought was a “trigger food” may come into question in the future. In this situation, it may be appropriate to re-test it to determine if it is still a 'trigger food.'"
 			}, {
-				"faq": "Lactose Containing Foods",
-				"uisref": "faqs_page({faqsection: 2, faqitem: $index})",
-				"content": "Lactose is a type of sugar, commonly found in dairy products.  The most common high-lactose foods include milk, yogurt, ice cream, cream soups and soft cheeses."
-			}, {
-				"faq": "Artificial Sweetener: Sorbitol",
+				"faq": "Sorbitol (Artificial Sweetener)",
 				"uisref": "faqs_page({faqsection: 2, faqitem: $index})",
 				"content": "Sorbitol is a type of synthetic sugar, commonly used as an artificial sweetener in sugar-free gums and candies and diet drinks. However, it can also naturally found in some fruits (e.g. stone fruits such as apples, apricot, figs, peaches)."
 			}, {
-				"faq": "High Fructose Foods",
+				"faq": "Lactose (Dairy) Containing Foods",
 				"uisref": "faqs_page({faqsection: 2, faqitem: $index})",
-				"content": "Fructose is a type of sugar. Many healthy foods contain fructose (e.g., honey, berries, apples, dates, pears).  In the United States though, the most common high-fructose foods are snacks and soft drinks. These food products include high fructose corn syrup as a sweetener."
+				"content": "Lactose is a type of sugar, commonly found in dairy products.  The most common high-lactose foods include milk, yogurt, ice cream, cream soups and soft cheeses."
 			}, {
 				"faq": "Caffeine",
 				"uisref": "faqs_page({faqsection: 2, faqitem: $index})",
 				"content": "Caffeine is a substance commonly found in coffee and tea plants."
+			}, {
+				"faq": "Gluten",
+				"uisref": "faqs_page({faqsection: 2, faqitem: $index})",
+				"content": "Gluten is the general name for proteins commonly found in wheat, rye, barley and some grains."
 			}]
 		}]
 	},

@@ -6,7 +6,7 @@
     <ion-content class="padding">
     	<div class="card padding">
     		<h5>{{heading}}</h5>
-    		<p class="new_line">{{content}}</p>
+    		<p class="new_line" ng-bind-html="trustAsHtml(content)"></p>
     	</div>
      </ion-content>  
   </ion-pane>
