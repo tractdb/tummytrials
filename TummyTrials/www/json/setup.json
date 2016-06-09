@@ -12,7 +12,7 @@
 		"button1": "Log Breakfast Compliance",
 		"button2": "Log Symptom Level",
 		"button3": "Add Note",
-		"abandon_text": "You can abandon the ongoing/scheduled trial anytime you wish. Please note that upon doing so, if you wish to remain in the study you will have to setup a new trial and reschedule your exit interview date.",
+		"abandon_text": "You can abandon the ongoing/scheduled trial anytime you wish. Please note that upon doing so, if you wish to remain in the study you will have to set up a new trial and reschedule your exit interview date.",
 		"reminder_schedule_template": "{NAME} reminder is set to {WHEN}.",
 		"morning_reminder_name": "Morning",
 		"breakfast_reminder_name": "Breakfast compliance report",
@@ -43,8 +43,8 @@
 	},
 	"no_study": {
 		"title": "No ongoing study",
-		"subtitle": "Would you like to setup your study?",
-		"button": "Setup A New Study"
+		"subtitle": "Would you like to set up your study?",
+		"button": "Set Up A New Study"
 	},
 	"during": {
 		"title": "Breakfast Compliance for {DAY}",
@@ -108,7 +108,7 @@
 	},
 	"mytrials": {
 		"title": "List of my trials",
-		"subtitle": "No ongoing study. Setup a new study.",
+		"subtitle": "No ongoing study. Set up a new study.",
 		"button": "Let's Begin!",
 		"currenttrialtitle": "Current Trial",
 		"pasttrialtitle": "Past Trial Results"
@@ -254,8 +254,8 @@
 		"demo_explanation": "This will begin an accelerated demo of the most recently created trial. This is for demonstration purposes only. Do not do this for a genuine trial!"
 	},
 	"setup": {
-		"title": "Setup a New Trial",
-		"content": "This setup will guide you through the steps to create your self trial. A trial helps you decide whether certain food affects your symptoms. \n\nDuring the trial, you will be asked to eat your trial food on some mornings and to avoid that on other mornings. \n\nWe will help you track your progress and symptom levels by giving you daily reminders.",
+		"title": "Set Up A New Trial",
+		"content": "This set up will guide you through the steps to create your self trial. A trial helps you decide whether certain food affects your symptoms. \n\nDuring the trial, you will be asked to eat your trial food on some mornings and to avoid that on other mornings. \n\nWe will help you track your progress and symptom levels by giving you daily reminders.",
 		"button": "Begin Setup"
 	},
 	"setup2": {
