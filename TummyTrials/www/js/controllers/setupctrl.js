@@ -261,16 +261,15 @@ function timesec_of_date(date)
               time: timesec_of_date(SetupData.evening_time),
               heads: reminder_heads(text.setup5.evening_reminder_title),
               bodies: [text.setup5.evening_reminder_text]
+            },
+            { type: 'closeout',
+              reportclose: true,
+              time:
+                Math.min(timesec_of_date(SetupData.evening_time) + 60 * 60 * 4,
+                         (24 * 60 - 1) * 60), // No later than 11:59 PM
+              heads: reminder_heads(text.setup5.closeout_reminder_title),
+              bodies: [text.setup5.closeout_reminder_text]
             }
-            // Decided not to have a close out reminder
-            // { type: 'closeout',
-            //   reportclose: true,
-            //   time:
-            //     Math.min(timesec_of_date(SetupData.evening_time) + 60 * 60 * 4,
-            //              (24 * 60 - 1) * 60), // No later than 11:59 PM
-            //   heads: reminder_heads(text.setup5.closeout_reminder_title),
-            //   bodies: [text.setup5.closeout_reminder_text]
-            // }
         ];
         if(SetupData.hasOwnProperty('breakfast_preference')){
             exper.breakfast_pref =  SetupData.breakfast_preference.breakfast;
