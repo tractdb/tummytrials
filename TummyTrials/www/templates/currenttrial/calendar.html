@@ -16,11 +16,9 @@
                 <p ng-bind-html="cal_bcomp"></p>
                 <p ng-bind-html="cal_lcomp"></p>
                 <p>{{text.calendar.field_3}}</p>
-                <ul class="list">
-                    <li class="item item-text-wrap list_text" ng-repeat="(key,value) in cal_scr">
+                    <div style="padding-left:15px;" ng-repeat="(key,value) in cal_scr">
                         <b>{{key}}</b><br/> {{value}} 
-                    </li>
-                </ul>
+                    </div>
             </div>
 
             <div class="card padding"> 

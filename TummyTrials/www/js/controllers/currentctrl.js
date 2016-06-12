@@ -149,9 +149,9 @@
                     if((i+1) != days.length){
                         // get text for the condition of next day
                         if(days[i+1][1] == "A"){
-                            day_next = "Tomorrow: " + $scope.legend_A_text;
+                            day_next = "<b>Tomorrow</b>: " + $scope.legend_A_text;
                         } else if(days[i+1][1] == "B"){
-                            day_next = "Tomorrow: " + $scope.legend_B_text;
+                            day_next = "<b>Tomorrow</b>: " + $scope.legend_B_text;
                         } 
                     } else {
                         day_next = "This is the last day of the trial!";
@@ -315,19 +315,19 @@
                         // Separate conditions for more or less than 2 symptoms
                         if(sym_len <= 2){
                             if(l < (sym_len - 1)){
-                                temp_msg = scr_txt + ":<b> <br/> &emsp;&emsp;" + scr_val + "</b> <br/>";
+                                temp_msg = scr_txt + ":<b> <br/>" + scr_val + "</b> <br/>";
                             } else if(l == (sym_len - 1)){
                                 // last symptom in the array 
-                                temp_msg = scr_txt + ":<b> <br/> &emsp;&emsp;" + scr_val + "</b><br/>";
+                                temp_msg = scr_txt + ":<b> <br/>" + scr_val + "</b><br/>";
                             }
                         } else if(sym_len > 2){
                             if(l < (sym_len - 1)){
-                                temp_msg = scr_txt + ":<b> <br/> &emsp;&emsp;" + scr_val + "</b> <br/> ";
+                                temp_msg = scr_txt + ":<b> <br/>" + scr_val + "</b> <br/> ";
                             } else if(l == (sym_len - 2)){
-                                temp_msg = scr_txt + ":<b> <br/> &emsp;&emsp;" + scr_val + "</b> <br/>";
+                                temp_msg = scr_txt + ":<b> <br/>" + scr_val + "</b> <br/>";
                             } else if(l == (sym_len - 1)){
                                 // last symptom in the array 
-                                temp_msg = scr_txt + ":<b> <br/> &emsp;&emsp;" + scr_val + "</b><br/>";
+                                temp_msg = scr_txt + ":<b> <br/>" + scr_val + "</b><br/>";
                             }
                         }
                         report_msg = report_msg.concat(temp_msg);
@@ -765,28 +765,28 @@
             if(Calendar.condition == "A"){
                 $scope.cal_cond = Calendar.A_text;
                 if(Calendar.bcomp){
-                    $scope.cal_bcomp = "<span class='balanced'>You <b>did</b> " + Calendar.A_text + "</span>";
+                    $scope.cal_bcomp = "<span class='balanced'><b>Did</b> " + Calendar.A_text + "</span>";
                 } else {
-                    $scope.cal_bcomp = "<span class='positive'>You <b>did not</b> " + Calendar.A_text + "</span>";
+                    $scope.cal_bcomp = "<span class='positive'><b>Did not</b> " + Calendar.A_text + "</span>";
                 }
 
                 if(Calendar.lcomp){
-                    $scope.cal_lcomp = "<span class='balanced'>You <b>did not</b> eat something between your breakfast and symptom report.</span>"
+                    $scope.cal_lcomp = "<span class='balanced'><b>Did</b> fast.</span>"
                 } else {
-                    $scope.cal_lcomp = '<span class="positive">You <b>did</b> eat something between your breakfast and symptom report.</span>'
+                    $scope.cal_lcomp = '<span class="positive"><b>Did not</b> fast.</span>'
                 }
             } else if(Calendar.condition == "B"){
                 $scope.cal_cond = Calendar.B_text;
                 if(Calendar.bcomp){
-                    $scope.cal_bcomp = "<span class='balanced'>You <b>did</b> " + Calendar.B_text + "</span>";
+                    $scope.cal_bcomp = "<span class='balanced'><b>Did</b> " + Calendar.B_text + "</span>";
                 } else {
-                    $scope.cal_bcomp = "<span class='positive'>You <b>did not</b> " + Calendar.B_text + "</span>";
+                    $scope.cal_bcomp = "<span class='positive'><b>Did not</b> " + Calendar.B_text + "</span>";
                 }
 
                 if(Calendar.lcomp){
-                    $scope.cal_lcomp = "<span class='balanced'>You <b>did not</b> eat something between your breakfast and symptom report.</span>"
+                    $scope.cal_lcomp = "<span class='balanced'><b>Did</b> fast.</span>"
                 } else {
-                    $scope.cal_lcomp = '<span class="positive">You <b>did</b> eat something between your breakfast and symptom report.</span>'
+                    $scope.cal_lcomp = '<span class="positive"><b>Did not</b> fast.</span>'
                 }
             }
             //Figuring out text for the symptom score
@@ -795,13 +795,13 @@
                     for(var key in Calendar.score){
                         if(Calendar.score.hasOwnProperty(key)){
                             if(Calendar.score[key] == k){
-                                Calendar.score[key] = text_loc[k].label + " : " + text_loc[k].detail;
+                                // Calendar.score[key] = text_loc[k].label + " : " + text_loc[k].detail;
+                                Calendar.score[key] = text_loc[k].label;
                             }
                         }
                     }
             }
             $scope.cal_scr = Calendar.score;
-            $scope.cal_scr_txt = Calendar.score_text;
 
            $scope.cal_display = display;
 

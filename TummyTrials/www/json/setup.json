@@ -32,7 +32,7 @@
 		"title": "Report for:",
 		"field_1": "Prompt for the day was to:",
 		"field_2": "Report for the day:",
-		"field_3": "Symptom level(s) reported for the day:",
+		"field_3": "Symptom report",
 		"field_4": "Did you eat anything between breafast and symptom report?",
 		"future": "Future date. No report available.",
 		"today": "This is the ongoing day.",
@@ -94,7 +94,7 @@
 			"label": "Severely",
 			"detail": "had difficulty concentrating on some tasks"
 		}, {
-			"label": "Very severely",
+			"label": "Very Severely",
 			"detail": "had difficulty concentrating on any task"
 		}, {
 			"label": "Extremely",
@@ -569,9 +569,9 @@
 		"button": "Begin The Trial",
 		"day_counter": "(Day {DAY})",
 		"morning_reminder_text": "Today is a day to {AORB}.",
-		"breakfast_reminder_text": "Please report your breakfast compliance.",
-		"symptomEntry_reminder_text": "Please report your symptom level(s).",
-		"evening_reminder_text": "Please update symptom levels if necessary.",
+		"breakfast_reminder_text": "Report your breakfast compliance.",
+		"symptomEntry_reminder_text": "Report your symptom level(s).",
+		"evening_reminder_text": "Update symptom levels if necessary.",
 		"food_pref_title":"Food preferences",
 		"breakfast_pref":"Breakfast preference",
 		"no_food": "(Please select a breakfast food preference on screen 4.)",

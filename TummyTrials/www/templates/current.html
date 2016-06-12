@@ -25,9 +25,22 @@ Page Hierarchy:
         <!-- Legend for the calendar -->
         <div class="col">
           <div style="float:right;">
-            <i class="ion-stop royal twelve" style="font-size: 100%;"></i> {{legend_A_text}} <br/>
-            <i class="ion-stop twelve" style="font-size: 100%; color:#a596c1;"></i> {{legend_B_text}} <br/>
-            <!-- <i class="ion-stop energized" style="font-size: 150%;"></i> Current day <br/> -->
+            <div class="row">
+              <div class="">
+                <i class="ion-stop royal twelve" style="font-size: 100%;"></i>&nbsp&nbsp
+              </div>
+              <div class="">
+                {{legend_A_text}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="">
+                <i class="ion-stop twelve" style="font-size: 100%; color:#a596c1;"></i>&nbsp&nbsp
+              </div>
+              <div class="">
+                {{legend_B_text}}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -151,17 +164,13 @@ Page Hierarchy:
             <p>You have no more reports to confirm for the day. You can view your submitted report below. You can still add/edit your note for today's report.</p>
           </div> -->
 
-          <div class="card padding">
+          <div class="">
             <div class="row">
-              <div class="col">
+              <div class="neg-padding">
+                &nbsp&nbsp&nbsp&nbsp&nbsp
+              </div>
+              <div class="rem-padding">
                 <h4>Today</h4>
-              </div>
-              <div class="col col-20">
-                <a class="button button-small button-royal" ui-sref="notes">&nbsp Note &nbsp</a>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col">
                 <h5 style="margin-top:0px;">{{day_cond}}</h5>
                 <p><a style="text-decoration: underline; color:royal" ng-click="help = help ? false : true">{{text.current.para1}}
                     <i class="ion-information-circled" style="font-size: 120%;"></i>
@@ -196,14 +205,14 @@ Page Hierarchy:
 
               <div class="rem-padding" ng-hide="!bfst_comp_state">
                 <!-- h5 has a margin-top nad bottom of 10px -->
-                <h5 style="margin-top:0px; margin-bottom:0px;">Eat Breakfast</h5>
                 <!-- Row and column have padding of top and left of 5px, resetting that manully -->
-                <div class="row" style="margin-top:-5px; margin-left:-10px;">
+                <div class="row" style="margin-top:-10px; margin-left:-10px;">
                   <div class="col">
+                    <h5 style="margin-top:0px; margin-bottom:0px;">Eat Breakfast</h5>
                     <p class="balanced" ng-bind-html="bfst_comp_msg"></p>
                   </div>
                   <div class="edit-padding">
-                    <a class="button button-small button-royal" ui-sref="during">
+                    <a class="button button-small button-royal" style="margin-top:8px;" ui-sref="during">
                      &nbsp<i class="ion-edit" style="font-size: 120%;"></i>&nbsp
                     </a>
                   </div>
@@ -231,14 +240,14 @@ Page Hierarchy:
 
               <div class="rem-padding" ng-hide="!lcomp_state">
                 <!-- h5 has a margin-top nad bottom of 10px -->
-                <h5 style="margin-top:0px; margin-bottom:0px;">Fast</h5>
                 <!-- Row and column have padding of top and left of 5px, resetting that manully -->
-                <div class="row" style="margin-top:-5px; margin-left:-10px;">
+                <div class="row" style="margin-top:-10px; margin-left:-10px;">
                   <div class="col">
+                    <h5 style="margin-top:0px; margin-bottom:0px;">Fast</h5>
                     <p class="balanced" ng-bind-html="lcomp_msg"></p>
                   </div>
                   <div class="edit-padding">
-                    <a class="button button-small button-royal" ui-sref="sec_comp">
+                    <a class="button button-small button-royal" style="margin-top:8px;" ui-sref="sec_comp">
                      &nbsp<i class="ion-edit" style="font-size: 120%;"></i>&nbsp
                     </a>
                   </div>
@@ -266,14 +275,14 @@ Page Hierarchy:
 
               <div class="rem-padding" ng-hide="!sym_score_state">
                 <!-- h5 has a margin-top nad bottom of 10px -->
-                <h5 style="margin-top:0px; margin-bottom:0px;">Report Symptoms</h5>
                 <!-- Row and column have padding of top and left of 5px, resetting that manully -->
-                <div class="row" style="margin-top:-5px; margin-left:-10px;">
+                <div class="row" style="margin-top:-10px; margin-left:-10px;">
                   <div class="col">
+                    <h5 style="margin-top:0px; margin-bottom:0px;">Report Symptoms</h5>
                     <p class="balanced" ng-bind-html="report_msg"></p>
                   </div>
                   <div class="edit-padding">
-                    <a class="button button-small button-royal" ui-sref="sec_comp">
+                    <a class="button button-small button-royal" style="margin-top:8px;" ui-sref="post({symptomIndex:0})">
                      &nbsp<i class="ion-edit" style="font-size: 120%;"></i>&nbsp
                     </a>
                   </div>
@@ -281,13 +290,47 @@ Page Hierarchy:
               </div>
             </div> 
 
+            <!-- Notes section -->
             <hr/>
-            <!-- Last section -->
             <div class="row">
-              <div class="col">
-                <h5 ng-hide="!sym_score_state">Done for the day!</h5>
-                <p> Notes for Today: <span ng-class="nt_fg == true ? 'balanced' : '' ">{{note}}</span></p>
-                <p ng-bind="day_next_cond"></p>
+              <div class="neg-padding">
+                <!-- Empty div for alignment purposes -->
+                &nbsp&nbsp&nbsp&nbsp&nbsp
+              </div>
+
+              <div class="rem-padding" ng-hide="nt_fg">
+                <p>Note For Today<br/>
+                  <a class="button button-block button-royal small-text" ui-sref="notes">
+                    {{nt_btn_txt}}
+                  </a>
+                </p>
+              </div>
+
+              <div class="rem-padding" ng-hide="!nt_fg">
+                <div class="row" style="margin-top:-5px; margin-left:-10px;">
+                  <div class="col">
+                    <p>Note For Today</p>
+                    <p class="balanced" ng-bind-html="note"></p>
+                  </div>
+                  <div class="edit-padding">
+                    <a class="button button-small button-royal" style="margin-top:8px;" ui-sref="notes">
+                     &nbsp<i class="ion-edit" style="font-size: 120%;"></i>&nbsp
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Last section -->
+            <hr ng-hide="!sym_score_state"/>
+            <div class="row" ng-hide="!sym_score_state">
+              <div class="neg-padding">
+                <!-- Empty div for alignment purposes -->
+                &nbsp&nbsp&nbsp&nbsp&nbsp
+              </div>
+              <div class="rem-padding">
+                <h5><b>Done for the day!</b></h5>
+                <p ng-bind-html="day_next_cond"></p>
               </div>
             </div>
 
