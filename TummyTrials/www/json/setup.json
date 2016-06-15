@@ -18,7 +18,6 @@
 		"breakfast_reminder_name": "Breakfast compliance report",
 		"symptomEntry_reminder_name": "Symptom level report",
 		"evening_reminder_name": "Evening",
-		"closeout_reminder_name": "Closeout",
 		"breakfast_reminder_logmsg": " Breakfast Compliance",
 		"symptomEntry_reminder_logmsg": " Symptom Level",
 		"reminder_title":"Daily Report",
@@ -570,15 +569,14 @@
 		"day_counter": "(Day {DAY})",
 		"morning_reminder_text": "Today is a day to {AORB}.",
 		"breakfast_reminder_text": "Report your breakfast compliance.",
-		"symptomEntry_reminder_text": "Report your symptom level(s).",
-		"evening_reminder_text": "Update symptom levels if necessary.",
+		"symptomEntry_reminder_rep_text": "Please report your symptom levels.",
+		"symptomEntry_reminder_upd_text": "Please update your symptom levels if necessary.",
+		"evening_reminder_text": "Please report your compliance and symptom levels.",
 		"food_pref_title":"Food preferences",
 		"breakfast_pref":"Breakfast preference",
 		"no_food": "(Please select a breakfast food preference on screen 4.)",
 		"no_drink": "(Please select a breakfast drink preference on screen 4.)",
-		"drink_pref":"Drink preference",
-        "closeout_reminder_title": "End of Symptom Report Period",
-        "closeout_reminder_text": "The time for reporting symptom severities has ended for today."
+		"drink_pref":"Drink preference"
 	},
 	"setup6": {
 		"title": "Trial Scheduled!",

@@ -5,28 +5,24 @@
 //   There are some small number of reminders per day, of different
 //   types.
 //
-//   Some types are just "pure" reminders that display a notification at
-//   a certain time. Other types are asking the user to make a report,
-//   where the report is associated with the reminder type.
-//
-//   You can also have a reminder whose purpose is to close out the day;
-//   i.e., it represents a time of day when any pending user actions are
-//   instead handled somehow by the system.
+//   A reminder can be associated with a badge count. Conceptually this
+//   means the reminder is asking the user to do some daily action in
+//   the app, and the badge stays on until they do it.
 //
 //   Each type of reminder happens at a different time of day, but at
 //   the same time every day.
 //
 // This code manages local notifications and the badge on the app icon.
-// The badge shows the number of reports that are due, even when the app
+// The badge shows the number of actions that are due, even when the app
 // isn't running.
 //
 // There is really just one function in the interface, sync(), which
 // must be called any time there is new information about reminders or
-// reports. Examples of such times:
+// actions. Examples of such times:
 //
 //     App startup/resumption
 //     User creates a study
-//     User submits a report
+//     User performs an action (e.g., reports breakfast compliance)
 //     User sets new reminder times
 //     After a replication
 //
@@ -38,12 +34,16 @@
 // notifications. Repeating notifications are too inflexible for what we
 // want to do--only a few predefined repeat intervals are allowed.
 //
-// Note 2: If reports are due that haven't been filed, we want to
+// Note 2: If actions are due that haven't been performed, we want to
 // schedule reminders for the past. The idea is to get them posted in
 // the iOS Notification Center. Unfortunately, there are bugs and
 // inconsistencies in the way they're handled (probably the bug is in
 // $cordovaLocalNotification). So currently we schedule at most one such
 // reminder (the most recently triggered one).
+//
+// Note 3: It's debatable whether scheduling reminders in the past is
+// worth the hassle and complexity. I think the badge is a sufficient
+// motivator.
 //
 
 'use strict';
@@ -55,7 +55,7 @@
                                 TDate) {
     var g_nextid = 1;       // Next notification id to use
     var c_remstate;         // Cached reminder state for internal use
-    var c_report_cts;       // Cached report counts for internal use
+    var c_action_cts;       // Cached action counts for internal use
     var g_notifs_seen = {}; // (See reminder_triggered.)
 
     function by_at(a, b)
@@ -155,18 +155,29 @@
                 notif.state = 'triggered';
                 res.push(notif);
             });
+            // If the data field isn't a string, it's encoded as JSON.
+            // We'd rather see the underlying value, so decode it.
+            //
+            res.forEach(function(notif) {
+                try {
+                    var ob = JSON.parse(notif.data);
+                    notif.data = ob;
+                }
+                finally {
+                }
+            });
             return res;
         });
     }
 
-    function notifications_new(remstate, descr_by_type, report_cts, app_badge)
+    function notifications_new(remstate, descr_by_type, action_cts, app_badge)
     {
         // Return an array of notifications that follow from the given
         // new status:
         //
         // remstate:      Reminder state
         // descr_by_type: Hash from reminder type -> descr
-        // report_cts:    Number of reports for each type
+        // action_cts:    Number of actions for each type
         // app_badge:     App's correct badge count now
         //
         var sday = study_day_today(remstate);
@@ -185,44 +196,31 @@
             else
                 nnext = Math.min(dur + 1, sday + (daysec >= desc.time ? 1 : 0));
 
-            // Head for day n
-            function headn(n) {
-                return desc.heads[Math.min(n, desc.heads.length) - 1];
-            }
-            // Body for day n
-            function bodyn(n) {
-                return desc.bodies[Math.min(n, desc.bodies.length) - 1];
+            // Head or body for day n
+            function hbn(hb, n) {
+                return hb[Math.min(n, hb.length) - 1];
             }
             // Notification for day n
-            function notifn(n) {
+            function notifn(heads, bodies, n) {
                 var notif = {};
-                notif.title = headn(n);
-                notif.text = bodyn(n);
+                notif.title = hbn(heads, n);
+                notif.text = hbn(bodies, n);
                 notif.at = reminder_time(remstate.start_time, n, desc.time);
-                notif.data = desc.type;
+                notif.data = { type: desc.type, sd: n };
                 // Mark past times with negative ids.
                 //
                 notif.id = n < nnext ? -1 : 1;
                 return notif;
             }
 
-            if (desc.reminderonly) {
-                for (var n = nnext; n <= dur; n++)
-                    notifs.push(notifn(n));
-            } else {
-                // Notifications for past reminders with no reports yet.
-                //
-                var repct = report_cts[desc.type];
-                var n;
-                for (n = repct + 1; n < nnext; n++)
-                    notifs.push(notifn(n));
-
-                // (No reminders for reports submitted early.)
-                //
-                n = Math.max(nnext, repct + 1);
-
-                for (; n <= dur; n++)
-                    notifs.push(notifn(n));
+            var actct = action_cts[desc.type];
+            for (var n = Math.min(actct + 1, nnext); n <= dur; n++) {
+                if (desc.heads_all)
+                    notifs.push(notifn(desc.heads_all, desc.bodies_all, n));
+                else if (actct < n && desc.heads_lt)
+                    notifs.push(notifn(desc.heads_lt, desc.bodies_lt, n));
+                else if (actct >= n && desc.heads_ge)
+                    notifs.push(notifn(desc.heads_ge, desc.bodies_ge, n));
             }
         });
 
@@ -231,41 +229,26 @@
         // Assign ids and badge counts to notifications.
         //
         // Note that we use negative ids to mark notifications that are
-        // for overdue reports. They will trigger immediately, but their
+        // for overdue actions. They will trigger immediately, but their
         // trigger event isn't interesting.
         //
         var notibadge = app_badge;
         notifs.forEach(function(notif) {
             notif.id *= g_nextid++;
-            var descr = descr_by_type[notif.data];
-            if (notif.id >= 0 && descr)
-                if (descr.reportclose)
-                    notibadge = 0; // No more reports for the day, so no badge
-                else if (!descr.reminderonly)
-                    notibadge++;   // Another report is due
-
-            // Contrary to the $cordovaLocalNotification docs, a badge
-            // value of 0 means to leave the badge setting unchanged. A
-            // value of -1 means to remove the badge. (At least for the
-            // ngCordova revision we're using.) This is good to know.
-            //
-            if (notibadge <= 0)
-                notif.badge = -1;
-            else
-                notif.badge = notibadge;
+            var desc = descr_by_type[notif.data.type];
+            if (notif.id >= 0 && desc && desc.badge == 'count')
+                if (action_cts[desc.type] < notif.data.sd)
+                    notibadge++;
+            notif.badge = notibadge;
         });
 
         // Seemingly $cordovaLocalNotification has a bug whereby
         // triggered reminders are rescheduled every time any new
         // reminder is scheduled. This causes notifications for N
-        // overdue reports to pile up as (2^N-1) into a giant mess in
+        // overdue actions to pile up as (2^N-1) into a giant mess in
         // the Notification Center. But since (2^1-1) = 1, we can at
         // least keep the most recent one as long as we schedule it
         // last.
-        //
-        // (At this point it would probably be better to just give up on
-        // preserving formerly triggered reminders in the Notification
-        // Center. The badge seems like a sufficiently good motivator.)
         //
         while (notifs.length > 1 && notifs[1].id < 0)
             notifs.splice(0, 1);
@@ -306,8 +289,8 @@
 
         // Recalculate reminders based on our latest info.
         //
-        if (c_remstate && c_report_cts)
-            sync_p(c_remstate, c_report_cts);
+        if (c_remstate && c_action_cts)
+            sync_p(c_remstate, c_action_cts);
     }
 
     function schedule_p(notifs, i)
@@ -326,10 +309,10 @@
         });
     }
 
-    function sync_p(remstate, report_cts)
+    function sync_p(remstate, action_cts)
     {
         // Return a promise to update notifications and badge count
-        // according to the reminder state and the reports user has
+        // according to the reminder state and the actions user has
         // filed. The promise resolves to null.
         //
         var dur = study_duration(remstate);
@@ -353,43 +336,22 @@
             descr_by_type[desc.type] = desc;
         });
 
-        // Make sure report_cts has an entry for every reminder type.
+        // Make sure action_cts has an entry for every reminder type.
         //
         remstate.descs.forEach(function(desc) {
-            if (! (desc.type in report_cts))
-                report_cts[desc.type] = 0;
+            if (! (desc.type in action_cts))
+                action_cts[desc.type] = 0;
         });
 
         // Figure out what the badge count should be for the app.
         //
-        // If there's a "reportclose" reminder, only need to count
-        // reports from today, and only if the "reportclose" reminder
-        // hasn't been issued yet.
-        //
-        // (The idea is that studies without a "reportclose" reminder
-        // allow reports to be made on later days.)
-        //
         var app_badge = 0;
-        var dlen = remstate.descs.length;
-        if (dlen > 0 && remstate.descs[dlen - 1].reportclose) {
-            if (daysec < remstate.descs[dlen - 1].time) {
-                remstate.descs.forEach(function(desc) {
-                    if (desc.reminderonly || desc.reportclose)
-                        return;
-                    var due = sday - (daysec >= desc.time ? 0 : 1);
-                    if (due > report_cts[desc.type])
-                        app_badge++;
-                });
-            }
-        } else {
-            remstate.descs.forEach(function(desc) {
-                if (desc.reminderonly)
-                    return;
+        remstate.descs.forEach(function(desc) {
+            if (desc.badge == 'count') {
                 var due = sday - (daysec >= desc.time ? 0 : 1);
-                app_badge += Math.max(0, due - report_cts[desc.type]);
-            });
-        }
-
+                app_badge += Math.max(0, due - action_cts[desc.type]);
+            }
+        });
 
         // Remove all old notifications, schedule new ones, set app
         // badge.
@@ -397,7 +359,7 @@
         return $cordovaLocalNotification.cancelAll()
         .then(function(_) {
             var notifsn =
-                notifications_new(remstate, descr_by_type, report_cts,
+                notifications_new(remstate, descr_by_type, action_cts,
                                     app_badge);
             return $cordovaLocalNotification.schedule(notifsn);
         })
@@ -410,70 +372,62 @@
     $rootScope.$on('$cordovaLocalNotification:trigger', reminder_triggered);
 
     return {
-        sync: function(descs, start_time, end_time, report_cts) {
+        sync: function(descs, start_time, end_time, action_cts) {
             // Return a promise to schedule the reminders for a study.
             // The promise resolves to null.
             //
             // descs       Descriptor of the reminders (below)
             // start_time  Start time (Epoch time, midnight 00:00:00 first day)
             // end_time    End time (Epoch time, midnight 23:59:59+1 last day)
-            // report_cts  Counts of reports made by user
+            // action_cts  Counts of actions by user
             //
             // descs is an array of descriptors that look like this:
             //
             // {
             //     type: type of reminder
-            //     reminderonly: no report, just reminder (default false)
-            //     reportclose: close pending reports (default false)
             //     time: time of reminder (number; seconds after midnight)
-            //     heads: heading of reminder (array)
-            //     bodies: body of reminder (array)
+            //     heads_lt: headings if action required
+            //     bodies_lt: bodies if action required
+            //     heads_ge: headings if no action required
+            //     bodies_ge: bodies if no action required
+            //     heads_all: headings for all cases
+            //     bodies_all: bodies for all cases
+            //     badge: 'count', 'pass'
             // }
             //
             // The 'type' field of a descriptor gives the type of the
             // reminder, in essence a unique name. Example: 'morning'.
             //
-            // The 'reminderonly' field, if present, is a boolean saying
-            // whether this is a "pure" reminder with no associated
-            // report. The default is a "reportable" reminder (false
-            // value for the field).
+            // The 'heads_xxx' and 'bodies_xxx' fields are arrays of
+            // text that are issued to the user as part of the reminder:
             //
-            // The 'reportclose' field, if present, is a boolean saying
-            // whether pending reports are disabled after this reminder.
-            // In practice this means the reminder clears the badge
-            // count--the app itself is responsible for preventing
-            // reports after closure. The default is false.
+            // If 'heads_all' is present, a reminder is always issued,
+            // and 'heads_all' and 'bodies_all' are used for its text.
+            // Otherwise, if 'heads_lt' is present, a reminder is issued
+            // when the associated action hasn't been performed, using
+            // 'heads_lt' and 'bodies_lt'. Similarly (if 'heads_all'
+            // isn't present), if 'heads_ge' is present, a reminder is
+            // issued when the associated action has been performed,
+            // using 'heads_ge' and 'bodies_ge'.
             //
-            // To keep things simple for now, there can be only one
-            // 'reportclose' reminder, and it has to be the last one of
-            // the day. This seems to cover many cases.
-            //
-            // For a pure reminder the associated notifications are
-            // created by this module and removed by the user.
-            // Notifications for reportable reminders are removed by
-            // this module when the report is made. (To make this work,
-            // you must call sync() when reports are made.)
-            //
-            // The 'heads' and 'bodies' fields are arrays of text that
-            // should be issued to the user as part of the reminder. If
-            // the arrays have length 1, the same value is used for
-            // every reminder. Otherwise the array length should be the
-            // same as the study duration, giving a value for each day
-            // of the study.
-            //
-            // 'report_cts' is a hash giving the number of reports of
-            // each type that have been made. I.e., the keys are
-            // reportable reminder types and the values are report
-            // counts.
+            // The 'badge' field tells how the reminder should affect
+            // the badge. If the value is 'count', the number of
+            // unperformed actions associated with the reminder is added
+            // to the badge count. If the value is 'pass', the badge
+            // count is unaffected by the reminder.
+            // 
+            // 'action_cts' is a hash giving the number of actions of
+            // each type that have been performed. I.e., the keys are
+            // reminder types and the values are action counts.
             //
             c_remstate = {};
             c_remstate.descs = angular.copy(descs);
             c_remstate.descs.sort(by_time);
             c_remstate.start_time = start_time;
             c_remstate.end_time = end_time;
-            c_report_cts = angular.copy(report_cts);
+            c_action_cts = angular.copy(action_cts);
 
-            return sync_p(c_remstate, c_report_cts);
+            return sync_p(c_remstate, c_action_cts);
         },
 
         clear: function() {
