@@ -79,8 +79,6 @@ function by_time(a, b)
  *   symptom_scores:        (array of { name: string, score: number })
  *   symptom_report_time:   time of symptom report (number, sec since 1970)
  *   symptom_history:       array of former symptom reports (see below)
- *   confirmed:             (bool) confirmed reports for the day
- *   confirmed_time:        time of daily report confirmation (sec since 1970)
  *   note:                  (string)
  *   note_time:             time of note (number, sec since 1970)
  *   note_history:          array of former note reports (see below)
@@ -260,7 +258,9 @@ function by_time(a, b)
                         Array.isArray(rep.symptom_scores) &&
                         rep.symptom_scores.length > 0;
             case 'evening':
-                return !!rep.confirmed;
+                return report_made(rep, 'morning') &&
+                       report_made(rep, 'breakfast') &&
+                       report_made(rep, 'symptomEntry');
         }
         return false;
     }
@@ -322,8 +322,7 @@ function by_time(a, b)
                 morning: morning,
                 breakfast: breakfast,
                 symptomEntry: symptomEntry,
-                evening: evening,
-                closeout: evening
+                evening: evening
             };
             return res;
         }
@@ -340,25 +339,6 @@ function by_time(a, b)
             symptomEntry = dur;
             evening = dur;
             return tally();
-        }
-
-        // If it's after the closeout time today, all reports for the
-        // day are deemed to exist.
-        //
-        if (Array.isArray(exper.remdescrs)) {
-            var closeout_rd = null;
-            for (var i = 0; i < exper.remdescrs.length; i++)
-                if (exper.remdescrs[i].reportclose) {
-                    closeout_rd = exper.remdescrs[i];
-                    break;
-                }
-            if (closeout_rd && sec_after_midnight() >= closeout_rd.time) {
-                morning = sd;
-                breakfast = sd;
-                symptomEntry = sd;
-                evening = sd;
-                return tally();
-            }
         }
 
         if (!exper.reports)
