@@ -166,15 +166,16 @@ function timesec_of_date(date)
 .controller('Setup5Ctrl', function($scope, $state, ABShuffle,
                                    Reminders, LC, Text, SetupData,
                                    StudyFmt, Experiments, Replicator) {
-    var APPNAME = 'TummyTrials';
 
     function reminder_heads(title)
     {
         var heads = [];
         var duration = Number(SetupData.duration || 0);
         for (var day = 1; day <= duration; day++) {
-            var h = APPNAME + ' ' + title + ' ' +
-                    text.setup5.day_counter.replace("{DAY}", day);
+            var h = title;
+            if (h != "") 
+                h = h + ' ';
+            h = h + text.setup5.day_counter.replace("{DAY}", day);
             heads.push(h);
         }
         return heads;
