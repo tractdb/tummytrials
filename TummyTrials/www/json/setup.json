@@ -291,23 +291,23 @@
 		"triggers": [{
 			"trigger": "Sorbitol (Artificial Sweeteners)",
 			"uisref": "setup_3_1",
-			"phrase_plus": "eat at least 5g Sorbitol",
-			"phrase_minus": "eat less than 0.5g Sorbitol"
+			"phrase_plus": "Consume Sorbitol",
+			"phrase_minus": "Avoid Sorbitol"
 		}, {
 			"trigger": "Lactose (Dairy)",
 			"uisref": "setup_3_2",
-			"phrase_plus": "eat at least 8 grams of lactose",
-			"phrase_minus": "avoid eating any lactose"
+			"phrase_plus": "Consume Lactose",
+			"phrase_minus": "Avoid Lactose"
 		}, {
 			"trigger": "Caffeine",
 			"uisref": "setup_3_3",
-			"phrase_plus": "drink caffeine",
-			"phrase_minus": "avoid drinking any caffeine"
+			"phrase_plus": "Consume Caffeine",
+			"phrase_minus": "Avoid Caffeine"
 		}, {
 			"trigger": "Gluten",
 			"uisref": "setup_3_4",
-			"phrase_plus": "eat gluten",
-			"phrase_minus": "avoid eating any gluten"
+			"phrase_plus": "Consume Gluten",
+			"phrase_minus": "Avoid Gluten"
 		}],
 		"button": "Continue "
 	},
@@ -567,11 +567,11 @@
 		"evening_reminder": "6:00 pm",
 		"button": "Begin The Trial",
 		"day_counter": "(Day {DAY})",
-		"morning_reminder_text": "Today is a day to {AORB}.",
-		"breakfast_reminder_text": "Report your breakfast compliance.",
-		"symptomEntry_reminder_rep_text": "Please report your symptom levels.",
-		"symptomEntry_reminder_upd_text": "Please update your symptom levels if necessary.",
-		"evening_reminder_text": "Please report your compliance and symptom levels.",
+		"morning_reminder_text": "{AORB} today.",
+		"breakfast_reminder_text": "Report breakfast compliance.",
+		"symptomEntry_reminder_rep_text": "Report symptom levels.",
+		"symptomEntry_reminder_upd_text": "Update symptom levels if necessary.",
+		"evening_reminder_text": "Report compliance and symptom levels.",
 		"food_pref_title":"Food preferences",
 		"breakfast_pref":"Breakfast preference",
 		"no_food": "(Please select a breakfast food preference on screen 4.)",
