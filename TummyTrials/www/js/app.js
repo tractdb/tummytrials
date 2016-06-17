@@ -112,13 +112,6 @@ app.run(function($cordovaFile, $ionicPlatform, $rootScope, $q,
         });
     });
 
-    // Log a user activity now and whenever the app resumes.
-    //
-    // NO LONGER NEEDED: ActivityLog works autonomously.
-    //
-    // ActivityLog.info('app startup');
-    // $rootScope.$on('appResume', function() { ActivityLog.info('app resume'); });
-
     // Some tests of Experiments. Move these into some kind of framework
     // later on, probably. (Note: right now some of the tests fail if
     // there is a current study.)
@@ -143,8 +136,8 @@ app.run(function($cordovaFile, $ionicPlatform, $rootScope, $q,
     }
 
     // Some tests of Reminders. Right now these require human
-    // intervention and observation. (Need to disable call to
-    // sync_reminders_p() above for these tests to work.)
+    // intervention and observation. (Need to disable calls to
+    // reminder_sync_p() above for these tests to work.)
     //
     var want_to_run_remind_tests = false;
     if (want_to_run_remind_tests) {

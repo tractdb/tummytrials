@@ -20,20 +20,24 @@
 
     var test_descs = [
         { type: 'testSyncA',
-          time: 0, // Fix up in test_sync_0
-          heads: ['First Reminder'],
-          bodies: ['Badge goes to 1']
+          time: 0, // Fix up in test_sync_1
+          badge: 'count',
+          heads_lt: ['First Reminder'],
+          bodies_lt: ['Badge goes to 1']
         },
         { type: 'testSyncB',
-          reminderonly: true,
           time: 0, // Fix up in test_sync_1
-          heads: ['Second Reminder', 'Tomorrow Head'],
-          bodies: ['Badge stays at 1', 'Tomorrow Body']
+          badge: 'pass',
+          heads_all: ['Second Reminder', 'Tomorrow Head'],
+          bodies_all: ['Badge stays at 1', 'Tomorrow Body']
         },
         { type: 'testSyncC',
           time: 0, // Fix up in test_sync_1
-          heads: ['Third Reminder'],
-          bodies: ['Badge goes to 2']
+          badge: 'count',
+          heads_lt: ['Third Reminder'],
+          bodies_lt: ['Badge goes to 2'],
+          heads_ge: ['Third Reminder when action done'],
+          bodies_ge: ['Badge stays at 0']
         }
     ];
 
@@ -83,7 +87,7 @@
         return null;
     }
 
-    function test_remind(descr, start_time, n, state)
+    function test_remind(descr, start_time, actct, n, state)
     {
         // Return a notification object for the given reminder
         // descriptor and other state. The return value looks like what
@@ -94,10 +98,18 @@
         }
         var remind = {};
         remind.badge = 0; // Caller should fix up later
-        remind.data = descr.type;
+        remind.data = { type: descr.type, sd: n };
         remind.id = 0; // Caller should fix up later
-        remind.title = nthstr(descr.heads);
-        remind.text = nthstr(descr.bodies);
+        if (descr.heads_all) {
+            remind.title = nthstr(descr.heads_all);
+            remind.text = nthstr(descr.bodies_all);
+        } else if (actct < n && descr.heads_lt) {
+            remind.title = nthstr(descr.heads_lt);
+            remind.text = nthstr(descr.bodies_lt);
+        } else if (actct >= n && descr.heads_ge) {
+            remind.title = nthstr(descr.heads_ge);
+            remind.text = nthstr(descr.bodies_ge);
+        }
         remind.at = at_time(start_time, n, descr.time);
         remind.sound = 'res://platform_default';
         remind.state = state;
@@ -106,7 +118,8 @@
 
     function validate_reminds_equal(saw, exp, tag)
     {
-        if (false) {
+        // TEMP was false
+        if (true) {
             // (For debugging.)
             //
             console.log('validate_reminds_equal, saw',
@@ -121,7 +134,7 @@
         console.log('validate_reminds_equal<' + tag + '>: success');
     }
 
-    function expected_reminders(descs, startt, endt, report_cts, baseid, moment)
+    function expected_reminders(descs, startt, endt, action_cts, baseid, moment)
     {
         // Return the expected reminders after syncing at the given
         // moment, given the supplied reminder state. Times are sec
@@ -130,11 +143,11 @@
         var daysec = 24 * 60 * 60; // Seconds in a day
         var dayct = Math.round((endt - startt) / daysec);
 
-        // Make sure all types are represented in report_cts.
+        // Make sure all types are represented in action_cts.
         //
         descs.forEach(function(d) {
-            if (!(d.type in report_cts))
-                report_cts[d.type] = 0;
+            if (!(d.type in action_cts))
+                action_cts[d.type] = 0;
         });
 
         // Which day of the study is it?
@@ -151,10 +164,6 @@
         var mtime = md.getHours() * 3600 + md.getMinutes() * 60 +
                     md.getSeconds();
 
-        // Cumulated badge count.
-        //
-        var badgect = 0;
-
         var expected = [];
         descs.forEach(function(desc) {
             var n0; // Day of next reminder of the type
@@ -162,43 +171,32 @@
                 n0 = 1; // Study hasn't started yet
             else
                 n0 = Math.min(dayct + 1, dos + (mtime < desc.time ? 0 : 1));
-            // Previously issued reminders with no reports.
-            //
-            if (!desc.reminderonly)
-                for (var n = report_cts[desc.type] + 1; n < n0; n++) {
-                    expected.push(test_remind(desc, startt, n, 'triggered'));
-                    badgect++;
-                }
 
-            // Reminders to be issued in the future.
-            //
-            var n;
-            if (desc.reminderonly)
-                n = n0;
-            else
-                // (Reports might conceivably come in early.)
-                //
-                n = Math.max(n0, report_cts[desc.type] + 1);
+            var actct = action_cts[desc.type];
+            var n = Math.max(n0, action_cts[desc.type] + 1);
             for (; n <= dayct; n++)
-                expected.push(test_remind(desc, startt, n, 'scheduled'));
+                expected.push(test_remind(desc, startt, actct, n, 'scheduled'));
         });
+
 
         expected.sort(by_at);
 
         // We keep only the latest overdue reminder, due to
         // $cordovaLocalNotification bug (see reminders.js).
         //
-        while (expected.length > 1 && expected[1].state == 'triggered')
-            expected.splice(0, 1);
+        // while (expected.length > 1 && expected[1].state == 'triggered')
+        //     expected.splice(0, 1);
 
         // Set ids and badge counts.
         //
+        var badgect = 0;
         expected.forEach(function(n) {
             n.id = baseid++;
             if (n.state == 'triggered')
                 n.id = -n.id;
-            var descr = descr_by_type(descs, n.data);
-            if (n.state == 'scheduled' && descr && !descr.reminderonly)
+            var descr = descr_by_type(descs, n.data.type);
+            if (n.state == 'scheduled' && descr &&
+                descr.badge == 'count' && action_cts[descr.type] < n.data.sd)
                 badgect++;
             n.badge = badgect;
         });
@@ -273,16 +271,16 @@
 
         // Make all reports that are due, then check again.
         //
-        var repcts = {};
+        var actcts = {};
         test_descs.forEach(function(desc) {
-            if (!desc.reminderonly)
-                repcts[desc.type] = 1;
+            if (desc.badge != 'pass')
+                actcts[desc.type] = 1;
         });
 
-        return Reminders.sync(test_descs, st, et, repcts)
+        return Reminders.sync(test_descs, st, et, actcts)
         .then(function(_) { return Reminders.list(); })
         .then(function(notifs) {
-            var expected = expected_reminders(test_descs, st, et, repcts,
+            var expected = expected_reminders(test_descs, st, et, actcts,
                                                 id0, mom);
             validate_reminds_equal(notifs, expected, 'testSync 2 after');
             console.log('Please exit to home screen (touch home button)');
@@ -315,8 +313,8 @@
                 var testnotif = -1, testnotiftrig = -1;
 
                 for (var i = 0; i < notifs.length; i++) {
-                    var desc = descr_by_type(test_descs, notifs[i].data);
-                    if (notifs[i].data.search(/^testSync/) >= 0) {
+                    var desc = descr_by_type(test_descs, notifs[i].data.type);
+                    if (notifs[i].data.type.search(/^testSync/) >= 0) {
                         if (testnotif < 0)
                             testnotif = i;
                         if (notifs[i].state == 'triggered' &&
@@ -336,7 +334,7 @@
             })
         },
 
-        validateSync: function(descs, startt, endt, report_cts) {
+        validateSync: function(descs, startt, endt, action_cts) {
             // Return a promise to validate that the currently scheduled
             // reminders are correct for the given descriptors, start
             // time, end time, and reports.
@@ -352,7 +350,7 @@
                 // at their leisure.
                 //
                 for (var j = notifs.length - 1; j >= 0; j--) {
-                    var desc = descr_by_type(descs, notifs[j].data);
+                    var desc = descr_by_type(descs, notifs[j].data.type);
                     if (notifs[j].state == 'triggered' &&
                         desc && desc.reminderonly)
                         notifs.splice(j, 1);
@@ -360,7 +358,7 @@
 
                 var baseid = notifs.length > 0 ? Math.abs(notifs[0].id) : 0;
                 var m = Math.trunc(Date.now() / 1000);
-                var exp = expected_reminders(descs, startt, endt, report_cts,
+                var exp = expected_reminders(descs, startt, endt, action_cts,
                                              baseid, m);
                 validate_reminds_equal(notifs, exp, 'validateSync');
                 return null;
