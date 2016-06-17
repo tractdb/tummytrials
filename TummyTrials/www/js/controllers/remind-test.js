@@ -118,8 +118,7 @@
 
     function validate_reminds_equal(saw, exp, tag)
     {
-        // TEMP was false
-        if (true) {
+        if (false) {
             // (For debugging.)
             //
             console.log('validate_reminds_equal, saw',
