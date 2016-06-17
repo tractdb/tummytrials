@@ -39,7 +39,7 @@ var app = angular.module('tummytrials',
             'tractdb.reminders', 'tummytrials.remind-test']);
 
 //Ionic device ready check
-app.run(function($cordovaFile, $ionicPlatform, $rootScope, $q,
+app.run(function($cordovaFile, $ionicPlatform, $rootScope, $state, $q,
                     TDate, Login, Text, Experiments,
                     Reminders, ExperTest, RemindTest) {
 
@@ -110,6 +110,12 @@ app.run(function($cordovaFile, $ionicPlatform, $rootScope, $q,
         $rootScope.$on('couchdbAfterReplicate', function() {
             reminder_sync_p();
         });
+    });
+
+    // Whenever app restarts, switch to the Current Trial tab.
+    //
+    $rootScope.$on('appResume', function() {
+        $state.go('current');
     });
 
     // Some tests of Experiments. Move these into some kind of framework
