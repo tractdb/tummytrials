@@ -215,6 +215,10 @@
 
             var actct = action_cts[desc.type];
             for (var n = Math.min(actct + 1, nnext); n <= dur; n++) {
+                if (n < nnext && desc.badge != 'count')
+                    // Ignore past notifications with no badge count.
+                    //
+                    continue;
                 if (desc.heads_all)
                     notifs.push(notifn(desc.heads_all, desc.bodies_all, n));
                 else if (actct < n && desc.heads_lt)
