@@ -16,11 +16,11 @@ Page Hierarchy:
 <ion-view title="{{title}}" cache-view="false">
   <ion-pane>
     <ion-content>
-    <div class="calendar" ng-show="(study_current && !exp_bool && !is_past)">
+    <div class="calendar" ng-show="(study_current && !is_past)">
       <br/>
       <div class="row"> 
         <div class="col col-33">
-          <h5>Day {{day_num}} of {{duration_readable}}</h5>
+          <h5 ng-show="!exp_bool">Day {{day_num}} of {{duration_readable}}</h5>
         </div>
         <!-- Legend for the calendar -->
         <div class="col">
@@ -206,12 +206,12 @@ Page Hierarchy:
               <div class="rem-padding" ng-hide="!bfst_comp_state">
                 <!-- h5 has a margin-top nad bottom of 10px -->
                 <!-- Row and column have padding of top and left of 5px, resetting that manully -->
-                <div class="row" style="margin-top:-10px; margin-left:-10px;">
-                  <div class="col">
+                <div class="row" style="margin-top:-10px; margin-left:5px;">
+                  <div class="col" style="margin-left:-15px;">
                     <h5 style="margin-top:0px; margin-bottom:0px;">Eat Breakfast</h5>
                     <p class="balanced" ng-bind-html="bfst_comp_msg"></p>
                   </div>
-                  <div class="edit-padding">
+                  <div class="edit-padding" style="margin-left:-15px;">
                     <a class="button button-small button-royal" style="margin-top:8px;" ui-sref="during">
                      &nbsp<i class="ion-edit" style="font-size: 120%;"></i>&nbsp
                     </a>
@@ -241,12 +241,12 @@ Page Hierarchy:
               <div class="rem-padding" ng-hide="!lcomp_state">
                 <!-- h5 has a margin-top nad bottom of 10px -->
                 <!-- Row and column have padding of top and left of 5px, resetting that manully -->
-                <div class="row" style="margin-top:-10px; margin-left:-10px;">
-                  <div class="col">
+                <div class="row" style="margin-top:-10px; margin-left:5px;">
+                  <div class="col" style="margin-left:-15px;">
                     <h5 style="margin-top:0px; margin-bottom:0px;">Fast</h5>
                     <p class="balanced" ng-bind-html="lcomp_msg"></p>
                   </div>
-                  <div class="edit-padding">
+                  <div class="edit-padding" style="margin-left:-15px;">
                     <a class="button button-small button-royal" style="margin-top:8px;" ui-sref="sec_comp">
                      &nbsp<i class="ion-edit" style="font-size: 120%;"></i>&nbsp
                     </a>
@@ -276,12 +276,12 @@ Page Hierarchy:
               <div class="rem-padding" ng-hide="!sym_score_state">
                 <!-- h5 has a margin-top nad bottom of 10px -->
                 <!-- Row and column have padding of top and left of 5px, resetting that manully -->
-                <div class="row" style="margin-top:-10px; margin-left:-10px;">
-                  <div class="col">
+                <div class="row" style="margin-top:-10px; margin-left:5px;">
+                  <div class="col" style="margin-left:-15px;">
                     <h5 style="margin-top:0px; margin-bottom:0px;">Report Symptoms</h5>
                     <p class="balanced" ng-bind-html="report_msg"></p>
                   </div>
-                  <div class="edit-padding">
+                  <div class="edit-padding" style="margin-left:-15px;">
                     <a class="button button-small button-royal" style="margin-top:8px;" ui-sref="post({symptomIndex:0})">
                      &nbsp<i class="ion-edit" style="font-size: 120%;"></i>&nbsp
                     </a>
