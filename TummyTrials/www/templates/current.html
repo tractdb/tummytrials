@@ -16,11 +16,11 @@ Page Hierarchy:
 <ion-view title="{{title}}" cache-view="false">
   <ion-pane>
     <ion-content>
-    <div class="calendar" ng-show="(study_current && !exp_bool && !is_past)">
+    <div class="calendar" ng-show="(study_current && !is_past)">
       <br/>
       <div class="row"> 
         <div class="col col-33">
-          <h5>Day {{day_num}} of {{duration_readable}}</h5>
+          <h5 ng-show="!exp_bool">Day {{day_num}} of {{duration_readable}}</h5>
         </div>
         <!-- Legend for the calendar -->
         <div class="col">
