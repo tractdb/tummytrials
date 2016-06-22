@@ -32,11 +32,25 @@ Try using Ionic components for all UI elements: http://ionicframework.com/docs/
 
 For making changes to the Ionic theme use SASS: http://learn.ionicframework.com/formulas/working-with-sass/
 
-For updating/adding to ioniocons follow instructions at https://github.com/driftyco/ionicons (fontforge should be the only missing dependence - installed via brew)
-
 Try to follow the recommended style guide here: https://github.com/mgechev/angularjs-style-guide
 
-####################################################################################################################################
+------------------------------------------------------------------------------------------------------------------------------------
+
+For updating/adding to ioniocons follow instructions at https://github.com/driftyco/ionicons (fontforge should be the only missing dependence - installed via brew)
+
+Once the svg has been copied to the folder `tummy-trials/TummyTrials/www/lib/ionicons/src` run the following commands:
+    
+navigate to `tummy-trials/TummyTrials/www/lib/ionicons`
+
+    $ python ./builder/generate.py
+
+navigate back to `tummy-trials/TummyTrials`
+
+    $ sudo ionic setup sass
+
+add back your custom css after above command, which removes it from your index.html
+
+------------------------------------------------------------------------------------------------------------------------------------
 
 Current version info:
 
