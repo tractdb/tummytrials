@@ -32,6 +32,8 @@ Try using Ionic components for all UI elements: http://ionicframework.com/docs/
 
 For making changes to the Ionic theme use SASS: http://learn.ionicframework.com/formulas/working-with-sass/
 
+For updating/adding to ioniocons follow instructions at https://github.com/driftyco/ionicons (fontforge should be the only missing dependence - installed via brew)
+
 Try to follow the recommended style guide here: https://github.com/mgechev/angularjs-style-guide
 
 ####################################################################################################################################
