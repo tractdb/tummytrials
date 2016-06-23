@@ -51,6 +51,7 @@
             $scope.today = new Date();
             $scope.today_readable = LC.dateonly($scope.today);
             $scope.today_full = LC.datestrfull($scope.today);
+            $scope.today_md = LC.datemd($scope.today);
 
             $scope.start_date = new Date(cur.start_time * 1000);
             $scope.start_date_dtonly = LC.dateonly($scope.start_date);
@@ -179,8 +180,10 @@
             var cal_days = days;
 
             //find out how many buttons to append in first row. 
+            var day_names_sr = ["S","M","T","W","T","F","S"];
+            $scope.day_names = day_names_sr;
+
             var day_names = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-            $scope.day_names = day_names;
             var d, d_l = day_names.length;
             var st_dy, ed_dy;
 

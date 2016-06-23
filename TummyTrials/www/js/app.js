@@ -161,8 +161,11 @@ app.run(function($cordovaFile, $ionicPlatform, $rootScope, $state, $q,
 
 
 //UI-router for handling navigation 
-app.config(function($stateProvider, $urlRouterProvider) {
+app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
   
+  // updating back to have no text
+  $ionicConfigProvider.backButton.previousTitleText(false).text('');
+
   //enter login for landing tab here
   $urlRouterProvider.otherwise('/')
 

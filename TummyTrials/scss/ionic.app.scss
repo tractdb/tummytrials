@@ -21,9 +21,14 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 
 // Overriding the royal purple to be UW purple and grey
-$royal:                           #4b2e83 !default;
-$stable:                          #d9d9d9 !default;
+// $royal:                           #4b2e83 !default;
+// $stable:                          #d9d9d9 !default;
 
+// Overriding based on new template
+// royal is primary blue, energized is secondary orange
+$royal:								#3995d4 !default;
+$energized:							#dd824c !default;
+ 
 // Adding custom font family
 @import url(https://fonts.googleapis.com/css?family=Lato:400,300,900);
 $font-family-base: "Lato", sans-serif !default;

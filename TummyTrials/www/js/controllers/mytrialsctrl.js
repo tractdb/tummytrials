@@ -11,6 +11,23 @@
 .controller('MyTrialsCtrl', function($scope, $state, $timeout, TextR, LC, $ionicPopup, Experiments, ExperimentsR) {
     $scope.text = TextR;
     Experiments.set_study_context($scope, ExperimentsR);
+
+    $scope.start_date = function(date){
+      return LC.datemd(new Date(date * 1000));
+    }
+
+    $scope.end_date = function(date){
+      var end_date_md = new Date(date * 1000); // This is first day *after* the trial
+      end_date_md.setDate(end_date_md.getDate() - 1); // This is last day of the trial
+      return LC.datemd(end_date_md); 
+    }
+
+    $scope.duration = function(start, end){
+      var dur = end - start;
+      dur = new Date(dur * 1000); 
+      return LC.dateonly(dur);
+    }
+      
 })
 
 .controller('MyCrntTrialsCtrl', function($scope, $state, $timeout, TextR, LC, $ionicPopup, Experiments, ExperimentsR) {

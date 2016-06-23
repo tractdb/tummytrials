@@ -569,7 +569,7 @@
 		"day_counter": "Day {DAY}",
 		"morning_reminder_text": "{AORB} today.",
 		"breakfast_reminder_text": "Report breakfast compliance.",
-		"symptomEntry_reminder_rep_text": "Report symptom levels.",
+		"symptomEntry_reminder_rep_text": "Report fasting compliance & symptom levels.",
 		"symptomEntry_reminder_upd_text": "Update symptom levels if necessary.",
 		"evening_reminder_text": "Report compliance and symptom levels.",
 		"food_pref_title":"Food preferences",

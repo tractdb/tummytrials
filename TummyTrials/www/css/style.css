@@ -8,8 +8,44 @@
 	/* background-color: #11c1f3; */
 }
 
+.heavy{
+	font-weight:900;
+}
+
+/*colors*/
+.primary{
+	background-color: #3995d4;
+}
+
+.primaryl2{
+	background-color: #c3dff2;
+}
+
+.primaryl1{
+	background-color: #74b5e0;
+}
+
+.white{
+	color:white;
+}
+
+.grey{
+	background-color: #eeeeee;
+}
+
+.disabled-text{
+	color: #dddddd;
+}
+
 .grey-text{
 	color: #666666;
+}
+
+.tab-item {
+    opacity: 0.5;
+}
+.tab-item.tab-item-active, .tab-item.active, .tab-item.activated {
+    opacity: 1;
 }
 
 .button-small{
@@ -22,19 +58,42 @@
     min-height: 40px !important;
     min-width: 44.28px;
     /*min-width: unset !important;*/
-    max-width:  unset !important;
+    max-width: unset !important;
     text-align:center;
 }
 
-.button-royal{
+.primaryl1btn{
+	background-color: #74b5e0;
 	max-width: 100%;
+	border:0px;
+	border-radius: 0px;
 }
-.light-royal{
-	background-color: #c9c0d9;
+.primaryl2btn{
+	background-color: #c3dff2;
 	max-width: 100%;
+	border: 0px;
+	border-radius: 0px;
 }
 .button-clear{
 	max-width: 100%;
+}
+.primaryl1btnalt{
+	background-color: #74b5e0;
+	max-width: 100%;
+	border-width:3px;
+	border-radius: 0px;
+	border-color: #32739e;
+}
+.primaryl2btnalt{
+	background-color: #c3dff2;
+	max-width: 100%;
+	border-width: 3px;
+	border-radius: 0px;
+	border-color: #32739e;
+}
+
+.reportbtn {
+	width: 71px;
 }
 
 /* changing the text color of list headings to white */
@@ -71,6 +130,7 @@
 /*css for 2nd column of reminders card*/
 .neg-padding {
 	margin-left: -5px;
+	min-width: 40px;
 }
 
 .rem-padding{
