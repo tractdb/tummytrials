@@ -209,26 +209,32 @@ app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
         }
       }
     })
-    .state('current_trial', {
-      url: '/mytrials/current_trial',
+    // .state('current_trial', {
+    //   url: '/mytrials/current_trial',
+    //   views: {
+    //     mytrials : {
+    //       templateUrl: 'templates/mytrials/current_trial.html',
+    //       resolve: {
+    //         TextR:
+    //             function(Text) { return Text.all_p(); },
+    //         ExperimentsR:
+    //             function(Experiments) { return Experiments.all(); }
+    //       },
+    //       controller: 'MyCrntTrialsCtrl'
+    //     }
+    //   }
+    // })
+    .state('settings', {
+      url: '/settings',
       views: {
-        mytrials : {
-          templateUrl: 'templates/mytrials/current_trial.html',
+        settings : {
+          templateUrl: 'templates/settings.html',
           resolve: {
             TextR:
                 function(Text) { return Text.all_p(); },
             ExperimentsR:
                 function(Experiments) { return Experiments.all(); }
           },
-          controller: 'MyCrntTrialsCtrl'
-        }
-      }
-    })
-    .state('settings', {
-      url: '/settings',
-      views: {
-        settings : {
-          templateUrl: 'templates/settings.html',
           controller: 'SettingsCtrl'
         }
       }

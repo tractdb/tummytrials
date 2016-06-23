@@ -229,20 +229,25 @@
                     // Using the date as the key, store the condition and the score for each day
                     sym_data["date"] = dt;
 
+                    var p_txt;
                     res_desc = res_desc.replace('{SYMPTOM}', sym_name);
                     res_desc = res_desc.replace('{TRIGGER}', trig);
                     if(p_val[a]){
                         var p_val_num = Number(p_val[a]);
                         if(p_val_num <= 0.05){
                             res_desc = res_desc.replace('{EVIDENCE}', 'strong');
+                            p_txt = "Strong evidence";
                         } else if(p_val_num > 0.05 && p_val_num <= 0.1) {
                             res_desc = res_desc.replace('{EVIDENCE}', 'possible');
+                            p_txt = "Possible evidence";
                         } else if(p_val_num > 0.1){
-                            res_desc = res_desc.replace('{EVIDENCE}', 'no');
+                            res_desc = res_desc.replace('{EVIDENCE}', 'weak');
+                            p_txt = "Weak evidence";
                         }
 
                     }
                     sym_data["summary"] = res_desc;
+                    sym_data["p_txt"] = p_txt;
                     sym_data["a_avg"] = a_avg;
                     sym_data["b_avg"] = b_avg;
                     sym_data["a_void"] = a_void;
@@ -269,7 +274,7 @@
                 if(a_avg > b_avg){
                     res_desc = res_desc.replace('{BETTER/WORSE}', 'worse');
                 } else if(a_avg < b_avg){
-                    res_desc = res_desc.replace('{BETTER/WORSE}', 'better');
+                    res_desc = res_desc.replace('gets {BETTER/WORSE}', 'does not worsen');
                 } else if(a_avg == b_avg){
                     res_desc = res_desc.replace('gets {BETTER/WORSE}', 'stays the same ');
                 } 

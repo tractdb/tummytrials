@@ -1,5 +1,5 @@
 {
-  "build_hash": "c55f34230004a9fec1bda6436ba24e93",
+  "build_hash": "52519cba4fce7c0cf608f742f55751c6",
   "prefix": "ion-",
   "version": "2.0.1",
   "name": "Ionicons",
@@ -1023,6 +1023,10 @@
     {
       "code": "0xf159",
       "name": "ic-note"
+    },
+    {
+      "code": "0xf15f",
+      "name": "ic-rectangle"
     },
     {
       "code": "0xf15a",

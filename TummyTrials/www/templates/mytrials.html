@@ -1,4 +1,7 @@
-<ion-view title="My Trials" cache-view="false">
+<ion-view cache-view="false">
+  <ion-nav-title class="heavy">
+    Trial Results
+  </ion-nav-title>
 <!-- cache-view="false" is required here to get the controller to
      reinstantiate on every transition to this page. I.e., to get the
      page to display current info.
@@ -7,7 +10,6 @@
 -->
 	<ion-pane>
 		<ion-content >
-		<br/>
         <div class="padding" ng-hide="!!study_current">
 	        <h4 class="title">No ongoing trial</h4>
 			<br/>
@@ -22,19 +24,16 @@
 
         <div class="list">
 
-		  <div class="item item-divider">
+          <!-- Contents moved to settings tab -->
+		  <!-- <div class="item item-divider">
 		    {{text.mytrials.currenttrialtitle}}
 		  </div>
 		  <a class="item" href="#" ng-hide="!!study_current">
 		    There is no ongoing trial.
 		  </a>
-		  <a class="item" ui-sref="current_trial" ng-style="{'color':'#f0b840'}" ng-show="!!study_current"> <!-- #f0b840 is energized/orange -->
+		  <a class="item" ui-sref="current_trial" ng-style="{'color':'#f0b840'}" ng-show="!!study_current">
 		    {{study_current.trigger}} Trial
-		  </a>
-
-		  <div class="item item-divider">
-		    {{text.mytrials.pasttrialtitle}}
-		  </div>
+		  </a> -->
           
           <a class="item item-text-wrap" ng-repeat="study in study_previous" ui-sref="past_trial_1({studyIndex: $index})" ng-hide="study_previous.length<1">
             

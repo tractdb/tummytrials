@@ -1,23 +1,114 @@
-<ion-view title="Settings" cache-view="false">
+<ion-view cache-view="false">
+  <ion-nav-title class="heavy">
+    Settings
+  </ion-nav-title>
   <ion-pane>
     <ion-content class="ten-padding">
         <br/>
-        <div class="card">
+
+          <!-- Current trial details if it exists -->
+          <div ng-hide="!cur">
+            <div class="card padding">
+              <h4>Trial Summary</h4>
+                <div class="row">
+                  <div class="col col-33">
+                   Name 
+                  </div>
+                  <div class="col">
+                    {{study_current.trigger}} Trial
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="col col-33">
+                    Date Started
+                  </div>
+                  <div class="col"> 
+                    {{start_day}}
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col col-33">
+                    Symptoms 
+                  </div>
+                  <div class="col"> 
+                    <span ng-repeat="s in sym">{{s}} <br/></span>
+                  </div>
+                </div> 
+
+                <div class="row">
+                  <div class="col col-33">
+                    Trigger
+                  </div>
+                  <div class="col"> 
+                    {{study_current.trigger}}
+                  </div>
+                </div> 
+
+                <div class="row">
+                  <div class="col col-33">
+                   Breakfast Preference
+                  </div>
+                  <div class="col"> 
+                    {{study_current.breakfast_pref}}
+                  </div>
+                </div>  
+
+                <div class="row">
+                  <div class="col col-33">
+                    Drink Preference 
+                  </div>
+                  <div class="col"> 
+                    {{study_current.drink_pref}}
+                  </div>
+                </div>  
+            </div>
+
+                <!-- 
+                Completing a study
+                --> 
+                <div ng-show="comp" class="card padding">
+                  <h4>Complete Trial</h4>
+                  <p>You have finished the trial. Please submit the trial by pressing the button below to view results.</p>
+                   <div class="divcenter">
+                      <button class="button button-block button-royal" ng-click="complete_trial()" >
+                        Complete Trial
+                      </button>
+                   </div>
+                </div>
+
+                <!-- 
+                Abandoning a study
+                --> 
+                <div ng-show="abdn" class="card padding">
+                  <h4>End Trial</h4>
+                  <p>{{text.current.abandon_text}}</p>
+                    <div class="divcenter">
+                      <button class="button button-block button-royal" ng-click="abandon_trial()" >
+                        Abandon Trial
+                      </button>
+                    </div>
+                </div>
+
+          <div>  
+
+
           <div class="item item-text-wrap">
-              <button class="button button-block button-assertive" ng-click="clear_credentials()" ng-disabled="!have_credentials">
+              <button class="button button-block heavy white" style="background-color:#e07474" ng-click="clear_credentials()" ng-disabled="!have_credentials">
                 {{text.settings.clear_creds}}
               </button>
             <p>{{text.settings.clear_explanation}}</p>
           </div>
-        </div>
-        <div class="card">
+
+        <!-- <div class="card">
           <div class="item item-text-wrap ">
               <button class="button button-block button-assertive" ng-click="begin_demo()" ng-disabled="!demo_is_possible">
                   {{text.settings.accelerated_demo}}
               </button>
           <p>{{text.settings.demo_explanation}}</p>
           </div>
-        </div>
+        </div> -->
 
         <br/>
           <a class="button button-block button-royal" ui-sref="setup_1">

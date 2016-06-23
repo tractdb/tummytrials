@@ -1,12 +1,14 @@
-<ion-view>
-  <ion-nav-title>
-  FAQ
+<ion-view cache-view="false">
+  <ion-nav-title class="heavy">
+  FAQs
   </ion-nav-title>
   <ion-pane>
-    <ion-content class="padding">
-    	<div class="card padding">
-    		<h5>{{heading}}</h5>
-    		<p class="new_line" ng-bind-html="trustAsHtml(content)"></p>
+    <ion-content class="grey">
+    	<div class="padding">
+        <br/>
+    		<p style="margin-top:0px; margin-bottom:0px; font-size:1.2em;" class="heavy">{{heading}}</p>
+        <br/>
+    		<p class="new_line" ng-bind-html="trustAsHtml(content)" style="color:#666666;"></p>
     	</div>
      </ion-content>  
   </ion-pane>

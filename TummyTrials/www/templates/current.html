@@ -45,7 +45,7 @@ Page Hierarchy:
             <div ng-repeat="c_day in cal_days">
              <a class="button btn-lh" ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_1'" ng-class="c_day[1] == 'A' ? 'primaryl1btn' : '' || c_day[1] == 'B' ? 'primaryl2btn' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">{{c_day[0]}}</a>
               <a class="button btn-lh" ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_1'" ng-class="c_day[1] == 'A' ? 'primaryl1btnalt' : '' || c_day[1] == 'B' ? 'primaryl2btnalt' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">
-                <!-- <span class="not-on-top"> <i class="ion-android-radio-button-off energized" style="font-size: 300%;"></i> </span> -->
+                <!-- <span class="not-on-top"> <i class="ion-ic-rectangle energized" style="font-size: 300%;"></i> </span> -->
                 <span class="on-top">{{c_day[0]}}</span>
               </a>
             </div>
@@ -100,12 +100,12 @@ Page Hierarchy:
         Content to display when trial underway
         --> 
             <div ng-show="(!exp_bool && !is_past)">
-              <div class="padding">
-                <div style="display: inline-block;">
-                  <h4 class="heavy">{{day_cond}}</h4>
+              <div class="row padding">
+                <div class="col">
+                  <h4 class="heavy" style="margin-top:0px; margin-bottom:0px;">{{day_cond}}</h4>
                   <p>Day {{day_num}} of {{duration_readable}}</p>
                 </div>
-                <div style="display: inline-block;float:right;">
+                <div class="edit-padding">
                   <a style="text-decoration: underline; color:royal" ng-click="help = help ? false : true">
                     <i class="ion-ic-foodPlan" style="font-size: 250%;"></i>
                   </a>
