@@ -47,6 +47,22 @@
             //
             // var rinfo = [];
 
+            // manual hack for different calendar sizes
+              var sw = window.innerWidth;
+              var fives = false, six = false, sixp = false;
+              if(sw == 320){ // iphone 5s
+                fives = true;
+              } else if(sw == 375){ // iphone 6
+                six = true;
+              } else if(sw == 414){ // iphone 6 plus
+                sixp = true;
+              } else {
+                six = true;
+              }
+              $scope.fives = fives;
+              $scope.six = six;
+              $scope.sixp = sixp;
+
             // Stuff dealing with the calendar widget
             $scope.today = new Date();
             $scope.today_readable = LC.dateonly($scope.today);

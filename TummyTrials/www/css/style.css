@@ -57,24 +57,25 @@
 }
 
 .btn_lh{
-    line-height: 42px !important;
+/*    line-height: 42px !important;
     font-size: 16px;
     min-height: 40px !important;
     min-width: 44.28px;
-    /*min-width: unset !important;*/
     max-width: unset !important;
-    text-align:center;
+    text-align:center;*/
 }
 
 .primaryl1btn{
 	background-color: #74b5e0;
-	max-width: 100%;
+	/*max-width: 100%;*/
+	min-width: unset !important;
 	border:0px;
 	border-radius: 0px;
 }
 .primaryl2btn{
 	background-color: #c3dff2;
-	max-width: 100%;
+	/*max-width: 100%;*/
+	min-width: unset !important;
 	border: 0px;
 	border-radius: 0px;
 }
@@ -84,14 +85,14 @@
 .primaryl1btnalt{
 	background-color: #74b5e0;
 	max-width: 100%;
-	border-width:3px;
+	/*border-width:3px;*/
 	border-radius: 0px;
 	border-color: #32739e;
 }
 .primaryl2btnalt{
 	background-color: #c3dff2;
 	max-width: 100%;
-	border-width: 3px;
+	/*border-width: 3px;*/
 	border-radius: 0px;
 	border-color: #32739e;
 }

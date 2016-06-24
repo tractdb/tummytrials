@@ -20,7 +20,8 @@ Page Hierarchy:
   <ion-pane>
     <ion-content>
 
-    <div class="primary" ng-show="(study_current && !is_past)">
+    <!-- Calendar for iphone 5s++ -->
+    <div class="primary" ng-show="(study_current && !is_past && fives)">
       <div>
         <!-- row for day name labels -->
         <div class="row">
@@ -28,40 +29,156 @@ Page Hierarchy:
         </div>
 
         <!-- first row -->
-        <div class="row">
-          <div class="button-bar divcenter">
-            <div ng-repeat="c_day in cal_days">
-              <a class="button btn-lh" ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_0'" ng-class="c_day[1] == 'A' ? 'primaryl1btn' : '' || c_day[1] == 'B' ? 'primaryl2btn' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">{{c_day[0]}}</a>
-              <a class="button btn-lh" ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_0'" ng-class="c_day[1] == 'A' ? 'primaryl1btnalt' : '' || c_day[1] == 'B' ? 'primaryl2btnalt' : '' || c_day[1] == '' ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">
-                <!-- <span class="not-on-top"> <i class="ion-android-radio-button-off energized" style="font-size: 300%;"></i> </span> -->
+        <div class="row button-bar">
+            <div ng-repeat="c_day in cal_days" class="col zero-padding" ng-show="c_day[4] == 'row_0'" >
+              <a class="button " ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_0'" ng-class="c_day[1] == 'A' ? 'primaryl1btn' : '' || c_day[1] == 'B' ? 'primaryl2btn' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" style="width:44px;" ng-disabled="!c_day[3]">{{c_day[0]}}</a>
+              <a class="button " ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_0'" ng-class="c_day[1] == 'A' ? 'primaryl1btnalt' : '' || c_day[1] == 'B' ? 'primaryl2btnalt' : '' || c_day[1] == '' ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" style="width:44px;" ng-disabled="!c_day[3]">
+                <span class="not-on-top"> <i class="ion-ic-rectangle90 dark" style="font-size:300%; margin-left:-6px;"></i> </span>
                 <span class="on-top">{{c_day[0]}}</span>
               </a>
-            </div>
           </div>
         </div>
         <!-- second row -->
-        <div class="row">
-          <div class="button-bar divcenter">
-            <div ng-repeat="c_day in cal_days">
-             <a class="button btn-lh" ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_1'" ng-class="c_day[1] == 'A' ? 'primaryl1btn' : '' || c_day[1] == 'B' ? 'primaryl2btn' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">{{c_day[0]}}</a>
-              <a class="button btn-lh" ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_1'" ng-class="c_day[1] == 'A' ? 'primaryl1btnalt' : '' || c_day[1] == 'B' ? 'primaryl2btnalt' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">
-                <!-- <span class="not-on-top"> <i class="ion-ic-rectangle energized" style="font-size: 300%;"></i> </span> -->
+        <div class="row button-bar">
+            <div ng-repeat="c_day in cal_days" class="col zero-padding" ng-show="c_day[4] == 'row_1'" >
+             <a class="button " ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_1'" ng-class="c_day[1] == 'A' ? 'primaryl1btn' : '' || c_day[1] == 'B' ? 'primaryl2btn' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" style="width:44px;" ng-disabled="!c_day[3]">{{c_day[0]}}</a>
+              <a class="button " ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_1'" ng-class="c_day[1] == 'A' ? 'primaryl1btnalt' : '' || c_day[1] == 'B' ? 'primaryl2btnalt' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" style="width:44px;" ng-disabled="!c_day[3]">
+                <span class="not-on-top"> <i class="ion-ic-rectangle90 dark" style="font-size:300%; margin-left:-6px;"></i> </span>
                 <span class="on-top">{{c_day[0]}}</span>
               </a>
             </div>
-          </div>
         </div>
         <!-- third row -->
-        <div class="row">
-          <div class="button-bar divcenter">
-            <div ng-repeat="c_day in cal_days">
-             <a class="button btn-lh" ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_2'" ng-class="c_day[1] == 'A' ? 'primaryl1btn' : '' || c_day[1] == 'B' ? 'primaryl2btn' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">{{c_day[0]}}</a>
-              <a class="button btn-lh" ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_2'" ng-class="c_day[1] == 'A' ? 'primaryl1btnalt' : '' || c_day[1] == 'B' ? 'primaryl2btnalt' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">
-                <!-- <span class="not-on-top"> <i class="ion-android-radio-button-off energized" style="font-size: 300%;"></i> </span> -->
+        <div class="row button-bar">
+            <div ng-repeat="c_day in cal_days"  class="col zero-padding" ng-show="c_day[4] == 'row_2'">
+             <a class="button " ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_2'" ng-class="c_day[1] == 'A' ? 'primaryl1btn' : '' || c_day[1] == 'B' ? 'primaryl2btn' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" style="width:44px;" ng-disabled="!c_day[3]">{{c_day[0]}}</a>
+              <a class="button " ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_2'" ng-class="c_day[1] == 'A' ? 'primaryl1btnalt' : '' || c_day[1] == 'B' ? 'primaryl2btnalt' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" style="width:44px;" ng-disabled="!c_day[3]">
+                <span class="not-on-top"> <i class="ion-ic-rectangle90 dark" style="font-size:300%; margin-left:-6px;"></i> </span>
                 <span class="on-top">{{c_day[0]}}</span>
               </a>
             </div>
+        </div>              
+      </div>
+
+      <div class="padding"> 
+        <!-- Legend for the calendar -->
+            <div class="row">
+              <div class="">
+                <i class="ion-stop twelve" style="font-size: 100%; color:#74b5e0;"></i>&nbsp;&nbsp;
+              </div>
+              <div class="white">
+                {{legend_A_text}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="">
+                <i class="ion-stop twelve" style="font-size: 100%; color:#c3dff2;"></i>&nbsp;&nbsp;
+              </div>
+              <div class="white">
+                {{legend_B_text}}
+              </div>
+            </div>
+      </div>
+    </div>
+
+    <!-- Calendar for iphone 6s++ -->
+    <div class="primary" ng-show="(study_current && !is_past && sixp)">
+      <div>
+        <!-- row for day name labels -->
+        <div class="row">
+          <div class="col divcenter white" ng-repeat="day in day_names track by $index">{{day}}</div>
+        </div>
+
+        <!-- first row -->
+        <div class="row button-bar">
+            <div ng-repeat="c_day in cal_days" class="col zero-padding" ng-show="c_day[4] == 'row_0'" >
+              <a class="button " style="width:57.718px;" ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_0'" ng-class="c_day[1] == 'A' ? 'primaryl1btn' : '' || c_day[1] == 'B' ? 'primaryl2btn' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">{{c_day[0]}}</a>
+              <a class="button " style="width:57.718px;" ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_0'" ng-class="c_day[1] == 'A' ? 'primaryl1btnalt' : '' || c_day[1] == 'B' ? 'primaryl2btnalt' : '' || c_day[1] == '' ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">
+                <span class="not-on-top"> <i class="ion-ic-rectangle104 dark" style="font-size:325%; margin-left:-6px;"></i> </span>
+                <span class="on-top">{{c_day[0]}}</span>
+              </a>
           </div>
+        </div>
+        <!-- second row -->
+        <div class="row button-bar">
+            <div ng-repeat="c_day in cal_days" class="col zero-padding" ng-show="c_day[4] == 'row_1'" >
+             <a class="button " style="width:57.718px;" ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_1'" ng-class="c_day[1] == 'A' ? 'primaryl1btn' : '' || c_day[1] == 'B' ? 'primaryl2btn' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">{{c_day[0]}}</a>
+              <a class="button " style="width:57.718px;" ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_1'" ng-class="c_day[1] == 'A' ? 'primaryl1btnalt' : '' || c_day[1] == 'B' ? 'primaryl2btnalt' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">
+                <span class="not-on-top"> <i class="ion-ic-rectangle104 dark" style="font-size:325%; margin-left:-6px;"></i> </span>
+                <span class="on-top">{{c_day[0]}}</span>
+              </a>
+            </div>
+        </div>
+        <!-- third row -->
+        <div class="row button-bar">
+            <div ng-repeat="c_day in cal_days"  class="col zero-padding" ng-show="c_day[4] == 'row_2'">
+             <a class="button " style="width:57.718px;" ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_2'" ng-class="c_day[1] == 'A' ? 'primaryl1btn' : '' || c_day[1] == 'B' ? 'primaryl2btn' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">{{c_day[0]}}</a>
+              <a class="button " style="width:57.718px;" ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_2'" ng-class="c_day[1] == 'A' ? 'primaryl1btnalt' : '' || c_day[1] == 'B' ? 'primaryl2btnalt' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">
+                <span class="not-on-top"> <i class="ion-ic-rectangle104 dark" style="font-size:325%; margin-left:-6px;"></i> </span>
+                <span class="on-top">{{c_day[0]}}</span>
+              </a>
+            </div>
+        </div>              
+      </div>
+
+      <div class="padding"> 
+        <!-- Legend for the calendar -->
+            <div class="row">
+              <div class="">
+                <i class="ion-stop twelve" style="font-size: 100%; color:#74b5e0;"></i>&nbsp;&nbsp;
+              </div>
+              <div class="white">
+                {{legend_A_text}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="">
+                <i class="ion-stop twelve" style="font-size: 100%; color:#c3dff2;"></i>&nbsp;&nbsp;
+              </div>
+              <div class="white">
+                {{legend_B_text}}
+              </div>
+            </div>
+      </div>
+    </div>
+
+    <!-- Calendar for iphone 6++ -->
+    <div class="primary" ng-show="(study_current && !is_past && six)">
+      <div>
+        <!-- row for day name labels -->
+        <div class="row">
+          <div class="col divcenter white" ng-repeat="day in day_names track by $index">{{day}}</div>
+        </div>
+
+        <!-- first row -->
+        <div class="row button-bar">
+            <div ng-repeat="c_day in cal_days" class="col zero-padding" ng-show="c_day[4] == 'row_0'" >
+              <a class="button " ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_0'" ng-class="c_day[1] == 'A' ? 'primaryl1btn' : '' || c_day[1] == 'B' ? 'primaryl2btn' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" style="width:52px;" ng-disabled="!c_day[3]">{{c_day[0]}}</a>
+              <a class="button " ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_0'" ng-class="c_day[1] == 'A' ? 'primaryl1btnalt' : '' || c_day[1] == 'B' ? 'primaryl2btnalt' : '' || c_day[1] == '' ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" style="width:52px;" ng-disabled="!c_day[3]">
+                <span class="not-on-top"> <i class="ion-ic-rectangle104 dark" style="font-size:300%; margin-left:-6px;"></i> </span>
+                <span class="on-top">{{c_day[0]}}</span>
+              </a>
+          </div>
+        </div>
+        <!-- second row -->
+        <div class="row button-bar">
+            <div ng-repeat="c_day in cal_days" class="col zero-padding" ng-show="c_day[4] == 'row_1'" >
+             <a class="button " ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_1'" ng-class="c_day[1] == 'A' ? 'primaryl1btn' : '' || c_day[1] == 'B' ? 'primaryl2btn' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" style="width:52px;" ng-disabled="!c_day[3]">{{c_day[0]}}</a>
+              <a class="button " ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_1'" ng-class="c_day[1] == 'A' ? 'primaryl1btnalt' : '' || c_day[1] == 'B' ? 'primaryl2btnalt' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" style="width:52px;" ng-disabled="!c_day[3]">
+                <span class="not-on-top"> <i class="ion-ic-rectangle104 dark" style="font-size:300%; margin-left:-6px;"></i> </span>
+                <span class="on-top">{{c_day[0]}}</span>
+              </a>
+            </div>
+        </div>
+        <!-- third row -->
+        <div class="row button-bar">
+            <div ng-repeat="c_day in cal_days"  class="col zero-padding" ng-show="c_day[4] == 'row_2'">
+             <a class="button " ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_2'" ng-class="c_day[1] == 'A' ? 'primaryl1btn' : '' || c_day[1] == 'B' ? 'primaryl2btn' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" style="width:52px;" ng-disabled="!c_day[3]">{{c_day[0]}}</a>
+              <a class="button " ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_2'" ng-class="c_day[1] == 'A' ? 'primaryl1btnalt' : '' || c_day[1] == 'B' ? 'primaryl2btnalt' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" style="width:52px;" ng-disabled="!c_day[3]">
+                <span class="not-on-top"> <i class="ion-ic-rectangle104 dark" style="font-size:300%; margin-left:-6px;"></i> </span>
+                <span class="on-top">{{c_day[0]}}</span>
+              </a>
+            </div>
         </div>              
       </div>
 
@@ -102,7 +219,7 @@ Page Hierarchy:
             <div ng-show="(!exp_bool && !is_past)">
               <div class="row padding">
                 <div class="col">
-                  <h4 class="heavy" style="margin-top:0px; margin-bottom:0px;">{{day_cond}}</h4>
+                  <h4 class="heavy" style="margin-top:0px; margin-bottom:0px;">Consume Sorbitol</h4>
                   <p>Day {{day_num}} of {{duration_readable}}</p>
                 </div>
                 <div class="edit-padding">
@@ -203,7 +320,7 @@ Page Hierarchy:
                 <div class="row" style="margin-top:-10px; ">
                   <div class="col" style="margin-left:-15px;">
                     <h4 style="margin-top:0px; margin-bottom:0px;">Fast</h4>
-                    <span class="balanced" ng-bind-html="lcomp_msg"></span>
+                    <span class="" ng-bind-html="lcomp_msg"></span>
                   </div>
                   <div class="edit-padding" style="margin-left:-15px;">
                     <a class="button button-small small-text heavy reportbtn white" style="margin-top:8px; background-color: #666666;" ui-sref="sec_comp">
@@ -287,7 +404,7 @@ Page Hierarchy:
                 <div class="row" style="margin-top:-5px;">
                   <div class="col" style="margin-left:-15px;">
                     <h4 style="margin-top:0px; margin-bottom:0px;">Note </h4>
-                    <p class="balanced" ng-bind-html="note"></p>
+                    <p class="" ng-bind-html="note"></p>
                   </div>
                   <div class="edit-padding">
                     <a class="button button-small small-text heavy reportbtn white" style="margin-top:8px; background-color: #666666;" ui-sref="notes">

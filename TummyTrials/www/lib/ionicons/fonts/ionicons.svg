@@ -1,11 +1,11 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
 <!--
-2016-6-22: Created with FontForge (http://fontforge.org)
+2016-6-21: Created with FontForge (http://fontforge.org)
 -->
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
 <metadata>
-Created by FontForge 20150913 at Wed Jun 22 23:13:34 2016
+Created by FontForge 20150913 at Tue Jun 21 14:19:39 2016
  By rkarkar
 Copyright (c) 2016, rkarkar
 </metadata>
@@ -19,7 +19,7 @@ Copyright (c) 2016, rkarkar
     panose-1="2 0 5 3 0 0 0 0 0 0"
     ascent="448"
     descent="-64"
-    bbox="-0.54049 -64 512.487 448"
+    bbox="-0.54049 -64 566 448"
     underline-thickness="25.6"
     underline-position="-51.2"
     unicode-range="U+F100-F4F7"
@@ -677,8 +677,10 @@ d="M416 78v-37h-416v37h416zM103 208c-30 -49 -34 -112 -34 -112h-41c0 106 74 194 1
 d="M208 400c115 0 208 -93 208 -208s-93 -208 -208 -208s-208 93 -208 208s93 208 208 208zM208 312c-15 0 -27 -12 -27 -27s12 -28 27 -28s27 13 27 28s-12 27 -27 27zM250 73v0v15h-19v125v0v15v0h-46h-19v-15h19v-125h-19v-15h84z" />
     <glyph glyph-name="ion-ic-note" unicode="&#xf159;" horiz-adv-x="264" 
 d="M226 314h38v-282h-226v38h-38v282h226v-38zM18 87h20v227h171v21h-191v-248zM247 49v248h-191v-248h191zM226 201h-145v27h145v-27v0zM226 154h-145v27h145v-27v0zM188 109h-107v26h107v-26z" />
-    <glyph glyph-name="ion-ic-rectangle" unicode="&#xf15f;" horiz-adv-x="459" 
-d="M24 -13v410h411v-410h-411zM0 -37h459v458h-459v-458zM12 -25h435v434h-435v-434z" />
+    <glyph glyph-name="ion-ic-rectangle104" unicode="&#xf160;" horiz-adv-x="566" 
+d="M528 410h-490v-436h490v436zM566 448v0v-512h-566v512h566z" />
+    <glyph glyph-name="ion-ic-rectangle90" unicode="&#xf161;" horiz-adv-x="490" 
+d="M452 410h-414v-436h414v436zM490 448v0v-512h-490v512h490z" />
     <glyph glyph-name="ion-ic-reportFinished" unicode="&#xf15a;" horiz-adv-x="269" 
 d="M176 238v-1l-62 -44l62 -45v-12v-66h22v-39h-198v39h20v66v12l62 45l-62 44v77h-20v38h73c8 47 48 83 97 83c55 0 99 -44 99 -99c0 -53 -41 -95 -93 -98zM162 140l-64 46l-63 -46v-4h127v4zM98 200l55 39c-47 8 -82 48 -82 97v2h-56v-9h20v-84zM124 339l31 -39l62 62
 l-11 10l-50 -50l-21 26z" />
