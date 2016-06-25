@@ -171,7 +171,7 @@
                             day_next = "<b>Tomorrow</b>: " + $scope.legend_B_text;
                         } 
                     } else {
-                        day_next = "This is the last day of the trial!";
+                        day_next = "This is the last day of the trial! Please submit your trial to view the results.";
                     }
 
                 }
@@ -305,7 +305,7 @@
                 sym_submit = false;
             if(typeof(cur.reports[day_pos]) == "object"){
                 if(cur.reports[day_pos].breakfast_compliance == false){
-                    bfst_comp_msg = '<span class="positive"><b> Did not </b>' + day_cond +'.</span><br/>'; 
+                    bfst_comp_msg = '<b> Did not </b>' + day_cond +'.</span><br/>'; 
                     bfst_comp_state = true;
                 } else if(cur.reports[day_pos].breakfast_compliance == true){
                     bfst_comp_msg = "<b> Did </b>" + day_cond + ".<br/>";
@@ -317,7 +317,7 @@
                     if(cur.reports[day_pos].lunch_compliance == true){
                         lcomp_msg = '<b>Did </b> fast.';
                     } else if(cur.reports[day_pos].lunch_compliance == false){
-                        lcomp_msg = '<span class="positive"><b> Did not</b> fast.</span>';
+                        lcomp_msg = '<b> Did not</b> fast.</span>';
                     }                  
                 }
 
@@ -696,7 +696,7 @@
                             } // end report 
                         } else {
                             // no lunch compliance
-                            console.log("this will be an issue with old schema which does not have lunch compliance");
+                            // console.log("this will be an issue with old schema which does not have lunch compliance");
                             if(dt == Calendar.button){
                                 Calendar.date = dtr;
                                 score["missing compliance"] = "can't report";

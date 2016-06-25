@@ -1,4 +1,7 @@
-<ion-view title="Symptom Log" cache-view="false">
+<ion-view cache-view="false">
+  <ion-nav-title>
+    <span class="heavy">Symptom Report</heavy>
+  </ion-nav-title>
   <ion-pane>
     <ion-content class="padding">
         <br/>
@@ -6,12 +9,11 @@
     <h5 class="title">{{log_symptom}}</h5>
     <br/> -->
     <p>{{text.post.subtitle1}}</p>
-    <p><b>{{log_subtitle}}</b></p>
-    <br/>
+    <p class="heavy">{{log_subtitle}}</p>
     <div class="likert">
       
         <ul class="list">
-          <li ng-repeat="label in text.post.likertlabels" class="item item-checkbox">
+          <li ng-repeat="label in text.post.likertlabels" class="item item-checkbox checkbox-royal">
             <label class="checkbox">
               <input type="radio" name="likert" ng-value="$index" ng-model="log_model.severity">
             </label>
@@ -24,10 +26,10 @@
     </div>
     <br>
     <div class="button-bar">
-      <a class="button button-royal" ng-click="log_cancel()">
+      <a class="button button-royal heavy" ng-click="log_cancel()">
         {{text.post.cancel}}
       </a> &nbsp;
-      <a class="button button-royal" ng-disabled="log_model.severity == null" ng-click="log_submitnext()">
+      <a class="button button-royal heavy" ng-disabled="log_model.severity == null" ng-click="log_submitnext()">
         {{log_submitnext_label}}
       </a>
     </div>

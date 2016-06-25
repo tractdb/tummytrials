@@ -106,19 +106,19 @@ Page Hierarchy:
                   <p>Day {{day_num}} of {{duration_readable}}</p>
                 </div>
                 <div class="padding" style="padding-right:0px;">
-                  <a style="text-decoration: underline; color:royal" ng-click="help = help ? false : true">
+                  <a ng-click="help = help ? false : true" ng-class="help == true ? 'royal' : '' ">
                     <i class="ion-ic-foodPlan" style="font-size: 250%;"></i>
                   </a>
                 </div>
               </div>
-                <div class="card padding" style="text-align:left;" ng-show="help">
-                   <div class="item item-text-wrap list_text">
-                       <b>To eat:</b><br/>
-                       <span class="new_line">{{active_bfst}}</span><br/><br/>
-                       <b>To drink:</b><br/>
-                       <span class="new_line">{{active_drnk}}</span>
-                   </div>
-                </div>
+              <div class="card" style="margin-top:0px;" ng-show="help">
+                  <div class="item item-text-wrap list_text">
+                     <b>To eat:</b><br/>
+                     <span class="new_line">{{active_bfst}}</span><br/><br/>
+                     <b>To drink:</b><br/>
+                     <span class="new_line">{{active_drnk}}</span>
+                 </div>
+              </div>
             </div>
 
             <!-- calendar class is for the background color -->
@@ -331,7 +331,7 @@ Page Hierarchy:
         <div ng-show="is_past" class="padding">
           <h4>Submit Trial</h4>
             Your {{title}} is past. <br/>
-            To view the results <b>Complete Trial</b> by going to 'My Trials' tab and selecting {{title}} under 'Current Trial'.
+            To view the results <b>Complete Trial</b> by going to 'Settings' tab.
         </div>
 
     </div>

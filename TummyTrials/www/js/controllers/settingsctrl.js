@@ -170,6 +170,26 @@
         abandon = true;
       }
 
+      var c_rem = cur.remdescrs, 
+          s_rem = {}, r_time, r_type;
+      for(var c = 0; c < c_rem.length ; c++){
+
+        r_time = LC.timestr(c_rem[c].time);
+        r_type = c_rem[c].type;
+        if(r_type == "morning"){
+          r_type = "Daily condition";
+        } else if(r_type == "breakfast"){
+          r_type = "Breakfast compliance";
+        } else if(r_type == "symptomEntry"){
+          r_type = "Fast compliance and Symptom Report";
+        } else if(r_type == "evening"){
+          r_type = "Evening";
+        }
+
+        s_rem[r_type] = r_time;
+      }
+      $scope.rem = s_rem;
+        
       $scope.comp = complete;
       $scope.abdn = abandon;
       $scope.cur = true;

@@ -81,7 +81,7 @@
         $scope.visdata = Vis;
         //gather all data needed for report + vis 
         var cur = study;
-        $scope.exp_id = cur.id;
+        console.log("Viewing result of trial: " + cur.id);
         $scope.nm = name;
 
         //Get the duration of the experiment

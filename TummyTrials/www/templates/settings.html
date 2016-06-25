@@ -3,94 +3,73 @@
     Settings
   </ion-nav-title>
   <ion-pane>
-    <ion-content class="ten-padding">
-        <br/>
-
+    <ion-content class="grey padding">
           <!-- Current trial details if it exists -->
           <div ng-hide="!cur">
-            <div class="card padding">
-              <h4>Trial Summary</h4>
-                <div class="row">
-                  <div class="col col-33">
-                   Name 
-                  </div>
-                  <div class="col">
-                    {{study_current.trigger}} Trial
-                  </div>
-                </div>
-                
-                <div class="row">
-                  <div class="col col-33">
-                    Date Started
-                  </div>
-                  <div class="col"> 
-                    {{start_day}}
-                  </div>
-                </div>
+            <h4 class="heavy">Ongoing Trial Summary</h4>
+            <p>
+              <span class="heavy">Name </span><br/>
+              <span style="color:#666666;">{{study_current.trigger}} Trial </span><br/>
+              <br/>
+                              
+              <span class="heavy">Date Started </span><br/>
+              <span style="color:#666666;">{{start_day}} </span><br/>
+              <br/>
 
-                <div class="row">
-                  <div class="col col-33">
-                    Symptoms 
-                  </div>
-                  <div class="col"> 
-                    <span ng-repeat="s in sym">{{s}} <br/></span>
-                  </div>
-                </div> 
+              <span class="heavy">Symptoms </span><br/>
+              <span style="color:#666666;" ng-repeat="s in sym">{{s}} <br/></span>
+              <br/>
 
-                <div class="row">
-                  <div class="col col-33">
-                    Trigger
-                  </div>
-                  <div class="col"> 
-                    {{study_current.trigger}}
-                  </div>
-                </div> 
+              <span class="heavy">Trigger </span><br/>
+              <span style="color:#666666;">{{study_current.trigger}} </span><br/>
+              <br/>             
 
-                <div class="row">
-                  <div class="col col-33">
-                   Breakfast Preference
-                  </div>
-                  <div class="col"> 
-                    {{study_current.breakfast_pref}}
-                  </div>
-                </div>  
+              <span class="heavy">Breakfast Preference </span><br/>
+              <span style="color:#666666;">{{study_current.breakfast_pref}} </span><br/>
+              <br/>
 
-                <div class="row">
-                  <div class="col col-33">
-                    Drink Preference 
-                  </div>
-                  <div class="col"> 
-                    {{study_current.drink_pref}}
-                  </div>
-                </div>  
+              <span class="heavy">Drink Preference </span><br/>
+              <span style="color:#666666;">{{study_current.drink_pref}} </span><br/>
+            </p>
+
+              <span class="heavy">Daily Reminders </span><br/>
+              <span ng-repeat="(key, value) in rem" style="color:#666666;">
+                <span class="row" style="padding:0px;">
+                  <span class="col col-75" style="padding:0px;">
+                    {{key}}
+                  </span>
+                  <span class="col" style="padding:0px;">
+                    {{value}}
+                  </span>
+                </span>  
+              </span>
+            <hr/>
+
+            <!-- 
+              Completing a study
+            --> 
+            <div ng-show="comp" class="">
+              <h4 class="heavy">Complete Trial</h4>
+              <p>You have finished the trial. Please submit the trial by pressing the button below to view results.</p>
+              <div class="divcenter">
+                <button class="button button-block button-royal" ng-click="complete_trial()" >
+                    Complete Trial
+                </button>
+               </div>
             </div>
 
-                <!-- 
-                Completing a study
-                --> 
-                <div ng-show="comp" class="card padding">
-                  <h4>Complete Trial</h4>
-                  <p>You have finished the trial. Please submit the trial by pressing the button below to view results.</p>
-                   <div class="divcenter">
-                      <button class="button button-block button-royal" ng-click="complete_trial()" >
-                        Complete Trial
-                      </button>
-                   </div>
-                </div>
-
-                <!-- 
-                Abandoning a study
-                --> 
-                <div ng-show="abdn" class="card padding">
-                  <h4>End Trial</h4>
-                  <p>{{text.current.abandon_text}}</p>
-                    <div class="divcenter">
-                      <button class="button button-block button-royal" ng-click="abandon_trial()" >
-                        Abandon Trial
-                      </button>
-                    </div>
-                </div>
-
+            <!-- 
+              Abandoning a study
+            --> 
+            <div ng-show="abdn || !comp" class="">
+              <h4 class="heavy">Abandon Trial</h4>
+              <p>{{text.current.abandon_text}}</p>
+              <div class="divcenter">
+                <button class="button button-block button-royal" ng-click="abandon_trial()" >
+                  Abandon Trial
+                </button>
+              </div>
+            </div>
           <div>  
 
 
