@@ -1,5 +1,5 @@
 {
-  "build_hash": "157888ce66dabd90c49ee3a4fa979ad4",
+  "build_hash": "003351e1a3a24e0a7b9cd9756f946bdd",
   "prefix": "ion-",
   "version": "2.0.1",
   "name": "Ionicons",
@@ -1005,6 +1005,10 @@
       "name": "ic-FAQs"
     },
     {
+      "code": "0xf162",
+      "name": "ic-abandoned"
+    },
+    {
       "code": "0xf154",
       "name": "ic-back"
     },
@@ -1013,12 +1017,24 @@
       "name": "ic-currentTrial"
     },
     {
+      "code": "0xf163",
+      "name": "ic-finished"
+    },
+    {
       "code": "0xf157",
       "name": "ic-foodPlan"
     },
     {
       "code": "0xf158",
       "name": "ic-info"
+    },
+    {
+      "code": "0xf164",
+      "name": "ic-newTrial"
+    },
+    {
+      "code": "0xf165",
+      "name": "ic-noResult"
     },
     {
       "code": "0xf159",

@@ -38,12 +38,13 @@
           <a class="item item-text-wrap" ng-repeat="study in study_previous" ui-sref="past_trial_1({studyIndex: $index})" ng-hide="study_previous.length<1">
             
           	<div class="" style="display: inline-block;">
-          		<i class="ion-ic-currentTrial" ng-style="{'color': '{{study.status}}' == 'ended' ? '#66cc33' : '#ef4e3a'}" style="font-size: 200%;"></i>
+          		<!-- <i ng-class="'{{study.status}}' == 'ended' ? 'ion-ic-finished' : 'ion-ic-abandoned'" ng-style="{'color': '{{study.status}}' == 'ended' ? '#66cc33' : '#ef4e3a'}" style="font-size: 200%;"></i> -->
+          		<i ng-class="'{{study.status}}' == 'ended' ? 'ion-ic-finished' : 'ion-ic-abandoned'" style="font-size: 200%;"></i> &nbsp;&nbsp;
           	</div>
           	<div style="display: inline-block;">
           		<!-- #66cc33 is balanced/green and #ef4e3a is assertive/red -->
-			  	<h2 ng-style="{'color': '{{study.status}}' == 'ended' ? '#66cc33' : '#ef4e3a'}">{{study.trigger}} Trial</h2> 
-			  	<h5>{{start_date(study.start_time)}} - {{end_date(study.end_time)}} &nbsp; ({{duration(study.start_time, study.end_time)}} days)</h5>
+			  	<h2>{{study.trigger}} Trial</h2> 
+			  	<h5>{{start_date(study.start_time)}} - {{end_date(study.end_time)}} &nbsp; ({{duration(study.start_time, study.end_time)}} days) | {{status(study.status)}}</h5>
           	</div>
 	      </a>
                 

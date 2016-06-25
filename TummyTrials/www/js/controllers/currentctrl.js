@@ -365,6 +365,12 @@
             $scope.report_msg = report_msg;
             $scope.sym_submit = sym_submit;
 
+            var sym_list = "";
+            for(var s = 0; s < cur.symptoms.length ; s++){
+                sym_list = sym_list.concat(cur.symptoms[s] + "<br/>");
+            }
+            $scope.sym_list = sym_list;
+
             // calculating lunch reminder time for card
             // assuming that symptom entry reminder is the 3rd one in the list
             var bfst_rem = cur.remdescrs[1].time;
@@ -550,7 +556,8 @@
                 $scope.nt_fg = false;
             }
 
-            $scope.exp_id = cur.id;
+            console.log("Current trial ref: " + cur.id);
+
         }
 })
 

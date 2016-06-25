@@ -65,6 +65,11 @@
         end_date.setDate(end_date.getDate() - 1); // This is last day of the trial
         $scope.end_date_md = LC.datemd(end_date);     
 
+        if(study.trigger == "Sorbitol (Artificial Sweeteners)"){
+            $scope.view_title = study.trigger.replace(' (Artificial Sweeteners)','');
+        } else {
+            $scope.view_title = study.trigger;
+        }
         $scope.st_trigger = study.trigger;
         $scope.st_symptom = study.symptoms;
         $scope.st_status = study.status;

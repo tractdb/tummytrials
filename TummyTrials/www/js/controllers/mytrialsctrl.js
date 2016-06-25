@@ -27,6 +27,18 @@
       dur = new Date(dur * 1000); 
       return LC.dateonly(dur);
     }
+
+    $scope.status = function(status){
+      if (status == 'abandoned'){
+        return 'Abandoned'
+      }
+      else if (status == 'ended'){
+        return 'Completed'
+      }
+      else{
+        return status;
+      }
+    }
       
 })
 
