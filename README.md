@@ -34,6 +34,11 @@ For making changes to the Ionic theme use SASS: http://learn.ionicframework.com/
 
 Try to follow the recommended style guide here: https://github.com/mgechev/angularjs-style-guide
 
+For generating app icons and splash screen. Place icon and splash screen file and autogenerate all the variations http://blog.ionic.io/automating-icons-and-splash-screens/
+
+Temporary bug: 
+When adding a platform to the project, if you get a build error regarding duplicate symbol _UIApplicationRegisterUserNotificationSettings, delete the AppDelegate+APPRegisterUserNotificationSettings.m file under Plugins in Xcode
+
 ------------------------------------------------------------------------------------------------------------------------------------
 
 For updating/adding to ioniocons follow instructions at https://github.com/driftyco/ionicons (fontforge should be the only missing dependence - installed via brew)
