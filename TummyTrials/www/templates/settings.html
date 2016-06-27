@@ -30,7 +30,7 @@
 
               <span class="heavy">Drink Preference </span><br/>
               <span style="color:#666666;">{{study_current.drink_pref}} </span><br/>
-            </p>
+              <br/>
 
               <span class="heavy">Daily Reminders </span><br/>
               <span ng-repeat="(key, value) in rem" style="color:#666666;">
@@ -43,6 +43,8 @@
                   </span>
                 </span>  
               </span>
+            </p>
+
             <hr/>
 
             <!-- 
@@ -70,11 +72,11 @@
                 </button>
               </div>
             </div>
-          <div>  
+          </div>  
 
 
           <div class="item item-text-wrap">
-              <button class="button button-block heavy white" style="background-color:#e07474" ng-click="clear_credentials()" ng-disabled="!have_credentials">
+              <button class="button button-block button-assertive heavy white" ng-click="clear_credentials()" ng-disabled="!have_credentials">
                 {{text.settings.clear_creds}}
               </button>
             <p>{{text.settings.clear_explanation}}</p>

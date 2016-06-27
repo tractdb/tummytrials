@@ -1,11 +1,11 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
 <!--
-2016-6-24: Created with FontForge (http://fontforge.org)
+2016-6-27: Created with FontForge (http://fontforge.org)
 -->
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
 <metadata>
-Created by FontForge 20150913 at Fri Jun 24 21:59:03 2016
+Created by FontForge 20150913 at Mon Jun 27 01:21:39 2016
  By rkarkar
 Copyright (c) 2016, rkarkar
 </metadata>
@@ -19,7 +19,7 @@ Copyright (c) 2016, rkarkar
     panose-1="2 0 5 3 0 0 0 0 0 0"
     ascent="448"
     descent="-64"
-    bbox="-0.54049 -64 566 448"
+    bbox="-0.54049 -2252 707 448"
     underline-thickness="25.6"
     underline-position="-51.2"
     unicode-range="U+F100-F4F7"
@@ -690,10 +690,13 @@ s6 -8 6 -13c0 -4 -1 -7 -3 -10c-2 -2 -6 -6 -14 -12s-13 -12 -15 -17s-4 -10 -4 -18v
 d="M226 314h38v-282h-226v38h-38v282h226v-38zM18 87h20v227h171v21h-191v-248zM247 49v248h-191v-248h191zM226 201h-145v27h145v-27v0zM226 154h-145v27h145v-27v0zM188 109h-107v26h107v-26z" />
     <glyph glyph-name="ion-ic-rectangle104" unicode="&#xf160;" horiz-adv-x="566" 
 d="M528 410h-490v-436h490v436zM566 448v0v-512h-566v512h566z" />
+    <glyph glyph-name="ion-ic-rectangle116" unicode="&#xf166;" horiz-adv-x="707" 
+d="M664 -1783h-621v-427h621v427zM707 -1740v0v-512h-707v512h707z" />
     <glyph glyph-name="ion-ic-rectangle90" unicode="&#xf161;" horiz-adv-x="490" 
 d="M452 410h-414v-436h414v436zM490 448v0v-512h-490v512h490z" />
     <glyph glyph-name="ion-ic-reportFinished" unicode="&#xf15a;" horiz-adv-x="318" 
-d="M250 283c39 -10 68 -46 68 -88s-29 -77 -68 -87v-73h-250v320h250v-72zM237 49v56h-9c-50 0 -91 40 -91 90s41 91 91 91c3 0 6 -1 9 -1v57h-223v-293h223zM214 162l56 56l-10 10l-45 -46l-19 24l-11 -8z" />
+d="M250 138c39 -10 68 -46 68 -88s-29 -77 -68 -87v-73h-250v320h250v-72zM237 -96v56h-9c-28 0 -52 12 -69 32h-111v20h98c-4 8 -7 17 -8 27h-90v21h90c1 10 3 19 7 27h-97v21h110c10 12 22 21 37 27h-147v20h155v-18c8 2 16 4 25 4c3 0 6 -1 9 -1v57h-223v-293h223z
+M214 17l56 56l-10 10l-45 -46l-19 24l-11 -8zM48 -56v20h95v-20h-95z" />
     <glyph glyph-name="ion-ic-reportWaiting" unicode="&#xf15b;" horiz-adv-x="320" 
 d="M310 277c13 -13 13 -36 0 -49l-59 -59v-134h-251v320h250v-80l7 6c13 13 35 13 48 0zM237 49v106l-18 -18l-53 54l72 72h-1v79h-223v-293h223zM300 238c8 8 8 21 0 29l-4 5c-8 8 -22 8 -30 0l-81 -82l34 -33zM164 179l44 -44c2 -2 2 -4 1 -6s-3 -4 -5 -5l-59 -16h-2
 c-2 0 -4 1 -5 2c-2 2 -2 4 -1 6l15 60c1 2 3 4 5 5s5 0 7 -2zM153 124l37 10l-27 27z" />

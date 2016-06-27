@@ -173,7 +173,7 @@
       var c_rem = cur.remdescrs, 
           s_rem = {}, r_time, r_type;
       for(var c = 0; c < c_rem.length ; c++){
-
+        console.log(c_rem[c].type);
         r_time = LC.timestr(c_rem[c].time);
         r_type = c_rem[c].type;
         if(r_type == "morning"){

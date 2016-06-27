@@ -51,7 +51,12 @@ app.run(function($cordovaFile, $ionicPlatform, $rootScope, $state, $q,
     }
     if(window.StatusBar) {
       // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
+      // StatusBar.styleDefault();
+
+      // making the system status bar font color white
+      StatusBar.styleLightContent();
+      // StatusBar.styleBlackTranslucent();
+      // StatusBar.styleBlackOpaque();
     }
 
     function reminder_sync_p()
