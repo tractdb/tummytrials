@@ -35,6 +35,7 @@ For making changes to the Ionic theme use SASS: http://learn.ionicframework.com/
 Try to follow the recommended style guide here: https://github.com/mgechev/angularjs-style-guide
 
 For generating app icons and splash screen. Place icon and splash screen file and autogenerate all the variations http://blog.ionic.io/automating-icons-and-splash-screens/
+If xcode throws an error for icon file path follow instructions at https://forum.ionicframework.com/t/error-itms-90032-invalid-image-path/42984
 
 Temporary bug: 
 When adding a platform to the project, if you get a build error regarding duplicate symbol _UIApplicationRegisterUserNotificationSettings, delete the AppDelegate+APPRegisterUserNotificationSettings.m file under Plugins in Xcode
@@ -54,6 +55,8 @@ navigate back to `tummy-trials/TummyTrials`
     $ sudo ionic setup sass
 
 add back your custom css after above command, which removes it from your index.html
+
+Upon doing so, make sure to delete the TummyTrials/www/lib/ionicons/builder/scripts/sfnt2woff file before packaging for xcode.
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
