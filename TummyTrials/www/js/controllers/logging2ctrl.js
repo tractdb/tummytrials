@@ -45,7 +45,15 @@
             return Reminders.sync(rd, st, et, rt);
         })
         .then(function(_){
-            $state.go('current', {}, { location: 'replace' });
+            var state;
+            if(resp == 'yes'){
+                // no longer using pos_compliance page
+                state = 'current';
+            } else if(resp == 'no'){
+                state = 'neg_compliance';
+            }
+
+            $state.go(state, {}, { location: 'replace' });
         });
     }
 

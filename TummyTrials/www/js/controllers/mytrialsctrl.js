@@ -8,7 +8,7 @@
 (angular.module('tummytrials.mytrialsctrl',
                 ['tummytrials.lc','tummytrials.text', 'ionic', 'tummytrials.experiments'])
 
-.controller('MyTrialsCtrl', function($scope, $state, $timeout, TextR, LC, $ionicPopup, Experiments, ExperimentsR) {
+.controller('MyTrialsCtrl', function($scope, $window, $state, $timeout, TextR, LC, $ionicPopup, Experiments, ExperimentsR) {
     $scope.text = TextR;
     Experiments.set_study_context($scope, ExperimentsR);
 
@@ -39,7 +39,16 @@
         return status;
       }
     }
-      
+
+    // vertical spacing for no result screen
+    // header and footer occupy 112 px 
+    var ht = window.innerHeight - 112; 
+    if(ht == 568){ move_top = 110; //iphone 5s
+    } else if(ht == 667){ move_top = 160;//iphone 6
+    } else if(ht == 736){ move_top = ht/3;//iphone 6p
+    } else { move_top = ht/3;
+    }
+    $scope.move_top = move_top;
 })
 
 // merged with settingsctrl

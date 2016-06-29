@@ -14,16 +14,19 @@
             <input type="password" placeholder="{{loginfo_text.passtag}}" ng-model="loginfo_info.password" autocapitalize="none">
         </label>
         </div></div>
+        
         <div class="row">
-        <div ng-hide="loginfo_prevct>0" class="col">
-        <button class="button button-block button-positive" ng-click="loginfo_login()">{{loginfo_text.loginb}}</button>
-        </div>
-        <div ng-show="loginfo_prevct>0" class="col col-50">
-        <button class="button button-block button-positive" ng-click="loginfo_login()">{{loginfo_text.loginb}}</button>
-        </div>
-        <div ng-show="loginfo_prevct>0" class="col col-50">
-        <button class="button button-block button-assertive" ng-click="loginfo_cancel()">{{loginfo_text.cancelb}}</button>
-        </div>
+            <div ng-hide="loginfo_prevct>0" class="col">
+                <button class="button button-block button-energized" ng-click="loginfo_login()">{{loginfo_text.loginb}}</button>
+            </div>
+
+            <div ng-show="loginfo_prevct>0" class="col col-50">
+                <button class="button button-block button-energized" ng-click="loginfo_login()">{{loginfo_text.loginb}}</button>
+            </div>
+            
+            <div ng-show="loginfo_prevct>0" class="col col-50">
+                <button class="button button-block button-energized" ng-click="loginfo_cancel()">{{loginfo_text.cancelb}}</button>
+            </div>
         </div>
     </ion-content>
 </ion-modal-view>

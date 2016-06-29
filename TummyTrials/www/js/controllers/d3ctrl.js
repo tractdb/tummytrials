@@ -77,7 +77,7 @@
 
           var color = d3.scale.ordinal()
                         .domain([0,1])
-                        .range(['#FFA70F', '#0F85FF']);
+                        .range(['#dd824c', '#3995d4']);
 
           // radius of the data point
           var circleR = 9;
@@ -97,12 +97,12 @@
                       0 : "Negative compliance",
                       1 : "No report",
                       2 : "Not at all",
-                      3 : "Slightly",        
-                      4 : "Mildly",
-                      5 : "Moderately",
-                      6 : "Severely",
-                      7 : "Very severely",
-                      8 : "Extremely"
+                      3 : "Slight",        
+                      4 : "Mild",
+                      5 : "Moderate",
+                      6 : "Severe",
+                      7 : "Very severe",
+                      8 : "Extreme"
                     }
                     return mapper[d]
                   });
@@ -119,12 +119,12 @@
                   .tickFormat(function (d) {
                     var mapper = {
                       2 : "Not at all",
-                      3 : "Slightly",        
-                      4 : "Mildly",
-                      5 : "Moderately",
-                      6 : "Severely",
-                      7 : "Very severely",
-                      8 : "Extremely"
+                      3 : "Slight",        
+                      4 : "Mild",
+                      5 : "Moderate",
+                      6 : "Severe",
+                      7 : "Very severe",
+                      8 : "Extreme"
                     }
                     return mapper[d]
                   });
@@ -229,12 +229,12 @@
                       0 : "Negative compliance",
                       1 : "No report",
                       2 : "Not at all",
-                      3 : "Slightly",        
-                      4 : "Mildly",
-                      5 : "Moderately",
-                      6 : "Severely",
-                      7 : "Very severely",
-                      8 : "Extremely"
+                      3 : "Slight",
+                      4 : "Mild",
+                      5 : "Moderate",
+                      6 : "Severe",
+                      7 : "Very severe",
+                      8 : "Extreme"
                     };
                 d = mapper[d];
                 insertYLinebreaks(this, d, 70 ); 
@@ -393,13 +393,13 @@
             var p = d3.select(t.parentNode);
             p.append("foreignObject")
                 .attr("transform", "rotate(-35)")
-                .attr('x', -width+2) // + 2 is for counteracting the rotation. 
-                .attr('y', -21)
+                .attr('x', -width + 2 - 12) // + 2 is for counteracting the rotation. 
+                .attr('y', -15)
                 .attr("width", width)
                 .attr("height", 200)
                 .style("font-size", "10px")
               .append("xhtml:p")
-                .attr('style','word-wrap: break-word; text-align:center; vertical-align:middle;')
+                .attr('style','word-wrap: break-word; text-align:right; vertical-align:middle;')
                 .html(d);    
             el.remove();
         }; 

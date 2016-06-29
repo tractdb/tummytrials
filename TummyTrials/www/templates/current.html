@@ -134,9 +134,11 @@ Page Hierarchy:
                   <i class="ion-ic-triangle energized" ng-hide="bfst_comp_state" style="font-size: 150%;"></i>
                   <i class="ion-ic-triangle white" ng-hide="!bfst_comp_state" style="font-size: 150%;"></i>
                 </div>
-                <div style="display: inline-block; ">
-                  <i class="ion-ic-reportWaiting" ng-hide="bfst_comp_state" style="font-size: 300%;"></i>
-                  <i class="ion-ic-reportFinished" ng-hide="!bfst_comp_state" style="font-size: 300%;"></i>
+                <div ng-hide="bfst_comp_state" style="display: inline-block;">
+                  <i class="ion-ic-reportWaiting" style="font-size: 300%;"></i>
+                </div>
+                <div ng-hide="!bfst_comp_state" style="display: inline-block; margin-top:-14px;">
+                  <i class="ion-ic-reportFinished" style="font-size: 300%;"></i>
                 </div>
               </div>
               
@@ -178,10 +180,14 @@ Page Hierarchy:
                   <i class="ion-ic-triangle white" ng-hide="lcomp_state || bfst_comp_state" style="font-size: 150%;"></i>
                   <i class="ion-ic-triangle white" ng-hide="!lcomp_state" style="font-size: 150%;"></i>
                 </div>
-                <div style="display: inline-block; ">
-                  <i class="ion-ic-reportWaiting disabled-text" ng-hide="bfst_comp_state" style="font-size: 300%;"></i>
-                  <i class="ion-ic-reportWaiting" ng-hide="!bfst_comp_state || lcomp_state" style="font-size: 300%;"></i>
-                  <i class="ion-ic-reportFinished" ng-hide="!lcomp_state" style="font-size: 300%;"></i>
+                <div ng-hide="bfst_comp_state" style="display: inline-block; ">
+                  <i class="ion-ic-reportWaiting disabled-text" style="font-size: 300%;"></i>
+                </div>
+                <div ng-hide="!bfst_comp_state || lcomp_state" style="display: inline-block; ">
+                  <i class="ion-ic-reportWaiting" style="font-size: 300%;"></i>
+                </div>
+                <div ng-hide="!lcomp_state" style="margin-top: -14px; display: inline-block; ">
+                  <i class="ion-ic-reportFinished" style="font-size: 300%;"></i>
                 </div>
               </div>
 
@@ -227,10 +233,14 @@ Page Hierarchy:
                   <i class="ion-ic-triangle white" ng-hide="sym_score_state || lcomp_state" style="font-size: 150%;"></i>
                   <i class="ion-ic-triangle white" ng-hide="!sym_score_state" style="font-size: 150%;"></i>
                 </div>
-                <div style="display: inline-block; ">
-                  <i class="ion-ic-reportWaiting disabled-text" ng-hide="lcomp_state" style="font-size: 300%;"></i>
-                  <i class="ion-ic-reportWaiting" ng-hide="!lcomp_state || sym_score_state" style="font-size: 300%;"></i>
-                  <i class="ion-ic-reportFinished" ng-hide="!sym_score_state" style="font-size: 300%;"></i>
+                <div ng-hide="lcomp_state" style="display: inline-block; ">
+                  <i class="ion-ic-reportWaiting disabled-text" style="font-size: 300%;"></i>
+                </div>
+                <div ng-hide="!lcomp_state || sym_score_state" style="display: inline-block; ">
+                  <i class="ion-ic-reportWaiting" style="font-size: 300%;"></i>
+                </div>
+                <div ng-hide="!sym_score_state" style="margin-top:-14px; display: inline-block; ">
+                  <i class="ion-ic-reportFinished" style="font-size: 300%;"></i>
                 </div>
               </div>
 

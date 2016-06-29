@@ -49,7 +49,8 @@
             // var state = compliant ? 'pos_compliance' : 'neg_compliance';
             var state;
             if(resp == 'yes'){
-                state = 'pos_compliance';
+                // no longer using pos_compliance page
+                state = 'current';
             } else if(resp == 'no'){
                 state = 'neg_compliance';
             }
