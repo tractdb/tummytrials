@@ -107,7 +107,7 @@ Page Hierarchy:
           <div ng-show="(!exp_bool)">
               <div class="row padding" style="padding-bottom:0px;">
                 <div class="col">
-                  <h4 class="heavy" style="margin-top:0px; margin-bottom:0px;">Consume Sorbitol</h4>
+                  <h4 class="heavy" style="margin-top:0px; margin-bottom:0px;">{{day_cond}}</h4>
                   <p>Day {{day_num}} of {{duration_readable}}</p>
                 </div>
                 <div class="padding" style="padding-right:0px;">
@@ -265,7 +265,7 @@ Page Hierarchy:
                 <!-- Row and column have padding of top and left of 5px, resetting that manully -->
                 <div class="row" style="margin-top:-10px; margin-left:5px;">
                   <div class="col" style="margin-left:-15px;">
-                    <h4 style="margin-top:0px; margin-bottom:0px;">Symptoms</h4>
+                    <h4 style="margin-top:0px; margin-bottom:0px;">Symptom Impact</h4>
                     <span class="" ng-bind-html="report_msg"></span>
                   </div>
                   <div class="edit-padding" style="margin-left:-15px;">

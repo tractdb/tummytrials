@@ -188,13 +188,13 @@
         r_time = LC.timestr(c_rem[c].time);
         r_type = c_rem[c].type;
         if(r_type == "morning"){
-          r_type = "Daily condition";
+          r_type = "Morning Reminder";
         } else if(r_type == "breakfast"){
-          r_type = "Breakfast compliance";
+          r_type = "Breakfast Compliance";
         } else if(r_type == "symptomEntry"){
-          r_type = "Fast compliance and Symptom Report";
+          r_type = "Fast Compliance and Symptom Report";
         } else if(r_type == "evening"){
-          r_type = "Evening";
+          r_type = "Evening Reminder";
         }
 
         s_rem[r_type] = r_time;

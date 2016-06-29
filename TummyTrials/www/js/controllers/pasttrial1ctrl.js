@@ -141,9 +141,9 @@
 
                     // Adding the note for the day to the data struct
                     if(cur.reports[i] == null){
-                        sym_data["note"] = 'No note.';
-                        sym_data["bcomp"] = "No report.";
-                        sym_data["lcomp"] = "No report.";
+                        sym_data["note"] = 'No note';
+                        sym_data["bcomp"] = "No report";
+                        sym_data["lcomp"] = "No report";
                         sym_data["severity"] = 1;
                         sym_data["real_severity"] = 1;
                         if(rand[i] == "A"){
@@ -157,7 +157,7 @@
                         if(cur.reports[i].hasOwnProperty('note')){
                             sym_data["note"] = cur.reports[i].note;
                         } else {
-                            sym_data["note"] = 'No note.';
+                            sym_data["note"] = 'No note';
                         }
 
                     // } 
@@ -399,34 +399,45 @@
                   0 : "Negative compliance",
                   1 : "No report",
                   2 : "Not at all",
-                  3 : "Slightly",        
-                  4 : "Mildly",
-                  5 : "Moderately",
-                  6 : "Severely",
-                  7 : "Very severely",
-                  8 : "Extremely"
+                  3 : "Slight",        
+                  4 : "Mild",
+                  5 : "Moderate",
+                  6 : "Severe",
+                  7 : "Very severe",
+                  8 : "Extreme"
                 };
             severity_text = mapper[data_pt.real_severity];
 
             var nt = data_pt.note;
             var bcomp = data_pt.bcomp;
-            if(bcomp == true){bcomp = "Yes"}else if(bcomp == false){bcomp="No"}
+            if(bcomp == true){bcomp = "Did "}else if(bcomp == false){bcomp="<span class='assertive heavy'>Did not "}
             var lcomp = data_pt.lcomp;
-            if(lcomp == true){lcomp = "Yes"}else if(lcomp == false){lcomp="No"}
+            if(lcomp == true){lcomp = "Did Fast"}else if(lcomp == false){lcomp="<span class='assertive heavy'>Did not Fast</span>"}
 
             //trimming date to be more readable
-            var date_trimmed = JSON.stringify(data_pt.date);
-            // TODO: get a regex for this trimmer.
-            date_trimmed = date_trimmed.replace('T07:00:00.000Z', '');
-            date_trimmed = date_trimmed.replace(/"/g, '');
+            // var date_trimmed = JSON.stringify(data_pt.date);
+            var date_trimmed = data_pt.date + ''; // convert to string for replace function
+            // date looks like: Mon Jun 06 2016 00:00:00 GMT-0700 (PDT)
+            date_trimmed = date_trimmed.replace(' 2016 00:00:00 GMT-0700 (PDT)', '');
+            // date_trimmed = date_trimmed.replace(/"/g, '');
 
-            $scope.alert_message =  "Date : " + date_trimmed + "<br/>" + 
+
+
+
+            // Remove compliances if no report was submitted for the day
+            if(severity_text == "No report"){
+                $scope.alert_message =  "Date : " + date_trimmed + "<br/>" + 
                                     "Condition : " + cond_text + "<br/>" +
-                                    "Followed Breakfast Prompt : " + bcomp + "<br/>" + 
-                                    "Followed Fasting Prompt: " + lcomp + "<br/>" +
                                     "Symptom Level : " + severity_text + "<br/>" + 
                                     "Note : " + nt + "<br/>";
-
+            } else {
+                $scope.alert_message =  "Date : " + date_trimmed + "<br/>" + 
+                                    "Condition : " + cond_text + "<br/>" +
+                                    "Breakfast : " + bcomp + cond_text + "</span><br/>" + 
+                                    "Fast : " + lcomp + "<br/>" +
+                                    "Symptom Impact : " + severity_text + "<br/>" + 
+                                    "Note : " + nt + "<br/>";
+            }
 
             $scope.alert_title = "Details for the day"
 

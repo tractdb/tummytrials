@@ -341,6 +341,23 @@
                         scr_val = sym_mapper[scr_val];
                         sym_len = cur.reports[day_pos].symptom_scores.length;
 
+                        // updating symptom text
+                        if(scr_val == "Extremely"){
+                            scr_val = "Extreme";
+                        } else if(scr_val == "Very Severely"){
+                            scr_val = "Very Severe";
+                        } else if(scr_val == "Severely"){
+                            scr_val = "Severe";
+                        } else if(scr_val == "Moderately"){
+                            scr_val = "Moderate";
+                        } else if(scr_val == "Mildly"){
+                            scr_val = "Mild";
+                        } else if(scr_val == "Slightly"){
+                            scr_val = "Slight";
+                        } else if(scr_val == "Not at all"){
+                            scr_val = "Not at all";
+                        }
+
                         // Punctuation logic
                         // Separate conditions for more or less than 2 symptoms
                         if(sym_len <= 2){
