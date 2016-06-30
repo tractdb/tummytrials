@@ -31,7 +31,7 @@
 		"title": "Report for:",
 		"field_1": "Prompt",
 		"field_2": "Compliance",
-		"field_3": "Symptom report",
+		"field_3": "Symptom Impact",
 		"field_4": "Did you eat anything between breafast and symptom report?",
 		"future": "Future date. No report available.",
 		"today": "This is the ongoing day.",
@@ -125,7 +125,7 @@
 		"summarycondb": "Days without Lactose was "
 	},
 	"results": {
-		"summary": "Based on the trial, there is {EVIDENCE} evidence that your {SYMPTOM} gets {BETTER/WORSE} when you consume {TRIGGER}"
+		"summary": "Based on the trial, there is {EVIDENCE} evidence that your {SYMPTOM} gets worse when you consume {TRIGGER}"
 	},
 	"faqs": {
 		"title": "Frequently Asked Questions",

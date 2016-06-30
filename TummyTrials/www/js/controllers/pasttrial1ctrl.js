@@ -246,12 +246,15 @@
                         if(p_val_num <= 0.05){
                             res_desc = res_desc.replace('{EVIDENCE}', 'strong');
                             p_txt = "Strong evidence";
-                        } else if(p_val_num > 0.05 && p_val_num <= 0.1) {
+                        } else if(p_val_num > 0.05 && p_val_num <= 0.15) {
                             res_desc = res_desc.replace('{EVIDENCE}', 'possible');
                             p_txt = "Possible evidence";
-                        } else if(p_val_num > 0.1){
+                        } else if(p_val_num > 0.15 && p_val_num <= 0.35){
                             res_desc = res_desc.replace('{EVIDENCE}', 'weak');
                             p_txt = "Weak evidence";
+                        } else if(p_val_num > 0.35){
+                            res_desc = res_desc.replace('{EVIDENCE}', 'no');
+                            p_txt = "No evidence";
                         }
 
                     }
@@ -278,16 +281,16 @@
                 b_avg = b_avg / [($scope.duration_readable / 2) - b_void];
 
                 //Condition A is on trigger and B is off trigger
-                res_desc = sym_sym[0]["summary"];
+                // res_desc = sym_sym[0]["summary"];
                 
-                if(a_avg > b_avg){
-                    res_desc = res_desc.replace('{BETTER/WORSE}', 'worse');
-                } else if(a_avg < b_avg){
-                    res_desc = res_desc.replace('gets {BETTER/WORSE}', 'does not worsen');
-                } else if(a_avg == b_avg){
-                    res_desc = res_desc.replace('gets {BETTER/WORSE}', 'stays the same ');
-                } 
-                sym_sym[0]["summary"] = res_desc;
+                // if(a_avg > b_avg){
+                //     res_desc = res_desc.replace('{BETTER/WORSE}', 'worse');
+                // } else if(a_avg < b_avg){
+                //     res_desc = res_desc.replace('gets {BETTER/WORSE}', 'does not worsen');
+                // } else if(a_avg == b_avg){
+                //     res_desc = res_desc.replace('gets {BETTER/WORSE}', 'stays the same ');
+                // } 
+                // sym_sym[0]["summary"] = res_desc;
 
 
                 // Converting average values to text labels

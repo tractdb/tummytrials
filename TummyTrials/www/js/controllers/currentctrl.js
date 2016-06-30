@@ -865,6 +865,25 @@
                             if(Calendar.score[key] == k){
                                 // Calendar.score[key] = text_loc[k].label + " : " + text_loc[k].detail;
                                 Calendar.score[key] = text_loc[k].label;
+                                
+                                // updating symptom text
+                                if(Calendar.score[key] == "Extremely"){
+                                    Calendar.score[key] = "Extreme";
+                                } else if(Calendar.score[key] == "Very Severely"){
+                                    Calendar.score[key] = "Very Severe";
+                                } else if(Calendar.score[key] == "Severely"){
+                                    Calendar.score[key] = "Severe";
+                                } else if(Calendar.score[key] == "Moderately"){
+                                    Calendar.score[key] = "Moderate";
+                                } else if(Calendar.score[key] == "Mildly"){
+                                    Calendar.score[key] = "Mild";
+                                } else if(Calendar.score[key] == "Slightly"){
+                                    Calendar.score[key] = "Slight";
+                                } else if(Calendar.score[key] == "Not at all"){
+                                    Calendar.score[key] = "Not at all";
+                                }
+
+                                
                             }
                         }
                     }
