@@ -58,8 +58,8 @@
         $scope.ready = ready;
 
         // button toggles
-        $scope.timeline_h = true;
-        $scope.trend_h = false;
+        $scope.timeline_h = false;
+        $scope.trend_h = true;
 
 
         // variables for displaying test in the results
@@ -446,8 +446,10 @@
 
                var alertPopup = $ionicPopup.alert({
                  title: $scope.alert_title,
-                 template: $scope.alert_message
-               });
+                 template: $scope.alert_message,
+                 buttons: [{ text: 'Ok', 
+                            type: 'button-energized',}]
+                });
 
                alertPopup.then(function(res) {
                });

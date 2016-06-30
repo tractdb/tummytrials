@@ -8,7 +8,7 @@
             <br/>
             <div class="divcenter">
                 <div style="display:inline-block;">
-                    <p class="primaryd1 heavy" style="font-size:0.9em; color:#dddddd;">
+                    <p class="primaryd1 heavy" style="font-size:0.9em; color:#dddddd; padding:5px;">
                         &nbsp;&nbsp; {{start_date_md}} - {{end_date_md}} ({{duration_readable}} days) &nbsp;&nbsp;
                     </p>
                 </div>
@@ -51,11 +51,10 @@
                   <text x="195" y="15">: No {{trig}} days</text>
                 </svg>
      -->            
-
                     <!-- Result Vis -->
                     <div class="divcenter">
-                        <button class="button button-block button-energized small-text" style="display:inline-block; width:120px; min-height:38px; height:42px;" ng-click="resultVisControl.updateVis(); timeline_h = timeline_h ? false : true" ng-class="timeline_h == timeline_h ? 'energized' : 'disabled' ">&nbsp;&nbsp; Timeline view &nbsp;&nbsp; </button> &nbsp;&nbsp;
-                        <button class="button button-block button-energized small-text" style="display:inline-block; width:120px; min-height:38px; height:42px;" ng-click="resultVisControl.revertVis(); trend_h = trend_h ? false : true" ng-class="trend_h == trend_h ? 'energized' : 'disabled' ">&nbsp;&nbsp; Trend view &nbsp;&nbsp; </button>
+                        <button class="button button-block button-energized small-text" style="display:inline-block; width:120px; min-height:38px; height:42px;" ng-click="resultVisControl.updateVis(); timeline_h = true; trend_h = false;" ng-disabled="timeline_h">&nbsp;&nbsp; Timeline view &nbsp;&nbsp; </button> &nbsp;&nbsp;
+                        <button class="button button-block button-energized small-text" style="display:inline-block; width:120px; min-height:38px; height:42px;" ng-click="resultVisControl.revertVis(); timeline_h = false; trend_h = true;" ng-disabled="trend_h">&nbsp;&nbsp; Trend view &nbsp;&nbsp; </button>
                     </div>
                     <result-vis result-data="value" on-click="d3OnClick(data_pt)" label="d3Label" control="resultVisControl"> </result-vis>
 
