@@ -262,7 +262,7 @@
 	},
 	"setup": {
 		"title": "Set Up A New Trial",
-		"content": "This set up will guide you through the steps to create your self trial. A self trial helps you decide whether certain food affects your symptoms. \n\nDuring the trial, you will be asked to eat your trial food on some mornings and to avoid that on other mornings. \n\nWe will help you track your progress and symptom levels by sending you daily reminders.",
+		"content": "This setup guide will walk you through the steps to create your self trial. A self trial helps you decide whether certain food affects your symptoms. \n\nDuring the trial, you will be asked to eat your trial food on some mornings and to avoid that on other mornings. \n\nWe will help you track your progress and symptom levels by sending you daily reminders.",
 		"button": "Begin Setup"
 	},
 	"setup2": {
