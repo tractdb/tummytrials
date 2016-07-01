@@ -54,10 +54,12 @@
 }
 
 .tab-item {
-    opacity: 0.5;
+    /*opacity: 0.5;*/
+    color: #3995d4;
 }
 .tab-item.tab-item-active, .tab-item.active, .tab-item.activated {
-    opacity: 1;
+    /*opacity: 1;*/
+    color: #dd824c;
 }
 
 .button-small{

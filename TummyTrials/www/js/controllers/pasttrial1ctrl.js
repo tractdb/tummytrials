@@ -448,7 +448,7 @@
                  title: $scope.alert_title,
                  template: $scope.alert_message,
                  buttons: [{ text: 'Ok', 
-                            type: 'button-energized',}]
+                            type: 'button-energized'}]
                 });
 
                alertPopup.then(function(res) {

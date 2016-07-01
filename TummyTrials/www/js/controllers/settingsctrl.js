@@ -79,7 +79,7 @@
                   { text: 'Continue Trial' },
                   {
                     text: '<b>Abandon</b>',
-                    type: 'button-royal',
+                    type: 'button-assertive',
                     onTap: function(e) {
                        if (!$scope.reason.abandon) {
                          //don't allow the user to close unless she enters the reason
@@ -98,7 +98,11 @@
                         var reason = $scope.reason.abandon;
                         $ionicPopup.alert({
                             title: 'Abandon successful',
-                            template: 'The ' + cur.trigger + ' trial has been abandoned.'
+                            template: 'The ' + cur.trigger + ' trial has been abandoned.',
+                            buttons: [{
+                                  text: 'Ok',
+                                  type: 'button-assertive'
+                            }]
                         });
                         return Experiments.setAbandon_p(cur.id, status, reason)
                           .then(function(_){
@@ -200,7 +204,18 @@
         s_rem[r_type] = r_time;
       }
       $scope.rem = s_rem;
+
+      var tr_st;
+      var td = new Date();
+      if(td < start_date){
+                tr_st = 'scheduled';
+            } else {
+                tr_st = 'ongoing';
+            }
         
+      var abdn_txt = $scope.text.current.abandon_text;
+      $scope.abdn_txt = abdn_txt.replace('{ongoing/scheduled}', tr_st);
+
       $scope.comp = complete;
       $scope.abdn = abandon;
       $scope.cur = true;

@@ -214,21 +214,15 @@ app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
         }
       }
     })
-    // .state('current_trial', {
-    //   url: '/mytrials/current_trial',
-    //   views: {
-    //     mytrials : {
-    //       templateUrl: 'templates/mytrials/current_trial.html',
-    //       resolve: {
-    //         TextR:
-    //             function(Text) { return Text.all_p(); },
-    //         ExperimentsR:
-    //             function(Experiments) { return Experiments.all(); }
-    //       },
-    //       controller: 'MyCrntTrialsCtrl'
-    //     }
-    //   }
-    // })
+    .state('pvalue', {
+      url: 'mytrials/pvalue',
+      views: {
+        mytrials : {
+          templateUrl: 'templates/mytrials/pvalue.html',
+          controller: 'PastTrial1Ctrl'
+        }
+      }
+    })
     .state('settings', {
       url: '/settings',
       views: {

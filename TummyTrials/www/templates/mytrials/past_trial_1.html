@@ -38,7 +38,12 @@
                 </div>
 
                 <div class="padding" style="background-color:white;">
-                    {{value[0].summary}}. (p={{value[0].p_val}}) <br/>
+                    {{value[0].summary}}. 
+                    <a ui-sref="pvalue" style="text-decoration:none; color:#000000;">
+                        <span style="text-decoration:underline;">(p={{value[0].p_val}}) </span>
+                        <i class="ion-information-circled" style="font-size: 125%;"></i>
+                    </a>
+                    <br/>
                     <!-- <div class="divcenter">
                         <b><label >{{view_title}}</label></b>
                     </div> -->
@@ -53,8 +58,8 @@
      -->            
                     <!-- Result Vis -->
                     <div class="divcenter">
-                        <button class="button button-block button-energized small-text" style="display:inline-block; width:120px; min-height:38px; height:42px;" ng-click="resultVisControl.updateVis(); timeline_h = true; trend_h = false;" ng-disabled="timeline_h">&nbsp;&nbsp; Timeline view &nbsp;&nbsp; </button> &nbsp;&nbsp;
-                        <button class="button button-block button-energized small-text" style="display:inline-block; width:120px; min-height:38px; height:42px;" ng-click="resultVisControl.revertVis(); timeline_h = false; trend_h = true;" ng-disabled="trend_h">&nbsp;&nbsp; Trend view &nbsp;&nbsp; </button>
+                        <button class="button button-block small-text" style="display:inline-block; width:120px; min-height:38px; height:42px;" ng-click="resultVisControl.updateVis(); timeline_h = true; trend_h = false;" ng-class="timeline_h == true ? 'button-energized' : 'button-positive'  ">&nbsp;&nbsp; Timeline view &nbsp;&nbsp; </button> &nbsp;&nbsp;
+                        <button class="button button-block small-text" style="display:inline-block; width:120px; min-height:38px; height:42px;" ng-click="resultVisControl.revertVis(); timeline_h = false; trend_h = true;" ng-class="trend_h == true ? 'button-energized' : 'button-positive' ">&nbsp;&nbsp; Trend view &nbsp;&nbsp; </button>
                     </div>
                     <result-vis result-data="value" on-click="d3OnClick(data_pt)" label="d3Label" control="resultVisControl"> </result-vis>
 
@@ -67,7 +72,7 @@
                     and on days without {{trig}} was 
                     {{value[0].b_res_text}}. <br/><br/> -->
 
-                    <span ng-show="value[duration_readable - 1].a_void > 0 || value[duration_readable - 1].b_void > 0">There were one or more days when no symptoms were recorded which may affect the averages shown above. Missing data is shown in grey circles in the visualization.</span>
+                    <span ng-show="value[duration_readable - 1].a_void > 0 || value[duration_readable - 1].b_void > 0">There were {{value[duration_readable - 1].a_void + value[duration_readable - 1].b_void}} days when no symptoms were recorded, which may affect the averages shown above. Missing data is shown in gray circles in the visualization.</span>
                 </div>
 
                 </div>

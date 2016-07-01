@@ -26,7 +26,7 @@
                 <p>{{text.setup4.start_date_text}}</p>
                 <label class="item item-input">
                   <span class="input-label" style="color:#000000;">{{text.setup4.date}}</span>
-                  <input type="date" style="text-align:right; color:#999999;" ng-model="setupdata.startdate">
+                  <input type="date" style="text-align:right;" ng-model="setupdata.startdate">
                 </label>
               </div> 
 
@@ -38,11 +38,9 @@
                   <div class="input-label" style="color:#000000;">
                     {{text.setup4.days}}
                   </div>
-                  <select ng-model="setupdata.duration" style="color:#999999;">
+                  <select ng-model="setupdata.duration">
                     <!-- <option value="8">8</option>
                     <option value="10">10</option> -->
-                    <option value="4">4</option>
-                    <option value="6">6</option>
                     <option value="12">12</option>
                     <!-- <option value="14">14</option>
                     <option value="16">16</option>
@@ -105,6 +103,7 @@
                   {{text.setup4.button}}
                 </a>
               </div>
+              <br/>
             </div>
 
           </ion-content>  

@@ -12,7 +12,7 @@
 		"button1": "Log Breakfast Compliance",
 		"button2": "Log Symptom Level",
 		"button3": "Add Note",
-		"abandon_text": "You can abandon the ongoing/scheduled trial anytime you wish. Please note that upon doing so, if you wish to remain in the study you will have to set up a new trial and reschedule your exit interview date.",
+		"abandon_text": "You can abandon the {ongoing/scheduled} trial at any time. However, if you do abandon your trial and wish to remain in the study, you will have to set up a new trial and reschedule your exit interview date.",
 		"reminder_schedule_template": "{NAME} reminder is set to {WHEN}.",
 		"morning_reminder_name": "Morning",
 		"breakfast_reminder_name": "Breakfast compliance report",
@@ -82,19 +82,19 @@
 			"detail": "no symptom"
 		}, {
 			"label": "Slightly",
-			"detail": "only noticed my symptom when I focused on it"
+			"detail": "Only noticed my symptom when I focused on it"
 		}, {
 			"label": "Mildly",
 			"detail": "I could ignore my symptom most of the time"
 		}, {
 			"label": "Moderately",
-			"detail": "could continue what I was doing"
+			"detail": "Consistently noticed but could continue what I was doing"
 		}, {
 			"label": "Severely",
-			"detail": "had difficulty concentrating on some tasks"
+			"detail": "Had difficulty concentrating on some tasks"
 		}, {
 			"label": "Very Severely",
-			"detail": "had difficulty concentrating on any task"
+			"detail": "Had difficulty concentrating on any task"
 		}, {
 			"label": "Extremely",
 			"detail": "I couldn't do anything"
@@ -183,7 +183,7 @@
 				"uisref": "faqs_page({faqsection: 2, faqitem: $index})",
 				"content": "In this app, we offer a selection of IBS trigger foods for self-experimentation. We chose these trigger foods based on IBS research studies and patient surveys. We realize that these may not include the trigger foods you have read about or would want to test right now but this is still work in progress. We appreciate your patience and welcome your suggestions for future IBS trigger foods to test. \n\nOver time, many people with IBS may have already discovered some of their IBS trigger foods, either through trial-and-error or with the help of a dietitian or their physician. If you already know that certain food trigger your IBS symptoms, we do not recommend selecting that food group for self-experimentation. Similarly, if you already know certain “safe foods” (foods that do not trigger your IBS symptoms), we do not recommend selecting that food group for self-experimentation. Instead, we recommend using the self-experimentation process to test foods that you are unsure of as one of your trigger or safe foods.\n\nSince things are always changing inside our body and environment, a food you once thought was a “safe food” may come into question in the future. In this situation, it may be appropriate to re-test it to determine if it is still a “safe food.” Similarly, a food you once thought was a “trigger food” may come into question in the future. In this situation, it may be appropriate to re-test it to determine if it is still a 'trigger food.'"
 			}, {
-				"faq": "Sorbitol (Artificial Sweeteners)",
+				"faq": "Sorbitol",
 				"uisref": "faqs_page({faqsection: 2, faqitem: $index})",
 				"content": "Sorbitol is a type of synthetic sugar, commonly used as an artificial sweeteners in sugar-free gums and candies and diet drinks. However, it can also naturally found in some fruits (e.g. stone fruits such as apples, apricot, figs, peaches)."
 			}, {
@@ -262,7 +262,7 @@
 	},
 	"setup": {
 		"title": "Set Up A New Trial",
-		"content": "This setup guide will walk you through the steps to create your self trial. A self trial helps you decide whether certain food affects your symptoms. \n\nDuring the trial, you will be asked to eat your trial food on some mornings and to avoid that on other mornings. \n\nWe will help you track your progress and symptom levels by sending you daily reminders.",
+		"content": "This setup guide will walk you through the steps to create your self trial. A self trial helps you decide whether certain food affects your symptoms. \n\nDuring the trial, you will be asked to eat your trial food on some mornings and to avoid that food on other mornings. \n\nWe will help you track your progress and symptom levels by sending you daily reminders.",
 		"button": "Begin Setup"
 	},
 	"setup2": {
@@ -289,7 +289,7 @@
 		"title": "2. Choose a Possible Trigger",
 		"subtitle": "Which of the following food is a likely trigger for your symptom(s)?",
 		"triggers": [{
-			"trigger": "Sorbitol (Artificial Sweeteners)",
+			"trigger": "Sorbitol",
 			"uisref": "setup_3_1",
 			"phrase_plus": "Consume Sorbitol",
 			"phrase_minus": "Avoid Sorbitol"
@@ -312,7 +312,7 @@
 		"button": "Continue "
 	},
 	"setup3_1": {
-		"title": "2.1 Testing impact of Sorbitol (Artificial Sweeteners)",
+		"title": "2.1 Testing impact of Sorbitol",
 		"para1": "On select days you will be asked to eat at least 5 grams of sorbitol during your breakfast. It is ok to eat more than 5 grams on these days.",
 		"para2": "On select days you will be asked not to eat sorbitol during your breakfast. It is ok if you eat less than 0.5 gram on these days",
 		"para3": "Some examples of 8 grams of lactose are:",
@@ -370,7 +370,7 @@
 	},
 	"setup4b": {
 		"title": "4. Set Food Preferences",
-		"breakfast_text": "This trial will vary whether you consume {{trigger}}. It is important that you do not accidently vary other potential triggers. So we ask you to consume a consistent breakfast and drink for the duraiton of the study. Select your food preference below to receive suggestions regarding what to eat during the on and off {{trigger}} days.",
+		"breakfast_text": "This trial will vary whether you do or do not consume {{trigger}}. It is important that you do not accidentally vary other potential triggers. Thus, we ask you to consume a consistent food and drink for the duration of the study. Select your food preference below to receive suggestions regarding what to eat during the on and off {{trigger}} days.",
 		"breakfast": [{
 			"breakfast": "Cereal"
 		}, {
@@ -401,7 +401,7 @@
 			"drink": "Water"
 		}],
 		"triggers": [{
-			"trigger": "Sorbitol (Artificial Sweeteners)",
+			"trigger": "Sorbitol",
 			"condition": [{
 				"condition": "on",
 				"Cereal": "Have your usual bowl of cereal your usual way and add at least one of the following: \n - 10 prunes (5 g) \n - Four sugar-free candies like lifesavers or mints (> 5 g) \n - Two pieces of sugar-free gum (4 g) \n - A glass of apple juice (3 g and equivalent amounts of fructose and glucose)",
@@ -455,7 +455,7 @@
 				"condition": "off",
 				"Cereal": "Use at least 6 oz of any lactose-free milks with your cereal such as: lactose-free, almond, rice, coconut, hemp, or lactaid-treated milk.",
 				"Yogurt": "Eat at least 5 oz of any specifically labeled lactose-free yogurts.",
-				"Toast (Bread, english muffin, bagel)": "Eat your usual breakfast but avoid any lactose-containing spreads such as:\n - Cheeses or cheese spreads\n - Cream-based spreads\n - Butters\n\n AND\n\n Drink at least 6 oz of any lactose-free milk with your breakfast: lactose, free, almond, rice, coconut, hemp",
+				"Toast (Bread, english muffin, bagel)": "Eat your usual breakfast but avoid any lactose-containing spreads such as:\n - Cheeses or cheese spreads\n - Cream-based spreads\n - Butters\n\n AND\n\nDrink at least 6 oz of any lactose-free milk with your breakfast: lactose, free, almond, rice, coconut, hemp",
 				"Muffin": "Avoid any muffins with glazes, cheese, or cream fillings.\n\nAND\n\nDrink at least 6 oz of any lactose-free milk with your breakfast: lactose, free, almond, rice, coconut, hemp",
 				"Waffle/Pancake": "Eat your usual breakfast but avoid any lactose-containing spreads such as:\n - Cheeses or cheese spreads\n - Butter\n - Whipped cream\n\nAND\n\nDrink at least 6 oz of any lactose-free milk with your breakfast: lactose, free, almond, rice, coconut, hemp",
 				"Coffee/Espresso": "Drink your usual coffee/espresso drink.\nIf you add any milk to your drink, use a lactose-free containing one such as: lactose-free, almond, rice, coconut, hemp",
@@ -546,10 +546,10 @@
 	},
 	"setup5": {
 		"title": "5. Review Trial Details",
-		"topic_title": "Trial Topic",
+		"topic_title": "Trial Question",
 		"notopic": "(Please select trigger on screen 2.)",
 		"topic": "Does {TRIGGER} affect my symptoms?",
-		"symptoms_title": "Symptoms Being Tracked",
+		"symptoms_title": "Symptom(s) Being Tracked",
 		"symptom1": "- Abdominal Pain",
 		"symptom2": "- Bloating or Gas",
 		"nosymptom": "(Please select symptoms on screen 1.)",
@@ -583,10 +583,10 @@
 		"drink_pref":"Drink"
 	},
 	"setup6": {
-		"title": "6. Trial Scheduled!",
-		"subtitle": "Great. You are all set. Remember, during the {{12}} days of your trial, you will need to have ingredients for {{breakfast}} and {{drink}}",
-		"para1": "You will see instructions regarding your trial on the 'Current Trial' tab.",
-		"help": "View details regarding food choice.",
+		"title": "6. Trial Scheduled",
+		"subtitle": "Great! You are all set. Remember, during the {{12}} days of your trial, you will need to have ingredients for {{breakfast}} and {{drink}}",
+		"para1": "You will see instructions for your trial on the 'Current Trial' page.",
+		"help": "View details for food choice.",
 		"button":"Go To Current Trial"
 	},
 	"loginfo": {
