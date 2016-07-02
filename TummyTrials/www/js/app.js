@@ -117,10 +117,11 @@ app.run(function($cordovaFile, $ionicPlatform, $rootScope, $state, $q,
         });
     });
 
-    // Whenever app restarts, switch to the Current Trial tab.
+    // Whenever app restarts, reload currently displayed page.
     //
     $rootScope.$on('appResume', function() {
-        $state.go('current');
+        // $state.go('current');     (Back to Current tab.)
+        $state.go($state.current, {}, { reload: true });
     });
 
     // Some tests of Experiments. Move these into some kind of framework
