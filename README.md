@@ -10,6 +10,13 @@ To install the plugins, navigate to root folder and execute:
 
     $ ./plugin_script.sh
     
+Install angular-elastic for text-area in the Notes page. https://github.com/monospaced/angular-elastic
+
+    $ bower install angular-elastic
+    
+Add `elastic.js` in index file. Should be installed in `www/lib/angular-elastic`
+Include `'monospaced.elastic'` in the controller dependency 
+    
 Add additional plugins as required, ngCordova is the recommended lib for using cordova plugins. http://ngcordova.com/docs/plugins/ 
 
 For building the app:
