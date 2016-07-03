@@ -214,41 +214,6 @@
 		"para9": "example:",
 		"para10": "A p-value of 0.06 means there is possible evidence that the trigger you are testing in the trial can be causing your symptoms."
 	},
-	"abdominalpain": {
-		"title": "How do we define Abdominal Pain?",
-		"para1": "The amount of pain or discomfort (uncomfortable sensation) you feel anywhere between your chest and groin.",
-		"para2": "On the symptom severity scale:",
-		"para3": "A 0 would be no pain or discomfort",
-		"para4": "A 5 would be pain so severe it prevents you from doing your daily tasks."
-	},
-	"bloating": {
-		"title": "How do we define Bloating / Gas?",
-		"para1": "How full and tight your belly feels and/or how much gas (burping/farting) you are experiencing.",
-		"para2": "On the symptom severity scale:",
-		"para3": "A 0 would be no pain or discomfort",
-		"para4": "A 5 would be pain so severe it prevents you from doing your daily tasks."
-	},
-	"urgency": {
-		"title": "How do we define Bowel Urgency?",
-		"para1": "How sudden or pressing it feels like you need to have a bowel movement.",
-		"para2": "On the symptom severity scale:",
-		"para3": "A 0 would be no pain or discomfort",
-		"para4": "A 5 would be pain so severe it prevents you from doing your daily tasks."
-	},
-	"diarrhea": {
-		"title": "How do we define Diarrhea?",
-		"para1": "How frequent and/or loose your stools are.",
-		"para2": "On the symptom severity scale:",
-		"para3": "A 0 would be no pain or discomfort",
-		"para4": "A 5 would be pain so severe it prevents you from doing your daily tasks."
-	},
-	"constipation": {
-		"title": "How do we define Constipation?",
-		"para1": "How backed up you feel and/or how hard the passage of stool is.",
-		"para2": "On the symptom severity scale:",
-		"para3": "A 0 would be no pain or discomfort",
-		"para4": "A 5 would be pain so severe it prevents you from doing your daily tasks."
-	},
 	"triggerchoice": {
 		"title": "How to choose a trigger to test?",
 		"para1": "It's best to choose something that you eat or do often, but aren't sure whether it affects you.",
@@ -290,62 +255,22 @@
 		"subtitle": "Which of the following food is a likely trigger for your symptom(s)?",
 		"triggers": [{
 			"trigger": "Sorbitol",
-			"uisref": "setup_3_1",
 			"phrase_plus": "Consume Sorbitol",
 			"phrase_minus": "Avoid Sorbitol"
 		}, {
 			"trigger": "Lactose (Dairy)",
-			"uisref": "setup_3_2",
 			"phrase_plus": "Consume Lactose",
 			"phrase_minus": "Avoid Lactose"
 		}, {
 			"trigger": "Caffeine",
-			"uisref": "setup_3_3",
 			"phrase_plus": "Consume Caffeine",
 			"phrase_minus": "Avoid Caffeine"
 		}, {
 			"trigger": "Gluten",
-			"uisref": "setup_3_4",
 			"phrase_plus": "Consume Gluten",
 			"phrase_minus": "Avoid Gluten"
 		}],
 		"button": "Continue "
-	},
-	"setup3_1": {
-		"title": "2.1 Testing impact of Sorbitol",
-		"para1": "On select days you will be asked to eat at least 5 grams of sorbitol during your breakfast. It is ok to eat more than 5 grams on these days.",
-		"para2": "On select days you will be asked not to eat sorbitol during your breakfast. It is ok if you eat less than 0.5 gram on these days",
-		"para3": "Some examples of 8 grams of lactose are:",
-		"list1": "A cup of cottage cheese (225 grams)",
-		"list2": "A glass of cow's milk (8 oz)",
-		"list3": "A bowl of yogurt (5 oz)"
-	},
-	"setup3_2": {
-		"title": "2.2 Testing Lactose (Dairy Consumption)",
-		"para1": "On randomly pre-assinged days you will be asked to eat at least 8 grams of lactose during your breakfast. It is ok to eat more than 8 grams on these days.",
-		"para2": "On other pre-assigned days you will be asked not to eat lactose during your first meal. You can eat lactose after logging your symptoms 4 hours after the meal.",
-		"para3": "Some examples of 8 grams of lactose are:",
-		"list1": "A cup of cottage cheese (225 grams)",
-		"list2": "A glass of cow's milk (8 oz)",
-		"list3": "A bowl of yogurt (5 oz)"
-	},
-	"setup3_3": {
-		"title": "2.3 Testing impact of drinking Caffeine",
-		"para1": "On randomly pre-assinged days you will be asked to eat at least 8 grams of lactose during your first meal, ideally breakfast. It is ok to eat more than 8 grams on these days.",
-		"para2": "On other pre-assigned days you will be asked not to eat lactose during your first meal. You can eat lactose after logging your symptoms 4 hours after the meal.",
-		"para3": "Some examples of 8 grams of lactose are:",
-		"list1": "A cup of cottage cheese (225 grams)",
-		"list2": "A glass of cow's milk (8 oz)",
-		"list3": "A bowl of yogurt (5 oz)"
-	},
-	"setup3_4": {
-		"title": "2.4 Testing impact of eating Gluten",
-		"para1": "On randomly pre-assinged days you will be asked to eat at least 8 grams of lactose during your first meal, ideally breakfast. It is ok to eat more than 8 grams on these days.",
-		"para2": "On other pre-assigned days you will be asked not to eat lactose during your first meal. You can eat lactose after logging your symptoms 4 hours after the meal.",
-		"para3": "Some examples of 8 grams of lactose are:",
-		"list1": "A cup of cottage cheese (225 grams)",
-		"list2": "A glass of cow's milk (8 oz)",
-		"list3": "A bowl of yogurt (5 oz)"
 	},
 	"setup4": {
 		"title": "3. Set Start Date And Reminders",

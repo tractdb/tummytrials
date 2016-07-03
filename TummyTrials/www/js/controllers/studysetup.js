@@ -40,42 +40,6 @@
         }
       }
     })
-    .state('setup_3_1', {
-      url: 'current/setup_3/setup_3_1',
-      views: {
-        current : {
-          templateUrl: 'templates/study_setup/setup_3_1.html',
-          controller: 'setupcontroller'
-        }
-      }
-    })
-    .state('setup_3_2', {
-      url: 'current/setup_3/setup_3_2',
-      views: {
-        current : {
-          templateUrl: 'templates/study_setup/setup_3_2.html',
-          controller: 'setupcontroller'
-        }
-      }
-    })
-    .state('setup_3_3', {
-      url: 'current/setup_3/setup_3_3',
-      views: {
-        current : {
-          templateUrl: 'templates/study_setup/setup_3_3.html',
-          controller: 'setupcontroller'
-        }
-      }
-    })
-    .state('setup_3_4', {
-      url: 'current/setup_3/setup_3_4',
-      views: {
-        current : {
-          templateUrl: 'templates/study_setup/setup_3_4.html',
-          controller: 'setupcontroller'
-        }
-      }
-    })
     .state('setup_4', {
       url: 'current/setup_4',
       views: {
