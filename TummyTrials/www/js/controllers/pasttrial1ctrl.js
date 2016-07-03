@@ -33,11 +33,11 @@
 
 (angular.module('tummytrials.pasttrial1ctrl', 
                 ['tummytrials.text', 'ionic', 'tummytrials.experiments', 
-                 'd3', 'tummytrials.vis', 'd3.directives', 
+                 'd3', 'tummytrials.vis', 'd3.directives', 'tummytrials.neg_comp_data',
                  'tummytrials.studyfmt','tummytrials.currentctrl', 'tummytrials.lc'])
 
 .controller('PastTrial1Ctrl', function($scope, $stateParams, $ionicPopup, $timeout, Vis,
-                                        Text, Experiments, LC, d3Service, $window) {
+                                        Text, Experiments, LC, d3Service, $window, Neg_Comp_Data) {
     Text.all_p()
     .then(function(text) {
         $scope.text = text;
@@ -47,6 +47,7 @@
         var study = $scope.study_previous[$stateParams.studyIndex];
         var text = $scope.text;
         $scope.study_past1 = study;
+        $scope.neg_comp_d = Neg_Comp_Data;
 
         // check if result is ready
         var ready = null; 
@@ -69,12 +70,9 @@
         end_date.setDate(end_date.getDate() - 1); // This is last day of the trial
         $scope.end_date_md = LC.datemd(end_date);     
 
-        if(study.trigger == "Sorbitol (Artificial Sweeteners)"){
-            $scope.view_title = study.trigger.replace(' (Artificial Sweeteners)','');
-        } else {
-            $scope.view_title = study.trigger;
-        }
+        $scope.view_title = study.trigger;
         $scope.st_trigger = study.trigger;
+        Neg_Comp_Data.trigger = study.trigger;
         $scope.st_symptom = study.symptoms;
         $scope.st_status = study.status;
         $scope.st_comment = study.comment; // Free form comment (unused)
@@ -386,6 +384,8 @@
             Vis.A_text = A_text;
             Vis.B_text = B_text;
 
+            console.log("neg comp " + Neg_Comp_Data.trigger);
+
         // onclick function for the visualization
         $scope.d3OnClick = function(data_pt){
 
@@ -399,14 +399,14 @@
 
             var severity_text = null;
                var mapper = {
-                  0 : "Negative compliance",
-                  1 : "No report",
-                  2 : "Not at all",
+                  0 : "Negative Compliance",
+                  1 : "No Report",
+                  2 : "Not At All",
                   3 : "Slight",        
                   4 : "Mild",
                   5 : "Moderate",
                   6 : "Severe",
-                  7 : "Very severe",
+                  7 : "Very Severe",
                   8 : "Extreme"
                 };
             severity_text = mapper[data_pt.real_severity];
@@ -460,6 +460,11 @@
         $scope.resultVisControl = {};
 
     });
+})
+
+.controller('Neg_CompCtrl', function($scope, Neg_Comp_Data){   
+    $scope.trigger = Neg_Comp_Data.trigger;
+    console.log("neg comp " + Neg_Comp_Data);
 })
 // module end
 );

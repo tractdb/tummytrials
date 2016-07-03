@@ -5,19 +5,17 @@
     <h4 class="title" ng-hide="ntexst">{{text.notes.title}}</h4>
     <h4 class="title" ng-show="ntexst">{{text.notes.title2}}</h4>
 
-    <br/>
-    <label class="item item-input">
-      <textarea cols="25", rows="?" ng-model="tm.note"></textarea>
-      <input type="text">
-    </label>
-    <br/>
+    <span>
+      <textarea cols="{{box_width}}" class="msd-elastic" placeholder="Add Note" ng-model="tm.note" style="padding:10px 2px; border:1px solid #999999;">
+      </textarea>
+        <input type="text">
+    </span>
     
-    <!-- <h4>Preview:</h4>
-    <div class = "card padding"> {{tm.note}}</div> -->
-
-    <a class="button button-block button-royal" ng-click="add_note()">
-      {{text.notes.button}}
-    </a>
+    <div class="divcenter">
+      <a class="button button-energized heavy" ng-click="add_note()" style="width:150px;">
+        {{text.notes.button}}
+      </a>
+    </div>
 
 <!--     <div ng-controller="CameraCtrl">
     <h4 class="text-center">Attach a Picture</h4>

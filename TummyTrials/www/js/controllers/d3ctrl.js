@@ -94,14 +94,14 @@
                   .ticks(9)
                   .tickFormat(function (d) {
                     var mapper = {
-                      0 : "Negative compliance",
-                      1 : "No report",
-                      2 : "Not at all",
+                      0 : "Negative Compliance",
+                      1 : "No Report",
+                      2 : "Not At All",
                       3 : "Slight",        
                       4 : "Mild",
                       5 : "Moderate",
                       6 : "Severe",
-                      7 : "Very severe",
+                      7 : "Very Severe",
                       8 : "Extreme"
                     }
                     return mapper[d]
@@ -118,12 +118,12 @@
                   .ticks(7)
                   .tickFormat(function (d) {
                     var mapper = {
-                      2 : "Not at all",
+                      2 : "Not At All",
                       3 : "Slight",        
                       4 : "Mild",
                       5 : "Moderate",
                       6 : "Severe",
-                      7 : "Very severe",
+                      7 : "Very Severe",
                       8 : "Extreme"
                     }
                     return mapper[d]
@@ -226,14 +226,14 @@
             .selectAll("text") // all formatting moved to the insertLinebreaks function
               .each(function(d,i){ 
                     var mapper = {
-                      0 : "Negative compliance",
-                      1 : "No report",
-                      2 : "Not at all",
+                      0 : "Negative Compliance",
+                      1 : "No Report",
+                      2 : "Not At All",
                       3 : "Slight",
                       4 : "Mild",
                       5 : "Moderate",
                       6 : "Severe",
-                      7 : "Very severe",
+                      7 : "Very Severe",
                       8 : "Extreme"
                     };
                 d = mapper[d];

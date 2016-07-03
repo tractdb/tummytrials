@@ -1,7 +1,7 @@
 (angular.module('tummytrials.notesctrl',
                 [ 'tractdb.tdate', 'tractdb.reminders', 'tummytrials.lc',
                   'tummytrials.text', 'tummytrials.studyfmt', 'ionic',
-                  'tummytrials.experiments' ])
+                  'tummytrials.experiments', 'monospaced.elastic' ])
 
 .controller('NotesCtrl', function($scope, $state, LC, Text, TDate, $ionicPopup,
                                     Reminders, Experiments, $window
@@ -38,6 +38,20 @@
                 $scope.ntexst = true;
             }
 
+            // manual hack for different screen for back button width
+            var sw = window.innerWidth;
+            var box_width;
+            if(sw == 320){ // iphone 5s
+                box_width = 35;
+            } else if(sw == 375){ // iphone 6
+                box_width = 43;
+            } else if(sw == 414){ // iphone 6 plus
+                box_width = 48;
+            } else {
+                box_width = 35;
+            }
+            $scope.box_width = box_width;
+
             $scope.add_note = function(){
                 var note = $scope.tm.note;
                 rep.note_time = Math.floor(TDate.now() / 1000);
@@ -46,7 +60,10 @@
                     .then(function(_){
                         var alertPopup = $ionicPopup.alert({
                             title: 'Note Posted',
-                            template: 'Your note has been succcessfully added to today\'s report.'
+                            template: 'Your note has been succcessfully added to today\'s report.',
+                            buttons: [{ text: 'Ok', 
+                                        type: 'button-energized'}]
+
                         });
 
                         alertPopup.then(function(res) {

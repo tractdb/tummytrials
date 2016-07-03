@@ -15,7 +15,7 @@
         <ul class="list">
           <li ng-repeat="label in text.post.likertlabels" class="item item-checkbox checkbox-royal">
             <label class="checkbox">
-              <input type="radio" name="likert" ng-value="$index" ng-model="log_model.severity">
+              <input type="radio" name="likert" ng-value="$index" ng-model="log_model.severity" ng-checked="log_model.severity">
             </label>
               {{label.label}}<br>
 

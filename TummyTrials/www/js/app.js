@@ -220,7 +220,16 @@ app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
       views: {
         mytrials : {
           templateUrl: 'templates/mytrials/pvalue.html',
-          controller: 'PastTrial1Ctrl'
+          controller: 'setupcontroller'
+        }
+      }
+    })
+    .state('neg_comp', {
+      url: 'mytrials/neg_comp',
+      views: {
+        mytrials : {
+          templateUrl: 'templates/mytrials/neg_comp.html',
+          controller: 'Neg_CompCtrl'
         }
       }
     })
