@@ -72,7 +72,13 @@
                     and on days without {{trig}} was 
                     {{value[0].b_res_text}}. <br/><br/> -->
 
-                    <span ng-show="value[duration_readable - 1].a_void > 0 || value[duration_readable - 1].b_void > 0">There were {{value[duration_readable - 1].a_void + value[duration_readable - 1].b_void}} days when no symptoms were recorded, which may affect the averages shown above. Missing data is shown in gray circles in the visualization.</span>
+                    <span ng-show="value[duration_readable - 1].a_void > 0 || value[duration_readable - 1].b_void > 0">
+                        There were {{value[duration_readable - 1].a_void + value[duration_readable - 1].b_void}} days, shown in gray circles in the visualization, which were not included in the result analysis. The reason for excluding the data is either missing symptom reports, or negative compliance to breakfast or fast prompt.
+                        <a ui-sref="neg_comp">
+                            <i class="ion-information-circled" style="color:#000000; font-size: 125%;"></i>
+                        </a>
+                    </span>
+
                 </div>
 
                 </div>

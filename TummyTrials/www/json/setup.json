@@ -79,7 +79,7 @@
 		"submit": "Confirm",
 		"likertlabels": [{
 			"label": "Not at all",
-			"detail": "no symptom"
+			"detail": "No symptom"
 		}, {
 			"label": "Slightly",
 			"detail": "Only noticed my symptom when I focused on it"
@@ -101,8 +101,8 @@
 		}]
 	},
 	"notes": {
-		"title": "Add a note to today's report:",
-		"title2": "Edit the note in today's report:",
+		"title": "Add a note",
+		"title2": "Edit note",
 		"button": "Submit"
 	},
 	"mytrials": {
