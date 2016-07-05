@@ -384,8 +384,6 @@
             Vis.A_text = A_text;
             Vis.B_text = B_text;
 
-            console.log("neg comp " + Neg_Comp_Data.trigger);
-
         // onclick function for the visualization
         $scope.d3OnClick = function(data_pt){
 
@@ -424,11 +422,8 @@
             date_trimmed = date_trimmed.replace(' 2016 00:00:00 GMT-0700 (PDT)', '');
             // date_trimmed = date_trimmed.replace(/"/g, '');
 
-
-
-
             // Remove compliances if no report was submitted for the day
-            if(severity_text == "No report"){
+            if(severity_text == "No Report"){
                 $scope.alert_message =  "Date : " + date_trimmed + "<br/>" + 
                                     "Condition : " + cond_text + "<br/>" +
                                     "Symptom Level : " + severity_text + "<br/>" + 
