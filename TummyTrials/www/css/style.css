@@ -12,6 +12,11 @@
 	font-weight:700;
 }
 
+.scroll-bar-indicator
+{
+	display: none;
+}
+
 /*colors*/
 .primary{
 	background-color: #3995d4;

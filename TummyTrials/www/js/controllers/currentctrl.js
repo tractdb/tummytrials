@@ -182,7 +182,7 @@
                             day_next = "<b>Tomorrow</b>: " + $scope.legend_B_text;
                         } 
                     } else {
-                        day_next = "This is the last day of the trial! Please submit your trial to view the results.";
+                        day_next = "This is the last day of the trial! Please submit your trial on the 'Settings' page to view the results.";
                     }
 
                 }
