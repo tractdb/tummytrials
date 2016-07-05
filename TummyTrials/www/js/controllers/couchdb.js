@@ -50,7 +50,7 @@ var DB_DOCVERSION = 1;
 (angular.module('tractdb.couchdb', [])
 
 .factory('CouchDB', function($ionicPlatform, $window, $rootScope, $q, $http) {
-    var RDB_BASE = 'tractdb.org/couch/{USER}_{DBNAME}';
+    var RDB_BASE = 'tractdb.org/ttcouch/{USER}_{DBNAME}';
     var RDB_URL = 'https://' + RDB_BASE;
     var RDB_UNPW_URL = 'https://{USER}:{PASS}@' + RDB_BASE;
     var cblurl = null;  // Local URL for Couchbase Lite
