@@ -29,13 +29,13 @@
 	},
 	"calendar": {
 		"title": "Report for:",
-		"field_1": "Prompt for the day was to:",
-		"field_2": "Report for the day:",
+		"field_1": "Prompt",
+		"field_2": "Compliance",
 		"field_3": "Symptom report",
 		"field_4": "Did you eat anything between breafast and symptom report?",
 		"future": "Future date. No report available.",
 		"today": "This is the ongoing day.",
-		"miss": "The compliance for this day was missing therefore, there is no symptom score for this day.",
+		"miss": "The compliance for this day was not reported.",
 		"missing": "No symptom levels were reported for this day.",
 		"noreport":"No report was logged for the day.",
 		"guess":"No symptom levels were reported for this day."
@@ -262,11 +262,11 @@
 	},
 	"setup": {
 		"title": "Set Up A New Trial",
-		"content": "This set up will guide you through the steps to create your self trial. A trial helps you decide whether certain food affects your symptoms. \n\nDuring the trial, you will be asked to eat your trial food on some mornings and to avoid that on other mornings. \n\nWe will help you track your progress and symptom levels by giving you daily reminders.",
+		"content": "This set up will guide you through the steps to create your self trial. A self trial helps you decide whether certain food affects your symptoms. \n\nDuring the trial, you will be asked to eat your trial food on some mornings and to avoid that on other mornings. \n\nWe will help you track your progress and symptom levels by sending you daily reminders.",
 		"button": "Begin Setup"
 	},
 	"setup2": {
-		"title": "Choose Symptom(s) To Track",
+		"title": "1. Choose Symptom(s) To Track",
 		"subtitle": "Which of the following symptoms do you want to test?",
 		"symptoms": [{
 			"symptom": "Abdominal Pain"
@@ -286,7 +286,7 @@
 		"button": "Continue "
 	},
 	"setup3": {
-		"title": "Choose a Possible Trigger",
+		"title": "2. Choose a Possible Trigger",
 		"subtitle": "Which of the following food is a likely trigger for your symptom(s)?",
 		"triggers": [{
 			"trigger": "Sorbitol (Artificial Sweeteners)",
@@ -348,7 +348,7 @@
 		"list3": "A bowl of yogurt (5 oz)"
 	},
 	"setup4": {
-		"title": "Set Start Date And Reminders",
+		"title": "3. Set Start Date And Reminders",
 		"subtitle": "When do you want to begin the trial and when do you want to receive reminder notifications?",
 		"morning_title": "Morning Reminder",
 		"morning_text": "You will be sent a reminder to follow the trial schedule for each day. Choose a time, perhaps a little before breakfast.",
@@ -369,7 +369,7 @@
 		"button": "Continue"
 	},
 	"setup4b": {
-		"title": "Set Food Preferences",
+		"title": "4. Set Food Preferences",
 		"breakfast_text": "This trial will vary whether you consume {{trigger}}. It is important that you do not accidently vary other potential triggers. So we ask you to consume a consistent breakfast and drink for the duraiton of the study. Select your food preference below to receive suggestions regarding what to eat during the on and off {{trigger}} days.",
 		"breakfast": [{
 			"breakfast": "Cereal"
@@ -545,7 +545,7 @@
 		"button": "Continue "
 	},
 	"setup5": {
-		"title": "Review Trial Details",
+		"title": "5. Review Trial Details",
 		"topic_title": "Trial Topic",
 		"notopic": "(Please select trigger on screen 2.)",
 		"topic": "Does {TRIGGER} affect my symptoms?",
@@ -559,11 +559,15 @@
 		"end_date": "Tue Apr 4th",
 		"reminder_times_title": "Reminder Times",
 		"morning_reminder_title": "",
+		"morning_reminder_titlel": "Morning Reminder",
 		"morning_reminder": "9:00 am",
 		"breakfast_reminder_title": "",
+		"breakfast_reminder_titlel": "Breakfast Compliance Report",
 		"symptomEntry_reminder_title": "",
+		"symptomEntry_reminder_titlel": "Fast Compliance & Symptom Report",
 		"symptom_reminder": "1:00 pm",
 		"evening_reminder_title": "",
+		"evening_reminder_titlel": "Evening Reminder",
 		"evening_reminder": "6:00 pm",
 		"button": "Begin The Trial",
 		"day_counter": "Day {DAY}",
@@ -573,13 +577,13 @@
 		"symptomEntry_reminder_upd_text": "Update symptom levels if necessary.",
 		"evening_reminder_text": "Report compliance and symptom levels.",
 		"food_pref_title":"Food preferences",
-		"breakfast_pref":"Breakfast preference",
+		"breakfast_pref":"Food",
 		"no_food": "(Please select a breakfast food preference on screen 4.)",
 		"no_drink": "(Please select a breakfast drink preference on screen 4.)",
-		"drink_pref":"Drink preference"
+		"drink_pref":"Drink"
 	},
 	"setup6": {
-		"title": "Trial Scheduled!",
+		"title": "6. Trial Scheduled!",
 		"subtitle": "Great. You are all set. Remember, during the {{12}} days of your trial, you will need to have ingredients for {{breakfast}} and {{drink}}",
 		"para1": "You will see instructions regarding your trial on the 'Current Trial' tab.",
 		"help": "View details regarding food choice.",

@@ -143,6 +143,18 @@
 
       $scope.sym = cur.symptoms;
 
+      var start_date = new Date(cur.start_time * 1000);
+      $scope.st_dt = LC.datemd(start_date);
+
+      var end_date = new Date(cur.end_time * 1000);
+      end_date.setDate(end_date.getDate() - 1);
+      $scope.en_dt = LC.datemd(end_date);
+
+      var dur = cur.end_time - cur.start_time;
+      dur = new Date(dur * 1000); 
+      $scope.dr_rd = LC.dateonly(dur);
+
+
       //end_time is the last day + 1
       var not_end_date = cur.end_time;
       var end_date = not_end_date - 86400;
@@ -173,7 +185,6 @@
       var c_rem = cur.remdescrs, 
           s_rem = {}, r_time, r_type;
       for(var c = 0; c < c_rem.length ; c++){
-        console.log(c_rem[c].type);
         r_time = LC.timestr(c_rem[c].time);
         r_type = c_rem[c].type;
         if(r_type == "morning"){

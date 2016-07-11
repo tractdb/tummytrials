@@ -18,8 +18,9 @@ Page Hierarchy:
     <span class="heavy">{{title}}</heavy>
   </ion-nav-title>
   <ion-pane>
-    <ion-content>
+    <ion-content class="grey">
 
+    <!-- Calendar widget -->
     <div class="primary" ng-show="(study_current && !is_past)">
       <div>
         <!-- row for day name labels -->
@@ -33,8 +34,8 @@ Page Hierarchy:
               <a class="button btn_lh" ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_0'" ng-class="c_day[1] == 'A' ? 'primaryl1btn' : '' || c_day[1] == 'B' ? 'primaryl2btn' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar"  ng-disabled="!c_day[3]">{{c_day[0]}}</a>
               <a class="button btn_lh" ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_0'" ng-class="c_day[1] == 'A' ? 'primaryl1btnalt' : '' || c_day[1] == 'B' ? 'primaryl2btnalt' : '' || c_day[1] == '' ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar"  ng-disabled="!c_day[3]">
                 <span ng-show="fives" class="not-on-top"> <i class="ion-ic-rectangle90 dark" style="font-size:300%; margin-left:-6px;"></i> </span>
-                <span ng-show="six" class="not-on-top"> <i class="ion-ic-rectangle104 dark" style="font-size:300%; margin-left:-6px;"></i> </span>
-                <span ng-show="sixp" class="not-on-top"> <i class="ion-ic-rectangle104 dark" style="font-size:325%; margin-left:-6px;"></i> </span>
+                <span ng-show="six" class="not-on-top"> <i class="ion-ic-rectangle104 dark" style="font-size:300%; margin-left:-5px;"></i> </span>
+                <span ng-show="sixp" class="not-on-top"> <i class="ion-ic-rectangle104 dark" style="font-size:330%; margin-left:-5px;"></i> </span>
                 <span class="on-top">{{c_day[0]}}</span>
               </a>
           </div>
@@ -45,8 +46,8 @@ Page Hierarchy:
              <a class="button btn_lh" ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_1'" ng-class="c_day[1] == 'A' ? 'primaryl1btn' : '' || c_day[1] == 'B' ? 'primaryl2btn' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar"  ng-disabled="!c_day[3]">{{c_day[0]}}</a>
               <a class="button btn_lh" ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_1'" ng-class="c_day[1] == 'A' ? 'primaryl1btnalt' : '' || c_day[1] == 'B' ? 'primaryl2btnalt' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar"  ng-disabled="!c_day[3]">
                 <span ng-show="fives" class="not-on-top"> <i class="ion-ic-rectangle90 dark" style="font-size:300%; margin-left:-6px;"></i> </span>
-                <span ng-show="six" class="not-on-top"> <i class="ion-ic-rectangle104 dark" style="font-size:300%; margin-left:-6px;"></i> </span>
-                <span ng-show="sixp" class="not-on-top"> <i class="ion-ic-rectangle104 dark" style="font-size:325%; margin-left:-6px;"></i> </span>
+                <span ng-show="six" class="not-on-top"> <i class="ion-ic-rectangle104 dark" style="font-size:300%; margin-left:-5px;"></i> </span>
+                <span ng-show="sixp" class="not-on-top"> <i class="ion-ic-rectangle104 dark" style="font-size:330%; margin-left:-5px;"></i> </span>
                 <span class="on-top">{{c_day[0]}}</span>
               </a>
             </div>
@@ -57,8 +58,8 @@ Page Hierarchy:
              <a class="button btn_lh" ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_2'" ng-class="c_day[1] == 'A' ? 'primaryl1btn' : '' || c_day[1] == 'B' ? 'primaryl2btn' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar"  ng-disabled="!c_day[3]">{{c_day[0]}}</a>
               <a class="button btn_lh" ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_2'" ng-class="c_day[1] == 'A' ? 'primaryl1btnalt' : '' || c_day[1] == 'B' ? 'primaryl2btnalt' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar"  ng-disabled="!c_day[3]">
                 <span ng-show="fives" class="not-on-top"> <i class="ion-ic-rectangle90 dark" style="font-size:300%; margin-left:-6px;"></i> </span>
-                <span ng-show="six" class="not-on-top"> <i class="ion-ic-rectangle104 dark" style="font-size:300%; margin-left:-6px;"></i> </span>
-                <span ng-show="sixp" class="not-on-top"> <i class="ion-ic-rectangle104 dark" style="font-size:325%; margin-left:-6px;"></i> </span>
+                <span ng-show="six" class="not-on-top"> <i class="ion-ic-rectangle104 dark" style="font-size:300%; margin-left:-5px;"></i> </span>
+                <span ng-show="sixp" class="not-on-top"> <i class="ion-ic-rectangle104 dark" style="font-size:330%; margin-left:-5px;"></i> </span>
                 <span class="on-top">{{c_day[0]}}</span>
               </a>
             </div>
@@ -86,20 +87,24 @@ Page Hierarchy:
       </div>
     </div>
 
-    <div class="grey" ng-hide="!study_current">    
+    <div class="grey" ng-hide="!study_current || is_past">    
         <!-- 
-        Content to display when there is no on going trial
+        Content to display when a trial is scheduled but not underway
         --> 
-        <div class="card padding" ng-hide="!exp_bool">
-          <h4 class="title">{{text.current.title}} {{today_full}}</h4>
-          You have an trial scheduled to begin on {{start_date_full}}. <br/><br/>
-          To view trial details or abandon trial go to the current trial under 'My Trials' tab. <br/>
+        <div class="" ng-hide="!exp_bool">
+          <h4 class="heavy padding">{{text.current.title}} {{today_full}}</h4>
+          <div class="" style="background-color:white; padding:10px 0px;"> 
+            <p style="padding-left: 10px; margin:0px;">
+              You have an trial scheduled to begin on <span class="heavy">{{start_date_full}}</span>. <br/><br/>
+              To view trial details or abandon trial go to the 'Settings' tab. <br/>
+            </p>
+          </div>    
         </div>    
 
         <!-- 
         Content to display when trial underway
         --> 
-            <div ng-show="(!exp_bool && !is_past)">
+          <div ng-show="(!exp_bool)">
               <div class="row padding" style="padding-bottom:0px;">
                 <div class="col">
                   <h4 class="heavy" style="margin-top:0px; margin-bottom:0px;">Consume Sorbitol</h4>
@@ -119,10 +124,9 @@ Page Hierarchy:
                      <span class="new_line">{{active_drnk}}</span>
                  </div>
               </div>
-            </div>
+          </div>
 
-            <!-- calendar class is for the background color -->
-            <div class="" style="background-color:white;"> 
+          <div class="" style="background-color:white;" ng-show="(!exp_bool)"> 
             <!-- Breakfast section -->
             <div class="row padding" >
               <div class="neg-padding">
@@ -157,7 +161,7 @@ Page Hierarchy:
                     <span class="" ng-bind-html="bfst_comp_msg"></span>
                   </div>
                   <div class="edit-padding" style="margin-left:-15px;">
-                    <a class="button button-small small-text heavy reportbtn white" style="margin-top:8px; background-color: #666666;" ui-sref="during">
+                    <a class="button button-small button-calm small-text heavy reportbtn white" style="margin-top:8px;" ui-sref="during">
                      &nbsp;&nbsp; Edit &nbsp;&nbsp;
                     </a>
                   </div>
@@ -206,7 +210,7 @@ Page Hierarchy:
                     <span class="" ng-bind-html="lcomp_msg"></span>
                   </div>
                   <div class="edit-padding" style="margin-left:-15px;">
-                    <a class="button button-small small-text heavy reportbtn white" style="margin-top:8px; background-color: #666666;" ui-sref="sec_comp">
+                    <a class="button button-small button-calm small-text heavy reportbtn white" style="margin-top:8px;" ui-sref="sec_comp">
                      &nbsp;&nbsp; Edit &nbsp;&nbsp;
                     </a>
                   </div>
@@ -255,7 +259,7 @@ Page Hierarchy:
                     <span class="" ng-bind-html="report_msg"></span>
                   </div>
                   <div class="edit-padding" style="margin-left:-15px;">
-                    <a class="button button-small small-text heavy reportbtn white" style="margin-top:8px; background-color: #666666;" ui-sref="post({symptomIndex:0})">
+                    <a class="button button-small button-calm small-text heavy reportbtn white" style="margin-top:8px;" ui-sref="post({symptomIndex:0})">
                      &nbsp;&nbsp; Edit &nbsp;&nbsp;
                     </a>
                   </div>
@@ -267,7 +271,7 @@ Page Hierarchy:
           <br/>
             <!-- Notes section -->
             <!-- <hr/> -->
-            <div class="row padding" style="background-color:white;">
+            <div class="row padding" style="background-color:white;"  ng-show="(!exp_bool)">
               <div class="neg-padding" style="vertical-align:7px; margin-left:5px;">
                 <i class="ion-ic-note" style="font-size: 300%;"></i>
               </div>
@@ -278,7 +282,7 @@ Page Hierarchy:
                     <h4 style="margin-top:0px; margin-bottom:0px;">Note </h4>
                   </div>
                   <div class="edit-padding">
-                    <a class="button button-small small-text heavy reportbtn white" style="margin-top:8px; background-color: #666666;" ui-sref="notes">
+                    <a class="button button-small button-calm small-text heavy reportbtn white" style="margin-top:8px;" ui-sref="notes">
                       &nbsp;&nbsp; Add &nbsp;&nbsp;
                     </a>
                   </div>
@@ -292,7 +296,7 @@ Page Hierarchy:
                     <p class="" ng-bind-html="note"></p>
                   </div>
                   <div class="edit-padding">
-                    <a class="button button-small small-text heavy reportbtn white" style="margin-top:8px; background-color: #666666;" ui-sref="notes">
+                    <a class="button button-small button-calm small-text heavy reportbtn white" style="margin-top:8px;" ui-sref="notes">
                       &nbsp;&nbsp; Edit &nbsp;&nbsp;
                     </a>
                   </div>
@@ -312,7 +316,8 @@ Page Hierarchy:
               </div>
             </div> -->
 
-            <div class="padding" style="margin-left:5px;">
+            <!-- Footer section -->
+            <div class="padding" style="margin-left:5px;"  ng-show="(!exp_bool)">
               <p>Today's report will be submitted automatically at 11:59pm.</p>
               <div ng-hide="!sym_score_state"> 
                 <h5><b>Done for the day!</b></h5>
@@ -320,33 +325,47 @@ Page Hierarchy:
               </div>
             </div>
 
-          </div>  
+    </div>  
 
-          </div>
-
-        </div>
         <!-- 
         Content to display when trial is underway but past the last day.
         -->         
-        <div ng-show="is_past" class="padding">
-          <h4>Submit Trial</h4>
-            Your {{title}} is past. <br/>
-            To view the results <b>Complete Trial</b> by going to 'Settings' tab.
+        <div ng-show="is_past">
+          <h4 class="heavy padding">Submit Trial</h4>
+          <div style="background-color:white;" >
+            <p class="padding"> Your {{title}} is past. <br/>
+                To view the results complete the trial by clicking below. <span class="heavy">Once completed, the results will be available in the Trial Results tab.</span></p>
+          </div>
+          <div class="row">
+            <div class="col col-10"> &nbsp;&nbsp; </div>
+            <div class="col">
+                <a class="button button-block button-energized heavy" ng-click="complete_trial()" style="width:{{btn_width}}px;">
+                  Complete Trial
+                </a>
+            </div>
+            <div class="col col-10"> &nbsp;&nbsp; </div>
+          </div>
         </div>
 
-    </div>
 
     <!-- 
     Content to display when there is no on going study
     --> 
-    <div class="card padding" ng-show="!study_current">
-        <h4 class="title">No ongoing trial</h4>
+    <div class="padding grey-text" ng-show="!study_current">
         <br/>
-        <p>Would you like to setup a new trial?</p>
-        <br/>
-        <a class="button button-block button-royal" ui-sref="setup_1">
-          Setup a New Trial
-        </a>
+        <div class="divcenter">
+            <i class="ion-ic-newTrial" style="font-size: 1000%; color:#dddddd;"></i> <br/>
+        </div>
+        <p class="new_line">{{text.setup.content}}</p>
+        <div class="row">
+            <div class="col col-10"> &nbsp;&nbsp; </div>
+            <div class="col">
+                <a class="button button-block button-energized heavy" ui-sref="setup_2" style="width:{{btn_width}}px;">
+                  Setup A New Trial
+                </a>
+            </div>
+            <div class="col col-10"> &nbsp;&nbsp; </div>
+          </div>
     </div>   
 
     </ion-content>  

@@ -39,10 +39,9 @@
 
                 <div class="padding" style="background-color:white;">
                     {{value[0].summary}}. (p={{value[0].p_val}}) <br/>
-                    <div class="divcenter">
-                        <!-- {{key}}  -->
+                    <!-- <div class="divcenter">
                         <b><label >{{view_title}}</label></b>
-                    </div>
+                    </div> -->
 
                 <!-- Legend for the vis  -->
     <!--             <svg height="20" width="100%">
@@ -51,13 +50,15 @@
                   <circle cx="180" cy="9" r="9" fill="#0F85FF" />
                   <text x="195" y="15">: No {{trig}} days</text>
                 </svg>
-     -->    
+     -->            
+
                     <!-- Result Vis -->
-                    <result-vis result-data="value" on-click="d3OnClick(data_pt)" label="d3Label" control="resultVisControl"> </result-vis>
-                    <div class="button-bar">
-                        <button class="button button-block button-royal small-text" ng-click="resultVisControl.updateVis();">&nbsp;&nbsp; Timeline view &nbsp;&nbsp; </button> &nbsp;&nbsp;
-                        <button class="button button-block button-royal small-text" ng-click="resultVisControl.revertVis();">&nbsp;&nbsp; Trend view &nbsp;&nbsp; </button>
+                    <div class="divcenter">
+                        <button class="button button-block button-energized small-text" style="display:inline-block; width:120px; min-height:38px; height:42px;" ng-click="resultVisControl.updateVis(); timeline_h = timeline_h ? false : true" ng-class="timeline_h == timeline_h ? 'energized' : 'disabled' ">&nbsp;&nbsp; Timeline view &nbsp;&nbsp; </button> &nbsp;&nbsp;
+                        <button class="button button-block button-energized small-text" style="display:inline-block; width:120px; min-height:38px; height:42px;" ng-click="resultVisControl.revertVis(); trend_h = trend_h ? false : true" ng-class="trend_h == trend_h ? 'energized' : 'disabled' ">&nbsp;&nbsp; Trend view &nbsp;&nbsp; </button>
                     </div>
+                    <result-vis result-data="value" on-click="d3OnClick(data_pt)" label="d3Label" control="resultVisControl"> </result-vis>
+
                 <br/>
                 <div>
 

@@ -3,83 +3,65 @@
     Settings
   </ion-nav-title>
   <ion-pane>
-    <ion-content class="grey padding">
+    <ion-content class="grey">
           <!-- Current trial details if it exists -->
           <div ng-hide="!cur">
-            <h4 class="heavy">Ongoing Trial Summary</h4>
-            <p>
-              <span class="heavy">Name </span><br/>
-              <span style="color:#666666;">{{study_current.trigger}} Trial </span><br/>
-              <br/>
-                              
-              <span class="heavy">Date Started </span><br/>
-              <span style="color:#666666;">{{start_day}} </span><br/>
-              <br/>
-
-              <span class="heavy">Symptoms </span><br/>
-              <span style="color:#666666;" ng-repeat="s in sym">{{s}} <br/></span>
-              <br/>
-
-              <span class="heavy">Trigger </span><br/>
-              <span style="color:#666666;">{{study_current.trigger}} </span><br/>
-              <br/>             
-
-              <span class="heavy">Breakfast Preference </span><br/>
-              <span style="color:#666666;">{{study_current.breakfast_pref}} </span><br/>
-              <br/>
-
-              <span class="heavy">Drink Preference </span><br/>
-              <span style="color:#666666;">{{study_current.drink_pref}} </span><br/>
-              <br/>
-
-              <span class="heavy">Daily Reminders </span><br/>
-              <span ng-repeat="(key, value) in rem" style="color:#666666;">
-                <span class="row" style="padding:0px;">
-                  <span class="col col-75" style="padding:0px;">
-                    {{key}}
-                  </span>
-                  <span class="col" style="padding:0px;">
-                    {{value}}
-                  </span>
-                </span>  
-              </span>
-            </p>
-
-            <hr/>
-
             <!-- 
               Completing a study
             --> 
             <div ng-show="comp" class="">
-              <h4 class="heavy">Complete Trial</h4>
-              <p>You have finished the trial. Please submit the trial by pressing the button below to view results.</p>
-              <div class="divcenter">
-                <button class="button button-block button-royal" ng-click="complete_trial()" >
+              <h4 class="heavy padding" style="margin:0px; padding-left:10px;">Submit Trial</h4>
+              <div class="" style="background-color:white; padding:10px 0px;"> 
+                  <p class="" style="padding-left: 10px; margin:0px;">
+                    You have finished the trial. Please submit the trial by pressing the button below to view results.
+                  </p>
+                  <br/>
+                <div class="divcenter">
+                  <a class="button button-energized heavy" ng-click="complete_trial()" style="width:180px;">
                     Complete Trial
-                </button>
-               </div>
-            </div>
+                  </a>
+                </div>
+              </div>
+            </div>  
 
             <!-- 
               Abandoning a study
             --> 
             <div ng-show="abdn || !comp" class="">
-              <h4 class="heavy">Abandon Trial</h4>
-              <p>{{text.current.abandon_text}}</p>
-              <div class="divcenter">
-                <button class="button button-block button-royal" ng-click="abandon_trial()" >
-                  Abandon Trial
-                </button>
+              <div class="row">
+                <div class="col">
+                  <h4 class="heavy padding" style="margin:0px; padding-left:0px;">Abandon Trial</h4>
+                </div>
+                <div class="col col-10" style="margin-top:6px;">
+                  <span ui-sref="trial_summary"><i class="ion-information-circled" style="font-size: 175%;"></i></span>
+                </div>
               </div>
-            </div>
-          </div>  
 
+              <div class="" style="background-color:white; padding:10px 0px;"> 
+                  <p class="" style="padding-left: 10px; margin:0px;">
+                    {{text.current.abandon_text}}
+                  </p>
+                  <br/>
+                <div class="divcenter">
+                  <a class="button button-assertive heavy" ng-click="abandon_trial()" style="width:180px;">
+                    Abandon Trial
+                  </a>
+                </div>
+              </div>
+            </div>  
 
-          <div class="item item-text-wrap">
-              <button class="button button-block button-assertive heavy white" ng-click="clear_credentials()" ng-disabled="!have_credentials">
-                {{text.settings.clear_creds}}
-              </button>
-            <p>{{text.settings.clear_explanation}}</p>
+          </div>
+          <br/>
+
+          <h4 class="heavy padding" style="margin:0px;">Clear Credentials</h4>
+          <div class="item-text-wrap" style="background-color:white; padding:10px 0px;">
+              <p class="" style="padding-left: 10px; margin:0px;">{{text.settings.clear_explanation}}</p>
+              <br/>
+              <div class="divcenter">
+                <a class="button button-assertive heavy white" ng-click="clear_credentials()" ng-disabled="!have_credentials" style="width:180px;">
+                  {{text.settings.clear_creds}}
+                </a>
+              </div>
           </div>
 
         <!-- <div class="card">

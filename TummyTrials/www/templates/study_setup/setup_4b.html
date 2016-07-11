@@ -1,22 +1,25 @@
-      <ion-view title="Trial Setup (4 of 5)">
+      <ion-view >
+        <ion-nav-title class="heavy">
+          Trial Setup (4 of 5)
+        </ion-nav-title>
           <ion-pane>
-          <ion-content>   
-            <div class="padding"> 
-              <div class="row">
-                <div class="neg-padding">
-                  <h4>4.</h4>
-                </div>
-                <div class="setup-padding">
-                  <h4 class="title">{{text.setup4b.title}}</h4>
-                </div>
-              </div>     
-              <p>{{desc_text}}</p>
-              
-              <div class="list">
+          <ion-content class="grey">   
+            <div class=""> 
+              <br/>
+
+            <div class="row" style="padding:0px;">
+              <div class="neg-padding" style="padding:0px; padding-top:10px;">
+                <i class="ion-ic-triangle energized" style="font-size: 150%;"></i>
+              </div>
+              <div class="setup-padding">
+                <h4 class="heavy">{{text.setup4b.title}}</h4>
+              </div>
+            </div>              
+              <div class="list" style="padding:0px; margin:0px;">
                 <!-- {{text.setup4b.breakfast_text}}<br/> -->
                 <label class="item item-input item-select">
                   <div class="input-label">
-                    Breakfast
+                    Food
                   </div>
                   <select ng-model="setupdata.breakfast_preference" ng-options="breakfast as breakfast.breakfast for breakfast in text.setup4b.breakfast" >
                     <!-- Using the workaround to fix selecting one-off value bug https://github.com/angular/angular.js/issues/5132 -->
@@ -24,6 +27,7 @@
                   </select>
                 </label>
               </div>
+
 
               <div class="list">
                 <!-- {{text.setup4b.drink_text}}<br/> -->
@@ -36,34 +40,55 @@
                   </select>
                 </label>
               </div>
+              <p class="twelve grey-text" style="padding-left:20px;"> {{desc_text}} </p><br/>                
+
               
-              <div class="card">
-                <div class="item item-text-wrap item-divider">
-                  On days : Consume {{trig_name}}
-                </div>
-                <div class="item item-text-wrap">
-                  <h3>To eat:</h3>
-                  <span class="new_line list_text">{{bfst_on}}</span><br/><br/>
-                  <h3>To drink:</h3>
-                  <span class="new_line list_text">{{drnk_on}}</span>
-                </div>
+              <div class="" style="background-color:white;">
+                  <div class="row">
+                    <div class="col"><h4 class="heavy" style="margin:0px;">Consume {{trig_name}}</h4></div>
+                    <div class="col col-20 heavy twelve primaryl1">On Days </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col col-20 heavy">To eat</div>
+                    <div class="col"><span class="new_line list_text grey-text">{{bfst_on}}</span></div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col col-20 heavy">To drink</div>
+                    <div class="col"><span class="new_line list_text grey-text">{{drnk_on}}</span></div>
+                  </div>
               </div>
 
-              <div class="card">
-                <div class="item item-text-wrap item-divider">
-                  Off days : Avoid {{trig_name}}
-                </div>
-                <div class="item item-text-wrap">
-                  <h3>To eat:</h3>
-                  <span class="new_line list_text">{{bfst_off}}</span><br/><br/>
-                  <h3>To drink:</h3>
-                  <span class="new_line list_text">{{drnk_off}}</span>
-                </div>
+              <br/>
+
+              <div class="" style="background-color:white;">
+                  <div class="row">
+                    <div class="col"><h4 class="heavy" style="margin:0px;">Avoid {{trig_name}}</h4></div>
+                    <div class="col col-20 heavy twelve primaryl2">Off Days </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col col-20 heavy">To eat</div>
+                    <div class="col"><span class="new_line list_text grey-text">{{bfst_off}}</span></div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col col-20 heavy">To drink</div>
+                    <div class="col"><span class="new_line list_text grey-text">{{drnk_off}}</span></div>
+                  </div>
               </div>
 
-          <a class="button button-block button-royal" ui-sref="setup_5">
-            {{text.setup4b.button}}
-          </a>
+              <br/>
+
+              <div class="divcenter">
+                <a class="button button-energized heavy" ui-sref="setup_5" style="width:150px;">
+                  {{text.setup4b.button}}
+                </a>
+              </div>
+
+              <br/>
+              
 
           </div>
 

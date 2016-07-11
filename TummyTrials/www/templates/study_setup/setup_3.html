@@ -1,34 +1,46 @@
-      <ion-view title="Trial Setup (2 of 5)">
+      <ion-view >
+        <ion-nav-title class="heavy">
+          Trial Setup (2 of 5)
+        </ion-nav-title>
           <ion-pane>
-          <ion-content>   
-            <div class="padding">
-              <div class="row">
-                <div class="neg-padding">
-                  <h4>2.</h4>
+          <ion-content class="grey">   
+            <div class="">
+              <br/>
+              <div class="row" style="padding:0px;">
+                <div class="col" >
+                  <div class="row" style="padding:0px;">
+                    <div class="neg-padding" style="padding:0px; padding-top:10px; ">
+                      <i class="ion-ic-triangle energized" style="font-size: 150%;"></i>
+                    </div>
+                    <div class="setup-padding">
+                      <h4 class="heavy">{{text.setup3.title}}</h4>
+                    </div>
+                  </div>
                 </div>
-                <div class="setup-padding">
-                  <h4 class="title">{{text.setup3.title}}</h4>
+                <div class="col col-10" style="margin-top:6px;text-align:right;">
+                  <span ui-sref="setup_3_0"><i class="ion-information-circled" style="font-size: 175%;"></i></span>
                 </div>
               </div>
-              <p>{{text.setup3.subtitle}} <span ui-sref="setup_3_0"><i class="ion-information-circled" style="font-size: 175%;"></i></span></p>
+              
+              <p style="padding-left:20px;">{{text.setup3.subtitle}}</p>
               
               <ul class="list">
-                <div class="row" ng-repeat="trigger in text.setup3.triggers">
-                  <div class="col col-90 zero-padding">
-                    <li class="item item-checkbox checkbox-royal" >
+                  <!-- <div class="col col-90 zero-padding"> -->
+                    <li class="item item-checkbox checkbox-royal" ng-repeat="trigger in text.setup3.triggers" >
                       <label class="checkbox">
                         <input type="radio" name="trigger" value="{{$index}}" ng-model="setupdata.trigger">
                       </label><span class="item-text-wrap"> {{trigger.trigger}} </span>
                     </li>
-                  </div>
-                  <span class="divcenter" class="button button-clear button-dark" ui-sref="{{trigger.uisref}}">&nbsp&nbsp&nbsp <i class="ion-information-circled" style="font-size: 175%;"></i>
-                  </span>
-                </div>
+                  <!-- </div> -->
+                  <!-- <span class="divcenter" class="button button-clear button-dark" ui-sref="{{trigger.uisref}}">&nbsp&nbsp&nbsp <i class="ion-information-circled" style="font-size: 175%;"></i>
+                  </span> -->
               </ul>
 
-          <a class="button button-block button-royal" ui-sref="setup_4">
-            {{text.setup3.button}}
-          </a>
+              <div class="divcenter">
+                <a class="button button-energized heavy" ui-sref="setup_4" style="width:150px;">
+                  {{text.setup3.button}}
+                </a>
+              </div>
 
           </div>
 

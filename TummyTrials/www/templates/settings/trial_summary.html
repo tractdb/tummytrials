@@ -1,0 +1,57 @@
+<ion-view >
+    <ion-nav-title class="heavy">
+        Ongoing Trial Summary
+    </ion-nav-title>
+    <ion-pane>
+        <ion-content class="grey"> 
+
+       		<h4 class="heavy padding" style="margin:0px;">Trial Name</h4>
+            <div class="" style="background-color:white; padding:10px 0px;"> 
+            	<p class="" style="padding-left: 10px; margin:0px;">{{study_current.trigger}} Trial </p>
+            </div>
+            <br/>  
+
+            <h4 class="heavy padding" style="margin:0px;">Date Started </h4>
+            <div class="" style="background-color:white; padding:10px 0px;"> 
+            	<p class="" style="padding-left: 10px; margin:0px;">{{st_dt}} - {{en_dt}} ({{dr_rd}} days)</p>
+            </div>
+            <br/>  
+
+
+            <h4 class="heavy padding" style="margin:0px;">Symptoms</h4>
+            <div class="" style="background-color:white; padding:10px 0px;"> 
+            	<p class="" style="padding-left: 10px; margin:0px;"  ng-repeat="s in sym">{{s}}</p>
+            </div>
+            <br/>  
+
+       		<h4 class="heavy padding" style="margin:0px;">Breakfast Preference </h4>
+            <div class="" style="background-color:white; padding:10px 0px;"> 
+            	 <div class="row">
+                    <div class="col col-20">Food</div>
+                    <div class="col" style="text-align:right;">{{study_current.breakfast_pref}}</div>
+                  </div>
+                   <div class="row">
+                    <div class="col col-20">Drink</div>
+                    <div class="col" style="text-align:right;">{{study_current.drink_pref}}</div>
+                  </div>
+            </div>
+            <br/> 
+
+            <h4 class="heavy padding" style="margin:0px;">Daily Reminders</h4>
+            <div class="" style="background-color:white; padding:10px 0px;"> 
+              <span ng-repeat="(key, value) in rem">
+            	<span class="row" style="padding:0px 10px;">
+                  <span class="col col-75" style="padding:0px;">
+                    {{key}}
+                  </span>
+                  <span class="col" style="padding:0px; text-align:right;">
+                    {{value}}
+                  </span>
+                </span>  
+               </span>
+            </div>
+            <br/> 
+
+        </ion-content>  
+    </ion-pane>
+</ion-view>

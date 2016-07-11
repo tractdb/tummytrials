@@ -57,6 +57,10 @@
         }
         $scope.ready = ready;
 
+        // button toggles
+        $scope.timeline_h = true;
+        $scope.trend_h = false;
+
 
         // variables for displaying test in the results
         $scope.start_date_md = LC.datemd(new Date(study.start_time * 1000));

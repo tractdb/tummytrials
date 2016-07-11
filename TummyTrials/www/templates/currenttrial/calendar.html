@@ -1,120 +1,168 @@
-<ion-view title="Current Trial">
+<ion-view >
+  <ion-nav-title>
+    <span class="heavy">{{cal_day}}</heavy>
+  </ion-nav-title>
   <ion-pane>
-    <ion-content>
+    <ion-content class="grey">
 
         <!-- Content to display on valid days (ones with records) -->
-        <div ng-if="cal_display === 'yes'" class="padding">
-        	<h4 class="padding">{{text.calendar.title}} {{cal_day}}</h4>
+        <div ng-if="cal_display === 'yes'">
         	
-            <div class=" padding">  
-                <h5 class="title">{{text.calendar.field_1}}</h5>
-                <p class="grey-text">{{cal_cond}}</p> 
+            <p class="heavy padding" style="margin:0px;">
+                {{text.calendar.field_1}}
+            </p>
+            <div style="background-color:white;" class="padding">
+                <p>{{cal_cond}}</p>
             </div>
-
-        	<div class=" padding"> 
-                <h5 class="title">{{text.calendar.field_2}}</h5>
+        	
+            <p class="heavy padding" style="margin:0px;">
+                {{text.calendar.field_2}}
+            </p>
+            <div style="background-color:white;" class="padding">
                 <p ng-bind-html="cal_bcomp"></p>
                 <p ng-bind-html="cal_lcomp"></p>
-                <p>{{text.calendar.field_3}}</p>
-                    <div style="padding-left:15px;" ng-repeat="(key,value) in cal_scr">
-                        <b>{{key}}</b><br/> {{value}} 
-                    </div>
             </div>
 
-            <div class=" padding"> 
-                <h5 class="title">Note:</h5>
-                <p class="grey-text"> {{note}} </p>
+            <p class="heavy padding" style="margin:0px;">
+                {{text.calendar.field_3}}
+            </p>
+            <div style="background-color:white;" ng-repeat="(key,value) in cal_scr">
+                <div class="row" style="padding-left:10px;">
+                    <div class="col col-67" style="padding:0px;">
+                        {{key}}
+                    </div>
+                    <div class="col" style="padding:0px;">
+                        {{value}}
+                    </div>
+                </div>
+            </div>
+
+            <p class="heavy padding" style="margin:0px;">
+                Note
+            </p>
+            <div style="background-color:white;" class="padding">
+                <p> {{note}} </p>
             </div>
 
         </div>
 
         <!-- Content to display on days with compliance but no symptom reports -->
-        <div ng-if="cal_display === 'guess'" class="padding">
-            <h4 class="padding">{{text.calendar.title}} {{cal_day}}</h4>
+        <div ng-if="cal_display === 'guess'">
 
-            <div class=" padding">  
-                <h5 class="title">{{text.calendar.field_1}}</h5>
-                <p class="grey-text">{{cal_cond}}</p> 
+            <p class="heavy padding" style="margin:0px;">
+                {{text.calendar.field_1}}
+            </p>
+            <div style="background-color:white;" class="padding">
+                <p>{{cal_cond}}</p>
             </div>
-
-            <div class=" padding"> 
-                <h5 class="title">{{text.calendar.field_2}}</h5>
+            
+            <p class="heavy padding" style="margin:0px;">
+                {{text.calendar.field_2}}
+            </p>
+            <div style="background-color:white;" class="padding">
                 <p ng-bind-html="cal_bcomp"></p>
                 <p ng-bind-html="cal_lcomp"></p>
-                <b> {{text.calendar.guess}} </b>
             </div>
 
-            <div class=" padding"> 
-                <h5 class="title">Note:</h5>
-                <p class="grey-text"> {{note}} </p>
+            <p class="heavy padding" style="margin:0px;">
+                {{text.calendar.field_3}}
+            </p>
+            <div style="background-color:white;" class="padding">
+                <p class="assertive"> {{text.calendar.guess}} </p>
+            </div>
+
+            <p class="heavy padding" style="margin:0px;">
+                Note
+            </p>
+            <div style="background-color:white;" class="padding">
+                <p> {{note}} </p>
             </div>
 
         </div>
 
 
         <!-- Content to display on invalid days (days in the future) -->
-        <div ng-if="cal_display === 'no'" class="padding">
-            <h4 class="padding">{{text.calendar.title}} {{cal_btn}}</h4>
-            
-            <div class=" padding"> 
-                <p> {{text.calendar.future}}</p>
+        <div ng-if="cal_display === 'no'">
+            <br/>
+            <div style="background-color:white;" class="padding">
+                <p>{{text.calendar.future}}</p>
             </div>
         </div>
 
         <!-- Content to display for today -->
-        <div ng-if="cal_display === 'today'" class="padding">
-            <h4 class="padding">{{text.calendar.title}} {{cal_btn}}</h4>
-            
-            <div class=" padding"> 
+        <div ng-if="cal_display === 'today'">
+            <br/>
+            <div style="background-color:white;" class="padding">
                 <p> {{text.calendar.today}}</p>
             </div>
         </div>
 
         <!-- Content to display for missing compliance -->
-        <div ng-if="cal_display === 'miss'" class="padding">
-            <h4 class="padding">{{text.calendar.title}} {{cal_btn}}</h4>
-            
-            <div class=" padding">  
-                <h5 class="title">{{text.calendar.field_1}}</h5>
-                <p class="grey-text">{{cal_cond}}</p> 
+        <div ng-if="cal_display === 'miss'">
+
+            <p class="heavy padding" style="margin:0px;">
+                {{text.calendar.field_1}}
+            </p>
+            <div style="background-color:white;" class="padding">
+                <p>{{cal_cond}}</p>
             </div>
 
-            <div class=" padding">  
-                <h5 class="title">{{text.calendar.field_2}}</h5>
-                <p> {{text.calendar.field_3}} <b>{{text.calendar.miss}}</b></p>
+<!--             <p class="heavy padding" style="margin:0px;">
+                {{text.calendar.field_2}}
+            </p>
+            <div style="background-color:white;" class="padding">
+                <p>{{text.calendar.miss}}</p>
+            </div> -->
+            <p class="heavy padding" style="margin:0px;">
+                {{text.calendar.field_2}}
+            </p>
+            <div style="background-color:white;" class="padding">
+                <p class="assertive">{{text.calendar.noreport}}</p>
             </div>
 
-            <div class=" padding"> 
-                <h5 class="title">Note:</h5>
-                <p class="grey-text"> {{note}} </p>
-            </div>            
+            <p class="heavy padding" style="margin:0px;">
+                Note
+            </p>
+            <div style="background-color:white;" class="padding">
+                <p> {{note}} </p>
+            </div>          
 
         </div>
 
         <!-- Content to display for missing report -->
-        <div ng-if="cal_display === 'null'" class="padding">
-            <h4 class="padding">{{text.calendar.title}} {{cal_btn}}</h4>
-
-            <div class=" padding">  
-                <h5 class="title">{{text.calendar.field_1}}</h5>
-                <p class="grey-text">{{cal_cond}}</p> 
+        <div ng-if="cal_display === 'null'">
+            
+            <p class="heavy padding" style="margin:0px;">
+                {{text.calendar.field_1}}
+            </p>
+            <div style="background-color:white;" class="padding">
+                <p>{{cal_cond}}</p>
             </div>
 
-            <div class=" padding">  
-                <h5 class="title">{{text.calendar.field_2}}</h5>
-                <b> {{text.calendar.noreport}}</b>
+            <p class="heavy padding" style="margin:0px;">
+                {{text.calendar.field_2}}
+            </p>
+            <div style="background-color:white;" class="padding">
+                <p class="assertive">{{text.calendar.noreport}}</p>
             </div>
 
-            <div class=" padding"> 
-                <h5 class="title">Note:</h5>
-                <p class="grey-text"> {{note}} </p>
+            <p class="heavy padding" style="margin:0px;">
+                Note
+            </p>
+            <div style="background-color:white;" class="padding">
+                <p> {{note}} </p>
             </div>
         </div>
         
-        <div class=" padding divcenter">
-            <a class="button button-block button-royal" ui-sref="current">
-                    Go back
-            </a>
+        <br/>
+        <div class="row">
+            <div class="col col-10"> &nbsp;&nbsp; </div>
+            <div class="col">
+                <a class="button button-block button-royal" ui-sref="current" style="width:{{btn_width}}px;">
+                        Go back
+                </a>
+            </div>
+            <div class="col col-10"> &nbsp;&nbsp; </div>
         </div>
 
     </ion-content>  

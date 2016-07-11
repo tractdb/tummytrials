@@ -27,6 +27,17 @@
 .controller('CurrentCtrl', function($scope, $state, LC, TextR, TDate, StudyFmt,
                                     Reminders, Experiments, ExperimentsR,
                                     $window, $ionicPopup, $timeout, Calendar) {
+
+        $scope.complete_trial = function(){
+            var cur = $scope.study_current;
+            if(cur.status == "active"){
+                return Experiments.setStatus(cur.id, "ended")
+                .then(function(_){
+                  $state.go('mytrials');
+                });
+            }
+        };
+
         $scope.text = TextR;
         Experiments.set_study_context($scope, ExperimentsR);
 
@@ -305,7 +316,7 @@
                 sym_submit = false;
             if(typeof(cur.reports[day_pos]) == "object"){
                 if(cur.reports[day_pos].breakfast_compliance == false){
-                    bfst_comp_msg = '<b> Did not </b>' + day_cond +'.</span><br/>'; 
+                    bfst_comp_msg = '<span class="assertive"><b> Did not </b>' + day_cond +'.</span><br/>'; 
                     bfst_comp_state = true;
                 } else if(cur.reports[day_pos].breakfast_compliance == true){
                     bfst_comp_msg = "<b> Did </b>" + day_cond + ".<br/>";
@@ -317,7 +328,7 @@
                     if(cur.reports[day_pos].lunch_compliance == true){
                         lcomp_msg = '<b>Did </b> fast.';
                     } else if(cur.reports[day_pos].lunch_compliance == false){
-                        lcomp_msg = '<b> Did not</b> fast.</span>';
+                        lcomp_msg = '<span class="assertive"></b> Did not</b> fast.</span>';
                     }                  
                 }
 
@@ -580,6 +591,20 @@
 
         var text = TextR;
 
+        // manual hack for different screen for back button width
+        var sw = window.innerWidth;
+        var btn_width;
+        if(sw == 320){ // iphone 5s
+            btn_width = 220;
+        } else if(sw == 375){ // iphone 6
+            btn_width = 260;
+        } else if(sw == 414){ // iphone 6 plus
+            btn_width = 290;
+        } else {
+            btn_width = 220;
+        }
+        $scope.btn_width = btn_width;
+
         var cur = $scope.study_current;
         $scope.duration_readable = Experiments.study_duration(cur);
         $scope.calendardata = Calendar;
@@ -791,28 +816,28 @@
             if(Calendar.condition == "A"){
                 $scope.cal_cond = Calendar.A_text;
                 if(Calendar.bcomp){
-                    $scope.cal_bcomp = "<span class='balanced'><b>Did</b> " + Calendar.A_text + "</span>";
+                    $scope.cal_bcomp = "<b>Did</b> " + Calendar.A_text;
                 } else {
-                    $scope.cal_bcomp = "<span class='positive'><b>Did not</b> " + Calendar.A_text + "</span>";
+                    $scope.cal_bcomp = "<span class='assertive'><b>Did not</b> " + Calendar.A_text + "</span>";
                 }
 
                 if(Calendar.lcomp){
-                    $scope.cal_lcomp = "<span class='balanced'><b>Did</b> fast.</span>"
+                    $scope.cal_lcomp = "<b>Did</b> fast."
                 } else {
-                    $scope.cal_lcomp = '<span class="positive"><b>Did not</b> fast.</span>'
+                    $scope.cal_lcomp = '<span class="assertive"><b>Did not</b> fast.</span>'
                 }
             } else if(Calendar.condition == "B"){
                 $scope.cal_cond = Calendar.B_text;
                 if(Calendar.bcomp){
-                    $scope.cal_bcomp = "<span class='balanced'><b>Did</b> " + Calendar.B_text + "</span>";
+                    $scope.cal_bcomp = "<b>Did</b> " + Calendar.B_text;
                 } else {
-                    $scope.cal_bcomp = "<span class='positive'><b>Did not</b> " + Calendar.B_text + "</span>";
+                    $scope.cal_bcomp = "<span class='assertive'><b>Did not</b> " + Calendar.B_text + "</span>";
                 }
 
                 if(Calendar.lcomp){
-                    $scope.cal_lcomp = "<span class='balanced'><b>Did</b> fast.</span>"
+                    $scope.cal_lcomp = "<b>Did</b> fast."
                 } else {
-                    $scope.cal_lcomp = '<span class="positive"><b>Did not</b> fast.</span>'
+                    $scope.cal_lcomp = '<span class="assertive"><b>Did not</b> fast.</span>'
                 }
             }
             //Figuring out text for the symptom score
@@ -829,7 +854,9 @@
             }
             $scope.cal_scr = Calendar.score;
 
-           $scope.cal_display = display;
+            $scope.cal_display = display;
+
+            console.log("mode " + display); 
 
 })
 

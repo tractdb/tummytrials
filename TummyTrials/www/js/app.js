@@ -244,6 +244,21 @@ app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
         }
       }
     })
+    .state('trial_summary', {
+      url: '/trial_summary',
+      views: {
+        settings : {
+          templateUrl: 'templates/settings/trial_summary.html',
+          resolve: {
+            TextR:
+                function(Text) { return Text.all_p(); },
+            ExperimentsR:
+                function(Experiments) { return Experiments.all(); }
+          },
+          controller: 'SettingsCtrl'
+        }
+      }
+    })
     .state('faqs', {
       url: '/faqs',
       views: {

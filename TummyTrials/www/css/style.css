@@ -9,11 +9,7 @@
 }
 
 .heavy{
-	font-weight:900;
-}
-
-b{
-	font-weight:900;
+	font-weight:700;
 }
 
 /*colors*/
@@ -33,6 +29,10 @@ b{
 	background-color: #32739e;
 }
 
+.secondary{
+	background-color: #dd824c;
+}
+
 .white{
 	color:white;
 }
@@ -47,6 +47,10 @@ b{
 
 .grey-text{
 	color: #666666;
+}
+
+.lgrey-text{
+	color: #999999;
 }
 
 .tab-item {
@@ -108,7 +112,7 @@ b{
 
 /* changing the text color of list headings to white */
 .item-divider{
-	background-color: #4b2e83;
+	background-color: #3995d4;
 	color: #fff;
 }
 
@@ -155,7 +159,8 @@ b{
 }
 
 .setup-padding{
-	padding-left: 12px;
+	/*padding-left: 12px;*/
+	margin-left:-20px;
 }
 
 /*Attempt to fix delay in ng-if and ng-show/hide*/
@@ -179,6 +184,14 @@ b{
 	z-index: 1;
 }
 
+#circle {
+    width: 50px;
+    height: 50px;
+    -webkit-border-radius: 25px;
+    border-radius: 25px;
+    background: red;
+}
+
 /*New line when fetching text from json : see study setup page with food prefs*/
 .new_line{
 	white-space: pre-wrap;
@@ -197,6 +210,10 @@ em,i{
 /*Default text size in list seems to be 16px compared to 14px of p tag*/
 .list_text{
 	font-size: 14px;
+}
+
+.input-label{
+	color:#000000;
 }
 
 /*changing the size of button-small to be slightly bigger*/

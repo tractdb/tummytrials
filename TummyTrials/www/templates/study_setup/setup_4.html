@@ -1,17 +1,21 @@
-      <ion-view title="Trial Setup (3 of 5)">
+      <ion-view >
+        <ion-nav-title class="heavy">
+          Trial Setup (3 of 5)
+        </ion-nav-title>
           <ion-pane>
-          <ion-content>   
-            <div class="padding">      
+          <ion-content class="grey">   
+            <div class="">      
             
-              <div class="row">
-                <div class="neg-padding">
-                  <h4>3.</h4>
-                </div>
-                <div class="setup-padding">
-                  <h4 class="title">{{text.setup4.title}}</h4>
-                </div>
+            <br/>
+            <div class="row" style="padding:0px;">
+              <div class="neg-padding" style="padding:0px; padding-top:10px;">
+                <i class="ion-ic-triangle energized" style="font-size: 150%;"></i>
               </div>
-              <p>{{text.setup4.subtitle}}</p>
+              <div class="setup-padding">
+                <h4 class="heavy">{{text.setup4.title}}</h4>
+              </div>
+            </div>
+            <p style="padding-left:20px;"> {{text.setup4.subtitle}} </p><br/>                
 
             <div class="list">
               <div class="item item-divider">
@@ -21,8 +25,8 @@
                 <h3>{{text.setup4.start_date_title}}</h3>
                 <p>{{text.setup4.start_date_text}}</p>
                 <label class="item item-input">
-                  <span class="input-label">{{text.setup4.date}}</span>
-                  <input type="date" style="text-align:right;" ng-model="setupdata.startdate">
+                  <span class="input-label" style="color:#000000;">{{text.setup4.date}}</span>
+                  <input type="date" style="text-align:right; color:#999999;" ng-model="setupdata.startdate">
                 </label>
               </div> 
 
@@ -31,12 +35,14 @@
                 <!-- <p>{{text.setup4.study_length_text}}</p> -->
                 <p> {{text.setup4.study_length_alt_text}} </p>
                 <label class="item item-input item-select">
-                  <div class="input-label">
+                  <div class="input-label" style="color:#000000;">
                     {{text.setup4.days}}
                   </div>
-                  <select ng-model="setupdata.duration">
+                  <select ng-model="setupdata.duration" style="color:#999999;">
                     <!-- <option value="8">8</option>
                     <option value="10">10</option> -->
+                    <option value="4">4</option>
+                    <option value="6">6</option>
                     <option value="12">12</option>
                     <!-- <option value="14">14</option>
                     <option value="16">16</option>
@@ -93,9 +99,12 @@
                 </label>
               </div> 
               <br/>
-              <a class="button button-block button-royal" ui-sref="setup_4b">
-                {{text.setup4.button}}
-              </a>
+
+              <div class="divcenter">
+                <a class="button button-energized heavy" ui-sref="setup_4b" style="width:150px;">
+                  {{text.setup4.button}}
+                </a>
+              </div>
             </div>
 
           </ion-content>  
