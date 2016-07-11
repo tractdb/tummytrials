@@ -8,8 +8,56 @@
 	/* background-color: #11c1f3; */
 }
 
+.heavy{
+	font-weight:700;
+}
+
+/*colors*/
+.primary{
+	background-color: #3995d4;
+}
+
+.primaryl2{
+	background-color: #c3dff2;
+}
+
+.primaryl1{
+	background-color: #74b5e0;
+}
+
+.primaryd1{
+	background-color: #32739e;
+}
+
+.secondary{
+	background-color: #dd824c;
+}
+
+.white{
+	color:white;
+}
+
+.grey{
+	background-color: #eeeeee;
+}
+
+.disabled-text{
+	color: #dddddd;
+}
+
 .grey-text{
 	color: #666666;
+}
+
+.lgrey-text{
+	color: #999999;
+}
+
+.tab-item {
+    opacity: 0.5;
+}
+.tab-item.tab-item-active, .tab-item.active, .tab-item.activated {
+    opacity: 1;
 }
 
 .button-small{
@@ -17,29 +65,54 @@
 }
 
 .btn_lh{
-    line-height: 42px !important;
+    /*line-height: 42px !important;*/
     font-size: 16px;
     min-height: 40px !important;
-    min-width: 44.28px;
-    /*min-width: unset !important;*/
-    max-width:  unset !important;
+    min-width: unset !important;
+    max-width: unset !important;
+    border: 0px;
     text-align:center;
 }
 
-.button-royal{
-	max-width: 100%;
+.primaryl1btn{
+	background-color: #74b5e0;
+	min-width: unset !important;
+	width: 100%;
+	border: 0px;
+	border-radius: 0px;
 }
-.light-royal{
-	background-color: #c9c0d9;
-	max-width: 100%;
+.primaryl2btn{
+	background-color: #c3dff2;
+	min-width: unset !important;
+	width: 100%;
+	border: 0px;
+	border-radius: 0px;
 }
 .button-clear{
 	max-width: 100%;
 }
+.primaryl1btnalt{
+	background-color: #74b5e0;
+	min-width: unset !important;
+	width: 100%;
+	border-radius: 0px;	
+	border:2px 4px solid #32739e;
+}
+.primaryl2btnalt{
+	background-color: #c3dff2;
+	min-width: unset !important;
+	width: 100%;
+	border-radius: 0px;
+	border:2px 4px solid #32739e;
+}
+
+.reportbtn {
+	width: 71px;
+}
 
 /* changing the text color of list headings to white */
 .item-divider{
-	background-color: #4b2e83;
+	background-color: #3995d4;
 	color: #fff;
 }
 
@@ -71,6 +144,7 @@
 /*css for 2nd column of reminders card*/
 .neg-padding {
 	margin-left: -5px;
+	min-width: 40px;
 }
 
 .rem-padding{
@@ -85,7 +159,8 @@
 }
 
 .setup-padding{
-	padding-left: 12px;
+	/*padding-left: 12px;*/
+	margin-left:-20px;
 }
 
 /*Attempt to fix delay in ng-if and ng-show/hide*/
@@ -109,6 +184,14 @@
 	z-index: 1;
 }
 
+#circle {
+    width: 50px;
+    height: 50px;
+    -webkit-border-radius: 25px;
+    border-radius: 25px;
+    background: red;
+}
+
 /*New line when fetching text from json : see study setup page with food prefs*/
 .new_line{
 	white-space: pre-wrap;
@@ -127,6 +210,10 @@ em,i{
 /*Default text size in list seems to be 16px compared to 14px of p tag*/
 .list_text{
 	font-size: 14px;
+}
+
+.input-label{
+	color:#000000;
 }
 
 /*changing the size of button-small to be slightly bigger*/

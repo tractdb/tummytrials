@@ -1,7 +1,10 @@
-<ion-view title="Fasting Compliance" cache-view="false">
+<ion-view cache-view="false">
+  <ion-nav-title>
+    <span class="heavy">Fasting Compliance</heavy>
+  </ion-nav-title>
   <ion-pane>
     <ion-content class="padding">
-      <div class="card padding">
+      <div class=" padding">
       
     		<p>{{rem_txt}}</p>
         <p><b>{{text.sec_comp.subtitle2}}</b></p>
@@ -9,10 +12,10 @@
     		<br/>
 
         <div class="button-bar">
-      		<a class="button button-block button-royal" ng-click="compliant_no()">
+      		<a class="button button-block button-royal heavy" ng-click="compliant_no()">
                   {{text.during.button2}}
           </a> &nbsp;
-          <a class="button button-block button-royal" ng-click="compliant_yes()">
+          <a class="button button-block button-royal heavy" ng-click="compliant_yes()">
                   {{text.during.button1}}
           </a>
         </div>

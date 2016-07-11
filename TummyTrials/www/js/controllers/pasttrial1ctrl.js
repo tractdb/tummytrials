@@ -57,6 +57,10 @@
         }
         $scope.ready = ready;
 
+        // button toggles
+        $scope.timeline_h = true;
+        $scope.trend_h = false;
+
 
         // variables for displaying test in the results
         $scope.start_date_md = LC.datemd(new Date(study.start_time * 1000));
@@ -65,6 +69,11 @@
         end_date.setDate(end_date.getDate() - 1); // This is last day of the trial
         $scope.end_date_md = LC.datemd(end_date);     
 
+        if(study.trigger == "Sorbitol (Artificial Sweeteners)"){
+            $scope.view_title = study.trigger.replace(' (Artificial Sweeteners)','');
+        } else {
+            $scope.view_title = study.trigger;
+        }
         $scope.st_trigger = study.trigger;
         $scope.st_symptom = study.symptoms;
         $scope.st_status = study.status;
@@ -76,7 +85,7 @@
         $scope.visdata = Vis;
         //gather all data needed for report + vis 
         var cur = study;
-        $scope.exp_id = cur.id;
+        console.log("Viewing result of trial: " + cur.id);
         $scope.nm = name;
 
         //Get the duration of the experiment
@@ -229,20 +238,25 @@
                     // Using the date as the key, store the condition and the score for each day
                     sym_data["date"] = dt;
 
+                    var p_txt;
                     res_desc = res_desc.replace('{SYMPTOM}', sym_name);
                     res_desc = res_desc.replace('{TRIGGER}', trig);
                     if(p_val[a]){
                         var p_val_num = Number(p_val[a]);
                         if(p_val_num <= 0.05){
                             res_desc = res_desc.replace('{EVIDENCE}', 'strong');
+                            p_txt = "Strong evidence";
                         } else if(p_val_num > 0.05 && p_val_num <= 0.1) {
                             res_desc = res_desc.replace('{EVIDENCE}', 'possible');
+                            p_txt = "Possible evidence";
                         } else if(p_val_num > 0.1){
-                            res_desc = res_desc.replace('{EVIDENCE}', 'no');
+                            res_desc = res_desc.replace('{EVIDENCE}', 'weak');
+                            p_txt = "Weak evidence";
                         }
 
                     }
                     sym_data["summary"] = res_desc;
+                    sym_data["p_txt"] = p_txt;
                     sym_data["a_avg"] = a_avg;
                     sym_data["b_avg"] = b_avg;
                     sym_data["a_void"] = a_void;
@@ -269,7 +283,7 @@
                 if(a_avg > b_avg){
                     res_desc = res_desc.replace('{BETTER/WORSE}', 'worse');
                 } else if(a_avg < b_avg){
-                    res_desc = res_desc.replace('{BETTER/WORSE}', 'better');
+                    res_desc = res_desc.replace('gets {BETTER/WORSE}', 'does not worsen');
                 } else if(a_avg == b_avg){
                     res_desc = res_desc.replace('gets {BETTER/WORSE}', 'stays the same ');
                 } 

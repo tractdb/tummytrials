@@ -13,192 +13,141 @@ Page Hierarchy:
 -->
 
 
-<ion-view title="{{title}}" cache-view="false">
+<ion-view cache-view="false">
+  <ion-nav-title>
+    <span class="heavy">{{title}}</heavy>
+  </ion-nav-title>
   <ion-pane>
-    <ion-content>
-    <div class="calendar" ng-show="(study_current && !is_past)">
-      <br/>
-      <div class="row"> 
-        <div class="col col-33">
-          <h5 ng-show="!exp_bool">Day {{day_num}} of {{duration_readable}}</h5>
+    <ion-content class="grey">
+
+    <!-- Calendar widget -->
+    <div class="primary" ng-show="(study_current && !is_past)">
+      <div>
+        <!-- row for day name labels -->
+        <div class="row">
+          <div class="col divcenter white" ng-repeat="day in day_names track by $index">{{day}}</div>
         </div>
+
+        <!-- first row -->
+        <div class="row button-bar">
+            <div ng-repeat="c_day in cal_days" class="col zero-padding" ng-show="c_day[4] == 'row_0'" >
+              <a class="button btn_lh" ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_0'" ng-class="c_day[1] == 'A' ? 'primaryl1btn' : '' || c_day[1] == 'B' ? 'primaryl2btn' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar"  ng-disabled="!c_day[3]">{{c_day[0]}}</a>
+              <a class="button btn_lh" ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_0'" ng-class="c_day[1] == 'A' ? 'primaryl1btnalt' : '' || c_day[1] == 'B' ? 'primaryl2btnalt' : '' || c_day[1] == '' ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar"  ng-disabled="!c_day[3]">
+                <span ng-show="fives" class="not-on-top"> <i class="ion-ic-rectangle90 dark" style="font-size:300%; margin-left:-6px;"></i> </span>
+                <span ng-show="six" class="not-on-top"> <i class="ion-ic-rectangle104 dark" style="font-size:300%; margin-left:-5px;"></i> </span>
+                <span ng-show="sixp" class="not-on-top"> <i class="ion-ic-rectangle104 dark" style="font-size:330%; margin-left:-5px;"></i> </span>
+                <span class="on-top">{{c_day[0]}}</span>
+              </a>
+          </div>
+        </div>
+        <!-- second row -->
+        <div class="row button-bar">
+            <div ng-repeat="c_day in cal_days" class="col zero-padding" ng-show="c_day[4] == 'row_1'" >
+             <a class="button btn_lh" ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_1'" ng-class="c_day[1] == 'A' ? 'primaryl1btn' : '' || c_day[1] == 'B' ? 'primaryl2btn' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar"  ng-disabled="!c_day[3]">{{c_day[0]}}</a>
+              <a class="button btn_lh" ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_1'" ng-class="c_day[1] == 'A' ? 'primaryl1btnalt' : '' || c_day[1] == 'B' ? 'primaryl2btnalt' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar"  ng-disabled="!c_day[3]">
+                <span ng-show="fives" class="not-on-top"> <i class="ion-ic-rectangle90 dark" style="font-size:300%; margin-left:-6px;"></i> </span>
+                <span ng-show="six" class="not-on-top"> <i class="ion-ic-rectangle104 dark" style="font-size:300%; margin-left:-5px;"></i> </span>
+                <span ng-show="sixp" class="not-on-top"> <i class="ion-ic-rectangle104 dark" style="font-size:330%; margin-left:-5px;"></i> </span>
+                <span class="on-top">{{c_day[0]}}</span>
+              </a>
+            </div>
+        </div>
+        <!-- third row -->
+        <div class="row button-bar">
+            <div ng-repeat="c_day in cal_days"  class="col zero-padding" ng-show="c_day[4] == 'row_2'">
+             <a class="button btn_lh" ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_2'" ng-class="c_day[1] == 'A' ? 'primaryl1btn' : '' || c_day[1] == 'B' ? 'primaryl2btn' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar"  ng-disabled="!c_day[3]">{{c_day[0]}}</a>
+              <a class="button btn_lh" ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_2'" ng-class="c_day[1] == 'A' ? 'primaryl1btnalt' : '' || c_day[1] == 'B' ? 'primaryl2btnalt' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar"  ng-disabled="!c_day[3]">
+                <span ng-show="fives" class="not-on-top"> <i class="ion-ic-rectangle90 dark" style="font-size:300%; margin-left:-6px;"></i> </span>
+                <span ng-show="six" class="not-on-top"> <i class="ion-ic-rectangle104 dark" style="font-size:300%; margin-left:-5px;"></i> </span>
+                <span ng-show="sixp" class="not-on-top"> <i class="ion-ic-rectangle104 dark" style="font-size:330%; margin-left:-5px;"></i> </span>
+                <span class="on-top">{{c_day[0]}}</span>
+              </a>
+            </div>
+        </div>              
+      </div>
+
+      <div class="padding"> 
         <!-- Legend for the calendar -->
-        <div class="col">
-          <div style="float:right;">
             <div class="row">
               <div class="">
-                <i class="ion-stop royal twelve" style="font-size: 100%;"></i>&nbsp&nbsp
+                <i class="ion-stop twelve" style="font-size: 100%; color:#74b5e0;"></i>&nbsp;&nbsp;
               </div>
-              <div class="">
+              <div class="white">
                 {{legend_A_text}}
               </div>
             </div>
             <div class="row">
               <div class="">
-                <i class="ion-stop twelve" style="font-size: 100%; color:#a596c1;"></i>&nbsp&nbsp
+                <i class="ion-stop twelve" style="font-size: 100%; color:#c3dff2;"></i>&nbsp;&nbsp;
               </div>
-              <div class="">
+              <div class="white">
                 {{legend_B_text}}
               </div>
             </div>
-          </div>
-        </div>
       </div>
-
-      <div>
-        <!-- row for day name labels -->
-        <div class="row">
-          <div class="col divcenter" ng-repeat="day in day_names">{{day}}</div>
-        </div>
-
-        <!-- first row -->
-        <div class="row">
-          <div class="button-bar divcenter">
-            <div ng-repeat="c_day in cal_days">
-              <a class="button btn-lh" ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_0'" ng-class="c_day[1] == 'A' ? 'button-royal' : '' || c_day[1] == 'B' ? 'light-royal' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">{{c_day[0]}}</a>
-              <a class="button btn-lh" ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_0'" ng-class="c_day[1] == 'A' ? 'button-royal' : '' || c_day[1] == 'B' ? 'light-royal' : '' || c_day[1] == '' ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">
-                <span class="not-on-top"> <i class="ion-android-radio-button-off energized" style="font-size: 300%;"></i> </span>
-                <span class="on-top">{{c_day[0]}}</span>
-              </a>
-            </div>
-          </div>
-        </div>
-        <!-- second row -->
-        <div class="row">
-          <div class="button-bar divcenter">
-            <div ng-repeat="c_day in cal_days">
-             <a class="button btn-lh" ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_1'" ng-class="c_day[1] == 'A' ? 'button-royal' : '' || c_day[1] == 'B' ? 'light-royal' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">{{c_day[0]}}</a>
-              <a class="button btn-lh" ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_1'" ng-class="c_day[1] == 'A' ? 'button-royal' : '' || c_day[1] == 'B' ? 'light-royal' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">
-                <span class="not-on-top"> <i class="ion-android-radio-button-off energized" style="font-size: 300%;"></i> </span>
-                <span class="on-top">{{c_day[0]}}</span>
-              </a>
-            </div>
-          </div>
-        </div>
-        <!-- third row -->
-        <div class="row">
-          <div class="button-bar divcenter">
-            <div ng-repeat="c_day in cal_days">
-             <a class="button btn-lh" ng-if="c_day[0] != today_readable" ng-show="c_day[4] == 'row_2'" ng-class="c_day[1] == 'A' ? 'button-royal' : '' || c_day[1] == 'B' ? 'light-royal' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">{{c_day[0]}}</a>
-              <a class="button btn-lh" ng-if="c_day[0] == today_readable" ng-show="c_day[4] == 'row_2'" ng-class="c_day[1] == 'A' ? 'button-royal' : '' || c_day[1] == 'B' ? 'light-royal' : '' || c_day[1] == null ? 'button-clear' : ''" ng-click="calendardata.button = c_day[0]" ui-sref="calendar" ng-disabled="!c_day[3]">
-                <span class="not-on-top"> <i class="ion-android-radio-button-off energized" style="font-size: 300%;"></i> </span>
-                <span class="on-top">{{c_day[0]}}</span>
-              </a>
-            </div>
-          </div>
-        </div>              
-      </div>
-
-      <br/>
-      <br/>
     </div>
 
-    <div class="padding" ng-hide="!study_current">    
+    <div class="grey" ng-hide="!study_current || is_past">    
         <!-- 
-        Content to display when there is no on going trial
+        Content to display when a trial is scheduled but not underway
         --> 
-        <div class="card padding" ng-hide="!exp_bool">
-          <h4 class="title">{{text.current.title}} {{today_full}}</h4>
-          You have an trial scheduled to begin on {{start_date_full}}. <br/><br/>
-          To view trial details or abandon trial go to the current trial under 'My Trials' tab. <br/>
+        <div class="" ng-hide="!exp_bool">
+          <h4 class="heavy padding">{{text.current.title}} {{today_full}}</h4>
+          <div class="" style="background-color:white; padding:10px 0px;"> 
+            <p style="padding-left: 10px; margin:0px;">
+              You have an trial scheduled to begin on <span class="heavy">{{start_date_full}}</span>. <br/><br/>
+              To view trial details or abandon trial go to the 'Settings' tab. <br/>
+            </p>
+          </div>    
         </div>    
 
         <!-- 
         Content to display when trial underway
         --> 
-        <div ng-show="(!exp_bool && !is_past)">
-        
-          <!-- Card to display during accelerated trial -->
-          <!-- <div class="card padding" ng-show="accelerated">
-            <h4 class="assertive item-text-wrap">Accelerated Trial enabled!</h4>
-              <b>The entire trial will be completed in one hour. </b><br/>
-              Please note that certain features like date, breakfast preferences, and calendar widget will not be available during accelerated trial.
-              You will be able to enter your daily compliance and symptom severity levels as expected.
-            </p>
-          </div> -->
-
-
-          <!-- Change content of card based on state of report
-          1. Initially, show condition for day and food pref help
-          2. Once bfst compliance entered, show 'do not eat message'
-          3. Once symptom reported, show 'submit for day' 
-          4. Once report submitted, show 'done for the day' -->
-          <!-- Condition 1 of 4: initial -->
-          <!-- <div class="card padding" ng-hide="bfst_comp_state" >
-            <h4 class="title">{{text.current.title}} {{today_full}}</h4>
-            <p>{{text.current.subtitle}} <br/>
-                <b>{{active_text}}</b></p>
-            <p><a style="text-decoration: underline; color:royal" ng-click="help = help ? false : true">{{text.current.para1}}</a></p> 
-            <div class="card" ng-show="help">
-               <div class="item item-text-wrap list_text">
-                   <b>To eat:</b><br/>
-                   <span class="new_line">{{active_bfst}}</span><br/><br/>
-                   <b>To drink:</b><br/>
-                   <span class="new_line">{{active_drnk}}</span>
-               </div>
-            </div>
-          </div> -->
-          <!-- Condition 2 of 4: bfst complied -->
-          <!-- <div class="card padding" ng-hide="!bfst_comp_state || sym_score_state">
-            <h4 class="title">Fasting Period</h4>
-            <p>Between {{bfst_rem}} and {{sym_rem}}:<br/>
-                <b>Do not eat or drink.</b></p>
-            <p><a style="text-decoration: underline; color:royal" ng-click="help = help ? false : true">{{text.current.para1}}</a></p> 
-            <div class="card" ng-show="help">
-               <div class="item item-text-wrap list_text">
-                   <b>To eat:</b><br/>
-                   <span class="new_line">Nothing</span><br/><br/>
-                   <b>To drink:</b><br/>
-                   <span class="new_line">Okay to drink water</span>
-               </div>
-            </div>
-          </div> -->
-          <!-- Condition 3 of 4: symptom reported -->
-          <!-- <div class="card padding" ng-hide="!sym_score_state || sym_submit">
-            <h4 class="title">Submit Report</h4>
-            <p>Submit your report for the day by clicking on the confirm button below the reminders.</p>
-          </div> -->
-          <!-- Condition 4 of 4: done4day -->
-          <!-- <div class="card padding" ng-hide="!sym_submit">
-            <h4 class="title">Done For The Day!</h4>
-            <p>You have no more reports to confirm for the day. You can view your submitted report below. You can still add/edit your note for today's report.</p>
-          </div> -->
-
-          <div class="">
-            <div class="row">
-              <div class="neg-padding">
-                &nbsp&nbsp&nbsp&nbsp&nbsp
-              </div>
-              <div class="rem-padding">
-                <h4>Today</h4>
-                <h5 style="margin-top:0px;">{{day_cond}}</h5>
-                <p><a style="text-decoration: underline; color:royal" ng-click="help = help ? false : true">{{text.current.para1}}
-                    <i class="ion-information-circled" style="font-size: 120%;"></i>
-                </a></p>
-                <div class="card" ng-show="help">
-                   <div class="item item-text-wrap list_text">
-                       <b>To eat:</b><br/>
-                       <span class="new_line">{{active_bfst}}</span><br/><br/>
-                       <b>To drink:</b><br/>
-                       <span class="new_line">{{active_drnk}}</span>
-                   </div>
+          <div ng-show="(!exp_bool)">
+              <div class="row padding" style="padding-bottom:0px;">
+                <div class="col">
+                  <h4 class="heavy" style="margin-top:0px; margin-bottom:0px;">Consume Sorbitol</h4>
+                  <p>Day {{day_num}} of {{duration_readable}}</p>
+                </div>
+                <div class="padding" style="padding-right:0px;">
+                  <a ng-click="help = help ? false : true" ng-class="help == true ? 'royal' : '' ">
+                    <i class="ion-ic-foodPlan" style="font-size: 250%;"></i>
+                  </a>
                 </div>
               </div>
-            </div>
-
-            <!-- Breakfast section -->
-            <div class="row">
-              <div class="neg-padding">
-                <i class="ion-android-arrow-dropright-circle" ng-hide="bfst_comp_state" style="font-size: 120%;"></i>
-                <i class="ion-ios-checkmark" ng-hide="!bfst_comp_state" style="font-size: 120%;"></i>
+              <div class="card" style="margin-top:0px;" ng-show="help">
+                  <div class="item item-text-wrap list_text">
+                     <b>To eat:</b><br/>
+                     <span class="new_line">{{active_bfst}}</span><br/><br/>
+                     <b>To drink:</b><br/>
+                     <span class="new_line">{{active_drnk}}</span>
+                 </div>
               </div>
+          </div>
 
+          <div class="" style="background-color:white;" ng-show="(!exp_bool)"> 
+            <!-- Breakfast section -->
+            <div class="row padding" >
+              <div class="neg-padding">
+                <div style="display: inline-block; vertical-align:7px; margin-left:-5px;">
+                  <i class="ion-ic-triangle energized" ng-hide="bfst_comp_state" style="font-size: 150%;"></i>
+                  <i class="ion-ic-triangle white" ng-hide="!bfst_comp_state" style="font-size: 150%;"></i>
+                </div>
+                <div style="display: inline-block; ">
+                  <i class="ion-ic-reportWaiting" ng-hide="bfst_comp_state" style="font-size: 300%;"></i>
+                  <i class="ion-ic-reportFinished" ng-hide="!bfst_comp_state" style="font-size: 300%;"></i>
+                </div>
+              </div>
+              
               <div class="rem-padding" ng-hide="bfst_comp_state">
-                <h5 style="margin-top:0px; margin-bottom:0px;">Eat Breakfast</h5>
-                <div class="">
-                  <p>Before {{bfst_rem_time}}</p>
-                  <a class="button button-block button-royal small-text" ui-sref="during" ng-disabled="">
-                    &nbsp&nbsp Report Breakfast &nbsp&nbsp
+                <div class="" style="display: inline-block;">
+                  <h4 style="margin-top:0px; margin-bottom:0px;">Eat Breakfast</h4>
+                  <span>Before {{bfst_rem_time}}</span>
+                </div>
+                <div class="" style="display: inline-block;float:right;">
+                  <a class="button button-small button-energized small-text heavy reportbtn" style="margin:0px;margin-top:5px;" ui-sref="during" ng-disabled="">
+                    &nbsp;&nbsp; Report &nbsp;&nbsp;
                   </a>
                 </div>
               </div>
@@ -208,32 +157,46 @@ Page Hierarchy:
                 <!-- Row and column have padding of top and left of 5px, resetting that manully -->
                 <div class="row" style="margin-top:-10px; margin-left:5px;">
                   <div class="col" style="margin-left:-15px;">
-                    <h5 style="margin-top:0px; margin-bottom:0px;">Eat Breakfast</h5>
-                    <p class="balanced" ng-bind-html="bfst_comp_msg"></p>
+                    <h4 style="margin-top:0px; margin-bottom:0px;">Eat Breakfast</h4>
+                    <span class="" ng-bind-html="bfst_comp_msg"></span>
                   </div>
                   <div class="edit-padding" style="margin-left:-15px;">
-                    <a class="button button-small button-royal" style="margin-top:8px;" ui-sref="during">
-                     &nbsp<i class="ion-edit" style="font-size: 120%;"></i>&nbsp
+                    <a class="button button-small button-calm small-text heavy reportbtn white" style="margin-top:8px;" ui-sref="during">
+                     &nbsp;&nbsp; Edit &nbsp;&nbsp;
                     </a>
                   </div>
                 </div>
               </div>
             </div>
 
+            <hr/ style="margin:0px;color:#eeeeee;">
             <!-- Fasting section -->
-            <div class="row">
+            <div class="row padding">
               <div class="neg-padding">
-                <i class="ion-ios-circle-outline" ng-hide="bfst_comp_state" style="font-size: 120%;"></i>
-                <i class="ion-android-arrow-dropright-circle" ng-hide="!bfst_comp_state || lcomp_state" style="font-size: 120%;"></i>
-                <i class="ion-ios-checkmark" ng-hide="!lcomp_state" style="font-size: 120%;"></i>
+                <div style="display: inline-block; vertical-align:7px; margin-left:-5px;">
+                  <i class="ion-ic-triangle energized" ng-hide="!bfst_comp_state || lcomp_state" style="font-size: 150%;"></i>
+                  <i class="ion-ic-triangle white" ng-hide="lcomp_state || bfst_comp_state" style="font-size: 150%;"></i>
+                  <i class="ion-ic-triangle white" ng-hide="!lcomp_state" style="font-size: 150%;"></i>
+                </div>
+                <div style="display: inline-block; ">
+                  <i class="ion-ic-reportWaiting disabled-text" ng-hide="bfst_comp_state" style="font-size: 300%;"></i>
+                  <i class="ion-ic-reportWaiting" ng-hide="!bfst_comp_state || lcomp_state" style="font-size: 300%;"></i>
+                  <i class="ion-ic-reportFinished" ng-hide="!lcomp_state" style="font-size: 300%;"></i>
+                </div>
               </div>
 
               <div class="rem-padding" ng-hide="lcomp_state">
-                <h5 style="margin-top:0px; margin-bottom:0px;">Fast</h5>
-                <div class="">
-                  <p>For 3 hours</p>
-                  <a class="button button-block button-royal small-text" ui-sref="sec_comp" ng-disabled="!bfst_comp_state">
-                    &nbsp&nbsp Report Fasting &nbsp&nbsp
+                <div class="" ng-hide="!bfst_comp_state || lcomp_state" style="display: inline-block;">
+                  <h4 style="margin-top:0px; margin-bottom:0px;">Fast</h4>
+                  <span>For 3 hours</span>
+                </div>
+                <div class="disabled-text" ng-hide="bfst_comp_state" style="display: inline-block;">
+                  <h4 class="disabled-text" style="margin-top:0px; margin-bottom:0px;">Fast</h4>
+                  <span>For 3 hours</span>
+                </div>
+                <div class="" style="display: inline-block;float:right;">
+                  <a class="button button-small button-energized small-text heavy reportbtn" style="margin:0px;margin-top:5px;" ui-sref="sec_comp" ng-disabled="!bfst_comp_state">
+                    &nbsp;&nbsp; Report &nbsp;&nbsp;
                   </a>
                 </div>
               </div>
@@ -241,34 +204,48 @@ Page Hierarchy:
               <div class="rem-padding" ng-hide="!lcomp_state">
                 <!-- h5 has a margin-top nad bottom of 10px -->
                 <!-- Row and column have padding of top and left of 5px, resetting that manully -->
-                <div class="row" style="margin-top:-10px; margin-left:5px;">
+                <div class="row" style="margin-top:-10px;  margin-left:5px;">
                   <div class="col" style="margin-left:-15px;">
-                    <h5 style="margin-top:0px; margin-bottom:0px;">Fast</h5>
-                    <p class="balanced" ng-bind-html="lcomp_msg"></p>
+                    <h4 style="margin-top:0px; margin-bottom:0px;">Fast</h4>
+                    <span class="" ng-bind-html="lcomp_msg"></span>
                   </div>
                   <div class="edit-padding" style="margin-left:-15px;">
-                    <a class="button button-small button-royal" style="margin-top:8px;" ui-sref="sec_comp">
-                     &nbsp<i class="ion-edit" style="font-size: 120%;"></i>&nbsp
+                    <a class="button button-small button-calm small-text heavy reportbtn white" style="margin-top:8px;" ui-sref="sec_comp">
+                     &nbsp;&nbsp; Edit &nbsp;&nbsp;
                     </a>
                   </div>
                 </div>
               </div>
             </div>   
 
+            <hr/ style="margin:0px;color:#eeeeee;">
             <!-- Symptom score section -->
-            <div class="row">
+            <div class="row padding">
               <div class="neg-padding">
-                <i class="ion-ios-circle-outline" ng-hide="lcomp_state" style="font-size: 120%;"></i>
-                <i class="ion-android-arrow-dropright-circle" ng-hide="!lcomp_state || sym_score_state" style="font-size: 120%;"></i>
-                <i class="ion-ios-checkmark" ng-hide="!sym_score_state" style="font-size: 120%;"></i>
+                <div style="display: inline-block; vertical-align:7px; margin-left:-5px;">
+                  <i class="ion-ic-triangle energized" ng-hide="!lcomp_state || sym_score_state" style="font-size: 150%;"></i>
+                  <i class="ion-ic-triangle white" ng-hide="sym_score_state || lcomp_state" style="font-size: 150%;"></i>
+                  <i class="ion-ic-triangle white" ng-hide="!sym_score_state" style="font-size: 150%;"></i>
+                </div>
+                <div style="display: inline-block; ">
+                  <i class="ion-ic-reportWaiting disabled-text" ng-hide="lcomp_state" style="font-size: 300%;"></i>
+                  <i class="ion-ic-reportWaiting" ng-hide="!lcomp_state || sym_score_state" style="font-size: 300%;"></i>
+                  <i class="ion-ic-reportFinished" ng-hide="!sym_score_state" style="font-size: 300%;"></i>
+                </div>
               </div>
 
               <div class="rem-padding" ng-hide="sym_score_state">
-                <h5 style="margin-top:0px; margin-bottom:0px;">Report Symptoms</h5>
-                <div class="">
-                  <!-- <p>Before 9 am</p> -->
-                  <a class="button button-block button-royal small-text" ui-sref="post({symptomIndex:0})" ng-disabled="!lcomp_state">
-                    &nbsp&nbsp Report Symptoms &nbsp&nbsp
+                <div class="" style="display: inline-block;" ng-hide="!lcomp_state || sym_score_state">
+                  <h4 style="margin-top:0px; margin-bottom:0px;" >Symptoms</h4>
+                  <p ng-bind-html="sym_list"></p>
+                </div>
+                <div class="disabled-text" style="display: inline-block;" ng-hide="lcomp_state">
+                  <h4 style="margin-top:0px; margin-bottom:0px;" class="disabled-text">Symptoms</h4>
+                  <p ng-bind-html="sym_list"></p>
+                </div>
+                <div class="" style="display: inline-block;float:right;">
+                  <a class="button button-small button-energized small-text heavy reportbtn" style="margin:0px;margin-top:5px;" ui-sref="post({symptomIndex:0})" ng-disabled="!lcomp_state">
+                    &nbsp;&nbsp; Report &nbsp;&nbsp;
                   </a>
                 </div>
               </div>
@@ -278,43 +255,49 @@ Page Hierarchy:
                 <!-- Row and column have padding of top and left of 5px, resetting that manully -->
                 <div class="row" style="margin-top:-10px; margin-left:5px;">
                   <div class="col" style="margin-left:-15px;">
-                    <h5 style="margin-top:0px; margin-bottom:0px;">Report Symptoms</h5>
-                    <p class="balanced" ng-bind-html="report_msg"></p>
+                    <h4 style="margin-top:0px; margin-bottom:0px;">Symptoms</h4>
+                    <span class="" ng-bind-html="report_msg"></span>
                   </div>
                   <div class="edit-padding" style="margin-left:-15px;">
-                    <a class="button button-small button-royal" style="margin-top:8px;" ui-sref="post({symptomIndex:0})">
-                     &nbsp<i class="ion-edit" style="font-size: 120%;"></i>&nbsp
+                    <a class="button button-small button-calm small-text heavy reportbtn white" style="margin-top:8px;" ui-sref="post({symptomIndex:0})">
+                     &nbsp;&nbsp; Edit &nbsp;&nbsp;
                     </a>
                   </div>
                 </div>
               </div>
             </div> 
+          </div>
 
+          <br/>
             <!-- Notes section -->
-            <hr/>
-            <div class="row">
-              <div class="neg-padding">
-                <!-- Empty div for alignment purposes -->
-                &nbsp&nbsp&nbsp&nbsp&nbsp
+            <!-- <hr/> -->
+            <div class="row padding" style="background-color:white;"  ng-show="(!exp_bool)">
+              <div class="neg-padding" style="vertical-align:7px; margin-left:5px;">
+                <i class="ion-ic-note" style="font-size: 300%;"></i>
               </div>
 
-              <div class="rem-padding" ng-hide="nt_fg">
-                <p>Note For Today<br/>
-                  <a class="button button-block button-royal small-text" ui-sref="notes">
-                    {{nt_btn_txt}}
-                  </a>
-                </p>
-              </div>
-
-              <div class="rem-padding" ng-hide="!nt_fg">
-                <div class="row" style="margin-top:-5px; margin-left:-10px;">
-                  <div class="col">
-                    <p>Note For Today</p>
-                    <p class="balanced" ng-bind-html="note"></p>
+              <div class="rem-padding" ng-hide="nt_fg" style="padding-left:0px;">
+                <div class="row" style="margin-top:-5px;">
+                  <div class="col" style="margin-left:-15px;">
+                    <h4 style="margin-top:0px; margin-bottom:0px;">Note </h4>
                   </div>
                   <div class="edit-padding">
-                    <a class="button button-small button-royal" style="margin-top:8px;" ui-sref="notes">
-                     &nbsp<i class="ion-edit" style="font-size: 120%;"></i>&nbsp
+                    <a class="button button-small button-calm small-text heavy reportbtn white" style="margin-top:8px;" ui-sref="notes">
+                      &nbsp;&nbsp; Add &nbsp;&nbsp;
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="rem-padding" ng-hide="!nt_fg" style="padding-left:0px;">
+                <div class="row" style="margin-top:-5px; margin-left:5px;">
+                  <div class="col" style="margin-left:-15px;">
+                    <h4 style="margin-top:0px; margin-bottom:0px;">Note </h4>
+                    <p class="" ng-bind-html="note"></p>
+                  </div>
+                  <div class="edit-padding">
+                    <a class="button button-small button-calm small-text heavy reportbtn white" style="margin-top:8px;" ui-sref="notes">
+                      &nbsp;&nbsp; Edit &nbsp;&nbsp;
                     </a>
                   </div>
                 </div>
@@ -322,107 +305,68 @@ Page Hierarchy:
             </div>
 
             <!-- Last section -->
-            <hr ng-hide="!sym_score_state"/>
-            <div class="row" ng-hide="!sym_score_state">
+            <!-- <hr ng-hide="!sym_score_state"/> -->
+            <!-- <div class="row" ng-hide="!sym_score_state">
               <div class="neg-padding">
-                <!-- Empty div for alignment purposes -->
-                &nbsp&nbsp&nbsp&nbsp&nbsp
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               </div>
               <div class="rem-padding">
                 <h5><b>Done for the day!</b></h5>
                 <p ng-bind-html="day_next_cond"></p>
               </div>
+            </div> -->
+
+            <!-- Footer section -->
+            <div class="padding" style="margin-left:5px;"  ng-show="(!exp_bool)">
+              <p>Today's report will be submitted automatically at 11:59pm.</p>
+              <div ng-hide="!sym_score_state"> 
+                <h5><b>Done for the day!</b></h5>
+                <p ng-bind-html="day_next_cond"></p>
+              </div>
             </div>
 
-          </div>  
+    </div>  
 
-          </div>
-
-
-<!--           <div class="card padding" ng-hide="sbmtd">   
-            <h4>{{text.current.reminder_title}}</h4>
-                <div ng-repeat="rem in study_reminders">
-                  <div class="row">
-                    <div class="neg-padding">
-                      <i class="ion-ios-checkmark" ng-hide="rem.reportdue" style="font-size: 120%;"></i>
-                      <i class="ion-ios-circle-outline" ng-show="rem.reportdue" style="font-size: 120%;"></i>
-                    </div>
-                    <div class="rem-padding">
-                      {{rem.schedmsg}} 
-                    </div>
-                  </div>
-                  <div class="row" ng-show="!!rem.logmsg">
-                    <div class="neg-padding">
-                      &nbsp&nbsp&nbsp
-                    </div>
-                    <div class="rem-padding">
-                      <span class="balanced" ng-bind-html="rem.reportmsg"></span>
-                      <div >
-                          <a class="button button-block button-royal small-text" ui-sref="{{rem.logstate}}" ng-disabled="sbmtd || rem.disabled">
-                              &nbsp&nbsp {{rem.logmsg}} &nbsp&nbsp
-                          </a>
-                      </div>                    
-                    </div>
-                  </div>
-                </div>
-                <div class="card padding submit-card">
-                  <p ng-show="sym_scr_st">{{text.current.submit_text}}</p>
-                  <p ng-show="!sym_scr_st">{{text.current.submit_cant}}</p>
-                  <a class="button button-block button-royal" ng-click="submit_for_day()" ng-disabled="sbmtd || !sym_scr_st" > &nbsp&nbsp {{text.current.submit_button}} &nbsp&nbsp </a>
-                </div>
-          </div> -->
-
-          <!-- Card to show when the user submits the report for the day -->
-          <!-- <div class="card padding" ng-show="sbmtd">
-            <h4>{{text.current.report_sum_title}}</h4>
-            <div ng-repeat="rem in study_reminders">
-              <span class="balanced" ng-bind-html="rem.reportmsg"></span>
-            </div><br/>
-            <p>{{text.current.submitted_text}}</p>
-          </div> -->
-
-          <!-- Card entering notes -->
-          <!-- <div class="card padding">
-            <h4>Note</h4>
-              <p>
-                <span ng-hide="nt_fg">{{text.current.note}}</span>
-                <span ng-show="nt_fg">{{text.current.note2}}</span> <br/>
-                <span ng-show="nt_fg" class="balanced">{{note}}</span>
-                  <a class="button button-block button-royal" ui-sref="notes">
-                    {{nt_btn_txt}}
-                  </a>
-              </p>
-          </div> --> 
-
-        </div>
         <!-- 
         Content to display when trial is underway but past the last day.
         -->         
-        <div ng-show="is_past" class="card padding">
-          <h4>Submit Trial</h4>
-            Your {{title}} is past. <br/>
-            To view the results <b>Complete Trial</b> by going to 'My Trials' tab and selecting {{title}} under 'Current Trial'.
+        <div ng-show="is_past">
+          <h4 class="heavy padding">Submit Trial</h4>
+          <div style="background-color:white;" >
+            <p class="padding"> Your {{title}} is past. <br/>
+                To view the results complete the trial by clicking below. <span class="heavy">Once completed, the results will be available in the Trial Results tab.</span></p>
+          </div>
+          <div class="row">
+            <div class="col col-10"> &nbsp;&nbsp; </div>
+            <div class="col">
+                <a class="button button-block button-energized heavy" ng-click="complete_trial()" style="width:{{btn_width}}px;">
+                  Complete Trial
+                </a>
+            </div>
+            <div class="col col-10"> &nbsp;&nbsp; </div>
+          </div>
         </div>
 
-    </div>
 
     <!-- 
     Content to display when there is no on going study
     --> 
-    <div class="card padding" ng-show="!study_current">
-        <h4 class="title">No ongoing trial</h4>
+    <div class="padding grey-text" ng-show="!study_current">
         <br/>
-        <p>Would you like to setup a new trial?</p>
-        <br/>
-        <a class="button button-block button-royal" ui-sref="setup_1">
-          Setup a New Trial
-        </a>
+        <div class="divcenter">
+            <i class="ion-ic-newTrial" style="font-size: 1000%; color:#dddddd;"></i> <br/>
+        </div>
+        <p class="new_line">{{text.setup.content}}</p>
+        <div class="row">
+            <div class="col col-10"> &nbsp;&nbsp; </div>
+            <div class="col">
+                <a class="button button-block button-energized heavy" ui-sref="setup_2" style="width:{{btn_width}}px;">
+                  Setup A New Trial
+                </a>
+            </div>
+            <div class="col col-10"> &nbsp;&nbsp; </div>
+          </div>
     </div>   
-
-     <div class="card padding">
-        For testing purposes only: <br/>
-        {{exp_id}}
-     </div>
 
     </ion-content>  
   </ion-pane>

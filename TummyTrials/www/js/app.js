@@ -51,7 +51,12 @@ app.run(function($cordovaFile, $ionicPlatform, $rootScope, $state, $q,
     }
     if(window.StatusBar) {
       // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
+      // StatusBar.styleDefault();
+
+      // making the system status bar font color white
+      StatusBar.styleLightContent();
+      // StatusBar.styleBlackTranslucent();
+      // StatusBar.styleBlackOpaque();
     }
 
     function reminder_sync_p()
@@ -161,8 +166,11 @@ app.run(function($cordovaFile, $ionicPlatform, $rootScope, $state, $q,
 
 
 //UI-router for handling navigation 
-app.config(function($stateProvider, $urlRouterProvider) {
+app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
   
+  // updating back to have no text
+  $ionicConfigProvider.backButton.previousTitleText(false).text('');
+
   //enter login for landing tab here
   $urlRouterProvider.otherwise('/')
 
@@ -206,26 +214,47 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
-    .state('current_trial', {
-      url: '/mytrials/current_trial',
+    // .state('current_trial', {
+    //   url: '/mytrials/current_trial',
+    //   views: {
+    //     mytrials : {
+    //       templateUrl: 'templates/mytrials/current_trial.html',
+    //       resolve: {
+    //         TextR:
+    //             function(Text) { return Text.all_p(); },
+    //         ExperimentsR:
+    //             function(Experiments) { return Experiments.all(); }
+    //       },
+    //       controller: 'MyCrntTrialsCtrl'
+    //     }
+    //   }
+    // })
+    .state('settings', {
+      url: '/settings',
       views: {
-        mytrials : {
-          templateUrl: 'templates/mytrials/current_trial.html',
+        settings : {
+          templateUrl: 'templates/settings.html',
           resolve: {
             TextR:
                 function(Text) { return Text.all_p(); },
             ExperimentsR:
                 function(Experiments) { return Experiments.all(); }
           },
-          controller: 'MyCrntTrialsCtrl'
+          controller: 'SettingsCtrl'
         }
       }
     })
-    .state('settings', {
-      url: '/settings',
+    .state('trial_summary', {
+      url: '/trial_summary',
       views: {
         settings : {
-          templateUrl: 'templates/settings.html',
+          templateUrl: 'templates/settings/trial_summary.html',
+          resolve: {
+            TextR:
+                function(Text) { return Text.all_p(); },
+            ExperimentsR:
+                function(Experiments) { return Experiments.all(); }
+          },
           controller: 'SettingsCtrl'
         }
       }

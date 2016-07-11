@@ -214,7 +214,7 @@
                 .attr("y", 207.5)
                 .attr("width", width)
                 .attr("height", 63)
-                .attr("fill", "#e9e2f5");
+                .attr("fill", "#eeeeee");
           } else {
               // do nothing
           }
@@ -266,9 +266,11 @@
                 if(d.severity > 1){
                   return color(d.condition); 
                 } else if(d.severity == 1){
-                  return "#b8b8b8";
+                  return "#b6b6b6";
+                  // return "#b8b8b8";
                 } else if(d.severity == 0){
-                  return "#f69c95";
+                  return "#b6b6b6";
+                  // return "#f69c95";
                 }
 
               })

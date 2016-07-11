@@ -1,54 +1,74 @@
-      <ion-view title="Trial Setup (5 of 5)">
+      <ion-view>
+      <ion-nav-title class="heavy">
+          Trial Setup (5 of 5)
+        </ion-nav-title>
           <ion-pane>
           <ion-content>   
-            <div class="padding">  
+            <div class="grey">  
+              <br/>
 
-              <div class="row">
-                <div class="neg-padding">
-                  <h4>5.</h4>
+            <div class="row" style="padding:0px;">
+              <div class="neg-padding" style="padding:0px; padding-top:10px;">
+                <i class="ion-ic-triangle energized" style="font-size: 150%;"></i>
+              </div>
+              <div class="setup-padding">
+                <h4 class="heavy">{{text.setup5.title}}</h4>
+              </div>
+            </div>
+
+                <h4 class="heavy padding" style="margin:0px;">{{text.setup5.topic_title}}</h4>
+                <div class="" style="background-color:white; padding:10px 0px;"> 
+                  <p class="" style="padding-left: 10px; margin:0px;">{{chosen_topic}}</p>
                 </div>
-                <div class="setup-padding">
-                  <h4 class="title">{{text.setup5.title}}</h4>
+                <br/>
+                
+                <h4 class="heavy padding" style="margin:0px;">{{text.setup5.symptoms_title}}</h4>
+                <div class="" style="background-color:white; padding:10px 0px;"> 
+                  <p class="" style="padding-left: 10px; margin:0px;" ng-repeat="symptom in chosen_symptoms">{{symptom}}</p>
                 </div>
-              </div>
+                <br/>
 
-              <div class="padding card">
-                <h5 class="title">{{text.setup5.topic_title}}</h5>
-                <p class="grey-text">{{chosen_topic}}</p>
-              </div>
-
-              <div class="padding card">
-                <h5 class="title">{{text.setup5.symptoms_title}}</h5>
-                <p class="grey-text" ng-repeat="symptom in chosen_symptoms">{{symptom}}</p>
-              </div>
-              
-              <div class="padding card">
-                <h5 class="title">{{text.setup5.study_length}}</h5>
-                <p class="grey-text">{{chosen_date_range}}</p>              
-              </div>
-
-              <div class="padding card">
-                <h5 class="title">{{text.setup5.reminder_times_title}}</h5>
-                <div class="row" ng-repeat="remdesc in study.remdescrs">
-                  <div class="col col-75 grey-text">{{text.setup5[remdesc.type + '_reminder_title'] || remdesc.type}}</div>
-                  <div class="col grey-text">{{chosen_reminder_times[remdesc.type]}}</div>
+                <h4 class="heavy padding" style="margin:0px;">{{text.setup5.study_length}}</h4>
+                <div class="" style="background-color:white; padding:10px 0px;"> 
+                  <p class="" style="padding-left: 10px; margin:0px;">{{chosen_date_range}}</p>
                 </div>
-              </div>
+                <br/>       
+
+                <h4 class="heavy padding" style="margin:0px;">{{text.setup5.food_pref_title}}</h4>
+                <div class="" style="background-color:white; padding:10px 0px;"> 
+                  <div class="row">
+                    <div class="col col-20">{{text.setup5.breakfast_pref}}</div>
+                    <div class="col" style="text-align:right;">{{breakfast_pref}}</div>
+                  </div>
+                  <div class="row">
+                    <div class="col col-20">{{text.setup5.drink_pref}}</div>
+                    <div class="col" style="text-align:right;">{{drink_pref}}</div>
+                  </div>
+                </div>
+                <br/>       
+
+                <h4 class="heavy padding" style="margin:0px;">{{text.setup5.reminder_times_title}}</h4>
+                <div class="" style="background-color:white; padding:10px 0px;"> 
+                  <div class="row" ng-repeat="remdesc in study.remdescrs">
+                    <div class="col col-75">{{text.setup5[remdesc.type + '_reminder_titlel'] || remdesc.type}}</div>
+                    <div class="col">{{chosen_reminder_times[remdesc.type]}}</div>
+                  </div>
+                </div>
+                <br/>   
               
-              
-              <div class="padding card">
-                <h5 class="title">{{text.setup5.food_pref_title}}</h5>
-                <p class="grey-text">{{text.setup5.breakfast_pref}}: {{breakfast_pref}}</p>
-                <p class="grey-text">{{text.setup5.drink_pref}}: {{drink_pref}}</p>              
-              </div>
               <!-- Test: {{breakfast_on_prompt}}<br/>
               Test2: {{breakfast_off_prompt}}<br/>
               Test3: {{drink_on_prompt}}<br/>
               Test4: {{drink_off_prompt}} -->
+              <div class="divcenter">
+                <a class="button button-energized heavy" ng-disabled="!study_data_complete || begin_study_called" ng-click="begin_study()" style="width:150px;">
+                  {{text.setup5.button}}
+                </a>
+              </div>
 
-              <a class="button button-block button-royal" ng-disabled="!study_data_complete || begin_study_called" ng-click="begin_study()">
-                {{text.setup5.button}}
-              </a>
+              <br/>  <br/>  
+
+
           </div>
 
           </ion-content>  

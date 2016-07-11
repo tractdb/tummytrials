@@ -60,27 +60,29 @@
     <script src="js/controllers/exper-test.js"></script>
     <script src="js/controllers/remind-test.js"></script>
 
+    <!-- Navigation bar and back button settings -->
+    <!-- Back button text removed in app.config settings -->
     <ion-nav-bar class="bar-royal nav-title-slide-ios7">
       <ion-nav-back-button class="button-clear">
-        <i class="ion-arrow-left-c"></i> Back
+        <i class="ion-ic-back" style="font-size: 200%;"></i>
       </ion-nav-back-button>
     </ion-nav-bar>
 
     <ion-tabs class="tabs-stable tabs-icon-top">
 
-      <ion-tab title="Current Trial" icon-on="ion-ios-calendar" icon-off="ion-ios-calendar-outline" ui-sref="current">
+      <ion-tab title="Current Trial" class="royal heavy" icon-on="ion-ic-currentTrial" icon-off="ion-ic-currentTrial" ui-sref="current">
         <ion-nav-view name="current"><!-- Tab 1 content --></ion-nav-view>
       </ion-tab>
 
-      <ion-tab title="My Trials" icon-on="ion-ios-heart" icon-off="ion-ios-heart-outline" ui-sref="mytrials">
+      <ion-tab title="Trial Results" class="royal heavy" icon-on="ion-ic-trialResults" icon-off="ion-ic-trialResults" ui-sref="mytrials">
         <ion-nav-view name="mytrials"><!-- Tab 2 content --></ion-nav-view>
       </ion-tab>
 
-      <ion-tab title="FAQs" icon-on="ion-ios-information" icon-off="ion-ios-information-outline" ui-sref="faqs">
+      <ion-tab title="FAQs" class="royal heavy" icon-on="ion-ic-FAQs" icon-off="ion-ic-FAQs" ui-sref="faqs">
         <ion-nav-view name="faqs"><!-- Tab 3 content --></ion-nav-view>
       </ion-tab>
 
-      <ion-tab title="Settings" icon-on="ion-ios-cog" icon-off="ion-ios-cog-outline" ui-sref="settings">
+      <ion-tab title="Settings" class="royal heavy" icon-on="ion-ic-setting" icon-off="ion-ic-setting" ui-sref="settings">
        <ion-nav-view name="settings"><!-- Tab 4 content --></ion-nav-view>
       </ion-tab>
 

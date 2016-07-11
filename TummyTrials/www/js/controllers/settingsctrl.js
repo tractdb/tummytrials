@@ -5,8 +5,9 @@
                 [ 'tractdb.tdate', 'tractdb.reminders', 'tummytrials.text',
                   'tummytrials.login', 'tummytrials.experiments' ])
 
-.controller('SettingsCtrl', function($scope, TDate, Reminders, Text, Login,
-                                     Experiments) {
+.controller('SettingsCtrl', function($scope, TDate, Reminders, Login,
+                                     $state, $timeout, TextR, LC, 
+                                     $ionicPopup, Experiments, ExperimentsR) {
     var username_tag = 'couchuser'; // XXX shared with replicator.js
 
     function clear_credentials()
@@ -63,16 +64,148 @@
         });
     }
 
-    Text.all_p()
-    .then(function(text) {
-        $scope.text = text;
-        return Experiments.publish_p($scope);
-    })
-    .then(function(_) {
-        $scope.have_credentials = Login.loginfo_exists(username_tag);
-        $scope.clear_credentials = clear_credentials;
-        $scope.demo_is_possible = demo_is_possible();
-        $scope.begin_demo = begin_demo;
-    });
+    // An elaborate, custom popup to abandon ongoing trial
+    $scope.abandon_trial = function(){
+      $scope.reason = {};
+        var cur = $scope.study_current;
+        var status = null;
+        if(cur.status == "active"){
+              var myPopup = $ionicPopup.show({
+                template: '<input type="text" ng-model="reason.abandon">',
+                title: 'Abandon trial',
+                subTitle: 'Are you sure you want to abandon this trial? If so, please state your reason for abandoning.',
+                scope: $scope,
+                buttons: [
+                  { text: 'Continue Trial' },
+                  {
+                    text: '<b>Abandon</b>',
+                    type: 'button-royal',
+                    onTap: function(e) {
+                       if (!$scope.reason.abandon) {
+                         //don't allow the user to close unless she enters the reason
+                         e.preventDefault();
+                       } else {
+                         return $scope.reason.abandon;
+                       }
+                    }
+                  }
+                ]
+              });
+
+              myPopup.then(function(res) {
+                    if(res) {
+                        var status = "abandoned";
+                        var reason = $scope.reason.abandon;
+                        $ionicPopup.alert({
+                            title: 'Abandon successful',
+                            template: 'The ' + cur.trigger + ' trial has been abandoned.'
+                        });
+                        return Experiments.setAbandon_p(cur.id, status, reason)
+                          .then(function(_){
+                                $state.go('mytrials');
+                          });
+                     } else {
+                     }
+              })
+              
+            // }
+      } else {
+        // $scope.cur_exp = false;
+      }
+    };
+
+    $scope.complete_trial = function(){
+        var cur = $scope.study_current;
+        if(cur.status == "active"){
+            return Experiments.setStatus(cur.id, "ended")
+            .then(function(_){
+              $state.go('mytrials');
+            });
+        }
+    };
+
+    $scope.text = TextR;
+    Experiments.set_study_context($scope, ExperimentsR);
+
+    $scope.have_credentials = Login.loginfo_exists(username_tag);
+    $scope.clear_credentials = clear_credentials;
+    $scope.demo_is_possible = demo_is_possible();
+    $scope.begin_demo = begin_demo;
+
+    // Stuff related to current trial
+
+    $scope.cur = false;
+    var cur =  $scope.study_current;
+    if(cur){
+
+      var start_day = cur.name;
+      $scope.start_day = start_day.replace("Trial beginning ", "");
+
+      $scope.sym = cur.symptoms;
+
+      var start_date = new Date(cur.start_time * 1000);
+      $scope.st_dt = LC.datemd(start_date);
+
+      var end_date = new Date(cur.end_time * 1000);
+      end_date.setDate(end_date.getDate() - 1);
+      $scope.en_dt = LC.datemd(end_date);
+
+      var dur = cur.end_time - cur.start_time;
+      dur = new Date(dur * 1000); 
+      $scope.dr_rd = LC.dateonly(dur);
+
+
+      //end_time is the last day + 1
+      var not_end_date = cur.end_time;
+      var end_date = not_end_date - 86400;
+      var today = Math.round(Date.now()/1000);
+      var complete = false , abandon = false;
+
+      //experiment has elapsed
+      if(today > not_end_date){
+        complete = true;
+      } else if(today >= end_date && today <= not_end_date){
+        // this is the last day of the trial
+        // check for evening reminder or check if values exist
+        var last_report = cur.reports[Experiments.study_duration(cur) - 1];
+        if(last_report.breakfast_compliance == false){
+          // if complaince is false then last day report is over
+          complete = true;
+        } else if(last_report.breakfast_compliance == true){
+            if(typeof(last_report.symptom_scores) == "object"){
+            // if compliance was true check if scores reported.
+            complete = true;
+            }
+        }
+      } else if(today < end_date){
+        //experiment still on going
+        abandon = true;
+      }
+
+      var c_rem = cur.remdescrs, 
+          s_rem = {}, r_time, r_type;
+      for(var c = 0; c < c_rem.length ; c++){
+        r_time = LC.timestr(c_rem[c].time);
+        r_type = c_rem[c].type;
+        if(r_type == "morning"){
+          r_type = "Daily condition";
+        } else if(r_type == "breakfast"){
+          r_type = "Breakfast compliance";
+        } else if(r_type == "symptomEntry"){
+          r_type = "Fast compliance and Symptom Report";
+        } else if(r_type == "evening"){
+          r_type = "Evening";
+        }
+
+        s_rem[r_type] = r_time;
+      }
+      $scope.rem = s_rem;
+        
+      $scope.comp = complete;
+      $scope.abdn = abandon;
+      $scope.cur = true;
+    }
+
+    
 })
 );

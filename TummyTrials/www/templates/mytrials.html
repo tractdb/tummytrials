@@ -1,4 +1,7 @@
-<ion-view title="My Trials" cache-view="false">
+<ion-view cache-view="false">
+  <ion-nav-title class="heavy">
+    Trial Results
+  </ion-nav-title>
 <!-- cache-view="false" is required here to get the controller to
      reinstantiate on every transition to this page. I.e., to get the
      page to display current info.
@@ -7,8 +10,7 @@
 -->
 	<ion-pane>
 		<ion-content >
-		<br/>
-        <div class="padding" ng-hide="!!study_current">
+<!--         <div class="padding" ng-hide="!!study_current">
 	        <h4 class="title">No ongoing trial</h4>
 			<br/>
 			<p>Would you like to setup a new trial?</p>
@@ -17,33 +19,27 @@
 			<a class="button button-block button-royal" ui-sref="setup_1">
 	            Setup a New Trial
 	        </a>
-    	</div>
+    	</div> -->
 
 
-        <div class="list">
-
-		  <div class="item item-divider">
-		    {{text.mytrials.currenttrialtitle}}
-		  </div>
-		  <a class="item" href="#" ng-hide="!!study_current">
-		    There is no ongoing trial.
-		  </a>
-		  <a class="item" ui-sref="current_trial" ng-style="{'color':'#f0b840'}" ng-show="!!study_current"> <!-- #f0b840 is energized/orange -->
-		    {{study_current.trigger}} Trial
-		  </a>
-
-		  <div class="item item-divider">
-		    {{text.mytrials.pasttrialtitle}}
-		  </div>
-                <a class="item item-text-wrap" ng-repeat="study in study_previous" ui-sref="past_trial_1({studyIndex: $index})" ng-hide="study_previous.length<1">
-                  <!-- #66cc33 is balanced/green and #ef4e3a is assertive/red -->
-		  		  <h2 ng-style="{'color': '{{study.status}}' == 'ended' ? '#66cc33' : '#ef4e3a'}">{{study.trigger}} Trial</h2><!--  <h5>{{start_date_md}}-{{end_date_md}}</h5> -->
-		  		</a>
-                <div class="item" ng-show="study_previous.length<1">
-                  There are no past trials.
-                </div>
-
+        <div class="list">          
+          <a class="item item-text-wrap" ng-repeat="study in study_previous" ui-sref="past_trial_1({studyIndex: $index})" ng-hide="study_previous.length<1">
+            
+          	<div class="" style="display: inline-block;">
+          		<!-- <i ng-class="'{{study.status}}' == 'ended' ? 'ion-ic-finished' : 'ion-ic-abandoned'" ng-style="{'color': '{{study.status}}' == 'ended' ? '#66cc33' : '#ef4e3a'}" style="font-size: 200%;"></i> -->
+          		<i ng-class="'{{study.status}}' == 'ended' ? 'ion-ic-finished' : 'ion-ic-abandoned'" style="font-size: 200%;"></i> &nbsp;&nbsp;
+          	</div>
+          	<div style="display: inline-block;">
+			  	<h2>{{study.trigger}} Trial</h2> 
+			  	<h5>{{start_date(study.start_time)}} - {{end_date(study.end_time)}} &nbsp; ({{duration(study.start_time, study.end_time)}} days) | {{status(study.status)}}</h5>
+          	</div>
+	      </a>
 		</div>
+
+		<div class="divcenter padding  grey-text" ng-show="study_previous.length<1">
+          	<i class="ion-ic-noResult" style="font-size: 1000%; color:#dddddd;"></i> <br/>
+            No results available. Check again once your trial is completed.
+         </div>
 
 		</ion-content>  
 	</ion-pane>

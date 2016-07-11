@@ -1,29 +1,34 @@
-      <ion-view title="Trial Setup (1 of 5)">
+      <ion-view>
+        <ion-nav-title class="heavy">
+          Trial Setup (1 of 5)
+        </ion-nav-title>
           <ion-pane>
-          <ion-content>   
-          <div class="padding">
-            <div class="row">
-              <div class="neg-padding">
-                <h4>1.</h4>
+          <ion-content  class="grey">   
+          <div class="">
+            <br/>
+            <div class="row" style="padding:0px;">
+              <div class="neg-padding" style="padding:0px; padding-top:10px;">
+                <i class="ion-ic-triangle energized" style="font-size: 150%;"></i>
               </div>
               <div class="setup-padding">
-                <h4 class="title">{{text.setup2.title}}</h4>
+                <h4 class="heavy">{{text.setup2.title}}</h4>
               </div>
             </div>
-            <p> {{text.setup2.subtitle}} </p><br/>                
-
+            <p style="padding-left:20px;"> {{text.setup2.subtitle}} </p><br/>                
             <div>
               <ul class="list">
-                <li class="item item-checkbox" ng-repeat="symptom in text.setup2.symptoms" >
+                <li class="item item-checkbox checkbox-royal" ng-repeat="symptom in text.setup2.symptoms" >
                   <label class="checkbox">
                     <input type="checkbox" ng-model="setupdata.symptom[$index]">
                   </label>{{symptom.symptom}}
                 </li>
               </ul>
 
-              <a class="button button-block button-royal" ui-sref="setup_3">
-                {{text.setup2.button}}
-              </a>
+              <div class="divcenter">
+                      <a class="button button-energized heavy" ui-sref="setup_3" style="width:150px;">
+                              {{text.setup2.button}}
+                      </a>
+              </div>
 
           </div>
         </div>
