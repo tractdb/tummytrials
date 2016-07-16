@@ -189,23 +189,30 @@
 
         var notifs = [];
         remstate.descs.forEach(function(desc) {
+            // Extend study day and duration to include runup for this
+            // reminder.
+            var runup = desc.runup || 0;
+            var rsday = sday + runup;
+            var rdur = dur + runup;
             // Study day of next reminder of this type
             var nnext;
-            if (sday <= 0)
+            if (rsday <= 0)
                 nnext = 1; // Study hasn't started yet
             else
-                nnext = Math.min(dur + 1, sday + (daysec >= desc.time ? 1 : 0));
+                nnext = Math.min(rdur + 1,
+                                 rsday + (daysec >= desc.time ? 1 : 0));
 
-            // Head or body for day n
+            // Head or body for (extended) day n
             function hbn(hb, n) {
                 return hb[Math.min(n, hb.length) - 1];
             }
-            // Notification for day n
+            // Notification for (extended) day n
             function notifn(heads, bodies, n) {
                 var notif = {};
                 notif.title = hbn(heads, n);
                 notif.text = hbn(bodies, n);
-                notif.at = reminder_time(remstate.start_time, n, desc.time);
+                notif.at = reminder_time(remstate.start_time, n - runup,
+                                         desc.time);
                 notif.data = { type: desc.type, sd: n };
                 // Mark past times with negative ids.
                 //
@@ -214,7 +221,7 @@
             }
 
             var actct = action_cts[desc.type];
-            for (var n = Math.min(actct + 1, nnext); n <= dur; n++) {
+            for (var n = Math.min(actct + 1, nnext); n <= rdur; n++) {
                 if (n < nnext && desc.badge != 'count')
                     // Ignore past notifications with no badge count.
                     //
@@ -352,7 +359,8 @@
         var app_badge = 0;
         remstate.descs.forEach(function(desc) {
             if (desc.badge == 'count') {
-                var due = sday - (daysec >= desc.time ? 0 : 1);
+                var rsday = sday + (desc.runup || 0); // Extend sday to runup
+                var due = rsday - (daysec >= desc.time ? 0 : 1);
                 app_badge += Math.max(0, due - action_cts[desc.type]);
             }
         });
@@ -390,6 +398,7 @@
             // {
             //     type: type of reminder
             //     time: time of reminder (number; seconds after midnight)
+            //     runup: extra reminder days before start
             //     heads_lt: headings if action required
             //     bodies_lt: bodies if action required
             //     heads_ge: headings if no action required
@@ -401,6 +410,10 @@
             //
             // The 'type' field of a descriptor gives the type of the
             // reminder, in essence a unique name. Example: 'morning'.
+            //
+            // The 'runup' field, if present, gives a number of extra
+            // days before the beginning of the study when the reminder
+            // should be issued. The default is 0.
             //
             // The 'heads_xxx' and 'bodies_xxx' fields are arrays of
             // text that are issued to the user as part of the reminder:
@@ -422,7 +435,14 @@
             // 
             // 'action_cts' is a hash giving the number of actions of
             // each type that have been performed. I.e., the keys are
-            // reminder types and the values are action counts.
+            // reminder types and the values are action counts. These
+            // counts are what determine whether the action has been
+            // performed or not. If the number of actions is less than
+            // the number of reminders, the action is considered not to
+            // have been performed. If the number of actions is greater
+            // than or equal to the number of reminders, the action is
+            // considered to have been performed. Caller can calculate
+            // counts using any desired method.
             //
             c_remstate = {};
             c_remstate.descs = angular.copy(descs);

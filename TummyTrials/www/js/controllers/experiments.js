@@ -319,6 +319,7 @@ function by_time(a, b)
 
         function tally() {
             var res = {
+                advance: (sd <= 0 ? 0 : 999),
                 morning: morning,
                 breakfast: breakfast,
                 symptomEntry: symptomEntry,
