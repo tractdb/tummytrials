@@ -185,7 +185,7 @@ function timesec_of_date(date)
             var msg = text.setup5.advance_reminder_text;
             msg = msg.replace("{TRIGGER}", trigger.toLowerCase());
             var when;
-            if (days == 1)
+            if (d == 1)
                 when = "tomorrow";
             else
                 when = "in " + d + " days"
