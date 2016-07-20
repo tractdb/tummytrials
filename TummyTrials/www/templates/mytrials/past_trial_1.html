@@ -20,10 +20,12 @@
 
     <div class="grey">
         <!-- <h5 class="title">{{text.pasttrial1.status_title}}</h5> -->
-        <span ng-show="st_status == 'abandoned'"> This trial was {{st_status}}.</span><span ng-show="st_reason != ''">The reason for abandoning was <i>'{{st_reason}}'</i>.</span>
+        <div ng-show="st_status == 'abandoned'" style="padding:10px;">
+            <span ng-show="st_status == 'abandoned'"> This trial was {{st_status}}.</span><span ng-show="st_reason != ''">The reason for abandoning was <i>'{{st_reason}}'</i>.</span>
+        </div>
 
         <!-- Message while results are being processed -->
-        <div ng-show="st_status == 'ended' && !ready">
+        <div ng-show="st_status == 'ended' && !ready" style="padding:10px;">
             <p class="assertive">Your data is being proccessed and your result will be available soon.</p>
         </div>
 
